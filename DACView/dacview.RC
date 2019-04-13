@@ -1,0 +1,2461 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(简体，中国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "RES\\IDR_MAIN.BMP"
+
+IDB_BITMAP_UNIT_DYNlINK BITMAP                  "res\\bitmap_u.bmp"
+
+IDB_OBJECT              BITMAP                  "RES\\OBJECT.BMP"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_VIEWTYPE MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM "Delete",                      ID_EDIT_DELETE
+    END
+    POPUP "Project"
+    BEGIN
+        MENUITEM "New",                         ID_PROJECT_NEW
+        MENUITEM "Open...",                     ID_PROJECT_OPEN
+        MENUITEM "Edit...",                     ID_PROJECT_EDIT
+        MENUITEM "Close",                       ID_PROJECT_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "Compile",                     ID_PROJECT_COMPILE
+        MENUITEM SEPARATOR
+        MENUITEM "Dictionary",                  ID_PROJECT_DICTIONARY
+    END
+    POPUP "Units"
+    BEGIN
+        POPUP "Input/Output.."
+        BEGIN
+            MENUITEM "AIN",                         ID_BLOCK_INPUTOUTPUT_AIN
+            MENUITEM "AOUT",                        ID_BLOCK_INPUTOUTPUT_AOUT
+            MENUITEM "DIN",                         ID_BLOCK_INPUTOUTPUT_DIN
+            MENUITEM "DOUT",                        ID_BLOCK_INPUTOUTPUT_DOUT
+            MENUITEM "TPO",                         ID_BLOCK_INPUTOUTPUT_TPO
+            MENUITEM "AINS",                        ID_BLOCK_INPUTOUTPUT_AINS
+            MENUITEM "AOTS",                        ID_BLOCK_INPUTOUTPUT_AOTS
+            MENUITEM "DINS",                        ID_BLOCK_INPUTOUTPUT_DINS
+            MENUITEM "DOTS",                        ID_BLOCK_INPUTOUTPUT_DOTS
+            MENUITEM "AKBD",                        ID_BLOCK_INPUTOUTPUT_AKBD
+            MENUITEM "DKBD",                        ID_BLOCK_INPUTOUTPUT_DKBD
+            MENUITEM "HORN",                        ID_BLOCK_INPUTOUTPUT_HORN
+            MENUITEM "SIM",                         ID_BLOCK_INPUTOUTPUT_SIM
+        END
+        POPUP "Arithmatic.."
+        BEGIN
+            MENUITEM "DTIM",                        ID_BLOCK_ARITHMATIC_DTIM
+            MENUITEM "ALRM",                        ID_BLOCK_ARITHMATIC_ALRM
+            MENUITEM "COND",                        ID_BLOCK_ARITHMATIC_COND
+            MENUITEM "LLAG",                        ID_BLOCK_ARITHMATIC_LLAG
+            MENUITEM "TOT",                         ID_BLOCK_ARITHMATIC_TOT
+            MENUITEM "CHAR",                        ID_BLOCK_ARITHMATIC_CHAR
+            MENUITEM "QFLT",                        ID_BLOCK_ARITHMATIC_QFLT
+            MENUITEM "HPBG",                        ID_BLOCK_ARITHMATIC_HPBG
+            MENUITEM "HFLT",                        ID_BLOCK_ARITHMATIC_HFLT
+        END
+        POPUP "Mathmatic.."
+        BEGIN
+            MENUITEM "ADD",                         ID_BLOCK_MATHMATIC_ADD
+            MENUITEM "MUL",                         ID_BLOCK_MATHMATIC_MULTIPLE
+            MENUITEM "DIV",                         ID_BLOCK_MATHMATIC_DIV
+            MENUITEM "AVG",                         ID_BLOCK_MATHMATIC_AVG
+            MENUITEM "AVGT",                        ID_BLOCK_MATHMATIC_AVGT
+            MENUITEM "EXPR",                        ID_BLOCK_MATHMATIC_EXPR
+        END
+        POPUP "Select.."
+        BEGIN
+            MENUITEM "SWCH",                        ID_BLOCK_SELECT_SWCH
+            MENUITEM "HSEL",                        ID_BLOCK_SELECT_HSEL
+            MENUITEM "MSEL",                        ID_BLOCK_SELECT_MSEL
+            MENUITEM "LSEL",                        ID_BLOCK_SELECT_LSEL
+        END
+        POPUP "Basic Logic"
+        BEGIN
+            MENUITEM "AND",                         ID_BLOCK_BASICLOGIC_AND
+            MENUITEM "OR",                          ID_BLOCK_BASICLOGIC_OR
+            MENUITEM "XOR",                         ID_BLOCK_BASICLOGIC_XOR
+            MENUITEM "INV",                         ID_BLOCK_BASICLOGIC_INV
+            MENUITEM "PULS",                        ID_BLOCK_BASICLOGIC_PULS
+            MENUITEM "DLAY",                        ID_BLOCK_BASICLOGIC_DLAY
+            MENUITEM "DROT",                        ID_BLOCK_BASICLOGIC_DROT
+        END
+        POPUP "Advance Logic.."
+        BEGIN
+            MENUITEM "FFLP",                        ID_BLOCK_ADVANCELOGIC_FFLP
+            MENUITEM "ICNT",                        ID_BLOCK_ADVANCELOGIC_ICNT
+            MENUITEM "TTB",                         ID_BLOCK_ADVANCELOGIC_TTB
+            MENUITEM "TTBE",                        ID_BLOCK_ADVANCELOGIC_TTBE
+        END
+        POPUP "Basic Control.."
+        BEGIN
+            MENUITEM "PID",                         ID_BLOCK_BASICCONTROL_PID
+            MENUITEM "INTD",                        ID_BLOCK_BASICCONTROL_INTD
+            MENUITEM "PD",                          ID_BLOCK_BASICCONTROL_PD
+            MENUITEM "AMB",                         ID_BLOCK_BASICCONTROL_AMB
+            MENUITEM "TIME",                        ID_BLOCK_BASICCONTROL_TIME
+        END
+        POPUP "Advance Control.."
+        BEGIN
+            MENUITEM "SEQ",                         ID_BLOCK_ADVANCECONTROL_SEQ
+            MENUITEM "SEQE",                        ID_BLOCK_ADVANCECONTROL_SEQE
+            MENUITEM "SCHD",                        ID_BLOCK_ADVANCECONTROL_SCHD
+        END
+        POPUP "Simulate.."
+        BEGIN
+            MENUITEM "Quadratic ",                  ID_BLOCK_SIMULATE_QUADRATIC
+            MENUITEM "Logarithm",                   ID_BLOCK_SIMULATE_LOGARITHM
+            MENUITEM "Sine",                        ID_BLOCK_SIMULATE_SINE
+        END
+        POPUP "History Trend.."
+        BEGIN
+            MENUITEM "AHST",                        ID_BLOCK_HISTORYTREND_AHST
+            MENUITEM "DHST",                        ID_BLOCK_HISTORYTREND_DHST
+            MENUITEM "RPRT",                        ID_BLOCK_HISTORYTREND_RPRT
+            MENUITEM "SPC",                         ID_BLOCK_HISTORYTREND_SPC
+        END
+        POPUP "Devices"
+        BEGIN
+            MENUITEM "TP",                          65535
+            MENUITEM "STD",                         65535
+        END
+        MENUITEM "Component",                   ID_BLOCK_COMPOUND
+        MENUITEM "Component",                   ID_BLOCK_COMPONENT
+    END
+    POPUP "Objects"
+    BEGIN
+        MENUITEM "Rect",                        ID_OBJECT_RECT
+        MENUITEM "Round rect",                  ID_OBJECT_ROUNDRECT
+        MENUITEM "Oval",                        ID_OBJECT_OVAL
+        MENUITEM "Line",                        ID_OBJECT_LINE
+        MENUITEM "Text",                        ID_OBJECT_TEXT
+        MENUITEM "Fill bar",                    ID_OBJECT_FILLBAR
+        MENUITEM "Push button",                 ID_OBJECT_PUSHBUTTON
+        MENUITEM "Gauge",                       ID_OBJECT_GAUGE
+        MENUITEM "Graph",                       ID_OBJECT_GRAPH
+        MENUITEM "Slider",                      ID_OBJECT_SLIDER
+        MENUITEM "Number input",                ID_OBJECT_NUMBERINPUT
+        MENUITEM "Meter",                       ID_OBJECT_METER
+        MENUITEM "Component",                   ID_OBJECT_COMPOUND
+    END
+    POPUP "&Style"
+    BEGIN
+        MENUITEM "&Left",                       ID_STYLE_LEFT
+        MENUITEM "&Centered",                   ID_STYLE_CENTERED
+        MENUITEM "&Right",                      ID_STYLE_RIGHT
+    END
+    POPUP "&Arrange"
+    BEGIN
+        MENUITEM "ToFront",                     ID_ARRANGE_TOFRONT
+        MENUITEM "ToBack",                      ID_ARRANGE_TOBACK
+        MENUITEM SEPARATOR
+        MENUITEM "MakeSymbol",                  ID_ARRANGE_MAKESYMBOL
+        MENUITEM "BreakSymbol",                 ID_ARRANGE_BREAKSYMBOL
+        MENUITEM SEPARATOR
+        MENUITEM "MakeComponent",               ID_ARRANGE_MAKECOMPOUND
+        MENUITEM "BreakComponent",              ID_ARRANGE_BREAKCOMPOUND
+        MENUITEM SEPARATOR
+        MENUITEM "MakeDynLink",                 ID_ARRANGE_MAKEDYNLINK
+        MENUITEM "BreakDynLink",                ID_ARRANGE_BREAKDYNLINK
+        MENUITEM SEPARATOR
+        MENUITEM "Toggle CutOff",               ID_ARRANGE_TOGGLECUTOFF
+        MENUITEM SEPARATOR
+        MENUITEM "Link into component",         ID_ARRANGE_LINK_INTO_COMPONENT
+        MENUITEM "LinkFromComponent",           ID_ARRANGE_LinkFromComponent
+        MENUITEM "Delete Component Parameter",  ID_BREAK_LINK_OF_COMPONENT
+        MENUITEM SEPARATOR
+    END
+    POPUP "View"
+    BEGIN
+        MENUITEM "ToolBar",                     ID_VIEW_TOOLBAR
+        MENUITEM "ObjectBar",                   ID_VIEW_OBJECTBAR
+        MENUITEM "StatusBar",                   ID_VIEW_STATUS_BAR
+        MENUITEM "UnitLibrary",                 ID_VIEW_UNITLIBRARY
+        MENUITEM "MessageBar",                  ID_VIEW_MESSAGEBAR
+        MENUITEM SEPARATOR
+        MENUITEM "ViewIn..",                    ID_VIEW_VIEWIN
+        MENUITEM "ViewOut..",                   ID_VIEW_VIEWOUT
+        MENUITEM "Property",                    ID_VIEW_PROPERTY
+    END
+    POPUP "Option"
+    BEGIN
+        MENUITEM "System ",                     65535
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Index",                      ID_HELP_INDEX
+        MENUITEM "&Using Help",                 ID_HELP_USING
+        MENUITEM SEPARATOR
+        MENUITEM "&About DACVIEW...",           ID_APP_ABOUT
+    END
+END
+
+IDR_SHOWTYPE MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "View"
+    BEGIN
+        MENUITEM "ToolBar",                     ID_VIEW_TOOLBAR
+        MENUITEM "ObjectBar",                   ID_VIEW_OBJECTBAR
+        MENUITEM "StatusBar",                   ID_VIEW_STATUS_BAR
+        MENUITEM "UnitLibrary",                 ID_VIEW_UNITLIBRARY
+        MENUITEM "MessageBar",                  ID_VIEW_MESSAGEBAR
+        MENUITEM SEPARATOR
+        MENUITEM "ViewIn..",                    ID_VIEW_VIEWIN
+        MENUITEM "ViewOut..",                   ID_VIEW_VIEWOUT
+        MENUITEM "Status",                      ID_VIEW_STATUS
+    END
+    POPUP "Run"
+    BEGIN
+        MENUITEM "Run",                         ID_RUN_RUN
+        MENUITEM "Stop",                        ID_RUN_STOP
+        MENUITEM "Pause",                       ID_RUN_PAUSE
+        MENUITEM "Resume",                      ID_RUN_RESUME
+    END
+    POPUP "TaskList"
+    BEGIN
+        MENUITEM "Create",                      ID_TASKLIST_CREATE
+        MENUITEM "Delete",                      ID_TASKLIST_DELETE
+        MENUITEM "View",                        ID_TASKLIST_VIEW
+        MENUITEM SEPARATOR
+        MENUITEM "Next",                        ID_TASKLIST_NEXT
+        MENUITEM "Prev",                        ID_TASKLIST_PREV
+        MENUITEM "Select",                      ID_TASKLIST_SELECT
+    END
+    POPUP "Option"
+    BEGIN
+        MENUITEM "System ",                     65535
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&New Window",                 ID_WINDOW_NEW
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Index",                      ID_HELP_INDEX
+        MENUITEM "&Using Help",                 ID_HELP_USING
+        MENUITEM SEPARATOR
+        MENUITEM "&About SHOW...",              ID_APP_ABOUT
+    END
+END
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "Objects"
+    BEGIN
+        MENUITEM "Select",                      ID_OBJECT_SELECT
+        MENUITEM "Erase",                       ID_OBJECT_ERASE
+        MENUITEM SEPARATOR
+        MENUITEM "Pen",                         ID_OBJECT_PEN
+        MENUITEM "Brush",                       ID_OBJECT_BRUSH
+        MENUITEM "Paint",                       ID_OBJECT_PAINT
+        MENUITEM SEPARATOR
+        MENUITEM "DynamicLink",                 ID_OBJECT_DYNAMICLINK
+        MENUITEM SEPARATOR
+        MENUITEM "Text",                        ID_OBJECT_TEXT
+        MENUITEM "Rect",                        ID_OBJECT_RECT
+        MENUITEM "RoundRect",                   ID_OBJECT_ROUNDRECT
+        MENUITEM "Oval",                        ID_OBJECT_OVAL
+        MENUITEM "Line",                        ID_OBJECT_LINE
+        MENUITEM SEPARATOR
+        MENUITEM "Picture",                     ID_OBJECT_PICTURE
+        MENUITEM "Graph",                       ID_OBJECT_GRAPH
+        MENUITEM "Gauge",                       ID_OBJECT_GAUGE
+        MENUITEM "Knob",                        ID_OBJECT_KNOB
+        MENUITEM "Meter",                       ID_OBJECT_METER
+        MENUITEM "FillBar",                     ID_OBJECT_FILLBAR
+        MENUITEM "PushButton",                  ID_OBJECT_PUSHBUTTON
+        MENUITEM "Slider",                      ID_OBJECT_SLIDER
+        MENUITEM "NumberInput",                 ID_OBJECT_NUMBERINPUT
+        MENUITEM SEPARATOR
+        MENUITEM "Component",                   ID_OBJECT_COMPOUND
+    END
+    POPUP "View"
+    BEGIN
+        MENUITEM "ToolBar",                     ID_VIEW_TOOLBAR
+        MENUITEM "ObjectBar",                   ID_VIEW_OBJECTBAR
+        MENUITEM "StatusBar",                   ID_VIEW_STATUS_BAR
+        MENUITEM "UnitLibrary",                 ID_VIEW_UNITLIBRARY
+        MENUITEM "MessageBar",                  ID_VIEW_MESSAGEBAR
+    END
+    POPUP "Option"
+    BEGIN
+        MENUITEM "System ",                     ID_OPTION_SYSTEM
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Index",                      ID_HELP_INDEX
+        MENUITEM "&Using Help",                 ID_HELP_USING
+        MENUITEM SEPARATOR
+        MENUITEM "&About DACVIEW...",           ID_APP_ABOUT
+    END
+END
+
+IDR_STRATEGYTYPE MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM "Delete",                      ID_EDIT_DELETE
+    END
+    POPUP "Block"
+    BEGIN
+        POPUP "Input/Output.."
+        BEGIN
+            MENUITEM "AIN",                         ID_BLOCK_INPUTOUTPUT_AIN
+            MENUITEM "AOUT",                        ID_BLOCK_INPUTOUTPUT_AOUT
+            MENUITEM "DIN",                         ID_BLOCK_INPUTOUTPUT_DIN
+            MENUITEM "DOUT",                        ID_BLOCK_INPUTOUTPUT_DOUT
+            MENUITEM "TPO",                         ID_BLOCK_INPUTOUTPUT_TPO
+            MENUITEM "AINS",                        ID_BLOCK_INPUTOUTPUT_AINS
+            MENUITEM "AOTS",                        ID_BLOCK_INPUTOUTPUT_AOTS
+            MENUITEM "DINS",                        ID_BLOCK_INPUTOUTPUT_DINS
+            MENUITEM "DOTS",                        ID_BLOCK_INPUTOUTPUT_DOTS
+            MENUITEM "AKBD",                        ID_BLOCK_INPUTOUTPUT_AKBD
+            MENUITEM "DKBD",                        ID_BLOCK_INPUTOUTPUT_DKBD
+            MENUITEM "HORN",                        ID_BLOCK_INPUTOUTPUT_HORN
+            MENUITEM "SIM",                         ID_BLOCK_INPUTOUTPUT_SIM
+        END
+        POPUP "Arithmatic.."
+        BEGIN
+            MENUITEM "DTIM",                        ID_BLOCK_ARITHMATIC_DTIM
+            MENUITEM "ALRM",                        ID_BLOCK_ARITHMATIC_ALRM
+            MENUITEM "COND",                        ID_BLOCK_ARITHMATIC_COND
+            MENUITEM "LLAG",                        ID_BLOCK_ARITHMATIC_LLAG
+            MENUITEM "TOT",                         ID_BLOCK_ARITHMATIC_TOT
+            MENUITEM "CHAR",                        ID_BLOCK_ARITHMATIC_CHAR
+            MENUITEM "QFLT",                        ID_BLOCK_ARITHMATIC_QFLT
+            MENUITEM "HPBG",                        ID_BLOCK_ARITHMATIC_HPBG
+        END
+        POPUP "Mathmatic.."
+        BEGIN
+            MENUITEM "ADD",                         ID_BLOCK_MATHMATIC_ADD
+            MENUITEM "MUL",                         ID_BLOCK_MATHMATIC_MULTIPLE
+            MENUITEM "DIV",                         ID_BLOCK_MATHMATIC_DIV
+            MENUITEM "AVG",                         ID_BLOCK_MATHMATIC_AVG
+            MENUITEM "AVGT",                        ID_BLOCK_MATHMATIC_AVGT
+            MENUITEM "EXPR",                        ID_BLOCK_MATHMATIC_EXPR
+        END
+        POPUP "Select.."
+        BEGIN
+            MENUITEM "SWCH",                        ID_BLOCK_SELECT_SWCH
+            MENUITEM "HSEL",                        ID_BLOCK_SELECT_HSEL
+            MENUITEM "MSEL",                        ID_BLOCK_SELECT_MSEL
+            MENUITEM "LSEL",                        ID_BLOCK_SELECT_LSEL
+        END
+        POPUP "Basic Logic"
+        BEGIN
+            MENUITEM "AND",                         ID_BLOCK_BASICLOGIC_AND
+            MENUITEM "OR",                          ID_BLOCK_BASICLOGIC_OR
+            MENUITEM "XOR",                         ID_BLOCK_BASICLOGIC_XOR
+            MENUITEM "INV",                         ID_BLOCK_BASICLOGIC_INV
+            MENUITEM "PULS",                        ID_BLOCK_BASICLOGIC_PULS
+            MENUITEM "DLAY",                        ID_BLOCK_BASICLOGIC_DLAY
+            MENUITEM "DROT",                        ID_BLOCK_BASICLOGIC_DROT
+        END
+        POPUP "Advance Logic.."
+        BEGIN
+            MENUITEM "FFLP",                        ID_BLOCK_ADVANCELOGIC_FFLP
+            MENUITEM "ICNT",                        ID_BLOCK_ADVANCELOGIC_ICNT
+            MENUITEM "TTB",                         ID_BLOCK_ADVANCELOGIC_TTB
+            MENUITEM "TTBE",                        ID_BLOCK_ADVANCELOGIC_TTBE
+        END
+        POPUP "Basic Control.."
+        BEGIN
+            MENUITEM "PID",                         ID_BLOCK_BASICCONTROL_PID
+            MENUITEM "INTD",                        ID_BLOCK_BASICCONTROL_INTD
+            MENUITEM "PD",                          ID_BLOCK_BASICCONTROL_PD
+            MENUITEM "AMB",                         ID_BLOCK_BASICCONTROL_AMB
+            MENUITEM "TIME",                        ID_BLOCK_BASICCONTROL_TIME
+        END
+        POPUP "Advance Control.."
+        BEGIN
+            MENUITEM "SEQ",                         ID_BLOCK_ADVANCECONTROL_SEQ
+            MENUITEM "SEQE",                        ID_BLOCK_ADVANCECONTROL_SEQE
+            MENUITEM "SCHD",                        ID_BLOCK_ADVANCECONTROL_SCHD
+        END
+        POPUP "Simulate.."
+        BEGIN
+            MENUITEM "Quadratic ",                  ID_BLOCK_SIMULATE_QUADRATIC
+            MENUITEM "Logarithm",                   ID_BLOCK_SIMULATE_LOGARITHM
+            MENUITEM "Sine",                        ID_BLOCK_SIMULATE_SINE
+        END
+        POPUP "History Trend.."
+        BEGIN
+            MENUITEM "AHST",                        ID_BLOCK_HISTORYTREND_AHST
+            MENUITEM "DHST",                        ID_BLOCK_HISTORYTREND_DHST
+            MENUITEM "RPRT",                        ID_BLOCK_HISTORYTREND_RPRT
+            MENUITEM "SPC",                         ID_BLOCK_HISTORYTREND_SPC
+        END
+        POPUP "Devices"
+        BEGIN
+            MENUITEM "TP",                          65535
+            MENUITEM "STD",                         65535
+        END
+        MENUITEM "Component",                   ID_BLOCK_COMPOUND
+        MENUITEM "Component",                   ID_BLOCK_COMPONENT
+    END
+    POPUP "View"
+    BEGIN
+        MENUITEM "ToolBar",                     ID_VIEW_TOOLBAR
+        MENUITEM "ObjectBar",                   ID_VIEW_OBJECTBAR
+        MENUITEM "StatusBar",                   ID_VIEW_STATUS_BAR
+        MENUITEM "UnitLibrary",                 ID_VIEW_UNITLIBRARY
+        MENUITEM "MessageBar",                  ID_VIEW_MESSAGEBAR
+        MENUITEM SEPARATOR
+        MENUITEM "ViewIn..",                    ID_VIEW_VIEWIN
+        MENUITEM "ViewOut..",                   ID_VIEW_VIEWOUT
+        MENUITEM "Property",                    ID_VIEW_PROPERTY
+        MENUITEM SEPARATOR
+        MENUITEM "Prev",                        ID_VIEW_PREV
+        MENUITEM "Next",                        ID_VIEW_NEXT
+    END
+    POPUP "&Arrange"
+    BEGIN
+        MENUITEM "MakeComponent",               ID_ARRANGE_MAKECOMPOUND
+        MENUITEM "BreakComponent",              ID_ARRANGE_BREAKCOMPOUND
+        MENUITEM SEPARATOR
+        MENUITEM "make component(组成部件）",        ID_ARRANGE_COMPONENT
+        MENUITEM "将一个参数连入部件中.",                 ID_ARRANGE_LINK_INTO_COMPONENT
+        MENUITEM "将部件的参数链接至内部单元",               ID_ARRANGE_LinkFromComponent
+        MENUITEM SEPARATOR
+        MENUITEM "MakeDynLink",                 ID_ARRANGE_MAKEDYNLINK
+        MENUITEM "BreakDynLink",                ID_ARRANGE_BREAKDYNLINK
+        MENUITEM SEPARATOR
+        POPUP "Style"
+        BEGIN
+            MENUITEM "Centered",                    ID_STYLE_CENTERED
+            MENUITEM "Left",                        ID_STYLE_LEFT
+            MENUITEM "Right",                       ID_STYLE_RIGHT
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Toggle CutOff",               ID_ARRANGE_TOGGLECUTOFF
+        MENUITEM SEPARATOR
+    END
+    POPUP "Option"
+    BEGIN
+        MENUITEM "System ",                     65535
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&New Window",                 ID_WINDOW_NEW
+        MENUITEM "&Cascade",                    ID_WINDOW_CASCADE
+        MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
+        MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About STRATEGY...",          ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_DELETE_DYNLINK DIALOG 0, 0, 224, 164
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Delete DynLink Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,160,121,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,160,138,50,14
+    LISTBOX         IDC_LIST_DYNLINK,11,6,204,105,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Delete",IDC_BUTTON_DELETE,41,125,50,14
+    PUSHBUTTON      "Undelete",IDC_BUTTON_UNDELETE,101,126,50,14
+END
+
+IDD_DEL_COMPONENT_PARAMETER DIALOGEX 0, 0, 213, 146
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 10, "System", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,160,112,38,10
+    PUSHBUTTON      "Cancel",IDCANCEL,160,129,38,10
+    LISTBOX         IDC_LIST_COMPONENT_DEL,16,0,197,105,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Delete",IDC_BUTTON_DELETE,39,112,38,10
+    PUSHBUTTON      "Undelete",IDC_BUTTON_UNDELETE,95,112,38,10
+END
+
+IDD_UNIT_COMPONENT DIALOGEX 0, 0, 355, 248
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,242,227,50,14
+    PUSHBUTTON      "取消",IDCANCEL,298,227,50,14
+    LTEXT           "参数：",IDC_STATIC,14,19,30,10
+    LISTBOX         IDC_LIST_UNITCOMPONENT,58,18,277,163,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG_DELETE_DYNLINK, DIALOG
+    BEGIN
+    END
+
+    IDD_DEL_COMPONENT_PARAMETER, DIALOG
+    BEGIN
+        LEFTMARGIN, 16
+    END
+
+    IDD_UNIT_COMPONENT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 348
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 241
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_UNIT_COMPONENT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_DEL_COMPONENT_PARAMETER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDR_MAINFRAME           "FireBird DACView"
+    IDR_VIEWTYPE            "\nView\nDACVIEW Document\nDacView Files(*.sqi)\n.sqi\n\n"
+    IDR_SHOWTYPE            "\n\n\nSHOW File(*.fbd)\n.fbd\n\n"
+    IDR_STRATEGYTYPE        "\nStrate\nSTRATEGY Document\nStrategy File(*.stg)\n.stg\n\n"
+    IDS_STRATEGY_FILE_VERSION "DACVIEW_STRATEGY_VERSION_001_002"
+    IDS_VIEW_FILE_VERSION   "DACVIEW_VIEW_VERSION_001_002"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "DACVIEW Windows Application"
+    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\\Close"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name"
+    ID_FILE_PAGE_SETUP      "Change the printing options"
+    ID_FILE_PRINT_SETUP     "Change the printer and printing options"
+    ID_FILE_PRINT           "Print the active document\nPrint"
+    ID_FILE_PRINT_PREVIEW   "Display full pages"
+END
+
+STRINGTABLE
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright"
+    ID_APP_EXIT             "Quit the application; prompts to save documents"
+    ID_HELP_INDEX           "List Help topics"
+    ID_HELP_USING           "Display instructions about how to use help"
+    ID_CONTEXT_HELP         "Display help for clicked on buttons, menus and windows\nContext help"
+    ID_HELP                 "Display help for current task or command\nHelp"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+END
+
+STRINGTABLE
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane"
+    ID_PREV_PANE            "Switch back to the previous window pane"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles"
+    ID_WINDOW_SPLIT         "Split the active window into panes"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection"
+    ID_EDIT_CLEAR_ALL       "Erase everything"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action"
+    ID_EDIT_REPLACE         "Replace specific text with different text"
+    ID_EDIT_SELECT_ALL      "Select the entire document"
+    ID_EDIT_UNDO            "Undo the last action"
+    ID_EDIT_REDO            "Redo the previously undone action"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar."
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE
+BEGIN
+    ID_BLOCK_INPUTOUTPUT_DINS "Digital input small signal"
+    ID_BLOCK_INPUTOUTPUT_DOTS "Digital output small signal"
+    ID_BLOCK_ARITHMATIC_DTIM "Delay time\nDelay time"
+    ID_BLOCK_ARITHMATIC_ALRM "Alarm, not implemented"
+    ID_BLOCK_ARITHMATIC_COND "Condition"
+    ID_BLOCK_ARITHMATIC_HFLT "HFLT/nHFLT"
+    ID_BLOCK_MATHMATIC_ADD  "Arithmatic  ADD\nAdd"
+    ID_FILE_LOADSTRATEGYFILE "Load Strategy File and Link it"
+    ID_BLOCK_SIMULATE_QUADRATIC "Simulate quadratic function"
+    ID_BLOCK_SIMULATE_LOGARITHM "Simulate logarithm function, not implemented"
+    ID_BLOCK_SIMULATE_SININE "sine function"
+    ID_BLOCK_SIMULATE_SINE  "Simulate sine funciton"
+    ID_VIEW_VIEWIN          "View inner compound\nView Inner Component "
+END
+
+STRINGTABLE
+BEGIN
+    ID_STYLE_LEFT           "Set the style to Left\nAlign left"
+    ID_STYLE_CENTERED       "Set the style to Centered\n Align center"
+    ID_STYLE_RIGHT          "Set the style to Right\nAlign right"
+    ID_STYLE_JUSTIFIED      "Set the style to Justified\nNo align"
+END
+
+STRINGTABLE
+BEGIN
+    ID_ARRANGE_TOFRONT      "bring object to front\nTo front"
+    ID_ARRANGE_TOBACK       "bring object to back\nTo back"
+    ID_EDIT_DELETE          "delete unit"
+    ID_ARRANGE_MAKESYMBOL   "group objects into symbol\nMake into symbol"
+    ID_ARRANGE_BREAKSYMBOL  "break symbol into objects\nBreakSymbol"
+    ID_ARRANGE_DYNAMICLINK  "Dynamic liink object with system variable\nCreateDynLink "
+    ID_PROJECT_COMPILE      "Compile\nCompile"
+    ID_BLOCK_INPUTOUTPUT_AIN "Analog input"
+    ID_BLOCK_INPUTOUTPUT_AOUT "Analog output"
+    ID_FUNCTION_INPUTOUTPUT_DIN "Digital Input"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FUNCTION_INPUTOUTPUT_DOUT "Digital Output. not implemented"
+    ID_FUNCTION_INPUTOUTPUT_TPO "Time Proportion Output"
+    ID_FUNCTION_INPUTOUTPUT_AINS "Small A  Input,not implemented"
+    ID_BLOCK_INPUTOUTPUT_AOTS "Analog output small signal"
+    ID_FUNCTION_INPUTOUTPUT_DINS "Small Digital Input, not implemented"
+    ID_FUNCTION_INPUTOUTPUT_DOTS 
+                            "Small Digital Signal Output, not implemented"
+    ID_FUNCTION_INPUTOUTPUT_HORN "function Warning Sound. nnot implemented"
+    ID_FUNCTION_ARITHMATIC_DTIM "Delay Time"
+    ID_FUNCTION_ARITHMATIC_COND "Condition, not implemented"
+    ID_BLOCK_INPUTOUTPUT_DIN "Digital input"
+    ID_BLOCK_INPUTOUTPUT_DOUT "Digital output"
+    ID_BLOCK_INPUTOUTPUT_TPO "Time proportion output"
+    ID_BLOCK_INPUTOUTPUT_AINS "Analog intput small signal"
+END
+
+STRINGTABLE
+BEGIN
+    ID_MOUSE_POSITION       "                     "
+    ID_RECT_POSITION        "                                "
+    ID_SYSTEM_TIME_ALLOCATE "100%"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_VIEWOUT         "Go back upper compound\nReturn to upper compound"
+    ID_ARRANGE_MAKECOMPOUND "Make selected units into a compound"
+    ID_ARRANGE_BREAKCOMPOUND "Break a compound's units "
+    ID_BLOCK_COMPOUND       "Create a compound unit\nComponent"
+    ID_OBJECT_SELECT        "select the select tool\nSelect"
+    ID_OBJECT_ERASE         "select the erase tool[nErase"
+    ID_OBJECT_PEN           "select the pen tool\nPen"
+    ID_OBJECT_BRUSH         "select the brush tool\nBrush"
+    ID_OBJECT_PAINT         "select the paint tool\nPaint"
+    ID_OBJECT_LIBRARY       "create a unit\nCreateUnit"
+    ID_OBJECT_DYNAMICLINK   "create a dynamic link\nCreate DynLink"
+    ID_OBJECT_TEXT          "draw a text\nText"
+    ID_OBJECT_RECT          "draw a rect\nRect"
+    ID_OBJECT_ROUNDRECT     "draw a round rect \nRoundRect"
+END
+
+STRINGTABLE
+BEGIN
+    ID_OBJECT_OVAL          "draw an oval\nOval"
+    ID_OBJECT_LINE          "draw a line\nLine"
+    ID_BLOCK_MATHMATIC_MULTIPLE "Arithmatic Multiple\nMultiple"
+    ID_OBJECT_GRAPH         "Create a graph\nGraph"
+    ID_OBJECT_COMPOUND      "Create a compound object\nComponent"
+    ID_BLOCK_BASICLOGIC_AND "logic AND\nAnd"
+    ID_BLOCK_BASICLOGIC_OR  "Logic OR\nOr"
+    ID_BLOCK_BASICLOGIC_XOR "Logic XOR\nXor"
+    ID_BLOCK_BASICLOGIC_INV "Logic INVERT\nInvert"
+    ID_BLOCK_BASICLOGIC_DROT "Digital ROTATE\nDigital rotate"
+END
+
+STRINGTABLE
+BEGIN
+    ID_BLOCK_ADVANCELOGIC_FFLP "Flip Flop"
+    ID_BLOCK_ADVANCELOGIC_TTB "Create a True Table"
+    ID_BLOCK_ADVANCELOGIC_TTBE "True table extention"
+    ID_BLOCK_BASICLOGIC_PULS "Digital PULSE\nPulse"
+    ID_BLOCK_BASICLOGIC_DLAY "Digital DELAY\nDelay"
+    ID_BLOCK_BASICCONTROL_PID "Create a PID unit\nPID"
+    ID_BLOCK_BASICCONTROL_INTD "Intergral and Derive\nIntergral and Derive"
+    ID_BLOCK_BASICCONTROL_PD "Proportion and Derive\nProportion and Derive."
+    ID_BLOCK_ADVANCECONTROL_SEQ "Sequence "
+    ID_BLOCK_ADVANCECONTROL_SEQE "Sequence extention"
+END
+
+STRINGTABLE
+BEGIN
+    ID_BLOCK_ARITHMATIC_HPBG "High Pass Bargin\nHigh pass bargin."
+    ID_OBJECT_PUSHBUTTON    "Create Push Button\nButton"
+    ID_OBJECT_SLIDER        "Create Slider\nSlider"
+    ID_ARRANGE_MAKEDYNLINK  "make dynamic link\nMake dynamic link"
+    ID_ARRANGE_BREAKDYNLINK "Break Dynamic LInk\nBreak DynLink"
+    ID_OBJECT_GAUGE         "Create a Gauge\nGauge"
+    ID_BLOCK_INPUTOUTPUT_SIM "Simulated InputOutpput"
+    ID_OBJECT_KNOB          "Create a knob\nKnob"
+    ID_RUN_RUN              "Run\nRun"
+    ID_RUN_STOP             "Stop\nStop"
+    ID_RUN_PAUSE            "Pause\nPause"
+END
+
+STRINGTABLE
+BEGIN
+    ID_BLOCK_MATHMATIC_DIV  "Arithmatic Divide\nDivide"
+    ID_BLOCK_MATHMATIC_AVG  "Arithmatic average\nAverage"
+    ID_BLOCK_MATHMATIC_AVGT "Average total\nAverage total"
+    ID_BLOCK_MATHMATIC_EXPR "Matimatic expression\nExpression."
+    ID_BLOCK_ARITHMATIC_LLAG "Lag lag"
+    ID_BLOCK_ARITHMATIC_TOT "Arithmaitc  Total\nTotal."
+    ID_BLOCK_ARITHMATIC_QFLT "Second order Low Pass Filter\n Low pass filter."
+    ID_BLOCK_SELECT_SWCH    "Switch\nSwitch"
+    ID_BLOCK_SELECT_HSEL    "High select\nHigh select"
+    ID_BLOCK_SELECT_LSEL    "Low select\nLow select"
+    ID_BLOCK_SELECT_MSEL    "Middle select\nMiddle select"
+END
+
+STRINGTABLE
+BEGIN
+    ID_ERROR_STRATEGY_TOO_MANY_START_POIN 
+                            "Loop %s already has a Cutoff point, can't set another Cutoff point."
+    ID_ERROR_STRATEGY_LOOP_DETECT "%s Loop Detected"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DACVIEW_STRATEGY_COMPILE "Compiled Dacivew Strategy File."
+    ID_REALTIME_TIME_ALLOCATE "100%"
+END
+
+STRINGTABLE
+BEGIN
+    ID_ERROR_SHOWVIEW_REALTIME_PROCESS_ERROR 
+                            "Realtime process can't running. Check your system configeration."
+    ID_ERROR_CANCEL_SHOWVIEW_FILE "Can't close file, process is running."
+    ID_ERROR_SHOWVIEW_REALTIME_PROCESS_CANNOT_CREATE 
+                            "Can't create realtime prcoess\n"
+    ID_ERROR_SHOWVIEW_CANNOT_CREATE_VIEW "Can't create view."
+END
+
+STRINGTABLE
+BEGIN
+    ID_ERROR_OUT_OF_MEMORY  "Out of memory."
+    ID_ERROR_CANNOT_FIND_FILE "Can't find file %s."
+    ID_ERROR_READ_OBJECT    "Error read object $s."
+    ID_ERROR_READ_FILE      "Error read file %s."
+    ID_ERROR_FIND_FILE      "%s can't find file : %s."
+    ID_ERROR_OPEN_FILE      "Can't open file %s."
+    ID_ERROR_SET_TIMER      "%s Can't set timer."
+    ID_ERROR_REALTIME_PROCESS "Can't kill realtime process."
+    ID_ERROR_KILL_TIMER     "Can't kill timer."
+    ID_ERROR_CLOSE_SYSTEM   "Can't close system, SHW file is running."
+    ID_ERROR_DYNAMIC_LINK_TYPE_MISMATCH "type mismatch %s.%s-->%s.%s."
+END
+
+STRINGTABLE
+BEGIN
+    ID_OBJECT_METER         "Create a meter\nMeter"
+    ID_OBJECT_FILLBAR       "Create a FillBar\nFillBar"
+    ID_FILE_TASKLIST        "Create Task list"
+    ID_FILE_VIEWTASKLIST    "View current task list"
+    ID_FILE_SELECTTASKLIST  "select task list"
+    ID_TASKLIST_VIEW        "view current task list"
+    ID_TASKLIST_SELECT      "select task list"
+    ID_TASKLIST_DELETE      "delete current task list"
+    ID_TASKLIST_NEXT        "select next task list"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WARN_INPUT_VALUE_OUT_OF_RANGE "%s's Input value out of range."
+END
+
+STRINGTABLE
+BEGIN
+    ID_WARN_LINK_METHOD_MISMATCH "%s 's LinkMethod mismatch, Corrected."
+    ID_ERROR_DACVIEW_CANNOT_MAKE_SYMBOL "Can't make symbol"
+    IDS_WARN_LOAD_OBJECT_VERSION "%s version error."
+END
+
+STRINGTABLE
+BEGIN
+    ID_ERROR_FILE_VERSION   " File version mismatch."
+    ID_ERROR_LOAD_STRATEGY_FILE "Can't load file %s, inposible use strategy."
+    ID_ERROR_DACVIEW_LOAD_CSG_FILE "Corrupted CSG file."
+END
+
+STRINGTABLE
+BEGIN
+    ID_MSG_SUCCESS_COMPILE  "Success compile."
+    ID_MSG_FAIL_COMPILE     "compile failed."
+    ID_MESSAGE_UNIT_STATUS_VIEW "%s"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WARN_REALTIME_SYSTEM_OVERFLOW 
+                            "Realtime system overflow, reduce unit's ScanRate."
+    ID_WARN_SYSTEM_OVERFLOW "System overflow, reduce object's ScanRate."
+END
+
+STRINGTABLE
+BEGIN
+    ID_TASKLIST_PREV        "select prevous task list"
+    ID_RUN_RESUME           "resume process\nResume"
+    ID_OBJECT_NUMBERINPUT   "input number\nInput number"
+    ID_ARRANGE_TOGGLECUTOFF "Toggle CutOff\nToggle CutOff"
+    ID_VIEW_PREV            "\nprevous unit group"
+    ID_VIEW_NEXT            "\nNext unit group"
+    ID_VIEW_UNITLIBRARY     "Show or hide the UnitLibraryBar"
+    ID_VIEW_MESSAGEBAR      "Show or hide the message bar"
+    ID_OBJECT_PICTURE       "Create a pitcture\nPicture"
+    ID_VIEW_STATUS          "View internal status"
+END
+
+STRINGTABLE
+BEGIN
+    ID_ARRANGE_COMPONENT    "make a component\nMake component（组成部件）"
+    ID_BLOCK_COMPONENT      "Create a component unit\nComponent"
+    ID_ARRANGE_LINK_INTO_COMPONENT "将一个参数连入部件中\nLink into component"
+    ID_BREAK_LINK_OF_COMPONENT "从部件中取消参数连接\nDelete Component parameter"
+    ID_VIEW_OBJECTBAR       "Show or hide the Object bar"
+    ID_ARRANGE_DECAPSULATION "Decapsulation\nDecapsulation"
+    ID_ARRANGE_ENCAPSULATION "Encapsulation\nEncapsulation"
+    ID_ARRANGE_LinkFromComponent "将部件的参数链接至内部单元\nLink from Component"
+END
+
+STRINGTABLE
+BEGIN
+    ID_ERROR_SHOWVIEW_STRATEGY_FILE "Bad strategy file."
+    ID_ERROR_SHOWVIEW_DACVIEW_FILE "bad dacview file."
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_TIME       "88:88:88"
+END
+
+STRINGTABLE
+BEGIN
+    ID_ERROR_STRATEGY_COMPONENT_PARA_OVERFLOW "Can't find parameter position."
+END
+
+#endif    // 中文(简体，中国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 英语(美国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_STYLES              BITMAP                  "RES\\STYLES.BMP"
+
+IDB_BITMAP_CARET_INSERT BITMAP                  "res\\bitmap1.bmp"
+
+IDB_UNIT_LIBRARY        BITMAP                  "res\\unit_lib.bmp"
+
+IDB_UNIT_AND            BITMAP                  "res\\unit_and.bmp"
+
+IDB_UNIT_OR             BITMAP                  "res\\bmp00001.bmp"
+
+IDB_UNIT_XOR            BITMAP                  "res\\bmp00002.bmp"
+
+IDB_UNIT_PULSE          BITMAP                  "res\\unit_pul.bmp"
+
+IDB_UNIT_DELAY          BITMAP                  "res\\bmp00004.bmp"
+
+IDB_UNIT_ROTATE         BITMAP                  "res\\bmp00005.bmp"
+
+IDB_UNIT_ADD            BITMAP                  "res\\unit_or1.bmp"
+
+IDB_UNIT_MULTIPLE       BITMAP                  "res\\bmp00006.bmp"
+
+IDB_UNIT_DIVIDE         BITMAP                  "res\\bmp00007.bmp"
+
+IDB_UNIT_SINE           BITMAP                  "res\\bmp00008.bmp"
+
+IDB_UNIT_INVERT         BITMAP                  "res\\bmp00009.bmp"
+
+IDB_UNIT_DTIME          BITMAP                  "res\\bmp00010.bmp"
+
+IDB_UNIT_FFLP           BITMAP                  "res\\unit_ffl.bmp"
+
+IDB_UNIT_HPBG           BITMAP                  "res\\unit_hpb.bmp"
+
+IDB_UNIT_HSEL           BITMAP                  "res\\bmp00011.bmp"
+
+IDB_UNIT_IPOP           BITMAP                  "res\\bmp00012.bmp"
+
+IDB_UNIT_LSEL           BITMAP                  "res\\bmp00013.bmp"
+
+IDB_UNIT_MSEL           BITMAP                  "res\\bmp00014.bmp"
+
+IDB_UNIT_PID            BITMAP                  "res\\bmp00003.bmp"
+
+IDB_UNIT_SWCH           BITMAP                  "res\\bmp00015.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG 34, 22, 156, 98
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About FireBird DACView"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "FireBird DACView  Version 0.1",IDC_STATIC,9,49,126,8
+    LTEXT           "Copyright ?1995-1999",IDC_STATIC,10,77,89,8
+    DEFPUSHBUTTON   "OK",IDOK,111,75,32,14,WS_GROUP
+    LTEXT           "FireBird software Inc.",IDC_STATIC,10,64,106,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+END
+
+IDD_OBJECT_VIRTUAL_RECT DIALOG 0, 0, 204, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,142,126,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,142,146,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,6,101,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,100,88,13,ES_AUTOHSCROLL
+END
+
+IDD_DYNAMIC_LINK DIALOG 0, 0, 310, 179
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dynamic Link"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,255,122,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,255,148,50,14
+    LTEXT           "Link method:",IDC_STATIC,3,120,44,8
+    LTEXT           "Link to:",IDC_STATIC,2,67,40,8
+    EDITTEXT        IDC_COMMENT,50,150,162,13,ES_AUTOHSCROLL | ES_WANTRETURN
+    LTEXT           "Comment:",IDC_STATIC,5,152,38,8
+    LTEXT           "Parameter:",IDC_STATIC,5,46,37,8
+    COMBOBOX        IDC_VARIABLE_PARAMETER,49,44,100,132,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "New",IDC_BUTTON_NEW,255,18,50,14
+    PUSHBUTTON      "Prev..",IDC_BUTTON_PREV,255,96,50,14
+    LTEXT           "Tag Name",IDC_STATIC,10,19,39,8
+    LTEXT           "",IDC_TAG_NAME,50,20,66,8
+    COMBOBOX        IDC_LINK_METHOD,49,116,100,58,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Next..",IDC_BUTTON_NEXT,255,70,50,14
+    COMBOBOX        IDC_LINK_NAME,49,68,100,110,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Delete",IDC_BUTTON_DELETE,255,44,50,14
+    LTEXT           "Data Flow:",IDC_STATIC,158,47,35,8
+    LTEXT           "Unit --> Object",IDC_STATIC_UNIT_TO_OBJECT,202,47,51,10
+END
+
+IDD_CHOICE_LINK DIALOGEX 0, 0, 236, 138
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Chioce Parameter"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,91,109,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,159,108,50,14
+    COMBOBOX        IDC_COMBO_CHOICE_PARAMETER,74,11,150,84,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Chioce a parameter:",IDC_STATIC,4,12,70,8
+END
+
+IDD_UNIT_QUADRATIC DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Quadratic Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output = K2 * t*t +K1*t  +  K0",IDC_STATIC,4,11,158,8
+    LTEXT           "Name:",IDC_STATIC,2,28,30,8
+    LTEXT           "K2:",IDC_STATIC,11,48,19,8
+    LTEXT           "K1",IDC_STATIC,11,68,23,8
+    LTEXT           "K0:",IDC_STATIC,11,88,30,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,65,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K2,48,48,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K1,48,67,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K0,48,86,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_SINE DIALOG 0, 0, 261, 221
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Sinine Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,105,185,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,173,185,50,14
+    LTEXT           "Discription:Output = K0 * sin((K1+K2*t)*3.14/180)) + K3",IDC_STATIC,4,11,247,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "K2:",IDC_STATIC,11,87,19,8
+    LTEXT           "K1",IDC_STATIC,11,68,23,8
+    LTEXT           "K0:",IDC_STATIC,11,49,20,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,128,35,8
+    LTEXT           "Comment:",IDC_STATIC,6,161,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,65,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,46,160,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K2,48,88,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K1,48,67,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K0,48,47,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,125,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+    LTEXT           "K3:",IDC_STATIC,11,106,19,8
+    EDITTEXT        IDC_EDIT_K3,48,106,40,12,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_MULTIPLE DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Mutiple Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =  K2 * Input2 * K1 * Input1",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "K2:",IDC_STATIC,11,48,19,8
+    LTEXT           "K1",IDC_STATIC,11,68,23,8
+    LTEXT           "K0:",IDC_STATIC,11,88,30,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,140,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K2,48,48,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K1,48,67,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K0,48,86,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_AND DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "And Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=Input1 &&&& Input2",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    CONTROL         "Enable Alarm",IDC_ENABLE_ALARM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,51,73,10
+    CONTROL         "Alarm High",IDC_ALARM_HIGH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,70,62,10
+END
+
+IDD_UNIT_OR DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Logic Or Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =   Input1 || Input2",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    CONTROL         "Enable Alarm",IDC_ENABLE_ALARM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,51,73,10
+    CONTROL         "Alarm High",IDC_ALARM_HIGH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,70,62,10
+END
+
+IDD_UNIT_INV DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Logic Invert"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =   -Input",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    CONTROL         "Enable Alarm",IDC_ENABLE_ALARM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,50,59,10
+    CONTROL         "Alarm High",IDC_ALARM_HIGH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,72,62,10
+END
+
+IDD_UNIT_XOR DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Logic Xor Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =   Input1 ^^ Input2",IDC_STATIC,4,11,176,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    CONTROL         "Enable Alarm",IDC_ENABLE_ALARM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,51,73,10
+    CONTROL         "Alarm High",IDC_ALARM_HIGH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,70,62,10
+END
+
+IDD_UNIT_DELAY DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Logic delay Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=Input(after n seconds)",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,50,105,40,12,ES_AUTOHSCROLL
+    LTEXT           "Delay On",IDC_STATIC,11,58,30,8
+    LTEXT           "Delay Off",IDC_STATIC,11,83,30,8
+    EDITTEXT        IDC_EDIT_DELAY_ON,50,54,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_DELAY_OFF,50,79,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_FFLP DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "logic FLIP"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =   Input1 ",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    CONTROL         "Enable Alarm",IDC_ENABLE_ALARM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,51,57,10
+    CONTROL         "Alarm High",IDC_ALARM_HIGH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,105,51,62,10
+END
+
+IDD_UNIT_HPBG DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "High Pass Bargin"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =   1(input > Bargin) : 0(if input < bargin)",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    CONTROL         "Enable Alarm",IDC_ENABLE_ALARM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,50,59,10
+    CONTROL         "Alarm High",IDC_ALARM_HIGH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,72,62,10
+    CONTROL         "High Pass",IDC_HighPass,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,100,50,71,10
+    LTEXT           "Bargin:",IDC_STATIC,9,88,30,8
+    EDITTEXT        IDC_EDIT_BARGIN,47,87,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_PULSE DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Logic Pulse Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   ",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_WIDTH,49,82,40,13,ES_AUTOHSCROLL
+    LTEXT           "Width:",IDC_STATIC,11,86,30,8
+END
+
+IDD_UNIT_TTB DIALOG 0, 0, 448, 217
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Advance logic TTB function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,283,3,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,355,3,50,14
+    LTEXT           "Name:",IDC_STATIC,13,7,30,8
+    EDITTEXT        IDC_EDIT_NAME,54,4,125,13,ES_AUTOHSCROLL
+    LTEXT           "NUM INP:",IDC_STATIC,14,32,37,8
+    EDITTEXT        IDC_NUMBER_OF_INPUT,55,28,40,13,ES_AUTOHSCROLL
+    LTEXT           "NUM STEP:",IDC_STATIC,14,57,39,8
+    EDITTEXT        IDC_NUMBER_OF_STEP,55,54,40,13,ES_AUTOHSCROLL
+    LTEXT           "INIT COIL:",IDC_STATIC,14,85,33,8
+    EDITTEXT        IDC_INIT_COIL,55,82,40,13,ES_AUTOHSCROLL
+    LTEXT           "INIT OUT:",IDC_STATIC,14,113,30,8
+    EDITTEXT        IDC_INIT_OUTPUT,55,111,40,13,ES_AUTOHSCROLL
+    LTEXT           "Step1:",IDC_STATIC,113,49,30,8
+    LTEXT           "Step",IDC_STATIC,112,35,23,8
+    LTEXT           "Coil Pattern",IDC_STATIC,144,36,38,8
+    LTEXT           "Input Pattern",IDC_STATIC,194,35,47,8
+    LTEXT           "Coil Output",IDC_STATIC,277,35,43,8
+    LTEXT           "Digital Output",IDC_STATIC,323,34,47,8
+    LTEXT           "Step2:",IDC_STATIC,113,66,30,8
+    LTEXT           "Step3",IDC_STATIC,113,83,30,8
+    LTEXT           "Step4:",IDC_STATIC,113,100,30,8
+    LTEXT           "Step5:",IDC_STATIC,113,117,30,8
+    LTEXT           "Step6:",IDC_STATIC,113,134,30,8
+    LTEXT           "Step7:",IDC_STATIC,113,151,30,8
+    LTEXT           "Step8:",IDC_STATIC,113,168,30,8
+    GROUPBOX        "Truth Table",IDC_STATIC,107,23,341,162
+    EDITTEXT        IDC_STEP1_COIL_PATTERN,143,48,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP2_COIL_PATTERN,143,65,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP3_COIL_PATTERN,143,82,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP4_COIL_PATTERN,143,99,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP5_COIL_PATTERN,143,116,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP6_COIL_PATTERN,143,133,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP7_COIL_PATTERN,143,150,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP8_COIL_PATTERN,143,167,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP1_INPUT_PATTERN,192,48,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP2_INPUT_PATTERN,192,65,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP3_INPUT_PATTERN,192,82,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP4_INPUT_PATTERN,192,99,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP5_INPUT_PATTERN,192,116,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP6_INPUT_PATTERN,192,133,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP7_INPUT_PATTERN,192,150,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP8_INPUT_PATTERN,192,167,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP1_COIL_OUTPUT,277,48,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP2_COIL_OUTPUT,277,65,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP3_COIL_OUTPUT,277,82,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP4_COIL_OUTPUT,277,99,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP5_COIL_OUTPUT,277,116,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP6_COIL_OUTPUT,277,133,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP7_COIL_OUTPUT,277,150,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP8_COIL_OUTPUT,277,167,32,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP1_DIGITAL_OUTPUT,317,47,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP2_DIGITAL_OUTPUT,317,64,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP3_DIGITAL_OUTPUT,317,81,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP4_DIGITAL_OUTPUT,317,98,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP5_DIGITAL_OUTPUT,317,115,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP6_DIGITAL_OUTPUT,317,132,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP7_DIGITAL_OUTPUT,317,149,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STEP8_DIGITAL_OUTPUT,317,166,70,13,ES_AUTOHSCROLL
+    CONTROL         "ALL",IDC_STEP1_MC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,396,51,34,10
+    CONTROL         "ALL",IDC_STEP2_MC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,396,69,34,10
+    CONTROL         "ALL",IDC_STEP3_MC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,396,86,34,10
+    CONTROL         "ALL",IDC_STEP4_MC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,396,103,34,10
+    CONTROL         "ALL",IDC_STEP5_MC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,396,119,34,10
+    CONTROL         "ALL",IDC_STEP6_MC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,396,137,34,10
+    CONTROL         "ALL",IDC_STEP7_MC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,396,154,34,10
+    CONTROL         "ALL",IDC_STEP8_MC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,396,168,34,10
+    LTEXT           "Matching Criteria",IDC_STATIC,389,34,53,8
+    LTEXT           "ScanRate:",IDC_STATIC,11,140,35,8
+    EDITTEXT        IDC_EDIT_SCANRATE,55,137,40,13,ES_AUTOHSCROLL
+    LTEXT           "Comment",IDC_STATIC,11,197,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,47,196,365,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_SWCH DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Switch Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =  K2 * Input2  +  K1 * Input1",-1,4,11,171,8
+    LTEXT           "Name:",-1,2,28,28,8
+    LTEXT           "ScanRate:",-1,9,108,35,8
+    LTEXT           "Comment:",-1,7,132,34,8
+    LTEXT           "HiRange:",-1,9,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",-1,9,79,30,8
+    LTEXT           "HiLimit:",-1,103,51,30,8
+    LTEXT           "LowLimit",-1,103,79,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,51,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,51,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,51,75,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,140,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,140,76,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_HSEL DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "High Select"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=MAX(input1,input2,input3)",-1,4,11,177,8
+    LTEXT           "Name:",-1,2,28,28,8
+    LTEXT           "ScanRate:",-1,9,108,35,8
+    LTEXT           "Comment:",-1,7,132,34,8
+    LTEXT           "HiRange:",-1,9,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",-1,9,79,30,8
+    LTEXT           "HiLimit:",-1,103,51,30,8
+    LTEXT           "LowLimit",-1,103,79,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,51,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,51,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,51,75,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,140,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,140,76,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_MSEL DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Middle  Select Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=MID(input1,input2,input3)",-1,4,11,176,8
+    LTEXT           "Name:",-1,2,28,28,8
+    LTEXT           "ScanRate:",-1,9,108,35,8
+    LTEXT           "Comment:",-1,7,132,34,8
+    LTEXT           "HiRange:",-1,9,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",-1,9,79,30,8
+    LTEXT           "HiLimit:",-1,103,51,30,8
+    LTEXT           "LowLimit",-1,103,79,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,51,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,51,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,51,75,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,140,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,140,76,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_LSEL DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Low Select Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=MIN(input1,input2,input3)",IDC_STATIC,4,11,175,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,9,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,9,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,9,79,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,103,51,30,8
+    LTEXT           "LowLimit",IDC_STATIC,103,79,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,51,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,51,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,51,75,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,140,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,140,76,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_QFLT DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "quadraic Filter Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output ",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_FiltFactor,50,50,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DeadBand,50,76,40,13,ES_AUTOHSCROLL
+    LTEXT           "FiltFactor:",IDC_STATIC,12,55,30,8
+    LTEXT           "DeadBand:",IDC_STATIC,8,80,38,8
+END
+
+IDD_DIALOG_DELETE_ODYNLINK DIALOG 0, 0, 224, 164
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Delete DynLink Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,160,121,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,160,138,50,14
+    LISTBOX         IDC_LIST_DYNLINK,11,6,204,105,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Delete",IDC_BUTTON_DELETE,41,125,50,14
+    PUSHBUTTON      "Undelete",IDC_BUTTON_UNDELETE,102,125,50,14
+END
+
+IDD_OBJECT_GRAPH DIALOG 0, 0, 204, 150
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Graph Property"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,138,109,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,138,129,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,5,37,30,8
+    LTEXT           "BackColor",IDC_STATIC,76,37,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,116,31,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,6,101,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,100,88,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BUFFER_LENGTH,46,125,87,13,ES_AUTOHSCROLL
+    LTEXT           "BufferLength:",IDC_STATIC,3,129,42,8
+    COMBOBOX        IDC_COMBO_INPUT_TYPE,44,62,87,40,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Input Type:",IDC_STATIC,5,62,37,8
+END
+
+IDD_OBJECT_GAUGE DIALOG 0, 0, 308, 173
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Gauge Property"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,227,116,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,227,136,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    CONTROL         "Save to file",IDC_CHECK_RECORD,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,228,91,47,10
+    COMBOBOX        IDC_COMBO_TYPE,160,14,121,93,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_ANGLE,44,125,87,13,ES_AUTOHSCROLL
+    LTEXT           "Angle:",IDC_STATIC,6,129,30,8
+    LTEXT           "ScanRate:",IDC_STATIC,6,101,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,100,88,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_PID DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "PID Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Description: ",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "PB:",IDC_STATIC,11,48,19,8
+    LTEXT           "INTG:",IDC_STATIC,11,68,23,8
+    LTEXT           "DERV:",IDC_STATIC,11,88,30,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_PB,48,48,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_INTG,48,67,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_DERV,48,86,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_ADD DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Add Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=K2*Input2 + K1*Input1",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "K2:",IDC_STATIC,11,48,19,8
+    LTEXT           "K1",IDC_STATIC,11,68,23,8
+    LTEXT           "K0:",IDC_STATIC,11,88,30,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K2,48,48,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K1,48,67,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K0,48,86,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_TOT DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "TOT Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription: Output=K2 * Input2 + K1 * Input1",IDC_STATIC,4,11,180,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "Gain:",IDC_STATIC,11,48,19,8
+    LTEXT           "Number:",IDC_STATIC,11,68,32,8
+    LTEXT           "K0:",IDC_STATIC,11,88,30,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_GAIN,48,48,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_NUMBER,48,67,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K0,48,86,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_IPOP DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Simulated Input & Output"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =   Input",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "K2:",IDC_STATIC,11,48,19,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "K1",IDC_STATIC,11,68,23,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "K0:",IDC_STATIC,11,88,30,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K2,48,48,40,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_K1,48,67,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_K0,48,86,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_DIVIDE DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Divide  Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=(K1*Input1)/(K2*Input2)",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "K2:",IDC_STATIC,11,48,19,8
+    LTEXT           "K1",IDC_STATIC,11,68,23,8
+    LTEXT           "K0:",IDC_STATIC,11,88,30,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,140,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K2,48,48,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K1,48,67,39,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K0,48,86,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_DELAY_TIME DIALOG 0, 0, 245, 153
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Delay time Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=Input (delay n seconds)",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "Delay Time:",IDC_STATIC,5,48,41,8
+    LTEXT           "K1",IDC_STATIC,11,68,23,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "K0:",IDC_STATIC,11,88,30,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,46,131,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_DELAY_TIME,48,48,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K1,48,67,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_K0,48,86,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_TPO DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Time proportion  Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:   Output =  TIME PROPORTION",IDC_STATIC,4,11,171,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "Period Time:",IDC_STATIC,3,48,41,8
+    LTEXT           "K1",IDC_STATIC,11,68,23,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "K0:",IDC_STATIC,11,88,30,8,NOT WS_VISIBLE | WS_DISABLED
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    LTEXT           "HiRange:",IDC_STATIC,104,50,30,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    LTEXT           "LowRange:",IDC_STATIC,104,70,30,8
+    LTEXT           "HiLimit:",IDC_STATIC,104,90,30,8
+    LTEXT           "LowLimit",IDC_STATIC,104,110,30,8
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_PERIOD_TIME,48,48,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_K1,48,67,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_K0,48,86,39,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIRANGE,136,48,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LORANGE,136,67,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,136,86,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,136,105,40,13,ES_AUTOHSCROLL
+END
+
+IDD_UNIT_BASE_DLG DIALOG 0, 0, 242, 154
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "And Function"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,8,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,184,25,50,14
+    LTEXT           "Discription:Output=Input1 &&&& Input2",IDC_STATIC,4,11,165,8
+    LTEXT           "Name:",IDC_STATIC,2,28,28,8
+    LTEXT           "ScanRate:",IDC_STATIC,8,108,35,8
+    LTEXT           "Comment:",IDC_STATIC,7,132,34,8
+    EDITTEXT        IDC_EDIT_NAME,32,26,144,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_COMMENT,45,130,173,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SCANRATE,48,105,40,12,ES_AUTOHSCROLL
+    CONTROL         "Enable Alarm",IDC_ENABLE_ALARM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,51,73,10
+    CONTROL         "Alarm High",IDC_ALARM_HIGH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,70,62,10
+END
+
+IDD_OBJECT_SLIDER DIALOG 0, 0, 334, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetSliderProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,262,124,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,262,144,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,11,145,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,49,144,97,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,50,124,94,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,50,100,96,13,ES_AUTOHSCROLL
+    LTEXT           "HiLimit:",IDC_STATIC,7,105,30,8
+    LTEXT           "LowLimit:",IDC_STATIC,9,128,30,9
+    CONTROL         "Vertical",IDC_CHECK_VERTICAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,187,36,55,10
+END
+
+IDD_OBJECT_KNOB DIALOG 0, 0, 334, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetKnobProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,262,124,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,262,144,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,11,145,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,49,144,96,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,50,124,94,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,50,100,96,13,ES_AUTOHSCROLL
+    LTEXT           "HiLimit:",IDC_STATIC,7,105,30,8
+    LTEXT           "LowLimit:",IDC_STATIC,9,128,30,9
+    CONTROL         "",IDC_BUTTONNORMAL,"Button",BS_OWNERDRAW | WS_TABSTOP,210,29,19,19
+    CONTROL         "",IDC_BUTTONWARN,"Button",BS_OWNERDRAW | WS_TABSTOP,211,60,19,19
+    CONTROL         "",IDC_BUTTONERROR,"Button",BS_OWNERDRAW | WS_TABSTOP,211,96,19,19
+    LTEXT           "Warn color:",IDC_STATIC,161,68,39,8
+    LTEXT           "Normal color:",IDC_STATIC,157,37,46,8
+    LTEXT           "Error color:",IDC_STATIC,163,103,39,8
+    LTEXT           "Noddle color:",IDC_STATIC,163,129,45,8
+    CONTROL         "",IDC_BUTTONNODDLE,"Button",BS_OWNERDRAW | WS_TABSTOP,213,125,19,19
+END
+
+IDD_OBJECT_BUTTON DIALOG 0, 0, 264, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetButtonProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,196,128,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,196,148,50,14
+    EDITTEXT        IDC_ObjectName,77,13,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,27,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,27,41,48,8
+    LTEXT           "BackColor",IDC_STATIC,27,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,77,32,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,77,60,19,19
+    LTEXT           "扫描速率:",IDC_STATIC,27,148,46,8
+    EDITTEXT        IDC_EDIT_SCANRATE,77,145,88,13,ES_AUTOHSCROLL
+    LTEXT           "On:",IDC_STATIC,27,89,30,8
+    EDITTEXT        IDC_EDIT_STR_ON,77,87,88,13,ES_AUTOHSCROLL
+    LTEXT           "Off:",IDC_STATIC,27,119,34,8
+    EDITTEXT        IDC_EDIT_STR_OFF,77,119,88,13,ES_AUTOHSCROLL
+END
+
+IDD_OBJECT_METER DIALOG 0, 0, 334, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetMeterProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,262,124,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,262,144,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,11,145,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,49,144,96,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,50,124,94,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,50,100,96,13,ES_AUTOHSCROLL
+    LTEXT           "HiLimit:",IDC_STATIC,7,105,30,8
+    LTEXT           "LowLimit:",IDC_STATIC,9,128,30,9
+    CONTROL         "",IDC_BUTTONNORMAL,"Button",BS_OWNERDRAW | WS_TABSTOP,210,29,19,19
+    CONTROL         "",IDC_BUTTONWARN,"Button",BS_OWNERDRAW | WS_TABSTOP,211,60,19,19
+    CONTROL         "",IDC_BUTTONERROR,"Button",BS_OWNERDRAW | WS_TABSTOP,211,96,19,19
+    LTEXT           "Warn color:",IDC_STATIC,161,68,39,8
+    LTEXT           "Normal color:",IDC_STATIC,157,37,46,8
+    LTEXT           "Error color:",IDC_STATIC,163,103,39,8
+    CONTROL         "",IDC_BUTTONNODDLE,"Button",BS_OWNERDRAW | WS_TABSTOP,212,129,19,19
+    LTEXT           "Noddle color:",IDC_STATIC,164,136,47,8
+END
+
+IDD_OBJECT_FILLBAR DIALOG 0, 0, 334, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetFillBarProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,262,124,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,262,144,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,6,146,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,49,144,97,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOLIMIT,50,124,96,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HILIMIT,50,100,96,13,ES_AUTOHSCROLL
+    LTEXT           "HiLimit:",IDC_STATIC,10,103,30,8
+    LTEXT           "LowLimit:",IDC_STATIC,9,128,30,9
+    CONTROL         "Vertical",IDC_CHECK_VERTICAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,175,54,55,10
+    COMBOBOX        IDC_COMBO_TYPE,170,14,106,38,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Show range",IDC_CHECK_SHOWRANGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,174,74,60,10
+    LTEXT           "Bar Color:",IDC_STATIC,153,99,37,8
+    CONTROL         "",IDC_BUTTON_BAR_COLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,199,94,19,19
+END
+
+IDD_OBJECT_COMPOUND DIALOG 0, 0, 316, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetComponentProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,250,128,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,250,148,50,14
+    EDITTEXT        IDC_ObjectName,44,14,170,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,6,143,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,142,88,13,ES_AUTOHSCROLL
+    LTEXT           "Bitmap:",IDC_STATIC,7,101,34,8
+    EDITTEXT        IDC_BITMAP,45,100,172,13,ES_AUTOHSCROLL
+END
+
+IDD_DLGOPENBOX DIALOG 30, 35, 247, 120
+STYLE DS_LOCALEDIT | DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "File Open"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        DLGOPEN_EDIT,45,6,130,12,ES_AUTOHSCROLL | WS_GROUP
+    LTEXT           "",DLGOPEN_PATH,70,22,110,9
+    LISTBOX         DLGOPEN_FILE_LISTBOX,5,24,60,78,LBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    LISTBOX         DLGOPEN_DIR_LISTBOX,70,32,60,69,LBS_SORT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Ok",IDOK,136,41,45,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,136,61,45,14,WS_GROUP
+    PUSHBUTTON      "Format>>",DLGOPEN_FOLDOUT,136,81,45,14
+    CONTROL         "1 bpp",61441,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,195,11,50,12
+    CONTROL         "4 bpp",61442,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,23,50,12
+    CONTROL         "8 bpp",61444,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,35,50,12
+    CONTROL         "24 bpp",61448,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,47,50,12
+    CONTROL         "",-1,"Static",SS_BLACKRECT,192,64,47,1
+    CONTROL         "RLE 4",61456,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,195,67,50,12
+    CONTROL         "RLE 8",61472,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,79,50,12
+    CONTROL         "RGB",61504,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,91,50,12
+    LTEXT           "Filename:",-1,5,7,40,10
+    LTEXT           "",DLGOPEN_SMALL,190,2,8,10,NOT WS_GROUP
+    LTEXT           "",DLGOPEN_BIG,236,2,11,10,NOT WS_GROUP
+END
+
+IDD_XDLGOPENBOX DIALOG 9, 10, 183, 121
+STYLE DS_LOCALEDIT | DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "File Open"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        DLGOPEN_EDIT,45,15,130,12,ES_AUTOHSCROLL | WS_GROUP
+    LTEXT           "x",DLGOPEN_PATH,70,34,110,9
+    LISTBOX         DLGOPEN_FILE_LISTBOX,5,34,60,74,LBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    LISTBOX         DLGOPEN_DIR_LISTBOX,70,44,60,74,LBS_SORT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Ok",IDOK,136,50,45,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,136,70,45,14,WS_GROUP
+    LTEXT           "Filename:",-1,5,15,40,12
+    LTEXT           "x",DLGOPEN_SMALL,190,9,3,10,NOT WS_GROUP
+    PUSHBUTTON      "Format>>",DLGOPEN_FOLDOUT,136,90,45,14
+    CONTROL         "1 bpp",61441,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,195,20,50,12
+    CONTROL         "4 bpp",61442,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,32,50,12
+    CONTROL         "8 bpp",61444,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,44,50,12
+    CONTROL         "24 bpp",61448,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,56,50,12
+    CONTROL         "RLE",61456,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,195,80,50,12
+    CONTROL         "RGB",61504,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,195,92,50,12
+    LTEXT           "x",DLGOPEN_BIG,250,3,3,8,NOT WS_GROUP
+END
+
+IDD_OBJECT_TEXT DIALOG 0, 0, 204, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetTextProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,142,126,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,142,146,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,6,134,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,133,88,13,ES_AUTOHSCROLL
+    LTEXT           "Title:",IDC_STATIC,7,105,34,8
+    EDITTEXT        IDC_EDIT_SHOW_NAME,45,104,88,13,ES_AUTOHSCROLL
+END
+
+IDD_OBJECT_ROUND_RECT DIALOG 0, 0, 204, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set RoundRect Property"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,142,126,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,142,146,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,6,101,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,100,88,13,ES_AUTOHSCROLL
+    LTEXT           "RoundLength:",IDC_STATIC,4,130,45,8
+    EDITTEXT        IDC_EDIT_ROUND_LENGTH,50,126,82,13,ES_AUTOHSCROLL
+END
+
+IDD_OBJECT_LINE DIALOG 0, 0, 204, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "SetLineProperty"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,142,126,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,142,146,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,6,101,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,100,88,13,ES_AUTOHSCROLL
+    LTEXT           "Width:",IDC_STATIC,6,131,34,8
+    EDITTEXT        IDC_EDIT_WIDTH,44,130,88,13,ES_AUTOHSCROLL
+END
+
+IDD_VIEW_MESSAGE DIALOG 34, 22, 504, 58
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    LISTBOX         IDC_LIST_MESSAGE,1,2,497,56,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+END
+
+IDD_DIALOG_TASK_VIEW DIALOG 0, 0, 454, 234
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_ORDER0,56,4,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           " ",IDC_STATIC1,10,6,43,9
+    COMBOBOX        IDC_OBJECT0,128,4,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA0,298,4,81,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_ORDER1,56,27,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           " ",IDC_STATIC3,10,52,43,9
+    COMBOBOX        IDC_OBJECT2,128,50,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA1,298,27,81,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_ORDER2,56,50,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           " ",IDC_STATIC2,10,29,43,9
+    COMBOBOX        IDC_OBJECT1,128,27,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA2,298,50,81,13,ES_AUTOHSCROLL
+    LTEXT           " ",IDC_STATIC4,10,75,43,9
+    COMBOBOX        IDC_OBJECT3,128,73,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ORDER3,56,73,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA3,298,73,81,13,ES_AUTOHSCROLL
+    LTEXT           " ",IDC_STATIC5,10,98,43,9
+    COMBOBOX        IDC_OBJECT9,128,211,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ORDER4,56,96,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        ID_PARA9,298,211,81,13,ES_AUTOHSCROLL
+    LTEXT           " ",IDC_STATIC6,10,121,43,9
+    COMBOBOX        IDC_OBJECT5,128,119,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ORDER5,56,119,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA5,298,119,81,13,ES_AUTOHSCROLL
+    LTEXT           " ",IDC_STATIC7,10,144,43,9
+    COMBOBOX        IDC_OBJECT6,128,142,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ORDER6,56,142,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA6,298,142,81,13,ES_AUTOHSCROLL
+    LTEXT           " ",IDC_STATIC8,10,167,43,9
+    COMBOBOX        IDC_OBJECT7,128,165,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ORDER7,56,165,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA7,298,165,81,13,ES_AUTOHSCROLL
+    LTEXT           " ",IDC_STATIC9,10,190,43,9
+    COMBOBOX        IDC_OBJECT8,128,188,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ORDER8,56,188,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA8,298,188,81,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_OBJECT4,128,96,150,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PARA4,298,96,81,13,ES_AUTOHSCROLL
+    LTEXT           " ",IDC_STATIC10,10,213,43,9
+    COMBOBOX        IDC_ORDER9,56,211,72,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Next page",IDC_NEXT_BUTTON,391,30,50,14
+    PUSHBUTTON      "Prev page",IDC_PREV_BUTTON,391,55,50,14
+END
+
+IDD_OBJECT_SYMBOL DIALOG 0, 0, 204, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Symbol Property"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,142,126,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,142,146,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",IDC_STATIC,11,17,24,8
+    LTEXT           "ForeColor",IDC_STATIC,1,41,30,8
+    LTEXT           "BackColor",IDC_STATIC,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",IDC_STATIC,6,101,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,100,88,13,ES_AUTOHSCROLL
+    CONTROL         "Transparent",IDC_CHECK_TRANSPARENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,43,129,60,10
+END
+
+IDD_OBJECT_NUMBER_INPUT DIALOG 0, 0, 204, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set NumberInput Property"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,142,126,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,142,146,50,14
+    EDITTEXT        IDC_ObjectName,44,14,87,13,ES_AUTOHSCROLL
+    LTEXT           "Name:",-1,11,17,24,8
+    LTEXT           "ForeColor",-1,1,41,30,8
+    LTEXT           "BackColor",-1,0,64,39,8
+    CONTROL         "",IDC_BUTTONFORECOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,33,19,19
+    CONTROL         "",IDC_BUTTONBACKCOLOR,"Button",BS_OWNERDRAW | WS_TABSTOP,44,61,19,19
+    LTEXT           "ScanRate:",-1,6,101,34,8
+    EDITTEXT        IDC_EDIT_SCANRATE,44,100,88,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Choose Font",IDC_BUTTON_CHOOSE_FONT,44,126,50,14
+END
+
+IDD_SYSTEM_OPTION DIALOG 34, 22, 192, 128
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About FireBird DACView"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,141,84,32,14,WS_GROUP
+    LTEXT           "Debug period:",IDC_STATIC,13,17,49,8
+    EDITTEXT        IDC_SYSTEM_DEBUG_PERIOD,72,16,71,14,ES_AUTOHSCROLL
+END
+
+IDD_CHOICE_CUCP_LINK DIALOGEX 0, 0, 245, 241
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Chioce Parameter"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,99,175,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,165,175,50,14
+    COMBOBOX        IDC_COMBO_CHOICE_CUCPARAMETER,80,13,150,84,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "????:",IDC_STATIC,4,16,70,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_CHOICE_LINK, DIALOG
+    BEGIN
+        RIGHTMARGIN, 233
+    END
+
+    IDD_UNIT_QFLT, DIALOG
+    BEGIN
+    END
+
+    IDD_DIALOG_DELETE_ODYNLINK, DIALOG
+    BEGIN
+    END
+
+    IDD_OBJECT_GRAPH, DIALOG
+    BEGIN
+    END
+
+    IDD_OBJECT_GAUGE, DIALOG
+    BEGIN
+    END
+
+    IDD_UNIT_ADD, DIALOG
+    BEGIN
+    END
+
+    IDD_OBJECT_COMPOUND, DIALOG
+    BEGIN
+    END
+
+    IDD_CHOICE_CUCP_LINK, DIALOG
+    BEGIN
+        RIGHTMARGIN, 236
+        BOTTOMMARGIN, 138
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_CHOICE_LINK AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CHOICE_CUCP_LINK AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#include ""res\\DACVIEW.rc2""  // non-App Studio edited resources\r\n"
+    "\r\n"
+    "#include ""afxres.rc""  // Standard components\r\n"
+    "#include ""afxprint.rc""  // printing/print preview resources\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "RES\\CTRLBARS.ICO"
+
+IDR_VIEWTYPE            ICON                    "RES\\VIEWDOC.ICO"
+
+IDR_STRATEGYTYPE        ICON                    "RES\\IDR_STRA.ICO"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_F1,          ID_HELP,                VIRTKEY, NOINVERT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_INSERT,      ID_TOGGLE_INSERT,       VIRTKEY, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+ARROW_SMALL_4WAY        CURSOR                  "RES\\ARROW_SM.CUR"
+
+CURSOR_DYNAMIC_LINK     CURSOR                  "RES\\DYNAMIC_.CUR"
+
+NO_DRAG                 CURSOR                  "RES\\NO_DRAG.CUR"
+
+MAGNIFYING_GLASS        CURSOR                  "RES\\MAGNIFYI.CUR"
+
+COMPOUND                CURSOR                  "RES\\CURSOR1.CUR"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "FireBird software Inc."
+            VALUE "FileDescription", "DACVIEW"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "DACVIEW"
+            VALUE "LegalCopyright", "Copyright ?1995-1997"
+            VALUE "OriginalFilename", "DACVIEW.exe"
+            VALUE "ProductName", " DACVIEW"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_OBJECT_GRAPH DLGINIT
+BEGIN
+    IDC_COMBO_INPUT_TYPE, 0x403, 5, 0
+0x6f62, 0x6c6f, "\000" 
+    IDC_COMBO_INPUT_TYPE, 0x403, 8, 0
+0x6e69, 0x6574, 0x6567, 0x0072, 
+    IDC_COMBO_INPUT_TYPE, 0x403, 7, 0
+0x6f64, 0x6275, 0x656c, "\000" 
+    0
+END
+
+#endif    // 英语(美国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "res\DACVIEW.rc2"  // non-App Studio edited resources
+
+#include "afxres.rc"  // Standard components
+#include "afxprint.rc"  // printing/print preview resources
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

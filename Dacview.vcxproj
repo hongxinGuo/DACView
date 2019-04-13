@@ -1,0 +1,580 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>dacview</ProjectName>
+    <SccProjectName>"$/dacview", BAAAAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <Keyword>MFCProj</Keyword>
+    <ProjectGuid>{4EE2A70C-63CE-47A8-A6F1-1F9AEBE4D571}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\WinDebug\</OutDir>
+    <IntDir>.\WinDebug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\hxguo\source\Repos\FireBird\Source;C:\Users\hxguo\source\Repos\FireBird\Source\Objects;C:\Users\hxguo\source\Repos\FireBird\Source\Units;C:\Users\hxguo\source\Repos\FireBird;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\hxguo\source\Repos\FireBird\Source;C:\Users\hxguo\source\Repos\FireBird\Source\Objects;C:\Users\hxguo\source\Repos\FireBird\Source\Units;C:\Users\hxguo\source\Repos\FireBird;C:\Users\hxguo\source\Repos\FireBird\UnitTest;$(IncludePath)</IncludePath>
+    <OutDir>.\x64\Debug\</OutDir>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
+    <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
+    </Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Win32_Re\</OutDir>
+    <IntDir>.\Win32_Re\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\hxguo\source\Repos\FireBird\Source;C:\Users\hxguo\source\Repos\FireBird\Source\Objects;C:\Users\hxguo\source\Repos\FireBird\Source\Units;C:\Users\hxguo\source\Repos\FireBird;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\hxguo\source\Repos\FireBird\Source;C:\Users\hxguo\source\Repos\FireBird\Source\Objects;C:\Users\hxguo\source\Repos\FireBird\Source\Units;C:\Users\hxguo\source\Repos\FireBird;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level4</WarningLevel>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>NO_WARN_MBCS_MFC_DEPRECATION;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\WinDebug\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\WinDebug\Dacview.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\WinDebug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\WinDebug\</ProgramDataBaseFileName>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\WinDebug\Dacview.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\WinDebug\Dacview.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>.\WinDebug\Dacview.exe</OutputFile>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions> /SUBSYSTEM:windows,4.0</AdditionalOptions>
+      <StackReserveSize>66112</StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level4</WarningLevel>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessorDefinitions>NO_WARN_MBCS_MFC_DEPRECATION;_WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\X64\Debug\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\X64\stdafx.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\X64\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\X64\Debug\</ProgramDataBaseFileName>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <EnablePREfast>false</EnablePREfast>
+      <OpenMPSupport>false</OpenMPSupport>
+      <BrowseInformation>false</BrowseInformation>
+      <AdditionalIncludeDirectories>$(GTestDir)/include;%(AdditionalIncludeDirectories);/include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\WinDebug\Dacview.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\X64\Debug\Dacview.bsc</OutputFile>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <OutputFile>.\X64\Debug\Dacview.exe</OutputFile>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions> /SUBSYSTEM:windows</AdditionalOptions>
+      <StackReserveSize>1166112</StackReserveSize>
+      <SubSystem>Windows</SubSystem>
+      <GenerateMapFile>true</GenerateMapFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <StringPooling>true</StringPooling>
+      <PreprocessorDefinitions>NO_WARN_MBCS_MFC_DEPRECATION;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Win32_Re\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Win32_Re\Dacview.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Win32_Re\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Win32_Re\</ProgramDataBaseFileName>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Win32_Re\Dacview.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Win32_Re\Dacview.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>.\Win32_Re\Dacview.exe</OutputFile>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions> /SUBSYSTEM:windows,4.0</AdditionalOptions>
+      <StackReserveSize>132224</StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <StringPooling>true</StringPooling>
+      <PreprocessorDefinitions>NO_WARN_MBCS_MFC_DEPRECATION;_WIN64;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Win32_Re\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Win32_Re\Dacview.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Win32_Re\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Win32_Re\</ProgramDataBaseFileName>
+      <StructMemberAlignment>4Bytes</StructMemberAlignment>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Win32_Re\Dacview.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Win32_Re\Dacview.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>.\X64\Release\Dacview.exe</OutputFile>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions> /SUBSYSTEM:windows,4.0</AdditionalOptions>
+      <StackReserveSize>132224</StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="RES\ARROW_SM.CUR" />
+    <CustomBuild Include="RES\CURSOR1.CUR" />
+    <CustomBuild Include="RES\DYNAMIC_.CUR" />
+    <CustomBuild Include="RES\MAGNIFYI.CUR" />
+    <CustomBuild Include="RES\NO_DRAG.CUR" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="Res\bitmap_u.bmp" />
+    <Image Include="res\bmp00001.bmp" />
+    <Image Include="res\bmp00002.bmp" />
+    <Image Include="res\bmp00003.bmp" />
+    <Image Include="res\bmp00004.bmp" />
+    <Image Include="res\bmp00005.bmp" />
+    <Image Include="res\bmp00006.bmp" />
+    <Image Include="res\bmp00007.bmp" />
+    <Image Include="res\bmp00008.bmp" />
+    <Image Include="res\bmp00009.bmp" />
+    <Image Include="res\bmp00010.bmp" />
+    <Image Include="res\bmp00011.bmp" />
+    <Image Include="res\bmp00012.bmp" />
+    <Image Include="res\bmp00013.bmp" />
+    <Image Include="res\bmp00014.bmp" />
+    <Image Include="res\bmp00015.bmp" />
+    <Image Include="RES\CTRLBARS.ICO" />
+    <Image Include="RES\IDR_MAIN.BMP" />
+    <Image Include="RES\IDR_STRA.ICO" />
+    <Image Include="RES\OBJECT.BMP" />
+    <Image Include="RES\PALETTE.BMP" />
+    <Image Include="RES\SEQUEDOC.ICO" />
+    <Image Include="RES\STYLES.BMP" />
+    <Image Include="res\unit_and.bmp" />
+    <Image Include="res\unit_ffl.bmp" />
+    <Image Include="res\unit_hpb.bmp" />
+    <Image Include="res\unit_lib.bmp" />
+    <Image Include="res\unit_or1.bmp" />
+    <Image Include="res\unit_pul.bmp" />
+    <Image Include="Res\Viewdoc.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DACView\Source\测试用\CSQIUnitViewTest.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Source\accesory.h" />
+    <ClInclude Include="Source\CObjectPrimitive.h" />
+    <ClInclude Include="Source\DeleteDynLink.h" />
+    <ClInclude Include="Source\DlgChoiceCUCPara.h" />
+    <ClInclude Include="Source\DlgComponent.h" />
+    <ClInclude Include="Source\DlgDeleteComponent.h" />
+    <ClInclude Include="Source\CUnitDictionary.H" />
+    <ClInclude Include="Source\CUnitDynLink.H" />
+    <ClInclude Include="Source\DlgChoicePara.H" />
+    <ClInclude Include="Source\CObjComponent.h" />
+    <ClInclude Include="Source\CObjDynLink.h" />
+    <ClInclude Include="Source\DynLinkPoint.h" />
+    <ClInclude Include="Source\SQIFileDoc.h" />
+    <ClInclude Include="Source\Dacview.h" />
+    <ClInclude Include="Source\SQIObjView.h" />
+    <ClInclude Include="Source\DlgUnitDeleteDynLink.H" />
+    <ClInclude Include="Source\DlgObjDeleteDynLink.H" />
+    <ClInclude Include="Source\DIBAPI.H" />
+    <ClInclude Include="Source\DlgObjUnitDynLink.h" />
+    <ClInclude Include="Source\Globedef.h" />
+    <ClInclude Include="Source\MAINFRM.H" />
+    <ClInclude Include="Source\Objects\CObjbutton.h" />
+    <ClInclude Include="Source\Objects\CObjComponentBase.h" />
+    <ClInclude Include="Source\Objects\CObjfillbar.h" />
+    <ClInclude Include="Source\Objects\CObjgauge.h" />
+    <ClInclude Include="Source\Objects\CObjgraph.h" />
+    <ClInclude Include="Source\Objects\CObjknob.h" />
+    <ClInclude Include="Source\Objects\CObjline.h" />
+    <ClInclude Include="Source\Objects\CObjmeter.h" />
+    <ClInclude Include="Source\Objects\CObjNumInput.h" />
+    <ClInclude Include="Source\Objects\CObjectBase.h" />
+    <ClInclude Include="Source\Objects\CObjoval.h" />
+    <ClInclude Include="Source\Objects\CObjrect.h" />
+    <ClInclude Include="Source\Objects\CObjrectBase.h" />
+    <ClInclude Include="Source\Objects\CObjRoundRect.h" />
+    <ClInclude Include="Source\Objects\CObjslider.h" />
+    <ClInclude Include="Source\Objects\CObjsymbol.h" />
+    <ClInclude Include="Source\Objects\CObjtext.h" />
+    <ClInclude Include="Source\Objects\DlgObjbar.h" />
+    <ClInclude Include="Source\Objects\DlgObjButton.h" />
+    <ClInclude Include="Source\Objects\DlgObjCompd.h" />
+    <ClInclude Include="Source\Objects\DlgObjGauge.h" />
+    <ClInclude Include="Source\Objects\DlgObjGraph.h" />
+    <ClInclude Include="Source\Objects\DlgObjKnob.h" />
+    <ClInclude Include="Source\Objects\DlgObjLine.h" />
+    <ClInclude Include="Source\Objects\DlgObjMeter.h" />
+    <ClInclude Include="Source\Objects\DlgObjNumInput.h" />
+    <ClInclude Include="Source\Objects\DLGOBJECT.H" />
+    <ClInclude Include="Source\Objects\DlgObjRect.h" />
+    <ClInclude Include="Source\Objects\DlgObjRoundRect.h" />
+    <ClInclude Include="Source\Objects\DlgObjSlide.h" />
+    <ClInclude Include="Source\Objects\DlgObjSymbol.h" />
+    <ClInclude Include="Source\Objects\DlgObjText.h" />
+    <ClInclude Include="Source\FBDUnitView.H" />
+    <ClInclude Include="Source\FBDFileDoc.h" />
+    <ClInclude Include="Source\FBDFileFrame.H" />
+    <ClInclude Include="Source\FBDObjView.h" />
+    <ClInclude Include="Source\STDAFX.H" />
+    <ClInclude Include="Source\SQIUnitView.h" />
+    <ClInclude Include="Source\Typedef.h" />
+    <ClInclude Include="Source\Units\CUnitComponentPara.h" />
+    <ClInclude Include="Source\Units\CUnitComponent.h" />
+    <ClInclude Include="Source\Units\CUnitADD.H" />
+    <ClInclude Include="Source\Units\CUnitAND.H" />
+    <ClInclude Include="Source\Units\CUnitBase.h" />
+    <ClInclude Include="Source\Units\CUnitDivide.H" />
+    <ClInclude Include="Source\Units\CUnitDelay.H" />
+    <ClInclude Include="Source\Units\CUnitDelayTime.H" />
+    <ClInclude Include="Source\Units\CUnitFFLP.H" />
+    <ClInclude Include="Source\Units\CUnitHPBG.H" />
+    <ClInclude Include="Source\Units\CUnitHSEL.H" />
+    <ClInclude Include="Source\Units\CUnitInvert.H" />
+    <ClInclude Include="Source\Units\CUnitIPOP.H" />
+    <ClInclude Include="Source\Units\CUnitLSEL.H" />
+    <ClInclude Include="Source\Units\CUnitMSEL.H" />
+    <ClInclude Include="Source\Units\CUnitMultiple.H" />
+    <ClInclude Include="Source\Units\CUnitOR.H" />
+    <ClInclude Include="Source\Units\CUnitPID.H" />
+    <ClInclude Include="Source\Units\CUnitPulse.H" />
+    <ClInclude Include="Source\Units\CUnitQFLT.H" />
+    <ClInclude Include="Source\Units\CUnitQUAD.H" />
+    <ClInclude Include="Source\Units\CUnitSINE.H" />
+    <ClInclude Include="Source\Units\CUnitSwitch.H" />
+    <ClInclude Include="Source\Units\CUnitTotal.H" />
+    <ClInclude Include="Source\Units\CUnitTPO.H" />
+    <ClInclude Include="Source\Units\CUnitTTB.H" />
+    <ClInclude Include="Source\Units\CUnitXOR.H" />
+    <ClInclude Include="Source\Units\DLGUnitADD.H" />
+    <ClInclude Include="Source\Units\DLGUnitAND.H" />
+    <ClInclude Include="Source\Units\DLGUnitDIV.H" />
+    <ClInclude Include="Source\Units\DLGUnitDelay.H" />
+    <ClInclude Include="Source\Units\DLGUnitDelayTime.H" />
+    <ClInclude Include="Source\Units\DLGUnitFFLP.H" />
+    <ClInclude Include="Source\Units\DLGUnitHPBG.H" />
+    <ClInclude Include="Source\Units\DLGUnitHSEL.H" />
+    <ClInclude Include="Source\Units\DLGUnitInvert.H" />
+    <ClInclude Include="Source\Units\DLGUnitIPOP.H" />
+    <ClInclude Include="Source\Units\DLGUnitLSEL.H" />
+    <ClInclude Include="Source\Units\DLGUnitMSEL.H" />
+    <ClInclude Include="Source\Units\DLGUnitMultiple.H" />
+    <ClInclude Include="Source\Units\DLGUnitOR.H" />
+    <ClInclude Include="Source\Units\DLGUnitPID.H" />
+    <ClInclude Include="Source\Units\DLGUnitPulse.H" />
+    <ClInclude Include="Source\Units\DLGUnitQFLT.H" />
+    <ClInclude Include="Source\Units\DLGUnitQUAD.H" />
+    <ClInclude Include="Source\Units\DLGUnitSINE.H" />
+    <ClInclude Include="Source\Units\DLGUnitSwitch.H" />
+    <ClInclude Include="Source\Units\DLGUnitTOT.H" />
+    <ClInclude Include="Source\Units\DLGUnitTPO.H" />
+    <ClInclude Include="Source\Units\DLGUnitTTB.H" />
+    <ClInclude Include="Source\Units\DLGXOR.H" />
+    <ClInclude Include="Source\SQIFileFrame.h" />
+    <ClInclude Include="Source\CompileUnitList.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DACView\Source\Accesory.cpp" />
+    <ClCompile Include="DACView\Source\CHILDFRM.CPP" />
+    <ClCompile Include="DACView\Source\CObjComponent.cpp" />
+    <ClCompile Include="DACView\Source\CObjDynLink.cpp" />
+    <ClCompile Include="DACView\Source\CObjectPrimitive.cpp" />
+    <ClCompile Include="DACView\Source\CompileUnitList.cpp" />
+    <ClCompile Include="DACView\Source\CUnitDictionary.cpp" />
+    <ClCompile Include="DACView\Source\CUnitDynLink.cpp" />
+    <ClCompile Include="DACView\Source\Dacview.cpp" />
+    <ClCompile Include="DACView\Source\DeleteDynLink.cpp" />
+    <ClCompile Include="DACView\Source\DIBAPI.CPP" />
+    <ClCompile Include="DACView\Source\DlgChoiceCUCPara.cpp" />
+    <ClCompile Include="DACView\Source\DlgChoicePara.cpp" />
+    <ClCompile Include="DACView\Source\DlgComponent.cpp" />
+    <ClCompile Include="DACView\Source\DlgDeleteComponent.cpp" />
+    <ClCompile Include="DACView\Source\DlgObjDeleteDynLink.cpp" />
+    <ClCompile Include="DACView\Source\DlgObjUnitDynLink.cpp" />
+    <ClCompile Include="DACView\Source\DlgUnitDeleteDynLink.cpp" />
+    <ClCompile Include="DACView\Source\DynLinkPoint.cpp" />
+    <ClCompile Include="DACView\Source\FBDFileDoc.cpp" />
+    <ClCompile Include="DACView\Source\FBDFileFrame.CPP" />
+    <ClCompile Include="DACView\Source\FBDObjView.cpp" />
+    <ClCompile Include="DACView\Source\FBDUnitView.cpp" />
+    <ClCompile Include="DACView\Source\globedef.cpp" />
+    <ClCompile Include="DACView\Source\Mainfrm.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjbutton.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjComponentBase.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjectBase.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjfillbar.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjGauge.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjGraph.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjKnob.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjLine.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjMeter.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjNumInput.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjOval.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjRect.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjRectbase.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjRoundRect.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjSlider.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjSymbol.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjText.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjbar.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjButton.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjCompd.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObject.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjGauge.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjGraph.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjKnob.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjLine.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjMeter.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjNumInput.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjRect.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjRoundRect.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjSlide.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjSymbol.cpp" />
+    <ClCompile Include="DACView\Source\Objects\Dlgtext.cpp" />
+    <ClCompile Include="DACView\Source\SQIFileDoc.cpp" />
+    <ClCompile Include="DACView\Source\SQIFileFrame.cpp" />
+    <ClCompile Include="DACView\Source\SQIObjView.cpp" />
+    <ClCompile Include="DACView\Source\SQIUnitView.cpp" />
+    <ClCompile Include="DACView\Source\STDAFX.CPP" />
+    <ClCompile Include="DACView\Source\Units\CUnitAdd.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitAnd.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitbase.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitComponent.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitComponentPara.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitDelay.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitDelayTime.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitDiv.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitFflp.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitHpbg.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitHsel.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitInvert.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitIpop.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitLsel.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitMsel.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitMultiple.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitOr.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitPID.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitPulse.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitQflt.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitQuad.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitSine.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitSwitch.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitTotal.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitTpo.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitTTB.cpp" />
+    <ClCompile Include="DACView\Source\Units\CUnitXor.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgadd.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgand.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgdiv.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgdlay.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgdtim.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgfflp.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlghpbg.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlghsel.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlginv.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgipop.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlglsel.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgmsel.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgmulti.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgor.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgpid.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgpuls.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgqflt.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgquad.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgsine.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgswch.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgtot.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgtpo.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgttb.cpp" />
+    <ClCompile Include="DACView\Source\Units\Dlgxor.cpp" />
+    <ClCompile Include="DACView\Source\VIEWTOOL.CPP" />
+    <ClCompile Include="DACView\Source\测试用\SQIUnitViewTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DACView\dacview.RC" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets" Condition="Exists('packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets')" />
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="dacview.RC" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets'))" />
+  </Target>
+</Project>

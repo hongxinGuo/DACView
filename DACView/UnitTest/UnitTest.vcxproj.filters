@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="dependency">
+      <UniqueIdentifier>{5b11154d-daeb-45c5-866a-d0e89b85667b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test源文件">
+      <UniqueIdentifier>{2ab98a78-c6ad-4adb-af4d-5d58250ca9b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test源文件\Unit">
+      <UniqueIdentifier>{33677b14-8f1e-4c3d-9d1c-041595383f7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test源文件\Object">
+      <UniqueIdentifier>{42104848-dece-48e7-a217-208c305510a2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TestCSQIUnitView.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLoopDetect.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCunitDynLink.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestcUnitComponentPara.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestUnitComponentSetInnerDataLinkFlag.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitDictionary.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitAdd.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitBase.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitComponent.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="testCObjectPrimitive.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDynLinkPoint.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitAnd.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitDelay.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitDiv.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitDelayTime.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitFflp.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitHpbg.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitHSel.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitInvert.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitLSel.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitMSel.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitMultiple.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitOr.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitPulse.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCUnitXor.cpp">
+      <Filter>Test源文件\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObejctBase.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObjButton.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObjRectBase.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObjDynLink.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObjCompoundBase.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObjComponent.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObjFillBar.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObjGauge.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCObjKnob.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCompile.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCSQIFileDoc.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestSQIUnitViewLMouseFunction.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="XMLFile.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\..\x64\Debug\Accesory.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CHILDFRM.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjbutton.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjComponent.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjComponentBase.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjDynLink.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjectBase.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjectPrimitive.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjfillbar.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjGauge.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjGraph.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjKnob.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjLine.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjMeter.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjNumInput.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjOval.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjRect.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjRectbase.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjRoundRect.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjSlider.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjSymbol.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjText.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CompileUnitList.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitAdd.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitAnd.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitbase.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitComponent.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitComponentPara.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitDelay.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitDelayTime.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitDictionary.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitDiv.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitDynLink.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitFflp.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitHpbg.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitHsel.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitInvert.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitIpop.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitLsel.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitMsel.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitMultiple.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitOr.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitPID.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitPulse.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitQflt.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitQuad.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitSine.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitSwitch.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitTotal.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitTpo.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitTTB.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CUnitXor.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dacview.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DeleteDynLink.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DIBAPI.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgadd.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgand.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgChoiceCUCPara.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgChoicePara.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgComponent.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgDeleteComponent.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgdiv.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgdlay.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgdtim.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgfflp.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlghpbg.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlghsel.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlginv.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgipop.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlglsel.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgmsel.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgmulti.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjbar.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjButton.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjCompd.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjDeleteDynLink.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObject.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjGauge.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjGraph.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjKnob.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjLine.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjMeter.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjNumInput.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjRect.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjRoundRect.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjSlide.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjSymbol.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjUnitDynLink.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgor.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgpid.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgpuls.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgqflt.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgquad.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgsine.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgswch.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgtext.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgtot.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgtpo.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgttb.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgUnitDeleteDynLink.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Dlgxor.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DynLinkPoint.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\FBDFileDoc.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\FBDFileFrame.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\FBDObjView.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\FBDUnitView.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\globedef.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\Mainfrm.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\SQIFileDoc.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\SQIFileFrame.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\SQIObjView.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\SQIUnitView.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\SQIUnitViewTest.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\STDAFX.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\VIEWTOOL.obj">
+      <Filter>dependency</Filter>
+    </Object>
+  </ItemGroup>
+</Project>
