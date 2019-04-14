@@ -85,8 +85,8 @@ namespace DACViewTest {
 		EXPECT_EQ(-1, m_View.GetDestIndex());
 
 		m_View.SetCurrentFunction(UNIT_PRE_SELECT);
-		m_View.m_iHitTest = -1;
-		m_View.m_ptPoint.x = m_View.m_ptPoint.y = 0;
+		m_View.m_iHitTest = -1; // 没有选中焦点区域
+		m_View.m_ptPoint.x = m_View.m_ptPoint.y = 0; // 位置为0，
 		
 		// 执行mouse down
 		m_View.OnLButtonDown(0, m_View.m_ptPoint);
