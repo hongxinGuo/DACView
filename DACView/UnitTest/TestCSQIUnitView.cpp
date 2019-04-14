@@ -1,9 +1,8 @@
 #include"stdafx.h"
-
 #include"pch.h"
 
 #include"SQIUnitView.h"
-#include"SQIFileDoc.h"
+//#include"SQIFileDoc.h"
 
 #include"CSQIUnitViewTest.h"
 
@@ -39,7 +38,7 @@ namespace DACViewTest {
 			EXPECT_EQ(m_View.GetCurrentUnitList(), nullptr);
 			EXPECT_EQ(m_View.GetTopUnitList(), nullptr);
 			EXPECT_EQ(m_View.GetDoc(), nullptr);
-			EXPECT_EQ(m_View.GetCurrentFunction(), UNIT_PRE_SELECT);
+			EXPECT_EQ(m_View.GetCurrentFunction(), UNIT_PRE_SELECT );
 			EXPECT_EQ(m_View.GetCurrentUnit(), nullptr);
 			EXPECT_EQ(m_View.GetFirstUnit(), nullptr);
 			EXPECT_EQ(m_View.GetSecondUnit(), nullptr);
@@ -48,10 +47,6 @@ namespace DACViewTest {
 			EXPECT_FALSE(m_View.IsLinkIntoSrcComponnet());
 			EXPECT_EQ(m_View.GetSrcIndex(), -1);
 			EXPECT_EQ(m_View.GetDestIndex(), -1);
-			EXPECT_FALSE(m_View.IsInTestMode());
-
-			// ≥ı ºªØ≤‚ ‘◊¥Ã¨
-			m_View.SetTestModeFlag(true);
 
 			if (!cFile.Open(strFileName, CFile::modeRead)) {
 				EXPECT_FALSE(true) << "read file %s failed" << strFileName;

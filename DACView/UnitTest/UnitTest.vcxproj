@@ -36,7 +36,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\hxguo\source\Repos\FireBird\Source;C:\Users\hxguo\source\Repos\FireBird\Source\Objects;C:\Users\hxguo\source\Repos\FireBird\Source\Units;C:\Users\hxguo\source\Repos\FireBird\Source\测试用;C:\Users\hxguo\source\Repos\FireBird\UnitTest;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\DACView\Source;$(SolutionDir)\DACView\Source\Objects;$(SolutionDir)\DACView\Source\Units;$(SolutionDir)\DACView\Source\测试用;$(SolutionDir)\DACView\UnitTest;$(IncludePath)</IncludePath>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
@@ -88,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\..\x64\Debug\Accesory.obj" />
-    <Object Include="..\..\x64\Debug\CHILDFRM.obj" />
     <Object Include="..\..\x64\Debug\CObjbutton.obj" />
     <Object Include="..\..\x64\Debug\CObjComponent.obj" />
     <Object Include="..\..\x64\Debug\CObjComponentBase.obj" />
@@ -201,7 +200,6 @@
     <Object Include="..\..\x64\Debug\SQIUnitView.obj" />
     <Object Include="..\..\x64\Debug\SQIUnitViewTest.obj" />
     <Object Include="..\..\x64\Debug\STDAFX.obj" />
-    <Object Include="..\..\x64\Debug\VIEWTOOL.obj" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Dacview.vcxproj">

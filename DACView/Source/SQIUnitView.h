@@ -69,10 +69,6 @@ protected:
   void AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint ptStart, CPoint ptEnd);
   void DeleteDynLinkPointList(CPointList * plistLinkPoint);
 
-  // Implementation
-	bool IsInTestMode(void) { return mTest_fInTestMode; }
-	void SetTestModeFlag(bool fFlag) { mTest_fInTestMode = fFlag; }
-
 public:
   virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
   virtual ~CSQIUnitView();
@@ -116,10 +112,11 @@ protected:
 	virtual void		__SetTrackerRect(CRect rect) { m_pDoc->m_trackerUnit.m_rect = rect; }
 	virtual void		__SetStatusBarMessage(CString str) { SetStatusBarMessage(str); }
 
-
-	// 测试专用函数和数据
-	void SetInTestModeFlag(bool fFlag) { m_fInTestMode = fFlag; }
-	bool m_fInTestMode; // 是否处于测试状态。
+	virtual void    __DefaultOnLButtonDown(UINT nFlags, CPoint point) { CView::OnLButtonDown(nFlags, point); }
+	virtual void		__DefaultOnMouseMove(UINT nFlags, CPoint point) { CView::OnMouseMove(nFlags, point); }
+	virtual void		__DefaultOnLButtonUp(UINT nFlags, CPoint point) { CView::OnLButtonUp(nFlags, point); }
+	virtual void		__DefaultOnLButtonDblClk(UINT nFlags, CPoint point) { CView::OnLButtonDblClk(nFlags, point); }
+	virtual void		__DefaultOnRButtonUp(UINT nFlags, CPoint point ) { CScrollView::OnRButtonUp(nFlags, point); }
 
 private:
   void DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoint ptEnd);
@@ -175,9 +172,6 @@ protected:
   CPoint              m_ptSecond;
 
 	CRect								m_rectTracker;
-
-protected:
-	bool								mTest_fInTestMode;
   
 // Generated message map functions
 protected:

@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TestCSQIUnitView.cpp">
-      <Filter>Test源文件</Filter>
-    </ClCompile>
     <ClCompile Include="TestLoopDetect.cpp">
       <Filter>Test源文件</Filter>
     </ClCompile>
@@ -126,6 +123,9 @@
     <ClCompile Include="TestSQIUnitViewLMouseFunction.cpp">
       <Filter>Test源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TestCSQIUnitView.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="XMLFile.xml" />
@@ -135,9 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\..\x64\Debug\Accesory.obj">
-      <Filter>dependency</Filter>
-    </Object>
-    <Object Include="..\..\x64\Debug\CHILDFRM.obj">
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\CObjbutton.obj">
@@ -474,9 +471,6 @@
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\STDAFX.obj">
-      <Filter>dependency</Filter>
-    </Object>
-    <Object Include="..\..\x64\Debug\VIEWTOOL.obj">
       <Filter>dependency</Filter>
     </Object>
   </ItemGroup>

@@ -142,353 +142,350 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Units\DLGXOR.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Dacview.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DIBAPI.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Globedef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MAINFRM.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\STDAFX.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Typedef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjbutton.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjfillbar.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjgauge.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjgraph.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjknob.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjline.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjmeter.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjNumInput.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjoval.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjrect.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjslider.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjsymbol.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjtext.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjbar.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjButton.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjCompd.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjGauge.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjGraph.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjKnob.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjLine.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjMeter.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DLGOBJECT.H">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjRect.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjRoundRect.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjSlide.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjText.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjSymbol.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjRoundRect.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\DlgObjNumInput.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitComponent.h">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitADD.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitAND.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitDIV.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitDelay.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitDelayTime.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitFFLP.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitHPBG.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitHSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitIPOP.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitLSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitMSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitMultiple.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitOR.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitPID.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitPulse.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitQFLT.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitQUAD.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitSINE.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitSwitch.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitTOT.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitTPO.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitTTB.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\DLGUnitInvert.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CUnitDictionary.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CObjDynLink.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CUnitDynLink.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitBase.h">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DlgDeleteComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DlgObjDeleteDynLink.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DlgUnitDeleteDynLink.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DlgObjUnitDynLink.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FBDUnitView.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FBDFileDoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FBDFileFrame.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FBDObjView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SQIObjView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SQIUnitView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SQIFileFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SQIFileDoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitADD.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitAND.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitFFLP.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitHPBG.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitHSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitIPOP.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitLSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitMSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitOR.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitPID.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitPulse.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitQFLT.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitQUAD.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitSINE.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitSwitch.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitTotal.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitTPO.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitTTB.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitXOR.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjrectBase.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitDelay.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitDelayTime.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitInvert.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitMultiple.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CObjectPrimitive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitComponentPara.h">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DlgChoicePara.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DynLinkPoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CompileUnitList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Units\CUnitDivide.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjectBase.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DeleteDynLink.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Objects\CObjComponentBase.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CObjComponent.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DlgComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DlgChoiceCUCPara.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\accesory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\测试用\CSQIUnitViewTest.h">
       <Filter>测试用</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjbutton.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjComponentBase.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjectBase.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjfillbar.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjgauge.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjgraph.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjknob.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjline.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjmeter.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjNumInput.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjoval.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjrect.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjrectBase.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjRoundRect.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjslider.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjsymbol.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjtext.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\Cpicture.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjbar.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjButton.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjCompd.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DLGOBJECT.H">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjGauge.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjGraph.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjKnob.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjLine.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjMeter.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjNumInput.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjRect.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjRoundRect.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjSlide.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjSymbol.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjText.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitADD.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitAND.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitBase.h">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitComponent.h">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitComponentPara.h">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitDelay.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitDelayTime.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitDivide.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitFFLP.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitHPBG.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitHSEL.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitInvert.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitIPOP.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitLSEL.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitMSEL.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitMultiple.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitOR.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitPID.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitPulse.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitQFLT.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitQUAD.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitSINE.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitSwitch.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitTotal.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitTPO.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitTTB.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitXOR.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitADD.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitAND.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitDelay.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitDelayTime.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitDIV.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitFFLP.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitHPBG.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitHSEL.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitInvert.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitIPOP.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitLSEL.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitMSEL.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitMultiple.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitOR.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitPID.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitPulse.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitQFLT.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitQUAD.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitSINE.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitSwitch.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitTOT.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitTPO.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitTTB.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGXOR.H">
+      <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\accesory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\CObjComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\CObjDynLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\CObjectPrimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\CompileUnitList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\CUnitDictionary.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\CUnitDynLink.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Dacview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DeleteDynLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DIBAPI.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DlgChoiceCUCPara.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DlgChoicePara.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DlgComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DlgDeleteComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DlgObjDeleteDynLink.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DlgObjUnitDynLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DlgUnitDeleteDynLink.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DynLinkPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\FBDFileDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\FBDFileFrame.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\FBDObjView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\FBDUnitView.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Globedef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\MAINFRM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\SQIFileDoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\SQIFileFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\SQIObjView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\SQIUnitView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\STDAFX.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Typedef.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -744,9 +741,6 @@
     <ClCompile Include="DACView\Source\Accesory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\CHILDFRM.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\CObjComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -829,9 +823,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\STDAFX.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\VIEWTOOL.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\测试用\SQIUnitViewTest.cpp">

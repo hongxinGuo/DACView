@@ -396,7 +396,6 @@ CSQIUnitView::CSQIUnitView(void)
 	m_ulDynLinkType = 0;
 	m_ulDynLinkClass = 0;
 
-	mTest_fInTestMode = false; // 测试用变量。
 }
 
 CSQIUnitView::~CSQIUnitView()
@@ -1053,9 +1052,7 @@ void CSQIUnitView::OnLButtonDblClk(UINT nFlags, CPoint point)
     // do nothing
   }
 
-	if (!mTest_fInTestMode) {
-		CView::OnLButtonDblClk(nFlags, point);
-	}
+	__DefaultOnLButtonDblClk(nFlags, point);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1262,9 +1259,9 @@ void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
   //由于有连续动作存在（生成动态链接线时），故而不能统一使用更新窗口这个函数，只能时在不同的状态下才可能用，否则生成的动态链接线会被更新掉
   // 即ToShow这个函数不显示正在生成的动态链接线
   __ReleaseDC(pdc);
-	if (!mTest_fInTestMode) {
-		CView::OnLButtonDown(nFlags, point);
-	}
+	
+	__DefaultOnLButtonDown(nFlags, point);	
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1369,9 +1366,7 @@ void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
 
   __SetMousePosition(ptDevice);
 
-	if (!mTest_fInTestMode) {
-		CView::OnMouseMove(nFlags, point);
-	}
+	__DefaultOnMouseMove(nFlags, point);
 
 }
 
@@ -1641,9 +1636,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
   } // switch m_nCurrentFunction
 
   __ReleaseDC(pdc);
-	if (!mTest_fInTestMode) {
-		CView::OnLButtonUp(nFlags, point);
-	}
+	__DefaultOnLButtonUp(nFlags, point);
 }
 
 void CSQIUnitView::OnRButtonUp(UINT nFlags, CPoint point)
@@ -1659,7 +1652,7 @@ void CSQIUnitView::OnRButtonUp(UINT nFlags, CPoint point)
     break;
   }
 
-  if ( mTest_fInTestMode ) CScrollView::OnRButtonUp(nFlags, point);
+	__DefaultOnRButtonUp(nFlags, point);
 }
 
 void CSQIUnitView::OnEditCopy()

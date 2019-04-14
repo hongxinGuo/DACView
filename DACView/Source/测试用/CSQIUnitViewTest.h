@@ -51,9 +51,6 @@ public:
 	CRect GetSecondUnitSize(void) { return m_rectSecondUnit; }
 	CRect GetCurrentUnitSize(void) { return m_rectCurrent; }
 
-	bool IsInTestMode(void) { return CSQIUnitView::IsInTestMode(); }
-	void SetTestModeFlag(bool fFlag) { CSQIUnitView::SetTestModeFlag(fFlag); }
-
 	// 以下这些虚函数，是为了防止测试时调用系统函数
 	virtual CDC * __GetDC(void) override { return m_pDC; }
 	virtual void __OnPrepareDC(CDC * pDC)  override {  }
@@ -77,6 +74,12 @@ public:
 	virtual BOOL __MouseTrack(CSQIUnitView * pView, CPoint pt, BOOL fAllowInvert) { return(m_fMouseTrack); }
 	virtual void __SetTrackerRect(CRect rect) override { m_rectTracker = rect; }
 	virtual void __SetStatusBarMessage(CString str) override { m_strStatusBar = str; }
+
+	virtual void __DefaultOnLButtonDown(UINT nFlags, CPoint point) override { }
+	virtual void __DefaultOnMouseMove(UINT nFlags, CPoint point) override {}
+	virtual void __DefaultOnLButtonUp(UINT nFlags, CPoint point) override {}
+	virtual void __DefaultOnLButtonDblClk(UINT nFlags, CPoint point) override { }
+	virtual void __DefaultOnRButtonUp(UINT nFlags, CPoint point) override { }
 
 	//
 	void OnLButtonDown(UINT nFlags, CPoint point) {	CSQIUnitView::OnLButtonDown(nFlags, point); }

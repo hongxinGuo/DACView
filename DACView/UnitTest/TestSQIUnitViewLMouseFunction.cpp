@@ -39,10 +39,6 @@ namespace DACViewTest {
 			EXPECT_FALSE(m_View.IsLinkIntoSrcComponnet());
 			EXPECT_EQ(m_View.GetSrcIndex(), -1);
 			EXPECT_EQ(m_View.GetDestIndex(), -1);
-			EXPECT_FALSE(m_View.IsInTestMode());
-
-			// ≥ı ºªØ≤‚ ‘◊¥Ã¨
-			m_View.SetTestModeFlag(true);
 
 			if (!cFile.Open(strFileName, CFile::modeRead)) {
 				EXPECT_FALSE(true) << "read file %s failed" << strFileName;
