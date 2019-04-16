@@ -1037,7 +1037,7 @@ void CSQIUnitView::RightAlign()
 void CSQIUnitView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
   // TODO: Add your message handler code here and/or call default
-  CPoint ptDevice, ptOffset = __GetDeviceScrollPosition();
+  CPoint ptDevice, ptOffset = __GetScrollPosition();
 
   // set property
   ptDevice = ptOffset + point;
@@ -1076,7 +1076,7 @@ void CSQIUnitView::OnLButtonDblClk(UINT nFlags, CPoint point)
 void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
 {
   CRect WinRect;
-  CPoint ptOffset = __GetDeviceScrollPosition();
+  CPoint ptOffset = __GetScrollPosition();
   CDC * pdc = __GetDC();
   CRect rectScreen;
   CDlgChoiceParameter CCPDlg;
@@ -1286,7 +1286,7 @@ void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
   // TODO: Add your message handler code here and/or call default
   CDC *pdc = __GetDC();
   __OnPrepareDC(pdc);
-  CPoint ptDevice, ptOffset = __GetDeviceScrollPosition();
+  CPoint ptDevice, ptOffset = __GetScrollPosition();
   CRect rectTemp;
   CString str = "  ";
   CUnitBase * pcUnit;
@@ -1394,7 +1394,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
   __OnPrepareDC(pdc);
   CString strTemp;
   char s[20];
-  CPoint ptDevice, ptOffset = __GetDeviceScrollPosition();
+  CPoint ptDevice, ptOffset = __GetScrollPosition();
   CRect rectScreen;
 
   ptDevice = point + ptOffset;

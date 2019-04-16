@@ -57,7 +57,7 @@ public:
 	virtual void __ClearFocus(CDC *pDC) override {  }
 	virtual void __Invalidate(void) override {  }
 	virtual void __ReleaseDC(CDC *pDC) override {  }
-	virtual CPoint __GetDeviceScrollPosition() override { return(m_pt); }
+	//virtual CPoint __GetDeviceScrollPosition() override { return(m_pt); }
 	virtual void __SetMousePosition(CPoint ptDevice) override { m_pt = ptDevice; }
 	virtual void __ClipCursor(CRect * pRect) override {  }
 	virtual void __ReleaseCapture(void) override { }

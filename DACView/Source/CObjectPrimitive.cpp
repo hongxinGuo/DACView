@@ -99,7 +99,6 @@ void CObjectPrimitive::Serialize( CArchive& ar ) {
 /////////////////////////////////////////////////////////////////////////////////////
 CString CObjectPrimitive::GetName(void)
 {
-  // TODO: 在此处插入 return 语句
   return(m_strName);
 }
 

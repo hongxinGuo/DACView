@@ -93,7 +93,7 @@ protected:
   virtual void		__ClearFocus(CDC *pDC) { ClearFocus(pDC); }
   virtual void		__Invalidate(void) { Invalidate(); }
   virtual void		__ReleaseDC(CDC *pDC) { ReleaseDC(pDC); }
-  virtual CPoint	__GetDeviceScrollPosition() { return(GetDeviceScrollPosition());}
+  //virtual CPoint	__GetDeviceScrollPosition() { return(GetDeviceScrollPosition());}
   virtual void		__SetMousePosition(CPoint ptDevice) { SetMousePosition(ptDevice); }
   virtual void		__ClipCursor(CRect * pRect) { ClipCursor(pRect); }
   virtual void		__ReleaseCapture(void) { ReleaseCapture(); }
