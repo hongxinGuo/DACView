@@ -81,9 +81,6 @@
     <ClCompile Include="TestSQIUnitViewLMouseFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="XMLFile.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

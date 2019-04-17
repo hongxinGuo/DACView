@@ -11,6 +11,7 @@
            
 #include "CUnitBase.h" 
 #include "cUnitComponent.h"
+#include"DlgChoicePara.h"
 
 
 enum {
@@ -117,6 +118,8 @@ protected:
 	virtual void		__DefaultOnLButtonUp(UINT nFlags, CPoint point) { CView::OnLButtonUp(nFlags, point); }
 	virtual void		__DefaultOnLButtonDblClk(UINT nFlags, CPoint point) { CView::OnLButtonDblClk(nFlags, point); }
 	virtual void		__DefaultOnRButtonUp(UINT nFlags, CPoint point ) { CScrollView::OnRButtonUp(nFlags, point); }
+
+	virtual INT_PTR __DlgChoicePara(CDlgChoiceParameter* Dlg) { return Dlg->DoModal(); }
 
 private:
   void DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoint ptEnd);

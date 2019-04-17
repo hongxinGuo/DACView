@@ -2760,7 +2760,7 @@ void CSQIUnitView::OnArrangeMakedynlink()
   }
   else { // 简单单元或者封装后的部件
     m_pCUnitFirst->PrepareParaDictionary(CCPDlg.GetDicList(), tMODIFIABLE | tOUTPUT | tDOUBLE | tBOOL | tWORD | tSTRING);
-    switch (CCPDlg.DoModal()) { // 选择参数
+    switch (__DlgChoicePara(&CCPDlg)) { // 选择参数
     case IDOK: // 成功
       m_lSrcIndex = m_pCUnitFirst->GetIndex(CCPDlg.GetIndex()); // 当前参数的位置
       m_ulDynLinkType = m_pCUnitFirst->GetDynLinkType(m_lSrcIndex); // 当前参数的类型

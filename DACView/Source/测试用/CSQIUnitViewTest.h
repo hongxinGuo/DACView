@@ -81,6 +81,10 @@ public:
 	virtual void __DefaultOnLButtonDblClk(UINT nFlags, CPoint point) override { }
 	virtual void __DefaultOnRButtonUp(UINT nFlags, CPoint point) override { }
 
+	virtual INT_PTR __DlgChoicePara(CDlgChoiceParameter* Dlg) override { return IDOK; }
+
+
+
 	//
 	void OnLButtonDown(UINT nFlags, CPoint point) {	CSQIUnitView::OnLButtonDown(nFlags, point); }
 	void OnMouseMove(UINT nFlags, CPoint point) { CSQIUnitView::OnMouseMove(nFlags, point); }
