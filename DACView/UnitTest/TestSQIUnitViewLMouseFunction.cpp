@@ -265,7 +265,8 @@ namespace DACViewTest {
 		// 动作结束
 	}
 
-	//测试选中单元后成功进行动态链接.单元（UnitOr_4,位置218，249)与单元(UnitAnd_7,位置414，266)之间，中间进行一次动态链接线的选定（位置418,240)
+	// 测试选中单元后成功进行动态链接.单元（UnitOr_4,位置218，249)与单元(UnitAnd_7,位置414，266)之间，
+	// 中间进行一次动态链接线的选定（位置418,240)
 	TEST_F(TestSQIUnitViewMouseLButton, LButtonTestUnitDynLinkToUnit) {
 		CPoint pt;
 
