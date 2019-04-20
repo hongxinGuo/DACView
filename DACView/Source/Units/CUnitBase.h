@@ -311,7 +311,7 @@ protected:
 
 	INT32			m_lLinkToComponent;		// 本单元输出到部件的动态链接数量.仅显示时使用。
   INT32     m_lLinkFromComponent;  // 本单元从部件联入的动态链接数量，仅显示时使用。
-	INT64     m_lLinkFromObject;			// 本单元从Object联入的动态链接数量，仅显示时使用。
+	INT32     m_lLinkFromObject;			// 本单元从Object联入的动态链接数量，仅显示时使用。
 
   // 测试用变量
 public:

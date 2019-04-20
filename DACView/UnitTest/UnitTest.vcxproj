@@ -238,6 +238,7 @@
       <BrowseInformation>false</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
