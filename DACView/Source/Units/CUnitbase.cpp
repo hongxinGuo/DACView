@@ -123,6 +123,7 @@ CUnitBase::CUnitBase(const CString& Name, CPoint pt): CObjectPrimitive(Name) {
 
 	m_lLinkToComponent = 0;
   m_lLinkFromComponent = 0;
+	m_lLinkFromObject = 0;
 
   m_fOverFlow = false;
 
@@ -149,6 +150,7 @@ CUnitBase::CUnitBase( void ) : CObjectPrimitive() {
 
 	m_lLinkToComponent = 0;
   m_lLinkFromComponent = 0;
+	m_lLinkFromObject = 0;
 
   m_fOverFlow = false;
 
@@ -315,6 +317,17 @@ void CUnitBase::LinkFromComponent(bool fFlag)
       m_lLinkFromComponent--;
     }
   }
+}
+
+void CUnitBase::SetLinkFromObjectFlag(bool fFlag) {
+	if (fFlag == true) {
+		m_lLinkFromObject++;
+	}
+	else {
+		if (m_lLinkFromObject > 0) { //如果没有链接时，则什么事情都不要做(似乎应该报错）
+			m_lLinkFromObject--;
+		}
+	}
 }
 
 ULONG	CUnitBase::HowManyLinkToComponent(void) {
@@ -1019,10 +1032,12 @@ bool CUnitBase::SetParameterSelected(ULONG ulIndex, bool fSelected) {
     if (fSelected == true) {		// 设置已选择标志
       ASSERT(m_pfSelected[ulIndex] == false); // 不允许二次设置，输入型参数只能链接一次
       m_pfSelected[ulIndex] = true;
+			SetLinkFromObjectFlag(true);
     }
     else {		// 清除已选择标志
       ASSERT(m_pfSelected[ulIndex] == true);
       m_pfSelected[ulIndex] = false;
+			SetLinkFromObjectFlag(false);
     }
     return(true);
   }
@@ -1217,6 +1232,16 @@ void CUnitBase::ToShow( CDC * const pdc ) {
 		rect.top = m_rectArea.bottom - 8;
 		rect.left = m_rectArea.left;
 		rect.bottom = m_rectArea.bottom;
+		rect.right = m_rectArea.left + 8;
+		pdc->FillRect(rect, &brhBlue);
+	}
+
+	// 如果存在从Object处联入数据，则显示一个蓝色方块于左边中部
+	if (IsLinkFromObject()) {
+		CBrush brhBlue(RGB(0, 0, 255));
+		rect.top = (m_rectArea.bottom + m_rectArea.top)/2 - 4;
+		rect.left = m_rectArea.left;
+		rect.bottom = rect.top + 8;
 		rect.right = m_rectArea.left + 8;
 		pdc->FillRect(rect, &brhBlue);
 	}

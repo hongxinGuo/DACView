@@ -441,15 +441,15 @@ void CDynamicLinkDlg::OnOK()
   if ( m_pCTag != nullptr ) UpdateDynLink(m_pCTag); // restore variable
 
 	POSITION po, poNew;
-	INT_PTR i, iTotal = m_listDynLink->GetCount();
-	INT_PTR j, jTotal = m_listNewDynLink->GetCount();
+	INT_PTR iTotal = m_listDynLink->GetCount();
+	INT_PTR jTotal = m_listNewDynLink->GetCount();
 	ULONG ulObjIndex, ulNewObjIndex, ulUnitIndex, ulNewUnitIndex;
 	CUnitBase * pUnit, *pNewUnit;
 	CObjectDynLink * pDynLink, *pNewDynLink;
 
 	// 清除原来的输入连接标志.
 	poNew = m_listNewDynLink->GetHeadPosition();
-	for ( j = 0; j < jTotal; j++ ) {
+	for ( int j = 0; j < jTotal; j++ ) {
 		pNewDynLink = m_listNewDynLink->GetNext( poNew );
 		ulNewObjIndex = pNewDynLink->GetObjectIndex();
 		pNewUnit = pNewDynLink->GetUnit();
@@ -462,7 +462,7 @@ void CDynamicLinkDlg::OnOK()
 
 	// 设置新的输入连接标志.
 	po = m_listDynLink->GetHeadPosition();
-	for ( i = 0; i < iTotal; i++ ) {
+	for ( int i = 0; i < iTotal; i++ ) {
 		pDynLink = m_listDynLink->GetNext( po );
 		ulObjIndex = pDynLink->GetObjectIndex();
 		pUnit = pDynLink->GetUnit();
@@ -473,7 +473,7 @@ void CDynamicLinkDlg::OnOK()
 	}
 
 	poNew = m_listNewDynLink->GetHeadPosition();
-	for ( j = 0; j < jTotal; j++ ) {
+	for ( int j = 0; j < jTotal; j++ ) {
 		pNewDynLink = m_listNewDynLink->GetNext( poNew );
 		delete pNewDynLink;
 	}

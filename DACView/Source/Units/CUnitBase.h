@@ -64,6 +64,12 @@ public:
 	// 设置参数连入包含本单元的部件标志.
 	void							LinkToComponent( bool fFlag // 连入为真,取消连入为假.
 																		);
+
+	// 是否本单元从Object处联入数据
+	bool							IsLinkFromObject(void) { return m_lLinkFromObject; }
+	// 设置从Object处联入数据数量
+	void							SetLinkFromObjectFlag(bool fFlag  // 联入为真，取消联入为假
+																					);
 	// 有多少参数连入部件.
 	ULONG							HowManyLinkToComponent( void );
 
@@ -293,6 +299,7 @@ protected :
 	INT32 		  m_lExectivePriority;	// 单元的执行优先值,用于确定执行顺序,1最优先.
 
 // No Serialized Data
+protected:
 	CUnitComponent * m_pUnitComponentUpper;	// 指向包含本单元的复合单元,nullptr如果没有.
 	CUnitList *     m_pUnitListUpper;	// 指向上层部件(或者就是本SQI文件)的单元序列
 
@@ -304,6 +311,7 @@ protected :
 
 	INT32			m_lLinkToComponent;		// 本单元输出到部件的动态链接数量.仅显示时使用。
   INT32     m_lLinkFromComponent;  // 本单元从部件联入的动态链接数量，仅显示时使用。
+	INT64     m_lLinkFromObject;			// 本单元从Object联入的动态链接数量，仅显示时使用。
 
   // 测试用变量
 public:
