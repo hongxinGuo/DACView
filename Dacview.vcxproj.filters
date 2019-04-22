@@ -123,6 +123,93 @@
     <Image Include="RES\OBJECT.BMP">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="DACView\RES\IDR_MAIN.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bitmap_u.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\RES\OBJECT.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\RES\STYLES.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\unit_lib.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\unit_and.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00001.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00002.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\unit_pul.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00004.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00005.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\unit_or1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00006.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00007.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00008.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00009.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00010.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\unit_ffl.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\unit_hpb.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00011.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00012.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00013.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00014.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00003.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\res\bmp00015.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\RES\CTRLBARS.ICO">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\RES\VIEWDOC.ICO">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\RES\IDR_STRA.ICO">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="RES\ARROW_SM.CUR">
@@ -837,5 +924,20 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="README .MD" />
+    <None Include="DACView\RES\ARROW_SM.CUR">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DACView\RES\DYNAMIC_.CUR">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DACView\RES\NO_DRAG.CUR">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DACView\RES\MAGNIFYI.CUR">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DACView\RES\CURSOR1.CUR">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

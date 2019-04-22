@@ -33,7 +33,7 @@ public:
 public:          
 	CString 				GetUnitName( void ) const;
 	CUnitBase*			GetUnit( void ) const ;
-  CObjectBase *		GetObjectPtr( void ) const ;
+  CObjectBase *		GetObject( void ) const ;
 	INT32						GetUnitIndex( void ) const ;
 	INT32						GetObjectIndex( void ) const ;
 	ULONG						GetLinkMethod( void ) const ;

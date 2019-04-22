@@ -69,7 +69,6 @@ CObjectPrimitive::CObjectPrimitive( void ) : CObject() {
 }
 
 CObjectPrimitive::~CObjectPrimitive() { 
-
   if (m_pfSelected != nullptr) { // 此变量必须被派生类初始化
     delete []m_pfSelected;
   }

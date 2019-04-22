@@ -34,14 +34,11 @@ CObjectDynLink::CObjectDynLink( void ) : CObjectPrimitive() {
 CObjectDynLink::~CObjectDynLink() {
 } 
 
-/*
-  Save or Retrieve Dynamic Link List.
-  (Since m_pCUnit point to the CUnitBase's address
-  was changed when it been Retrieve from disk file, so can't simply save
-  pointer m_pCUnit. We must save pointer
-  m_pCUnit point to the CUnitBase's TagName.) -- obsolete now
-  直接存储单元指针即可，系统会自动完成其他的工作。
-*/
+////////////////////////////////////////////////////////////////////////
+//
+//  直接存储单元指针即可，系统会自动完成其他的工作。
+//
+////////////////////////////////////////////////////////////////////////
 void CObjectDynLink::Serialize( CArchive& ar ) {
   CObjectPrimitive::Serialize( ar );
   INT32 a;
@@ -66,7 +63,7 @@ void CObjectDynLink::Copy( CObjectDynLink * pDynLink ) {
 	m_strUnitName			= pDynLink->m_strUnitName;
 	m_lUnitIndex			= pDynLink->m_lUnitIndex;
 	m_lObjectIndex		= pDynLink->m_lObjectIndex;
-	m_lLinkMethod		= pDynLink->m_lLinkMethod;
+	m_lLinkMethod			= pDynLink->m_lLinkMethod;
 	m_fUnitToObject		= pDynLink->m_fUnitToObject;
 	m_strComment			= pDynLink->m_strComment;
 	m_pCUnit					= pDynLink->m_pCUnit;
@@ -105,7 +102,7 @@ CUnitBase * CObjectDynLink::GetUnit( void ) const {
   return( m_pCUnit );
 }
 
-CObjectBase * CObjectDynLink::GetObjectPtr( void ) const {
+CObjectBase * CObjectDynLink::GetObject( void ) const {
   return( m_pCObject );
 }
      
