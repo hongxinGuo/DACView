@@ -32,8 +32,21 @@ public:
 	virtual	void Dump(CDumpContext& dc) const override;
 #endif
 
+// globe static data declaration
+private:
+	static INT32 sm_aulSuitable[2];
+
+	static const CString  sm_cstrClassName;
+	static ParaName 			sm_ptrParaName[];
+	static const ULONG    sm_ulDoubleEnd;
+	static const ULONG    sm_ulWordEnd;
+	static const ULONG    sm_ulStringEnd;
+
 protected:
-	CString m_strShowName;          
+	CString m_strShowName;    
+
+
+
 	
 };
 

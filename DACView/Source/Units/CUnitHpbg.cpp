@@ -50,12 +50,10 @@ CUnitHighPassBargin::CUnitHighPassBargin(const CString& Name, CPoint pt): CUnitB
   m_fAlarmHigh = 1;
   m_fAlarm = 0;
 
-  m_pfSelected = new bool[7];
-  for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitHighPassBargin::CUnitHighPassBargin( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -69,15 +67,14 @@ CUnitHighPassBargin::CUnitHighPassBargin( void ) : CUnitBase() {
   m_fAlarmHigh = 1;
   m_fAlarm = 0;
 
-  m_pfSelected = new bool[7];
-  for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitHighPassBargin::~CUnitHighPassBargin() {
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitHighPassBargin::Serialize( CArchive& ar ) {
   INT64 a, b, c;
@@ -99,13 +96,13 @@ void CUnitHighPassBargin::Serialize( CArchive& ar ) {
 
 bool CUnitHighPassBargin::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 7));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitHighPassBargin::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

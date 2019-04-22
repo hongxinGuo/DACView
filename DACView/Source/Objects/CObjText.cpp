@@ -11,28 +11,38 @@ IMPLEMENT_SERIAL(CObjectText, CObjRectBase, 1 | VERSIONABLE_SCHEMA);
 static char THIS_FILE[] = __FILE__;
 #endif   
 
+ParaName CObjectText::sm_ptrParaName[] =
+{ {"Content", tINPUT | tMODIFIABLE | tSTRING,  0},
+	{""     , 0, 1},
+};
+
+INT32 CObjectText::sm_aulSuitable[] = { -1, -1 };
+
+const ULONG CObjectText::sm_ulDoubleEnd = 0;
+const ULONG CObjectText::sm_ulWordEnd = 0;
+const ULONG CObjectText::sm_ulStringEnd = 1;
+
+
 CObjectText::CObjectText( CString s, CRect r ) : CObjRectBase( s, r ) {
 	m_strShowName = s;
   m_fCreateMemoryDC = FALSE;
 
-  m_pfSelected = new bool[2];
-  for (int i = 0; i < 2; i++) {
-    m_pfSelected[i] = FALSE;
-  }
-
-}  
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CObjectText::CObjectText( void ) : CObjRectBase( ) {
   m_fCreateMemoryDC = FALSE;
 
-  m_pfSelected = new bool[2];
-  for (int i = 0; i < 2; i++) {
-    m_pfSelected[i] = FALSE;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 													  
 CObjectText::~CObjectText( ) {
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+
 }  
 
 /////////////////////////////////////////////////////////////////////////////

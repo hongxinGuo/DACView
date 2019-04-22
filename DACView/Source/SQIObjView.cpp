@@ -32,7 +32,7 @@
 
 #include "cObjText.h"
 
-#include "cObjRect.h"
+#include "cObjectRect.h"
 #include "cObjRoundRect.h"
 #include "cObjOval.h" 
 

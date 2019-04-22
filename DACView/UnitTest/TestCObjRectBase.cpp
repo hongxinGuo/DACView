@@ -24,35 +24,10 @@ namespace DACViewTest {
     EXPECT_TRUE(c.IsRectShape());
   }
 
-  TEST(TestCObjRectBase, TestGetParaName) {
-    CObjRectBase c;
-    EXPECT_STREQ("Visibility", c.GetParaName(0));
-    EXPECT_STREQ("Height", c.GetParaName(1));
-    EXPECT_STREQ("Width", c.GetParaName(2));
-    EXPECT_STREQ("BackColor", c.GetParaName(3));
-    EXPECT_STREQ("ForeColor", c.GetParaName(4));
-    EXPECT_STREQ("Title", c.GetParaName(5));
-  }
-
-  TEST(TestCObjRectBase, TestGetDynLinkType) {
-    CObjRectBase c;
-    EXPECT_EQ(tBOOL, c.GetDynLinkType(0));
-    EXPECT_EQ(tWORD | tDOUBLE, c.GetDynLinkType(1));
-    EXPECT_EQ(tWORD | tDOUBLE, c.GetDynLinkType(2));
-    EXPECT_EQ(tWORD, c.GetDynLinkType(3));
-    EXPECT_EQ(tWORD, c.GetDynLinkType(4));
-    EXPECT_EQ(tBOOL | tWORD | tDOUBLE | tSTRING, c.GetDynLinkType(5));
-  }
-
-  TEST(TestCObjRectBase, TestCanInSymbol) {
-    CObjRectBase c;
-    EXPECT_TRUE(c.CanInSymbol());
-  }
-
-  TEST(TestCObjRectBase, TestIsRectShape) {
-    CObjRectBase c;
-    EXPECT_TRUE(c.IsRectShape());
-  }
+	TEST(TestCOjbRectBase, TestIsRectShape) {
+		CObjRectBase c;
+		EXPECT_TRUE(c.IsRectShape());
+	}
 
   TEST(TestCObjRectBase, TestIsTransparent) {
     CObjRectBase c;

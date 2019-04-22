@@ -24,22 +24,6 @@ COLORREF rgbArray[16] = {	RGB(0, 0, 0), RGB(32, 32, 32), RGB(64, 64, 64), RGB(96
 
 												};	
 
-ParaName CObjRectBase::sm_ptrParaName[] = 
-    { {"Visibility", tINPUT | tMODIFIABLE | tBOOL, 0},
-      {"Height", tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  1}, 
-      {"Width",  tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  2},
-      {"BackColor",tINPUT | tMODIFIABLE | tWORD,  3}, 
-      {"ForeColor",tINPUT | tMODIFIABLE | tWORD,  4}, 
-      {"Title", tINPUT | tMODIFIABLE | tDOUBLE | tWORD | tBOOL | tSTRING,  5},
-      {""     , 0, 6},
-    }; 
-    
-INT32 CObjRectBase::sm_aulSuitable[] = { -1, -1, -1, -1, -1, -1, -1};
-
-const ULONG CObjRectBase::sm_ulDoubleEnd = 0;
-const ULONG CObjRectBase::sm_ulBoolEnd   = 1;
-const ULONG CObjRectBase::sm_ulWordEnd   = 4;
-const ULONG CObjRectBase::sm_ulStringEnd = 5;                    
 
 CObjRectBase::CObjRectBase(const CString& Name, const CRect& Area,
                          COLORREF BkGrd, COLORREF ForeGrd)
@@ -50,12 +34,6 @@ CObjRectBase::CObjRectBase(const CString& Name, const CRect& Area,
   dm_strName = Name;
   dm_clrBkGrd  = BkGrd;
   dm_clrForeGrd = ForeGrd;
-
-  m_pfSelected = new bool[6];
-  for (int i = 0; i < 6; i++) {
-    m_pfSelected[i] = false;
-  }
-
 }      
 
 CObjRectBase::CObjRectBase( void ) : CObjectBase() { 
@@ -66,18 +44,9 @@ CObjRectBase::CObjRectBase( void ) : CObjectBase() {
   m_rectArea = m_rectLastTime = m_rectOrigin = rectTemp;
   m_clrBkGrd = RGB(0, 0, 0);
   m_clrForeGrd = RGB(255, 255, 255);
-
-
-  m_pfSelected = new bool[6];
-  for (int i = 0; i < 6; i++) {
-    m_pfSelected[i] = false;
-  }
-
 }
 
 CObjRectBase::~CObjRectBase() {
-  delete[] m_pfSelected;
-  m_pfSelected = nullptr;
 }
 
 bool CObjRectBase::IsRectShape( void ) {
@@ -275,45 +244,6 @@ bool CObjRectBase::ExectiveDynLink( void ) {
   }
   		  
 	return( TRUE );
-}
-
-ParaName* CObjRectBase::GetParaNameAddress( void ) {
-  return( sm_ptrParaName );
-}     
-
-CString CObjRectBase::GetParaName( ULONG index ) {
-	ASSERT( index <= CObjRectBase::sm_ulStringEnd );
-	return( CObjRectBase::sm_ptrParaName[index].Name );
-}
-
-ULONG CObjRectBase::GetDynLinkType(ULONG ulIndex) {
-  return(sm_ptrParaName[ulIndex].ulType & (tBOOL | tWORD | tDOUBLE | tSTRING));
-}
-
-void CObjRectBase::SelectParameter(ULONG ulType) {
-  int i = 0;
-  int j = 0;
-
-  for (int k = 0; k <= sm_ulStringEnd; k++) {
-    sm_aulSuitable[k] = -1;
-  }
-  while ( sm_ptrParaName[i].ulType != 0 ) {
-    if ( (sm_ptrParaName[i].ulType | ulType) == sm_ptrParaName[i].ulType ) {
-			if ( ulType & tINPUT ) {
-				if ( m_pfSelected[i] == FALSE ) {
-      		sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
-				}
-			}
-			else {
-				sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
-			}
-    } 
-    i++;
-  }
-}
-
-INT32 CObjRectBase::GetIndex( ULONG ulIndex ) {
-	return( CObjRectBase::sm_aulSuitable[ulIndex] );
 }
 
 bool CObjRectBase::SetRectPosition(ULONG index, LONG lValue) {

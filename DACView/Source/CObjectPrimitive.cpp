@@ -53,7 +53,6 @@ CObjectPrimitive::CObjectPrimitive(const CString& Name)
 
   m_lReserved1 = m_lReserved2 = 0;
 
-  m_pfSelected = nullptr;
 }      
 
 CObjectPrimitive::CObjectPrimitive( void ) : CObject() {
@@ -65,13 +64,10 @@ CObjectPrimitive::CObjectPrimitive( void ) : CObject() {
 
   m_lReserved1 = m_lReserved2 = 0;
   
-  m_pfSelected = nullptr;
 }
 
 CObjectPrimitive::~CObjectPrimitive() { 
-  if (m_pfSelected != nullptr) { // 此变量必须被派生类初始化
-    delete []m_pfSelected;
-  }
+
 } 
 
 void CObjectPrimitive::Serialize( CArchive& ar ) {

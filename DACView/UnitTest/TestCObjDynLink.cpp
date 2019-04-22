@@ -2,7 +2,7 @@
 #include"pch.h"
 
 #include "CObjDynLink.h"
-#include"CObjRectBase.h"
+#include"CObjectRect.h"
 #include"CUnitAdd.h"
 
 #ifdef _DEBUG
@@ -39,7 +39,7 @@ namespace DACViewTest {
   TEST(TestCObjectDynLink, TestGetAndSet) {
     CObjectDynLink cODL;
     CUnitAdd cu;
-    CObjRectBase co;
+    CObjectRect co;
 
     cu.SetName("asdf");
     cODL.SetUnit(&cu);

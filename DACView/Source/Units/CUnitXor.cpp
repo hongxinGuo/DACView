@@ -49,12 +49,10 @@ CUnitXor::CUnitXor(const CString& Name, CPoint pt): CUnitBase(Name, pt) {
   m_fAlarmHigh = true;
   m_fAlarm = false;
 
-  m_pfSelected = new bool[7];
-  for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitXor::CUnitXor( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -68,14 +66,13 @@ CUnitXor::CUnitXor( void ) : CUnitBase() {
   m_fAlarmHigh = true;
   m_fAlarm = false;
 
-  m_pfSelected = new bool[7];
-  for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitXor::~CUnitXor() {
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
 } 
                               
 void CUnitXor::Serialize( CArchive& ar ) {
@@ -97,13 +94,13 @@ void CUnitXor::Serialize( CArchive& ar ) {
 
 bool CUnitXor::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 7));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitXor::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

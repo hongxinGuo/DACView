@@ -79,10 +79,9 @@ CUnitComponent::CUnitComponent(const CString& Name, CPoint pt, bool fEncapsualti
 
   m_lInputParaNumber = m_lOutputParaNumber = 0;
 
-  m_pfSelected = new bool[16];
-  for (int i = 0; i < 16; i++) {
-    m_pfSelected[i] = false;
-  }
+	for (int i = 0; i < 16; i++) {
+		m_vfSelected.push_back(false);
+	}
 
 }
 
@@ -104,11 +103,9 @@ CUnitComponent::CUnitComponent(bool fEncapsualtionPermitted) : CUnitBase() {
 
   m_lInputParaNumber = m_lOutputParaNumber = 0;
 
-  m_pfSelected = new bool[16];
-  for (int i = 0; i < 16; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < 16; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitComponent::CUnitComponent( void ) : CUnitBase() {
@@ -129,11 +126,9 @@ CUnitComponent::CUnitComponent( void ) : CUnitBase() {
 
   m_lInputParaNumber = m_lOutputParaNumber = 0;
 
-  m_pfSelected = new bool[64];
-  for (int i = 0; i < 64; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < 16; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitComponent::~CUnitComponent() {
@@ -161,6 +156,8 @@ CUnitComponent::~CUnitComponent() {
   m_CUnitList100MS.RemoveAll();
   m_CUnitList1Second.RemoveAll();
   m_CUnitList1Minute.RemoveAll();
+	
+	ASSERT(m_vfSelected.size() == 16);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -243,13 +240,13 @@ void CUnitComponent::Serialize( CArchive& ar ) {
 
 bool CUnitComponent::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 16));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitComponent::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 16; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 
@@ -931,13 +928,13 @@ bool CUnitComponent::SetParameterLock(ULONG ulIndex, bool fSelected) {
   ASSERT(m_pInterfacePara[ulIndex]->IsLinked());
   if ((m_pInterfacePara[ulIndex]->GetParaType() & tINPUT)) { // 如果此参数为数据输入类型，则设置参数锁
     if (fSelected == true) {		// 设置已选择标志
-      ASSERT(m_pfSelected[ulIndex] == false);
-      m_pfSelected[ulIndex] = true;
+      ASSERT(m_vfSelected[ulIndex] == false);
+      m_vfSelected[ulIndex] = true;
       m_lDynLinkToNumber++; // 本单元做为目的单元的数量增一
     }
     else {		// 清除已选择标志
-      ASSERT(m_pfSelected[ulIndex] == true);
-      m_pfSelected[ulIndex] = false;
+      ASSERT(m_vfSelected[ulIndex] == true);
+      m_vfSelected[ulIndex] = false;
       m_lDynLinkToNumber--; // 本单元做为目的单元的数量减一
       ASSERT(m_lDynLinkToNumber >= 0); 
     }
@@ -968,12 +965,12 @@ bool CUnitComponent::SetParameterSelected(ULONG ulIndex, bool fSelected) {
   ASSERT(m_pInterfacePara[ulIndex]->IsLinked());
   if ((m_pInterfacePara[ulIndex]->GetParaType() & tINPUT)) { // 如果此参数为数据输入类型，则设置参数锁
     if (fSelected == true) {		// 设置已选择标志
-      ASSERT(m_pfSelected[ulIndex] == false);
-      m_pfSelected[ulIndex] = true;
+      ASSERT(m_vfSelected[ulIndex] == false);
+      m_vfSelected[ulIndex] = true;
     }
     else {		// 清除已选择标志
-      ASSERT(m_pfSelected[ulIndex] == true);
-      m_pfSelected[ulIndex] = false;
+      ASSERT(m_vfSelected[ulIndex] == true);
+      m_vfSelected[ulIndex] = false;
     }
     return(true);
   }
@@ -1887,7 +1884,7 @@ bool CUnitComponent::SetMyselfExectivePriority( void ) {
   ASSERT(m_fCompiled); // 如果是编译上层部件或者整体文件，则需要决定本部件的执行优先级（永远为真)
   for (int i = 0; i < 16; i++) {
     if (m_pInterfacePara[i]->IsLinked()) {
-      if (((m_pInterfacePara[i]->GetParaType()) & tINPUT) && (m_pfSelected[i] == true)) { // 输入型参数且存在源单元：只从上层单元序列中找
+      if (((m_pInterfacePara[i]->GetParaType()) & tINPUT) && (m_vfSelected[i] == true)) { // 输入型参数且存在源单元：只从上层单元序列中找
         if ((m_pInterfacePara[i]->GetSrcUnit())->GetExectivePriority() > m_lExectivePriority) {
           m_lExectivePriority = (m_pInterfacePara[i]->GetSrcUnit())->GetExectivePriority();    
           m_lExectivePriority++; //本部件的执行优先级要比最大的输入单元的执行优先级多一级(如果部件为没有联入源单元，则执行优先级为2）。
@@ -2176,7 +2173,7 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
   case tMODIFIABLE : // 选择所有的参数，用于Object与Unit生成动态链接
     for (int i = 0; i < 16; i++) {		// 共16个参数
       if (m_pInterfacePara[i]->IsLinked()) {
-        if ((m_pInterfacePara[i]->GetDynLinkType() & ulType) && (m_pfSelected[i] == false)) { // 被写入的参数不允许与Object发生数据链接
+        if ((m_pInterfacePara[i]->GetDynLinkType() & ulType) && (m_vfSelected[i] == false)) { // 被写入的参数不允许与Object发生数据链接
           m_aulSuitable[j++] = i;
           pDic = new CUnitDictionary(this, i, ulType);
           CListDic.AddTail(pDic);
@@ -2188,7 +2185,7 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
     for (int i = 0; i < 16; i++) {		// 共16个参数
       if (m_pInterfacePara[i]->IsLinked()) {
         if ((m_pInterfacePara[i]->GetParaType() | ulType) == m_pInterfacePara[i]->GetParaType()) {
-          if (m_pfSelected[i] == false) { // 被写入参数必须没有链接源单元
+          if (m_vfSelected[i] == false) { // 被写入参数必须没有链接源单元
             m_aulSuitable[j++] = i;
             pDic = new CUnitDictionary(this, i, ulType);
             CListDic.AddTail(pDic);

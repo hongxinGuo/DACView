@@ -215,7 +215,7 @@ ULONG CObjectBase::GetDynLinkType(ULONG ) {
 
 bool CObjectBase::SetParameterSelected(ULONG ulIndex, bool fSelected)
 {
-  m_pfSelected[ulIndex] = fSelected;
+  m_vfSelected[ulIndex] = fSelected;
   return true;
 }
 
@@ -269,7 +269,7 @@ bool CObjectBase::SetParameterSelected(void) {
       pODL->GetUnit()->SetParameterSelected(pODL->GetUnitIndex(), true);
     }
     if (ulParaType & tOUTPUT) { // Object参数为输入型
-      m_pfSelected[pODL->GetObjectIndex()] = true;
+      m_vfSelected[pODL->GetObjectIndex()] = true;
     }
   }
   return(true);

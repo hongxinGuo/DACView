@@ -48,6 +48,7 @@
     <ClCompile Include="TestCObjCompoundBase.cpp" />
     <ClCompile Include="TestCObjDynLink.cpp" />
     <ClCompile Include="testCObjectPrimitive.cpp" />
+    <ClCompile Include="TestCObjectRect.cpp" />
     <ClCompile Include="TestCObjFillBar.cpp" />
     <ClCompile Include="TestCObjGauge.cpp" />
     <ClCompile Include="TestCObjKnob.cpp" />
@@ -91,6 +92,7 @@
     <Object Include="..\..\x64\Debug\CObjDynLink.obj" />
     <Object Include="..\..\x64\Debug\CObjectBase.obj" />
     <Object Include="..\..\x64\Debug\CObjectPrimitive.obj" />
+    <Object Include="..\..\x64\Debug\CObjectRect.obj" />
     <Object Include="..\..\x64\Debug\CObjfillbar.obj" />
     <Object Include="..\..\x64\Debug\CObjGauge.obj" />
     <Object Include="..\..\x64\Debug\CObjGraph.obj" />
@@ -99,7 +101,6 @@
     <Object Include="..\..\x64\Debug\CObjMeter.obj" />
     <Object Include="..\..\x64\Debug\CObjNumInput.obj" />
     <Object Include="..\..\x64\Debug\CObjOval.obj" />
-    <Object Include="..\..\x64\Debug\CObjRect.obj" />
     <Object Include="..\..\x64\Debug\CObjRectbase.obj" />
     <Object Include="..\..\x64\Debug\CObjRoundRect.obj" />
     <Object Include="..\..\x64\Debug\CObjSlider.obj" />

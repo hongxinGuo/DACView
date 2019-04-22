@@ -53,12 +53,10 @@ CUnitLowSelect::CUnitLowSelect(const CString& Name, CPoint pt): CUnitBase(Name, 
   m_eHiLimit = 100.0;
   m_eLoLimit = 0.0;
 
-  m_pfSelected = new bool[10];
-  for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitLowSelect::CUnitLowSelect( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -73,15 +71,14 @@ CUnitLowSelect::CUnitLowSelect( void ) : CUnitBase() {
   m_eHiLimit = 100.0;
   m_eLoLimit = 0.0;
 
-  m_pfSelected = new bool[10];
-  for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitLowSelect::~CUnitLowSelect() {
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitLowSelect::Serialize( CArchive& ar ) {
   CUnitBase::Serialize( ar );
@@ -98,13 +95,13 @@ void CUnitLowSelect::Serialize( CArchive& ar ) {
 
 bool CUnitLowSelect::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 10));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitLowSelect::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

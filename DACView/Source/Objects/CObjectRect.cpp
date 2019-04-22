@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "cObjRect.h"
+#include "cObjectRect.h"
 
 #include "CObjSymbol.h"
 
@@ -10,14 +10,41 @@ IMPLEMENT_SERIAL(CObjectRect, CObjRectBase, 1 | VERSIONABLE_SCHEMA)
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
-#endif   
+#endif  
+
+ParaName CObjectRect::sm_ptrParaName[] =
+{ {"Visibility", tINPUT | tMODIFIABLE | tBOOL, 0},
+	{"Height", tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  1},
+	{"Width",  tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  2},
+	{"BackColor",tINPUT | tMODIFIABLE | tWORD,  3},
+	{"ForeColor",tINPUT | tMODIFIABLE | tWORD,  4},
+	{"Title", tINPUT | tMODIFIABLE | tDOUBLE | tWORD | tBOOL | tSTRING,  5},
+	{""     , 0, 6},
+};
+
+INT32 CObjectRect::sm_aulSuitable[] = { -1, -1, -1, -1, -1, -1, -1 };
+
+const ULONG CObjectRect::sm_ulDoubleEnd = 0;
+const ULONG CObjectRect::sm_ulBoolEnd = 1;
+const ULONG CObjectRect::sm_ulWordEnd = 4;
+const ULONG CObjectRect::sm_ulStringEnd = 5;
+
 
 CObjectRect::CObjectRect(CString s, CRect r) : CObjRectBase(s, r) {
   m_fCreateMemoryDC = FALSE;
+
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+
 }
 
 CObjectRect::CObjectRect( void ) : CObjRectBase( ) {
   m_fCreateMemoryDC = FALSE;
+
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
   
 CObjectRect::~CObjectRect() {
@@ -117,4 +144,43 @@ bool CObjectRect::CheckSelf( void ) {
 		pc = m_listDynLink.GetNext( poDL );
 	}
 	return( TRUE );
+}
+
+ParaName* CObjectRect::GetParaNameAddress(void) {
+	return(sm_ptrParaName);
+}
+
+CString CObjectRect::GetParaName(ULONG index) {
+	ASSERT(index <= CObjectRect::sm_ulStringEnd);
+	return(CObjectRect::sm_ptrParaName[index].Name);
+}
+
+ULONG CObjectRect::GetDynLinkType(ULONG ulIndex) {
+	return(sm_ptrParaName[ulIndex].ulType & (tBOOL | tWORD | tDOUBLE | tSTRING));
+}
+
+void CObjectRect::SelectParameter(ULONG ulType) {
+	int i = 0;
+	int j = 0;
+
+	for (int k = 0; k <= sm_ulStringEnd; k++) {
+		sm_aulSuitable[k] = -1;
+	}
+	while (sm_ptrParaName[i].ulType != 0) {
+		if ((sm_ptrParaName[i].ulType | ulType) == sm_ptrParaName[i].ulType) {
+			if (ulType & tINPUT) {
+				if (m_vfSelected[i] == FALSE) {
+					sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
+				}
+			}
+			else {
+				sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
+			}
+		}
+		i++;
+	}
+}
+
+INT32 CObjectRect::GetIndex(ULONG ulIndex) {
+	return(CObjectRect::sm_aulSuitable[ulIndex]);
 }

@@ -56,12 +56,10 @@ CUnitMultiple::CUnitMultiple(const CString& Name, CPoint pt): CUnitBase(Name, pt
   m_eHiLimit = 100.0;
   m_eLoLimit = 0.0;
 
-  m_pfSelected = new bool[11];
-  for (int i = 0; i < 11; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitMultiple::CUnitMultiple( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -78,15 +76,14 @@ CUnitMultiple::CUnitMultiple( void ) : CUnitBase() {
   m_eHiLimit = 100.0;
   m_eLoLimit = 0.0;
 
-  m_pfSelected = new bool[11];
-  for (int i = 0; i < 11; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitMultiple::~CUnitMultiple() {
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitMultiple::Serialize( CArchive& ar ) {
   CUnitBase::Serialize( ar );
@@ -105,13 +102,13 @@ void CUnitMultiple::Serialize( CArchive& ar ) {
 
 bool CUnitMultiple::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 11));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitMultiple::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 11; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

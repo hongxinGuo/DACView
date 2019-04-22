@@ -40,12 +40,9 @@ CObjectSlider::CObjectSlider(const CString& s, CRect r) : CObjRectBase(s, r) {
 
   m_fCreateMemoryDC = FALSE;
 
-  if (m_pfSelected != nullptr) delete[] m_pfSelected;
-  m_pfSelected = new bool[2];
-  for (int i = 0; i < 2; i++) {
-    m_pfSelected[i] = FALSE;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CObjectSlider::CObjectSlider( void ) : CObjRectBase( ) {
@@ -57,15 +54,13 @@ CObjectSlider::CObjectSlider( void ) : CObjRectBase( ) {
 
   m_fCreateMemoryDC = FALSE;
 
-  if (m_pfSelected != nullptr) delete[] m_pfSelected;
-  m_pfSelected = new bool[2];
-  for (int i = 0; i < 2; i++) {
-    m_pfSelected[i] = FALSE;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CObjectSlider::~CObjectSlider() {
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -440,7 +435,7 @@ void CObjectSlider::SelectParameter(ULONG ulType) {
   while ( sm_ptrParaName[i].ulType != 0 ) {
     if ( (sm_ptrParaName[i].ulType | ulType) == sm_ptrParaName[i].ulType ) {
       if ( ulType & tINPUT ) {
-        if ( m_pfSelected[i] == FALSE ) {
+        if ( m_vfSelected[i] == FALSE ) {
           sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
         }
       }

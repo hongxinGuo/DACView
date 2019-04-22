@@ -13,21 +13,46 @@ IMPLEMENT_SERIAL(CObjectRoundRect, CObjRectBase, 1 | VERSIONABLE_SCHEMA)
 static char THIS_FILE[] = __FILE__;
 #endif   
 
+ParaName CObjectRoundRect::sm_ptrParaName[] =
+{ {"Visibility", tINPUT | tMODIFIABLE | tBOOL, 0},
+	{"Height", tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  1},
+	{"Width",  tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  2},
+	{"BackColor",tINPUT | tMODIFIABLE | tWORD,  3},
+	{"ForeColor",tINPUT | tMODIFIABLE | tWORD,  4},
+	{"Title", tINPUT | tMODIFIABLE | tDOUBLE | tWORD | tBOOL | tSTRING,  5},
+	{""     , 0, 6},
+};
+
+INT32 CObjectRoundRect::sm_aulSuitable[] = { -1, -1, -1, -1, -1, -1, -1 };
+
+const ULONG CObjectRoundRect::sm_ulDoubleEnd = 0;
+const ULONG CObjectRoundRect::sm_ulBoolEnd = 1;
+const ULONG CObjectRoundRect::sm_ulWordEnd = 4;
+const ULONG CObjectRoundRect::sm_ulStringEnd = 5;
+
+
 CObjectRoundRect::CObjectRoundRect(CString s, CRect r) : CObjRectBase(s, r) {
   m_ulRound = min(r.Height(), r.Width()) / 4;
   
   m_fCreateMemoryDC = FALSE;
 
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CObjectRoundRect::CObjectRoundRect( void ) : CObjRectBase( ) {
 	m_ulRound = 4;
 
   m_fCreateMemoryDC = FALSE;
-
+	
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
   
 CObjectRoundRect::~CObjectRoundRect() {
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -147,3 +172,43 @@ bool CObjectRoundRect::SetProperty( void ) {
 bool CObjectRoundRect::IsRectShape( void ) {
   return( FALSE );
 }
+
+ParaName* CObjectRoundRect::GetParaNameAddress(void) {
+	return(sm_ptrParaName);
+}
+
+CString CObjectRoundRect::GetParaName(ULONG index) {
+	ASSERT(index <= CObjectRoundRect::sm_ulStringEnd);
+	return(CObjectRoundRect::sm_ptrParaName[index].Name);
+}
+
+ULONG CObjectRoundRect::GetDynLinkType(ULONG ulIndex) {
+	return(sm_ptrParaName[ulIndex].ulType & (tBOOL | tWORD | tDOUBLE | tSTRING));
+}
+
+void CObjectRoundRect::SelectParameter(ULONG ulType) {
+	int i = 0;
+	int j = 0;
+
+	for (int k = 0; k <= sm_ulStringEnd; k++) {
+		sm_aulSuitable[k] = -1;
+	}
+	while (sm_ptrParaName[i].ulType != 0) {
+		if ((sm_ptrParaName[i].ulType | ulType) == sm_ptrParaName[i].ulType) {
+			if (ulType & tINPUT) {
+				if (m_vfSelected[i] == FALSE) {
+					sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
+				}
+			}
+			else {
+				sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
+			}
+		}
+		i++;
+	}
+}
+
+INT32 CObjectRoundRect::GetIndex(ULONG ulIndex) {
+	return(CObjectRoundRect::sm_aulSuitable[ulIndex]);
+}
+

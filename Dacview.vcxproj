@@ -386,7 +386,7 @@
     <ClInclude Include="DACView\Source\Objects\CObjmeter.h" />
     <ClInclude Include="DACView\Source\Objects\CObjNumInput.h" />
     <ClInclude Include="DACView\Source\Objects\CObjoval.h" />
-    <ClInclude Include="DACView\Source\Objects\CObjrect.h" />
+    <ClInclude Include="DACView\Source\Objects\CObjectRect.h" />
     <ClInclude Include="DACView\Source\Objects\CObjrectBase.h" />
     <ClInclude Include="DACView\Source\Objects\CObjRoundRect.h" />
     <ClInclude Include="DACView\Source\Objects\CObjslider.h" />
@@ -503,7 +503,7 @@
     <ClCompile Include="DACView\Source\Objects\CObjMeter.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjNumInput.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjOval.cpp" />
-    <ClCompile Include="DACView\Source\Objects\CObjRect.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjectRect.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjRectbase.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjRoundRect.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjSlider.cpp" />

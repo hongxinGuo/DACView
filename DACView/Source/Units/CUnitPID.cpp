@@ -68,12 +68,10 @@ CUnitPID::CUnitPID(const CString& Name, CPoint pt): CUnitBase(Name, pt) {
 				= m_eUd1 = m_eEkh = m_eEkh1 = m_eKh = m_eKh1 = m_eB = 0.0;
 	m_eSetPoint = 4;
 
-  m_pfSelected = new bool[13];
-  for (int i = 0; i < 13; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitPID::CUnitPID( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -100,15 +98,14 @@ CUnitPID::CUnitPID( void ) : CUnitBase() {
 	m_eEkh = m_eEkh1 = m_eKh = m_eKh1 = m_eB = 0.0;
 	m_eSetPoint = 4;
 
-  m_pfSelected = new bool[13];
-  for (int i = 0; i < 13; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitPID::~CUnitPID() {
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitPID::Serialize( CArchive& ar ) {
   CUnitBase::Serialize( ar );
@@ -130,13 +127,13 @@ void CUnitPID::Serialize( CArchive& ar ) {
 
 bool CUnitPID::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 13));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitPID::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 13; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

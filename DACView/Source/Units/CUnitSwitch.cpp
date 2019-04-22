@@ -54,12 +54,10 @@ CUnitSwitch::CUnitSwitch(const CString& Name, CPoint pt): CUnitBase(Name, pt) {
   m_eLoLimit = 0.0;
   m_fSwitchTo1 = true;
 
-  m_pfSelected = new bool[10];
-  for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitSwitch::CUnitSwitch( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -75,15 +73,14 @@ CUnitSwitch::CUnitSwitch( void ) : CUnitBase() {
   m_eLoLimit = 0.0;
   m_fSwitchTo1 = true;
 
-  m_pfSelected = new bool[10];
-  for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitSwitch::~CUnitSwitch() {
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitSwitch::Serialize( CArchive& ar ) {
   CUnitBase::Serialize( ar );
@@ -103,13 +100,13 @@ void CUnitSwitch::Serialize( CArchive& ar ) {
 
 bool CUnitSwitch::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 10));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitSwitch::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

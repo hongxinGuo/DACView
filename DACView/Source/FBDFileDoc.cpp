@@ -195,24 +195,26 @@ BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
   // Load strategy file
   CString strTemp, strStrategyFile;
   CUnitBase * pcunit;
-  INT64 iTemp;
+  INT64 iTotal;
 
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
-  ar >> strTemp >> iTemp;
+  ar >> strTemp >> iTotal;
   // test whether a Dacview file
   if ( strTemp == strStrategyFile );
   else {
     ShowMessage(ID_ERROR_SHOWVIEW_STRATEGY_FILE);
     return( FALSE );
   }
-  for ( int i = 0; i < iTemp; i ++ ) {
+	m_vUnit.reserve(iTotal);
+  for ( int i = 0; i < iTotal; i ++ ) {
     ar >> pcunit;
     m_CUnitList.AddTail( pcunit );
+		m_vUnit.push_back(pcunit);
   }
 
 	// load CRunTimeUnitList
-  ar >> iTemp;
-  for ( int i = 0; i < iTemp; i ++ ) {
+  ar >> iTotal;
+  for ( int i = 0; i < iTotal; i ++ ) {
     ar >> pcunit;
     m_CRunTimeUnitList.AddTail( pcunit );
   }

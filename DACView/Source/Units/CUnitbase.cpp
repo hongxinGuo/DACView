@@ -1002,13 +1002,13 @@ bool CUnitBase::SetParameterLock( ULONG ulIndex, bool fSelected ) {
 	// 此函数只用于输入参数.
   if (pParaName[ulIndex].ulType & tINPUT) {
     if (fSelected == true) {		// 设置已选择标志
-      ASSERT(m_pfSelected[ulIndex] == false); // 不允许二次设置，输入型参数只能链接一次
-      m_pfSelected[ulIndex] = true;
+      ASSERT(m_vfSelected[ulIndex] == false); // 不允许二次设置，输入型参数只能链接一次
+      m_vfSelected[ulIndex] = true;
       m_lDynLinkToNumber++;
     }
     else {		// 清除已选择标志
-      ASSERT(m_pfSelected[ulIndex] == true);
-      m_pfSelected[ulIndex] = false;
+      ASSERT(m_vfSelected[ulIndex] == true);
+      m_vfSelected[ulIndex] = false;
       m_lDynLinkToNumber--;
     }
     return(true);
@@ -1030,13 +1030,13 @@ bool CUnitBase::SetParameterSelected(ULONG ulIndex, bool fSelected) {
   // 此函数只用于输入参数.
   if (pParaName[ulIndex].ulType & tINPUT) {
     if (fSelected == true) {		// 设置已选择标志
-      ASSERT(m_pfSelected[ulIndex] == false); // 不允许二次设置，输入型参数只能链接一次
-      m_pfSelected[ulIndex] = true;
+      ASSERT(m_vfSelected[ulIndex] == false); // 不允许二次设置，输入型参数只能链接一次
+      m_vfSelected[ulIndex] = true;
 			SetLinkFromObjectFlag(true);
     }
     else {		// 清除已选择标志
-      ASSERT(m_pfSelected[ulIndex] == true);
-      m_pfSelected[ulIndex] = false;
+      ASSERT(m_vfSelected[ulIndex] == true);
+      m_vfSelected[ulIndex] = false;
 			SetLinkFromObjectFlag(false);
     }
     return(true);
@@ -1675,7 +1675,7 @@ void CUnitBase::CreateParaDictionary( CDicList &CListDic, ULONG ulType ) {
   while (pParaName[i].ulType != 0) {  //仍有参数
     if (((pParaName[i].ulType | ulTypeHighPart) == pParaName[i].ulType) && (ulTypeLowPart & GetDynLinkType(i))) { //参数合适?
       if ( (ulType & (tINPUT | tOUTPUT)) == tINPUT ) {		// 选择被写入(INPUT)参数? 
-				if ( (m_pfSelected[i] == false) && (pParaName[i].ulType & tINPUT) ) { // 被写入参数必须没有被选择过.
+				if ( (m_vfSelected[i] == false) && (pParaName[i].ulType & tINPUT) ) { // 被写入参数必须没有被选择过.
 					pDic = new CUnitDictionary( this, pParaName[i].ulIndex, pParaName[i].ulType );
 					CListDic.AddTail( pDic );
 				}
@@ -1687,7 +1687,7 @@ void CUnitBase::CreateParaDictionary( CDicList &CListDic, ULONG ulType ) {
 				}
 			}
 			else if ( (ulType & tMODIFIABLE) == tMODIFIABLE ) {	// 选择所有的参数,包括输入和输出类型.
-				if ( (pParaName[i].ulType & tMODIFIABLE) && (m_pfSelected[i] == false) ) { // 被写入参数必须没有被选择过.
+				if ( (pParaName[i].ulType & tMODIFIABLE) && (m_vfSelected[i] == false) ) { // 被写入参数必须没有被选择过.
 					pDic = new CUnitDictionary( this, pParaName[i].ulIndex, pParaName[i].ulType );
 					CListDic.AddTail( pDic );
 				}
@@ -1718,7 +1718,7 @@ void CUnitBase::SelectParameter(ULONG ulType) {
   while (pParaName[i].ulType != 0) {  //仍有参数
     if ( ((pParaName[i].ulType | ulTypeHighPart) == pParaName[i].ulType) && (ulTypeLowPart & GetDynLinkType(i)) ) { //参数合适?
       if ((ulType & (tINPUT | tOUTPUT)) == tINPUT) {		// 选择被写入(INPUT)参数? 
-				if ( (m_pfSelected[i] == false) && (pParaName[i].ulType & tINPUT) ) { // 被写入参数必须没有被选择过.
+				if ( (m_vfSelected[i] == false) && (pParaName[i].ulType & tINPUT) ) { // 被写入参数必须没有被选择过.
       		pulIndex[j++] = pParaName[i].ulIndex;
 				}
 			}
@@ -1728,7 +1728,7 @@ void CUnitBase::SelectParameter(ULONG ulType) {
 				}
 			}
 			else if ( (ulType & tMODIFIABLE) == tMODIFIABLE ) { 		// 选择所有的参数, 包括输入和输出类型.
-				if ( (pParaName[i].ulType & tMODIFIABLE) && (m_pfSelected[i] == false) ) { // 被写入参数必须没有被选择过.
+				if ( (pParaName[i].ulType & tMODIFIABLE) && (m_vfSelected[i] == false) ) { // 被写入参数必须没有被选择过.
 					pulIndex[j++] = pParaName[i].ulIndex;
 				}
 			}

@@ -265,9 +265,6 @@
     <ClInclude Include="DACView\Source\Objects\CObjoval.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\CObjrect.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Objects\CObjrectBase.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -574,6 +571,9 @@
     <ClInclude Include="DACView\Source\Typedef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjectRect.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DACView\Source\Objects\CObjbutton.cpp">
@@ -607,9 +607,6 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\CObjOval.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Objects\CObjRect.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\CObjRectbase.cpp">
@@ -914,6 +911,9 @@
     </ClCompile>
     <ClCompile Include="DACView\Source\测试用\SQIUnitViewTest.cpp">
       <Filter>测试用</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\CObjectRect.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -126,6 +126,9 @@
     <ClCompile Include="TestCSQIUnitView.cpp">
       <Filter>Test源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TestCObjectRect.cpp">
+      <Filter>Test源文件\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -174,9 +177,6 @@
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\CObjOval.obj">
-      <Filter>dependency</Filter>
-    </Object>
-    <Object Include="..\..\x64\Debug\CObjRect.obj">
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\CObjRectbase.obj">
@@ -468,6 +468,9 @@
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\STDAFX.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjectRect.obj">
       <Filter>dependency</Filter>
     </Object>
   </ItemGroup>

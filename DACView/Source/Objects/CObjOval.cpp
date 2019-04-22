@@ -11,16 +11,40 @@ IMPLEMENT_SERIAL(CObjectOval, CObjRectBase, 1 | VERSIONABLE_SCHEMA)
 static char THIS_FILE[] = __FILE__;
 #endif   
 
-CObjectOval::CObjectOval(CString s, CRect r) : CObjRectBase(s, r) {
-  m_fCreateMemoryDC = FALSE;
+ParaName CObjectOval::sm_ptrParaName[] =
+{ {"Visibility", tINPUT | tMODIFIABLE | tBOOL, 0},
+	{"Height", tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  1},
+	{"Width",  tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  2},
+	{"BackColor",tINPUT | tMODIFIABLE | tWORD,  3},
+	{"ForeColor",tINPUT | tMODIFIABLE | tWORD,  4},
+	{"Title", tINPUT | tMODIFIABLE | tDOUBLE | tWORD | tBOOL | tSTRING,  5},
+	{""     , 0, 6},
+};
 
+INT32 CObjectOval::sm_aulSuitable[] = { -1, -1, -1, -1, -1, -1, -1 };
+
+const ULONG CObjectOval::sm_ulDoubleEnd = 0;
+const ULONG CObjectOval::sm_ulBoolEnd = 1;
+const ULONG CObjectOval::sm_ulWordEnd = 4;
+const ULONG CObjectOval::sm_ulStringEnd = 5;
+
+
+CObjectOval::CObjectOval(CString s, CRect r) : CObjRectBase(s, r) {
+	m_fCreateMemoryDC = false;
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CObjectOval::CObjectOval( void ) : CObjRectBase( ) {
-  m_fCreateMemoryDC = FALSE;
+  m_fCreateMemoryDC = false;
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
                                    
 CObjectOval::~CObjectOval() {
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -122,3 +146,43 @@ CRgn * CObjectOval::GetClipRgn( const CPoint& ptScrollPosition ) {
 bool CObjectOval::IsRectShape( void ) {
   return( FALSE );
 }
+
+ParaName* CObjectOval::GetParaNameAddress(void) {
+	return(sm_ptrParaName);
+}
+
+CString CObjectOval::GetParaName(ULONG index) {
+	ASSERT(index <= CObjectOval::sm_ulStringEnd);
+	return(CObjectOval::sm_ptrParaName[index].Name);
+}
+
+ULONG CObjectOval::GetDynLinkType(ULONG ulIndex) {
+	return(sm_ptrParaName[ulIndex].ulType & (tBOOL | tWORD | tDOUBLE | tSTRING));
+}
+
+void CObjectOval::SelectParameter(ULONG ulType) {
+	int i = 0;
+	int j = 0;
+
+	for (int k = 0; k <= sm_ulStringEnd; k++) {
+		sm_aulSuitable[k] = -1;
+	}
+	while (sm_ptrParaName[i].ulType != 0) {
+		if ((sm_ptrParaName[i].ulType | ulType) == sm_ptrParaName[i].ulType) {
+			if (ulType & tINPUT) {
+				if (m_vfSelected[i] == FALSE) {
+					sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
+				}
+			}
+			else {
+				sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
+			}
+		}
+		i++;
+	}
+}
+
+INT32 CObjectOval::GetIndex(ULONG ulIndex) {
+	return(CObjectOval::sm_aulSuitable[ulIndex]);
+}
+

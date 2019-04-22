@@ -56,12 +56,10 @@ CUnitDelayTime::CUnitDelayTime(const CString& Name, CPoint pt): CUnitBase(Name, 
 	m_peData = nullptr;
 	m_pDataCurrent = nullptr;
 
-  m_pfSelected = new bool[8];
-  for (int i = 0; i < 8; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitDelayTime::CUnitDelayTime( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -81,17 +79,16 @@ CUnitDelayTime::CUnitDelayTime( void ) : CUnitBase() {
 	m_peData = nullptr;
 	m_pDataCurrent = nullptr;
   
-  m_pfSelected = new bool[8];
-  for (int i = 0; i < 8; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitDelayTime::~CUnitDelayTime() {
 	delete []m_peData;
 	m_peData = nullptr;
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitDelayTime::Serialize( CArchive& ar ) {
   CUnitBase::Serialize( ar );
@@ -115,13 +112,13 @@ void CUnitDelayTime::Serialize( CArchive& ar ) {
 
 bool CUnitDelayTime::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 8));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitDelayTime::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 8; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

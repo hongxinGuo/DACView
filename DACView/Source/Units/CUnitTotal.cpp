@@ -57,12 +57,10 @@ CUnitTOT::CUnitTOT(const CString& Name, CPoint pt): CUnitBase(Name, pt) {
   m_eHiLimit = 100.0;
   m_eLoLimit = 0.0;
 
-  m_pfSelected = new bool[9];
-  for (int i = 0; i < 9; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitTOT::CUnitTOT( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -80,15 +78,15 @@ CUnitTOT::CUnitTOT( void ) : CUnitBase() {
   m_eHiLimit = 100.0;
   m_eLoLimit = 0.0;
 
-  m_pfSelected = new bool[9];
-  for (int i = 0; i < 9; i++) {
-    m_pfSelected[i] = false;
-  }
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitTOT::~CUnitTOT() {
 	delete []m_peData;
 	m_peData = nullptr;
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
 } 
                               
 void CUnitTOT::Serialize( CArchive& ar ) {
@@ -115,13 +113,13 @@ void CUnitTOT::Serialize( CArchive& ar ) {
 
 bool CUnitTOT::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 9));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitTOT::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 9; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

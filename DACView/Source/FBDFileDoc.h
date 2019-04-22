@@ -9,6 +9,10 @@
 #include "CUnitDynLink.h"
 #include "CUnitDictionary.h"
 
+using namespace std;
+#include<vector>
+
+
 class CFBDFileDoc : public CDocument
 {
 protected: // create from serialization only
@@ -63,6 +67,9 @@ protected:
 	CUnitList 		m_CUnitList100MS;
 	CUnitList 		m_CUnitList1Second;
 	CUnitList 		m_CUnitList1Minute;
+	// 采用C++标准vector容器
+	vector<CUnitBase *> m_vUnit;
+
 
 	CObjectList 	m_CObjectList;			// object list
 	CObjectList		m_CRunTimeObjectList;

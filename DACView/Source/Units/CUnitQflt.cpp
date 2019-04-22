@@ -55,12 +55,10 @@ CUnitQuadFilt::CUnitQuadFilt(const CString& Name, CPoint pt): CUnitBase(Name, pt
   m_eDeadBand = 0.0;
   m_eFiltFactor = 0.5;
 
-  m_pfSelected = new bool[10];
-  for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitQuadFilt::CUnitQuadFilt( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -77,15 +75,14 @@ CUnitQuadFilt::CUnitQuadFilt( void ) : CUnitBase() {
   m_eDeadBand = 0.0;
   m_eFiltFactor = 0.5;
 
-  m_pfSelected = new bool[10];
-  for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitQuadFilt::~CUnitQuadFilt() {
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitQuadFilt::Serialize( CArchive& ar ) {
   CUnitBase::Serialize( ar );
@@ -105,13 +102,13 @@ void CUnitQuadFilt::Serialize( CArchive& ar ) {
 
 bool CUnitQuadFilt::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 10));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitQuadFilt::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 10; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

@@ -59,12 +59,9 @@ CObjectGraph::CObjectGraph(const CString& s, CRect r) : CObjRectBase(s, r) {
 
   m_fCreateMemoryDC = FALSE;
 
-  if (m_pfSelected != nullptr) delete[] m_pfSelected;
-  m_pfSelected = new bool[4];
-  for (int i = 0; i < 4; i++) {
-    m_pfSelected[i] = FALSE;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CObjectGraph::CObjectGraph( void ) : CObjRectBase( ) {                             
@@ -85,12 +82,9 @@ CObjectGraph::CObjectGraph( void ) : CObjRectBase( ) {
 
   m_fCreateMemoryDC = FALSE;
 
-  if (m_pfSelected != nullptr) delete[] m_pfSelected;
-  m_pfSelected = new bool[4];
-  for (int i = 0; i < 4; i++) {
-    m_pfSelected[i] = FALSE;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CObjectGraph::~CObjectGraph() {
@@ -101,6 +95,8 @@ CObjectGraph::~CObjectGraph() {
     m_ppenGraph[i] = nullptr;
   }
   m_MemoryDC.DeleteDC();
+	
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -308,7 +304,7 @@ void CObjectGraph::ToShowDynamic( CDC * const pdc ) {
 		
 		m_MemoryDC.SelectObject( penOld );
 		m_MemoryDC.SelectObject( pBitmap );
-    m_fCreateMemoryDC = TRUE;
+    m_fCreateMemoryDC = true;
   }   
   
   pBitmap = m_MemoryDC.SelectObject( &m_Bitmap );
@@ -338,7 +334,7 @@ void CObjectGraph::ToShowDynamic( CDC * const pdc ) {
   }
   m_ulScrollLength = 0;
   
-	if ( m_fDrawAll == FALSE ) {
+	if ( m_fDrawAll == false ) {
     rectGraph = rectScroll;
     rectGraph.left = 4 + lScrollLength;
     m_MemoryDC.ScrollDC(-lScrollLength, 0, rectGraph, rectScroll, nullptr, nullptr);
@@ -348,7 +344,7 @@ void CObjectGraph::ToShowDynamic( CDC * const pdc ) {
     eRangeRate = eRange/rectScroll.Height();
 		penOld = m_MemoryDC.SelectObject(m_ppenGraph[0]);
     for ( iCount1 = 0; iCount1 < 4; iCount1 ++ ) {
-      if ( m_pfSelected[iCount1] == FALSE ) continue; // not selected, ignore this pen
+      if ( m_vfSelected[iCount1] == false ) continue; // not selected, ignore this pen
       m_MemoryDC.SelectObject(m_ppenGraph[iCount1]);
       pData = pe[iCount1];
       if ( pData == m_eptrData[iCount1] ) {
@@ -395,7 +391,7 @@ void CObjectGraph::ToShowDynamic( CDC * const pdc ) {
 		eRange = m_eUpperLimit - m_eLowLimit;
     eRangeRate = eRange/rectScroll.Height();
     for ( iCount1 = 0; iCount1 < 4; iCount1 ++ ) {
-      if ( m_pfSelected[iCount1] == FALSE ) continue; // not selected, ignore this pen
+      if ( m_vfSelected[iCount1] == false ) continue; // not selected, ignore this pen
       m_MemoryDC.SelectObject(m_ppenGraph[iCount1]);
       pData = pe[iCount1];
       if ( pData == m_eptrData[iCount1] ) {
@@ -417,8 +413,8 @@ void CObjectGraph::ToShowDynamic( CDC * const pdc ) {
                 &m_MemoryDC, 0, 0, SRCCOPY);
   }
 	m_MemoryDC.SelectObject( pBitmap );
-  m_fDrawAll = FALSE;
-  m_fNeedUpdate = FALSE;
+  m_fDrawAll = false;
+  m_fNeedUpdate = false;
 }
 
 ParaName* CObjectGraph::GetParaNameAddress( void ) {
@@ -444,7 +440,7 @@ void CObjectGraph::SelectParameter(ULONG ulType) {
   while ( sm_ptrParaName[i].ulType != 0 ) {
     if ( (sm_ptrParaName[i].ulType | ulType) == sm_ptrParaName[i].ulType ) {
       if ( ulType & tINPUT ) {
-        if ( m_pfSelected[i] == FALSE ) {
+        if ( m_vfSelected[i] == FALSE ) {
           sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
         }
       }
@@ -463,7 +459,7 @@ INT32 CObjectGraph::GetIndex( ULONG ulIndex ) {
 bool CObjectGraph::SetDouble(ULONG ulIndex, double eValue) {
   ASSERT( ulIndex <= 3 );
 
-  ASSERT(m_pfSelected[ulIndex] == TRUE);
+  ASSERT(m_vfSelected[ulIndex] == TRUE);
   *m_ptrBegin[ulIndex] = eValue;
   if ( m_eUpperLimit < eValue ) { 
     m_eUpperLimit = eValue;

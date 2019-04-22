@@ -49,12 +49,10 @@ CUnitOr::CUnitOr(const CString& Name, CPoint pt): CUnitBase(Name, pt) {
   m_fAlarmHigh = true;
   m_fAlarm = false;
 
-  m_pfSelected = new bool[7];
-  for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitOr::CUnitOr( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -68,15 +66,14 @@ CUnitOr::CUnitOr( void ) : CUnitBase() {
   m_fAlarmHigh = true;
   m_fAlarm = false;
 
-  m_pfSelected = new bool[7];
-  for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitOr::~CUnitOr() {
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitOr::Serialize( CArchive& ar ) {
   INT64 a, b;
@@ -97,13 +94,13 @@ void CUnitOr::Serialize( CArchive& ar ) {
 
 bool CUnitOr::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 7));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitOr::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 7; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 

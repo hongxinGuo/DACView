@@ -98,12 +98,10 @@ CUnitTTB::CUnitTTB(const CString& Name, CPoint pt): CUnitBase(Name, pt) {
     m_fMatchingCriteria[i] = 0;
   }
 
-  m_pfSelected = new bool[42];
-  for (int i = 0; i < 42; i++) {
-    m_pfSelected[i] = false;
-  }
-
-}      
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
+}
 
 CUnitTTB::CUnitTTB( void ) : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
@@ -128,15 +126,14 @@ CUnitTTB::CUnitTTB( void ) : CUnitBase() {
     m_fMatchingCriteria[i] = 0;
   }
 
-  m_pfSelected = new bool[42];
-  for (int i = 0; i < 42; i++) {
-    m_pfSelected[i] = false;
-  }
-
+	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+		m_vfSelected.push_back(false);
+	}
 }
 
 CUnitTTB::~CUnitTTB() {
-} 
+	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
+}
                               
 void CUnitTTB::Serialize( CArchive& ar ) {
   ULONG i, c;
@@ -172,13 +169,13 @@ void CUnitTTB::Serialize( CArchive& ar ) {
 
 bool CUnitTTB::IsParameterLocked(ULONG ulIndex) {
   ASSERT((ulIndex >= 0) && (ulIndex < 42));
-  return(m_pfSelected[ulIndex]);
+  return(m_vfSelected[ulIndex]);
 }
 
 void CUnitTTB::ClearParaSelectedFlag(void)
 {
   for (int i = 0; i < 42; i++) {
-    m_pfSelected[i] = false;
+    m_vfSelected[i] = false;
   }
 }
 
