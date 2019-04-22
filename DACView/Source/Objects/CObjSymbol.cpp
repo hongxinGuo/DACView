@@ -30,9 +30,9 @@ CObjectSymbol::CObjectSymbol( void ) : CObjectComponentBase( ) {
 CObjectSymbol::~CObjectSymbol() {
 	// release object's memory
 	POSITION po = m_CObjectList.GetHeadPosition();
-	INT_PTR i, iCount = m_CObjectList.GetCount();
+	INT_PTR iCount = m_CObjectList.GetCount();
 	CObjectBase * pcobjTemp;
-	for ( i = 0; i < iCount; i++ ) {
+	for ( int i = 0; i < iCount; i++ ) {
 		pcobjTemp = m_CObjectList.GetNext(po);
 		delete pcobjTemp;
 		pcobjTemp = nullptr;
@@ -43,7 +43,7 @@ CObjectSymbol::~CObjectSymbol() {
   po = m_CRectList.GetHeadPosition();
   iCount = m_CRectList.GetCount();
   CRect * prect;
-  for ( i = 0; i < iCount; i++ ) {
+  for ( int i = 0; i < iCount; i++ ) {
     prect = m_CRectList.GetNext( po );
     delete prect;
     prect = nullptr;

@@ -48,7 +48,7 @@ namespace DACViewTest {
 
     co.SetName("asdf");
     cODL.SetObject(&co);
-    EXPECT_EQ(&co, cODL.GetObjectPtr());
+    EXPECT_EQ(&co, cODL.GetObject());
 
     cODL.SetObjectIndex(1);
     EXPECT_EQ(1, cODL.GetObjectIndex());

@@ -159,7 +159,6 @@ CObjectBase::~CObjectBase() {
   
 	m_rgnClip.DeleteObject();
 
-	ASSERT(m_pfSelected != nullptr); // 不允许生成此基类。当生成此基类的派生类时，必然初始化此指针，故此指针不能为空。
 } 
 
 void CObjectBase::Serialize( CArchive& ar ) {

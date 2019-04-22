@@ -11,6 +11,10 @@
 
 #include"afx.h"
 
+using namespace std;
+
+#include<memory>
+
 class CObjectPrimitive : public CObject {
 public :
   CObjectPrimitive(const CString& Name);
@@ -100,8 +104,7 @@ protected :
 // no serialized data
 	INT32						m_lScanRateDynamicCount;	// 倒数计时器，用于执行单元序列时。
 
-  bool *           m_pfSelected;		// 参数是否被选择标志,用于输入参数，目前最多允许存在64个参数。
-
+  bool *          m_pfSelected;		// 参数是否被选择标志,用于输入参数。
 	bool						m_fSelected;			// 是否被选中标志.
 	bool						m_fNeedUpdate;	// 是否需要更新显示标志.
 };

@@ -42,7 +42,6 @@ CObjectButton::CObjectButton(const CString& s, CRect r) : CObjRectBase(s, r) {
   for (int i = 0; i < 2; i++) {
     m_pfSelected[i] = false;
   }
-
 }
 
 CObjectButton::CObjectButton( void ) : CObjRectBase( ) {
