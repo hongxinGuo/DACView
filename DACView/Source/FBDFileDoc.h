@@ -12,7 +12,6 @@
 using namespace std;
 #include<vector>
 
-
 class CFBDFileDoc : public CDocument
 {
 protected: // create from serialization only
@@ -62,22 +61,19 @@ protected:
 // Serialized Data
 	CUnitList			m_CUnitList;
 	CUnitList 		m_CRunTimeUnitList;	// run time unit list, the sequence of unit is recalculated.
-	CUnitList			m_CUnitList1MS;
-	CUnitList			m_CUnitList10MS;
-	CUnitList 		m_CUnitList100MS;
-	CUnitList 		m_CUnitList1Second;
-	CUnitList 		m_CUnitList1Minute;
-	// 采用C++标准vector容器
-	vector<CUnitBase *> m_vUnit;
-
+	vector<CUnitBase *>			m_CUnitList1MS;
+	vector<CUnitBase *>			m_CUnitList10MS;
+	vector<CUnitBase *>			m_CUnitList100MS;
+	vector<CUnitBase *> 		m_CUnitList1Second;
+	vector<CUnitBase *> 		m_CUnitList1Minute;
 
 	CObjectList 	m_CObjectList;			// object list
 	CObjectList		m_CRunTimeObjectList;
-	CObjectList		m_CObjectList1MS;
-	CObjectList		m_CObjectList10MS;
-	CObjectList 	m_CObjectList100MS;
-	CObjectList   m_CObjectList1Second;
-	CObjectList   m_CObjectList1Minute;
+	vector<CObjectBase *>		m_CObjectList1MS;
+	vector<CObjectBase *>		m_CObjectList10MS;
+	vector<CObjectBase *> 	m_CObjectList100MS;
+	vector<CObjectBase *>   m_CObjectList1Second;
+	vector<CObjectBase *>   m_CObjectList1Minute;
 	
 	
 // no serialized data

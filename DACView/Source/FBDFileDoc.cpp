@@ -108,11 +108,6 @@ CFBDFileDoc::CFBDFileDoc()
 
   m_CUnitList.RemoveAll();
   m_CRunTimeUnitList.RemoveAll();
-  m_CUnitList1MS.RemoveAll();
-  m_CUnitList10MS.RemoveAll();
-  m_CUnitList100MS.RemoveAll();
-  m_CUnitList1Second.RemoveAll();
-  m_CUnitList1Minute.RemoveAll();
 
 	m_fRun = FALSE;
   m_fInitialRun = FALSE;
@@ -142,11 +137,6 @@ CFBDFileDoc::~CFBDFileDoc() {
   timeEndPeriod(m_nTimerRes);
 
   m_CRunTimeObjectList.RemoveAll();
-  m_CObjectList1MS.RemoveAll();
-  m_CObjectList10MS.RemoveAll();
-  m_CObjectList100MS.RemoveAll();
-  m_CObjectList1Second.RemoveAll();
-  m_CObjectList1Minute.RemoveAll();
   
   // release Object's memory
   POSITION Po = m_CObjectList.GetHeadPosition();
@@ -161,12 +151,6 @@ CFBDFileDoc::~CFBDFileDoc() {
   TRACE("%d objects deleted\n", iTemp);                  
   // release list's memory
   m_CObjectList.RemoveAll();
-  
-  m_CUnitList1MS.RemoveAll();
-  m_CUnitList10MS.RemoveAll();
-  m_CUnitList100MS.RemoveAll();
-  m_CUnitList1Second.RemoveAll();
-  m_CUnitList1Minute.RemoveAll();
   
   ClearUnitList();
 } 
@@ -205,11 +189,10 @@ BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
     ShowMessage(ID_ERROR_SHOWVIEW_STRATEGY_FILE);
     return( FALSE );
   }
-	m_vUnit.reserve(iTotal);
-  for ( int i = 0; i < iTotal; i ++ ) {
+
+	for ( int i = 0; i < iTotal; i ++ ) {
     ar >> pcunit;
     m_CUnitList.AddTail( pcunit );
-		m_vUnit.push_back(pcunit);
   }
 
 	// load CRunTimeUnitList
@@ -258,26 +241,26 @@ BOOL CFBDFileDoc::MakeRunTimeUnitList( void ) {
     pcunit = m_CRunTimeUnitList.GetNext( po );
 		pcunit->PrepareRunTimeList();	// 生成部件的运行时态序列.
     if ( ((pcunit->GetScanRate()/60000)*60000) == pcunit->GetScanRate() ) {
-      m_CUnitList1Minute.AddTail( pcunit );
+      m_CUnitList1Minute.push_back(pcunit);
     }
     else if ( ((pcunit->GetScanRate()/1000)*1000) == pcunit->GetScanRate() ) {
-      m_CUnitList1Second.AddTail( pcunit );
+      m_CUnitList1Second.push_back(pcunit);
     }
     else if ( ((pcunit->GetScanRate()/100)*100) == pcunit->GetScanRate() ) {
-      m_CUnitList100MS.AddTail( pcunit );
+      m_CUnitList100MS.push_back(pcunit);
     }
     else if ( ((pcunit->GetScanRate()/10)*10) == pcunit->GetScanRate() ) {
-			m_CUnitList10MS.AddTail( pcunit );
+			m_CUnitList10MS.push_back(pcunit);
 		}
 		else {
-      m_CUnitList1MS.AddTail( pcunit );
+      m_CUnitList1MS.push_back(pcunit);
     }
   }
-  ASSERT( iCount == ( m_CUnitList1Minute.GetCount() + 
-                     m_CUnitList1Second.GetCount() +
-                     m_CUnitList100MS.GetCount() +
-                     m_CUnitList10MS.GetCount() +
-										 m_CUnitList1MS.GetCount() ) );
+  ASSERT( iCount == ( m_CUnitList1Minute.size() + 
+                     m_CUnitList1Second.size() +
+                     m_CUnitList100MS.size() +
+                     m_CUnitList10MS.size() +
+										 m_CUnitList1MS.size() ) );
   return ( TRUE );
 }
 
@@ -298,7 +281,7 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
   // create RunTimeObjctList from temperary list listObject
   poObject = listObject.GetHeadPosition();
   iCount =  listObject.GetCount();
-  BOOL done = FALSE;
+  bool done = false;
   while ( ! done ) {
     poObject = listObject.GetHeadPosition();
     iCount = listObject.GetCount();
@@ -307,7 +290,7 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
       m_CRunTimeObjectList.AddTail(pcObject);
     }   
     iRunTime = m_CRunTimeObjectList.GetCount();
-    if ( iRunTime == iCount ) done = TRUE;
+    if ( iRunTime == iCount ) done = true;
   }
 
   // clear temperary list listObject
@@ -322,27 +305,27 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
   for ( int i = 0; i < iCount; i++ ) {
     pcobj = m_CRunTimeObjectList.GetNext( po );
     if ( ((pcobj->GetScanRate()/60000)*60000) == pcobj->GetScanRate() ) {
-      m_CObjectList1Minute.AddTail( pcobj );
+      m_CObjectList1Minute.push_back(pcobj);
     }
     else if ( ((pcobj->GetScanRate()/1000)*1000) == pcobj->GetScanRate() ) {
-      m_CObjectList1Second.AddTail( pcobj );
+      m_CObjectList1Second.push_back( pcobj );
     }
     else if ( ((pcobj->GetScanRate()/100)*100) == pcobj->GetScanRate() ) {
-      m_CObjectList100MS.AddTail( pcobj );
+      m_CObjectList100MS.push_back( pcobj );
     }
     else if ( ((pcobj->GetScanRate()/10)*10) == pcobj->GetScanRate() ) {
-      m_CObjectList10MS.AddTail( pcobj );
+      m_CObjectList10MS.push_back( pcobj );
     }
     else {
-      m_CObjectList1MS.AddTail( pcobj );
+      m_CObjectList1MS.push_back( pcobj );
     }
   }
   ASSERT( m_CRunTimeObjectList.GetCount() ==
-            ( m_CObjectList1Minute.GetCount() +
-              m_CObjectList1Second.GetCount() +
-              m_CObjectList100MS.GetCount() +
-              m_CObjectList10MS.GetCount() +
-							m_CObjectList1MS.GetCount() ) );
+            ( m_CObjectList1Minute.size() +
+              m_CObjectList1Second.size() +
+              m_CObjectList100MS.size() +
+              m_CObjectList10MS.size() +
+							m_CObjectList1MS.size() ) );
   return ( TRUE );
 }
 
@@ -449,47 +432,40 @@ void CFBDFileDoc::Dump(CDumpContext& dc) const
 void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWORD , DWORD  ) {
   CFBDFileDoc * pDoc = (CFBDFileDoc *)dwUser;
   ULONGLONG ulTimeTick;
-  CUnitBase * pc;
   CObjectBase * pcobj;
   POSITION pos; 
   INT_PTR iCount, i;
+	CUnitBase * punit;
       
   if ( IdEvent == pDoc->m_nTimerID ) {
     ulTimeTick = GetTickCount64();
 
     // exective per 1ms Task
-    pos = pDoc->m_CUnitList1MS.GetHeadPosition(); 
-    iCount = pDoc->m_CUnitList1MS.GetCount();
-
+    iCount = pDoc->m_CUnitList1MS.size();
     for ( i = 0; i < iCount; i ++ ) {                            
-      pc = pDoc->m_CUnitList1MS.GetNext(pos);
-      if ( pc->CountDown(1) ) pc->Exective();  
+      punit = pDoc->m_CUnitList1MS[i];
+      if ( punit->CountDown(1) ) punit->Exective();  
     }
 
-    pos = pDoc->m_CObjectList1MS.GetHeadPosition(); 
-    iCount = pDoc->m_CObjectList1MS.GetCount();
-
+    iCount = pDoc->m_CObjectList1MS.size();
     for ( i = 0; i < iCount; i ++ ) {                            
-      pcobj = pDoc->m_CObjectList1MS.GetNext(pos);
+      pcobj = pDoc->m_CObjectList1MS[i];
       if ( pcobj->CountDown( 1 ) ) pcobj->ExectiveDynLink();
     }
 
     // exective per 10ms Task
     if ( pDoc->m_lCount10MS <= 0 ) {
 			pDoc->m_lCount10MS = 9;
-			pos = pDoc->m_CUnitList10MS.GetHeadPosition(); 
-			iCount = pDoc->m_CUnitList10MS.GetCount();
+			iCount = pDoc->m_CUnitList10MS.size();
 
 			for ( i = 0; i < iCount; i ++ ) {                            
-				pc = pDoc->m_CUnitList10MS.GetNext(pos);
-				if ( pc->CountDown(10) ) pc->Exective();  
+				punit = pDoc->m_CUnitList10MS[i];
+				if ( punit->CountDown(10) ) punit->Exective();  
 			}
 
-			pos = pDoc->m_CObjectList10MS.GetHeadPosition(); 
-			iCount = pDoc->m_CObjectList10MS.GetCount();
-
+			iCount = pDoc->m_CObjectList10MS.size();
 			for ( i = 0; i < iCount; i ++ ) {                            
-				pcobj = pDoc->m_CObjectList10MS.GetNext(pos);
+				pcobj = pDoc->m_CObjectList10MS[i];
 				if ( pcobj->CountDown(10) ) pcobj->ExectiveDynLink();
 			}
 		}
@@ -498,18 +474,15 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
     // exective per 100 ms Task
     if ( pDoc->m_lCount100MS <= 0 ) {
       pDoc->m_lCount100MS = 99;
-      pos = pDoc->m_CUnitList100MS.GetHeadPosition(); 
-      iCount = pDoc->m_CUnitList100MS.GetCount();
+      iCount = pDoc->m_CUnitList100MS.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        pc = pDoc->m_CUnitList100MS.GetNext(pos);
-        if ( pc->CountDown(100) ) pc->Exective();  
+        punit = pDoc->m_CUnitList100MS[i];
+        if ( punit->CountDown(100) ) punit->Exective();  
       }
 
-      pos = pDoc->m_CObjectList100MS.GetHeadPosition(); 
-      iCount = pDoc->m_CObjectList100MS.GetCount();
-
+      iCount = pDoc->m_CObjectList100MS.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        pcobj = pDoc->m_CObjectList100MS.GetNext(pos);
+        pcobj = pDoc->m_CObjectList100MS[i];
         if ( pcobj->CountDown(100) )	pcobj->ExectiveDynLink();  
 			}
     }
@@ -520,19 +493,15 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
       pDoc->m_lCountSecond = 999;
       // do function per socond
 
-      pos = pDoc->m_CUnitList1Second.GetHeadPosition(); 
-      iCount = pDoc->m_CUnitList1Second.GetCount();
-
+      iCount = pDoc->m_CUnitList1Second.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        pc = pDoc->m_CUnitList1Second.GetNext(pos);
-        if ( pc->CountDown(1000) ) pc->Exective();  
+        punit = pDoc->m_CUnitList1Second[i];
+        if ( punit->CountDown(1000) ) punit->Exective();  
       }
 
-      pos = pDoc->m_CObjectList1Second.GetHeadPosition(); 
-      iCount = pDoc->m_CObjectList1Second.GetCount();
-
+      iCount = pDoc->m_CObjectList1Second.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        pcobj = pDoc->m_CObjectList1Second.GetNext(pos);
+        pcobj = pDoc->m_CObjectList1Second[i];
         if ( pcobj->CountDown(1000) ) pcobj->ExectiveDynLink();  
 		  }
     
@@ -548,19 +517,16 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
     if ( pDoc->m_lCountMinute <= 0 ) {
       pDoc->m_lCountMinute = 60000 - 1;
       // do function per minute
-      pos = pDoc->m_CUnitList1Minute.GetHeadPosition(); 
-      iCount = pDoc->m_CUnitList1Minute.GetCount();
+      iCount = pDoc->m_CUnitList1Minute.size();
 
       for ( i = 0; i < iCount; i ++ ) {                            
-        pc = pDoc->m_CUnitList1Minute.GetNext(pos);
-        if ( pc->CountDown( 60000 ) ) pc->Exective();  
+        punit = pDoc->m_CUnitList1Minute[i];
+        if ( punit->CountDown( 60000 ) ) punit->Exective();  
       }
 
-      pos = pDoc->m_CObjectList1Minute.GetHeadPosition(); 
-      iCount = pDoc->m_CObjectList1Minute.GetCount();
-
+      iCount = pDoc->m_CObjectList1Minute.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        pcobj = pDoc->m_CObjectList1Minute.GetNext(pos);
+        pcobj = pDoc->m_CObjectList1Minute[i];
         if ( pcobj->CountDown( 60000 ) ) pcobj->ExectiveDynLink();
 			}
     }
