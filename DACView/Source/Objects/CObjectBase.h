@@ -9,6 +9,9 @@
 ///////////////////////////////////////////////////////////////////////////
 #pragma once
 
+using namespace std;
+#include<vector>
+
 #include "typedef.h"
 #include "CObjectPrimitive.h"
 
@@ -17,6 +20,7 @@
 class CObjectBase;
 class CUnitBase;
 typedef CList<CObjectBase *, CObjectBase *> CObjectList;
+typedef vector<CObjectBase *> CObjectVector;
 typedef CList<CUnitBase *, CUnitBase *> CUnitList;
 
 class CObjectSymbol;

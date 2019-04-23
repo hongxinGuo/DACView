@@ -10,6 +10,9 @@
 ///////////////////////////////////////////////////////////////////////////
 #pragma once
 
+using namespace std;
+#include<vector>
+
 #include<list>
 
 #include "CObjectPrimitive.h"
@@ -22,6 +25,7 @@ class CUnitComponent;
 
 typedef CList<CUnitDictionary *, CUnitDictionary *> CDicList;
 typedef CList<CUnitBase *, CUnitBase *> CUnitList; 
+typedef vector<CUnitBase *> CUnitVector;
 
 class CUnitBase : public CObjectPrimitive {
 public :

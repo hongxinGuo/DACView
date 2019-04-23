@@ -37,7 +37,6 @@ CObjectButton::CObjectButton(const CString& s, CRect r) : CObjRectBase(s, r) {
 
   m_fCreateMemoryDC = false;
 
-	m_vfSelected.empty();
 	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
 		m_vfSelected.push_back(false);
 	}

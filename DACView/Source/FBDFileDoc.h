@@ -61,19 +61,19 @@ protected:
 // Serialized Data
 	CUnitList			m_CUnitList;
 	CUnitList 		m_CRunTimeUnitList;	// run time unit list, the sequence of unit is recalculated.
-	vector<CUnitBase *>			m_CUnitList1MS;
-	vector<CUnitBase *>			m_CUnitList10MS;
-	vector<CUnitBase *>			m_CUnitList100MS;
-	vector<CUnitBase *> 		m_CUnitList1Second;
-	vector<CUnitBase *> 		m_CUnitList1Minute;
+  CUnitVector		m_CUnitList1MS;
+  CUnitVector		m_CUnitList10MS;
+  CUnitVector		m_CUnitList100MS;
+  CUnitVector		m_CUnitList1Second;
+  CUnitVector		m_CUnitList1Minute;
 
 	CObjectList 	m_CObjectList;			// object list
 	CObjectList		m_CRunTimeObjectList;
-	vector<CObjectBase *>		m_CObjectList1MS;
-	vector<CObjectBase *>		m_CObjectList10MS;
-	vector<CObjectBase *> 	m_CObjectList100MS;
-	vector<CObjectBase *>   m_CObjectList1Second;
-	vector<CObjectBase *>   m_CObjectList1Minute;
+  CObjectVector	m_CObjectList1MS;
+  CObjectVector	m_CObjectList10MS;
+  CObjectVector	m_CObjectList100MS;
+  CObjectVector m_CObjectList1Second;
+  CObjectVector m_CObjectList1Minute;
 	
 	
 // no serialized data

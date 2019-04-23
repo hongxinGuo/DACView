@@ -52,6 +52,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+using namespace std;
+#include<vector>
+
 #include "cUnitBase.h"
 #include"CUnitComponentPara.h"
 	
@@ -230,11 +233,11 @@ protected :
 
 	CPoint          m_ptScrollPositionUpper;
 
-	CUnitList				m_CUnitList1MS;
-	CUnitList				m_CUnitList10MS;
-	CUnitList 			m_CUnitList100MS;
-	CUnitList 			m_CUnitList1Second;
-	CUnitList 			m_CUnitList1Minute;
+  CUnitVector			m_CUnitList1MS;
+  CUnitVector			m_CUnitList10MS;
+  CUnitVector 		m_CUnitList100MS;
+  CUnitVector 		m_CUnitList1Second;
+  CUnitVector 		m_CUnitList1Minute;
 
 	volatile LONG   m_lCount10MS;
 	volatile LONG		m_lCount100MS;

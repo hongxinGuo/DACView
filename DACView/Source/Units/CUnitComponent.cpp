@@ -151,11 +151,6 @@ CUnitComponent::~CUnitComponent() {
 	m_CUnitList.RemoveAll();
 
 	m_CRunTimeUnitList.RemoveAll();
-	m_CUnitList1MS.RemoveAll();
-  m_CUnitList10MS.RemoveAll();
-  m_CUnitList100MS.RemoveAll();
-  m_CUnitList1Second.RemoveAll();
-  m_CUnitList1Minute.RemoveAll();
 	
 	ASSERT(m_vfSelected.size() == 16);
 }
@@ -639,8 +634,7 @@ void CUnitComponent::ToShow( CDC * const pdc ) {
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::Exective( void ) {
-	CUnitBase * pc;
-	POSITION pos;
+	CUnitBase * punit;
 	INT_PTR iCount;
 
   ASSERT(m_fEncapsulated); // 封装后的部件才允许执行此函数
@@ -671,21 +665,19 @@ void CUnitComponent::Exective( void ) {
 
   // 执行各运行时单元序列
   // exective per 1ms Task，目前将其归入每10毫秒执行序列中。
-  pos = m_CUnitList1MS.GetHeadPosition(); 
-  iCount = m_CUnitList1MS.GetCount();
+  iCount = m_CUnitList1MS.size();
   for ( int i = 0; i < iCount; i ++ ) {                            
-    pc = m_CUnitList1MS.GetNext(pos);
-    if ( pc->CountDown(10) ) pc->Exective();  
+    punit = m_CUnitList1MS[i];
+    if ( punit->CountDown(10) ) punit->Exective();  
   }
 
   // exective per 10ms Task
 	if ( m_lCount10MS <= 0 ) {
 		m_lCount10MS = 9;
-		pos = m_CUnitList10MS.GetHeadPosition(); 
-		iCount = m_CUnitList10MS.GetCount();
+		iCount = m_CUnitList10MS.size();
 		for ( int i = 0; i < iCount; i ++ ) {                            
-			pc = m_CUnitList10MS.GetNext(pos);
-			if ( pc->CountDown(10) ) pc->Exective();  
+			punit = m_CUnitList10MS[i];
+			if ( punit->CountDown(10) ) punit->Exective();  
 		}
 	}
 	else m_lCount10MS--;
@@ -693,11 +685,10 @@ void CUnitComponent::Exective( void ) {
   // exective per 100 ms Task
   if ( m_lCount100MS <= 0 ) {
     m_lCount100MS = 99;
-    pos = m_CUnitList100MS.GetHeadPosition(); 
-    iCount = m_CUnitList100MS.GetCount();
+    iCount = m_CUnitList100MS.size();
     for ( int i = 0; i < iCount; i ++ ) {                            
-      pc = m_CUnitList100MS.GetNext(pos);
-      if ( pc->CountDown(100) ) pc->Exective();  
+      punit = m_CUnitList100MS[i];
+      if ( punit->CountDown(100) ) punit->Exective();  
     }
   }
   else m_lCount100MS--;
@@ -706,11 +697,10 @@ void CUnitComponent::Exective( void ) {
   if ( m_lCountSecond <= 0 ) {
     m_lCountSecond = 999;
     // do function per socond
-    pos = m_CUnitList1Second.GetHeadPosition(); 
-    iCount = m_CUnitList1Second.GetCount();
+    iCount = m_CUnitList1Second.size();
     for ( int i = 0; i < iCount; i ++ ) {                            
-      pc = m_CUnitList1Second.GetNext(pos);
-      if ( pc->CountDown( 1000 ) ) pc->Exective();  
+      punit = m_CUnitList1Second[i];
+      if ( punit->CountDown( 1000 ) ) punit->Exective();  
     }
   }
   else m_lCountSecond--;
@@ -719,11 +709,10 @@ void CUnitComponent::Exective( void ) {
   if ( m_lCountMinute <= 0 ) {
     m_lCountMinute = 60000 - 1;
     // do function per minute
-    pos = m_CUnitList1Minute.GetHeadPosition(); 
-    iCount = m_CUnitList1Minute.GetCount();
+    iCount = m_CUnitList1Minute.size();
     for ( int i = 0; i < iCount; i ++ ) {                            
-      pc = m_CUnitList1Minute.GetNext(pos);
-      if ( pc->CountDown( 60000 ) ) pc->Exective();  
+      punit = m_CUnitList1Minute[i];
+      if ( punit->CountDown( 60000 ) ) punit->Exective();  
     }
   }
   else m_lCountMinute--;
@@ -2083,26 +2072,26 @@ void CUnitComponent::PrepareRunTimeList(void) {
     pcunit = m_CRunTimeUnitList.GetNext( po );
 		pcunit->PrepareRunTimeList();		// 生成部件的运行时态序列.
     if ( ((pcunit->GetScanRate()/60000)*60000) == pcunit->GetScanRate() ) {
-      m_CUnitList1Minute.AddTail( pcunit );
+      m_CUnitList1Minute.push_back( pcunit );
     }
     else if ( ((pcunit->GetScanRate()/1000)*1000) == pcunit->GetScanRate() ) {
-      m_CUnitList1Second.AddTail( pcunit );
+      m_CUnitList1Second.push_back( pcunit );
     }
     else if ( ((pcunit->GetScanRate()/100)*100) == pcunit->GetScanRate() ) {
-      m_CUnitList100MS.AddTail( pcunit );
+      m_CUnitList100MS.push_back( pcunit );
     }
     else if ( ((pcunit->GetScanRate()/10)*10) == pcunit->GetScanRate() ) {
-      m_CUnitList10MS.AddTail( pcunit );
+      m_CUnitList10MS.push_back( pcunit );
     }
     else {
-      m_CUnitList1MS.AddTail( pcunit );
+      m_CUnitList1MS.push_back( pcunit );
     }
   }
-  ASSERT( iCount == ( m_CUnitList1Minute.GetCount() + 
-                     m_CUnitList1Second.GetCount() +
-                     m_CUnitList100MS.GetCount() +
-                     m_CUnitList10MS.GetCount() +
-										 m_CUnitList1MS.GetCount() ) );
+  ASSERT( iCount == ( m_CUnitList1Minute.size() + 
+                     m_CUnitList1Second.size() +
+                     m_CUnitList100MS.size() +
+                     m_CUnitList10MS.size() +
+										 m_CUnitList1MS.size() ) );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
