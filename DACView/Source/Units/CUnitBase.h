@@ -10,22 +10,13 @@
 ///////////////////////////////////////////////////////////////////////////
 #pragma once
 
-using namespace std;
-#include<vector>
-
-#include<list>
-
+#include"typedef.h"
 #include "CObjectPrimitive.h"
 
 #include "CUnitDynLink.h"
 #include "cUnitDictionary.h"
 
-class CUnitBase;
 class CUnitComponent;
-
-typedef CList<CUnitDictionary *, CUnitDictionary *> CDicList;
-typedef CList<CUnitBase *, CUnitBase *> CUnitList; 
-typedef vector<CUnitBase *> CUnitVector;
 
 class CUnitBase : public CObjectPrimitive {
 public :

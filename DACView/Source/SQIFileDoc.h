@@ -32,11 +32,11 @@ public:
   // Operations
 public:
 	// operate an object of ObjList         
-  CUnitList *       GetUnitList( void );
-  CUnitList *       GetCurrentUnitList(void);
+  CUnitList *       GetUnitList(void) { return &m_CUnitList; }
+  CUnitList *       GetCurrentUnitList(void) { return m_pCurrentUnitList; }
   void              SetCurrentUnitList(CUnitList * pCurrentUnitList) { m_pCurrentUnitList = pCurrentUnitList; }
-  CUnitList *       GetRunTimeUnitList ( void );
-	CObjectList *     GetObjectList( void );
+  CUnitList *       GetRunTimeUnitList(void) { return &m_CRunTimeUnitList; }
+  CObjectList *     GetObjectList(void) { return &m_CObjectList; }
 	CDicList *        GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj );
   
   void              ClearLoopDetectFlag( void );

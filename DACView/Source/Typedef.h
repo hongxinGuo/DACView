@@ -1,5 +1,9 @@
 #pragma once
 
+using namespace std;
+#include<vector>
+#include<list>
+
 typedef struct {
                   CString Name;				//参数的名称
                   ULONG   ulType;			//参数的类型： 
@@ -41,5 +45,14 @@ enum {
 
 // 用于显示动态连接线具体位置的list类型
 typedef CList<CPoint *, CPoint *> CPointList;
-	
-              
+
+class CUnitBase;
+typedef CList<CUnitBase *, CUnitBase *> CUnitList;
+class CObjectBase;
+
+typedef vector<CObjectBase *> CObjectVector;
+typedef CList<CObjectBase *, CObjectBase *> CObjectList;
+
+class CUnitDictionary;
+typedef CList<CUnitDictionary *, CUnitDictionary *> CDicList;
+typedef vector<CUnitBase *> CUnitVector;
