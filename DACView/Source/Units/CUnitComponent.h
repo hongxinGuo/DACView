@@ -134,8 +134,8 @@ public:
   virtual bool			CanLinkIn(void) override;
 
 
-  CUnitList *       GetUnitList(void);
-  CUnitList *       GetRunTimeUnitList(void);
+  CUnitList *       GetUnitList(void) { return &m_CUnitList; }
+  CUnitList *       GetRunTimeUnitList(void) { return &m_CRunTimeUnitList; }
 
   virtual void			ResetCompileFlag(void) override;
 
@@ -217,7 +217,7 @@ private:
 
 protected :
 // Serialized Data
-	CUnitList				m_CRunTimeUnitList;
+  CUnitList			m_CRunTimeUnitList;
 	CUnitList       m_CUnitList;
 
 	CUCPara  *      m_pInterfacePara[16];
@@ -233,11 +233,11 @@ protected :
 
 	CPoint          m_ptScrollPositionUpper;
 
-  CUnitVector			m_CUnitList1MS;
-  CUnitVector			m_CUnitList10MS;
-  CUnitVector 		m_CUnitList100MS;
-  CUnitVector 		m_CUnitList1Second;
-  CUnitVector 		m_CUnitList1Minute;
+  CUnitVector			m_vCUnit1MS;
+  CUnitVector			m_vCUnit10MS;
+  CUnitVector 		m_vCUnit100MS;
+  CUnitVector 		m_vCUnit1Second;
+  CUnitVector 		m_vCUnit1Minute;
 
 	volatile LONG   m_lCount10MS;
 	volatile LONG		m_lCount100MS;

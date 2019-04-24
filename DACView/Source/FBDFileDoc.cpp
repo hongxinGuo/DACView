@@ -241,26 +241,26 @@ BOOL CFBDFileDoc::MakeRunTimeUnitList( void ) {
     pcunit = m_CRunTimeUnitList.GetNext( po );
 		pcunit->PrepareRunTimeList();	// 生成部件的运行时态序列.
     if ( ((pcunit->GetScanRate()/60000)*60000) == pcunit->GetScanRate() ) {
-      m_CUnitList1Minute.push_back(pcunit);
+      m_vCUnit1Minute.push_back(pcunit);
     }
     else if ( ((pcunit->GetScanRate()/1000)*1000) == pcunit->GetScanRate() ) {
-      m_CUnitList1Second.push_back(pcunit);
+      m_vCUnit1Second.push_back(pcunit);
     }
     else if ( ((pcunit->GetScanRate()/100)*100) == pcunit->GetScanRate() ) {
-      m_CUnitList100MS.push_back(pcunit);
+      m_vCUnit100MS.push_back(pcunit);
     }
     else if ( ((pcunit->GetScanRate()/10)*10) == pcunit->GetScanRate() ) {
-			m_CUnitList10MS.push_back(pcunit);
+			m_vCUnit10MS.push_back(pcunit);
 		}
 		else {
-      m_CUnitList1MS.push_back(pcunit);
+      m_vCUnit1MS.push_back(pcunit);
     }
   }
-  ASSERT( iCount == ( m_CUnitList1Minute.size() + 
-                     m_CUnitList1Second.size() +
-                     m_CUnitList100MS.size() +
-                     m_CUnitList10MS.size() +
-										 m_CUnitList1MS.size() ) );
+  ASSERT( iCount == ( m_vCUnit1Minute.size() + 
+                     m_vCUnit1Second.size() +
+                     m_vCUnit100MS.size() +
+                     m_vCUnit10MS.size() +
+										 m_vCUnit1MS.size() ) );
   return ( TRUE );
 }
 
@@ -305,27 +305,27 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
   for ( int i = 0; i < iCount; i++ ) {
     pcobj = m_CRunTimeObjectList.GetNext( po );
     if ( ((pcobj->GetScanRate()/60000)*60000) == pcobj->GetScanRate() ) {
-      m_CObjectList1Minute.push_back(pcobj);
+      m_vCObject1Minute.push_back(pcobj);
     }
     else if ( ((pcobj->GetScanRate()/1000)*1000) == pcobj->GetScanRate() ) {
-      m_CObjectList1Second.push_back( pcobj );
+      m_vCObject1Second.push_back( pcobj );
     }
     else if ( ((pcobj->GetScanRate()/100)*100) == pcobj->GetScanRate() ) {
-      m_CObjectList100MS.push_back( pcobj );
+      m_vCObject100MS.push_back( pcobj );
     }
     else if ( ((pcobj->GetScanRate()/10)*10) == pcobj->GetScanRate() ) {
-      m_CObjectList10MS.push_back( pcobj );
+      m_vCObject10MS.push_back( pcobj );
     }
     else {
-      m_CObjectList1MS.push_back( pcobj );
+      m_vCObject1MS.push_back( pcobj );
     }
   }
   ASSERT( m_CRunTimeObjectList.GetCount() ==
-            ( m_CObjectList1Minute.size() +
-              m_CObjectList1Second.size() +
-              m_CObjectList100MS.size() +
-              m_CObjectList10MS.size() +
-							m_CObjectList1MS.size() ) );
+            ( m_vCObject1Minute.size() +
+              m_vCObject1Second.size() +
+              m_vCObject100MS.size() +
+              m_vCObject10MS.size() +
+							m_vCObject1MS.size() ) );
   return ( TRUE );
 }
 
@@ -441,31 +441,31 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
     ulTimeTick = GetTickCount64();
 
     // exective per 1ms Task
-    iCount = pDoc->m_CUnitList1MS.size();
+    iCount = pDoc->m_vCUnit1MS.size();
     for ( i = 0; i < iCount; i ++ ) {                            
-      punit = pDoc->m_CUnitList1MS[i];
+      punit = pDoc->m_vCUnit1MS[i];
       if ( punit->CountDown(1) ) punit->Exective();  
     }
 
-    iCount = pDoc->m_CObjectList1MS.size();
+    iCount = pDoc->m_vCObject1MS.size();
     for ( i = 0; i < iCount; i ++ ) {                            
-      pcobj = pDoc->m_CObjectList1MS[i];
+      pcobj = pDoc->m_vCObject1MS[i];
       if ( pcobj->CountDown( 1 ) ) pcobj->ExectiveDynLink();
     }
 
     // exective per 10ms Task
     if ( pDoc->m_lCount10MS <= 0 ) {
 			pDoc->m_lCount10MS = 9;
-			iCount = pDoc->m_CUnitList10MS.size();
+			iCount = pDoc->m_vCUnit10MS.size();
 
 			for ( i = 0; i < iCount; i ++ ) {                            
-				punit = pDoc->m_CUnitList10MS[i];
+				punit = pDoc->m_vCUnit10MS[i];
 				if ( punit->CountDown(10) ) punit->Exective();  
 			}
 
-			iCount = pDoc->m_CObjectList10MS.size();
+			iCount = pDoc->m_vCObject10MS.size();
 			for ( i = 0; i < iCount; i ++ ) {                            
-				pcobj = pDoc->m_CObjectList10MS[i];
+				pcobj = pDoc->m_vCObject10MS[i];
 				if ( pcobj->CountDown(10) ) pcobj->ExectiveDynLink();
 			}
 		}
@@ -474,15 +474,15 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
     // exective per 100 ms Task
     if ( pDoc->m_lCount100MS <= 0 ) {
       pDoc->m_lCount100MS = 99;
-      iCount = pDoc->m_CUnitList100MS.size();
+      iCount = pDoc->m_vCUnit100MS.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        punit = pDoc->m_CUnitList100MS[i];
+        punit = pDoc->m_vCUnit100MS[i];
         if ( punit->CountDown(100) ) punit->Exective();  
       }
 
-      iCount = pDoc->m_CObjectList100MS.size();
+      iCount = pDoc->m_vCObject100MS.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        pcobj = pDoc->m_CObjectList100MS[i];
+        pcobj = pDoc->m_vCObject100MS[i];
         if ( pcobj->CountDown(100) )	pcobj->ExectiveDynLink();  
 			}
     }
@@ -493,15 +493,15 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
       pDoc->m_lCountSecond = 999;
       // do function per socond
 
-      iCount = pDoc->m_CUnitList1Second.size();
+      iCount = pDoc->m_vCUnit1Second.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        punit = pDoc->m_CUnitList1Second[i];
+        punit = pDoc->m_vCUnit1Second[i];
         if ( punit->CountDown(1000) ) punit->Exective();  
       }
 
-      iCount = pDoc->m_CObjectList1Second.size();
+      iCount = pDoc->m_vCObject1Second.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        pcobj = pDoc->m_CObjectList1Second[i];
+        pcobj = pDoc->m_vCObject1Second[i];
         if ( pcobj->CountDown(1000) ) pcobj->ExectiveDynLink();  
 		  }
     
@@ -517,16 +517,16 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
     if ( pDoc->m_lCountMinute <= 0 ) {
       pDoc->m_lCountMinute = 60000 - 1;
       // do function per minute
-      iCount = pDoc->m_CUnitList1Minute.size();
+      iCount = pDoc->m_vCUnit1Minute.size();
 
       for ( i = 0; i < iCount; i ++ ) {                            
-        punit = pDoc->m_CUnitList1Minute[i];
+        punit = pDoc->m_vCUnit1Minute[i];
         if ( punit->CountDown( 60000 ) ) punit->Exective();  
       }
 
-      iCount = pDoc->m_CObjectList1Minute.size();
+      iCount = pDoc->m_vCObject1Minute.size();
       for ( i = 0; i < iCount; i ++ ) {                            
-        pcobj = pDoc->m_CObjectList1Minute[i];
+        pcobj = pDoc->m_vCObject1Minute[i];
         if ( pcobj->CountDown( 60000 ) ) pcobj->ExectiveDynLink();
 			}
     }

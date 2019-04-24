@@ -39,7 +39,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 
-// #include "globeDef.h"
+#include<algorithm>
 
 #include"CUnitBase.h"
 #include "cUnitComponent.h"
@@ -149,7 +149,6 @@ CUnitComponent::~CUnitComponent() {
 	//  TRACE("%d units in %s %s deleted\n", i, this->GetClassNameStr(), m_strName);                  
 		// release list's memory
 	m_CUnitList.RemoveAll();
-
 	m_CRunTimeUnitList.RemoveAll();
 	
 	ASSERT(m_vfSelected.size() == 16);
@@ -451,15 +450,6 @@ void CUnitComponent::CheckInnerDataLink(INT64 lSrcIndex, INT64 lDestParaPos, CUn
 
 }
 
-// 得到本部件的内部单元序列
-CUnitList * CUnitComponent::GetUnitList(void) {
-	return(&m_CUnitList);
-}
-
-CUnitList * CUnitComponent::GetRunTimeUnitList(void) {
-  return(&m_CRunTimeUnitList);
-}
-
 const CString& CUnitComponent::GetClassNameStr( void ) {
   static CString str = "Cpt";
   return(str);
@@ -665,18 +655,18 @@ void CUnitComponent::Exective( void ) {
 
   // 执行各运行时单元序列
   // exective per 1ms Task，目前将其归入每10毫秒执行序列中。
-  iCount = m_CUnitList1MS.size();
+  iCount = m_vCUnit1MS.size();
   for ( int i = 0; i < iCount; i ++ ) {                            
-    punit = m_CUnitList1MS[i];
+    punit = m_vCUnit1MS[i];
     if ( punit->CountDown(10) ) punit->Exective();  
   }
 
   // exective per 10ms Task
 	if ( m_lCount10MS <= 0 ) {
 		m_lCount10MS = 9;
-		iCount = m_CUnitList10MS.size();
+		iCount = m_vCUnit10MS.size();
 		for ( int i = 0; i < iCount; i ++ ) {                            
-			punit = m_CUnitList10MS[i];
+			punit = m_vCUnit10MS[i];
 			if ( punit->CountDown(10) ) punit->Exective();  
 		}
 	}
@@ -685,9 +675,9 @@ void CUnitComponent::Exective( void ) {
   // exective per 100 ms Task
   if ( m_lCount100MS <= 0 ) {
     m_lCount100MS = 99;
-    iCount = m_CUnitList100MS.size();
+    iCount = m_vCUnit100MS.size();
     for ( int i = 0; i < iCount; i ++ ) {                            
-      punit = m_CUnitList100MS[i];
+      punit = m_vCUnit100MS[i];
       if ( punit->CountDown(100) ) punit->Exective();  
     }
   }
@@ -697,9 +687,9 @@ void CUnitComponent::Exective( void ) {
   if ( m_lCountSecond <= 0 ) {
     m_lCountSecond = 999;
     // do function per socond
-    iCount = m_CUnitList1Second.size();
+    iCount = m_vCUnit1Second.size();
     for ( int i = 0; i < iCount; i ++ ) {                            
-      punit = m_CUnitList1Second[i];
+      punit = m_vCUnit1Second[i];
       if ( punit->CountDown( 1000 ) ) punit->Exective();  
     }
   }
@@ -709,9 +699,9 @@ void CUnitComponent::Exective( void ) {
   if ( m_lCountMinute <= 0 ) {
     m_lCountMinute = 60000 - 1;
     // do function per minute
-    iCount = m_CUnitList1Minute.size();
+    iCount = m_vCUnit1Minute.size();
     for ( int i = 0; i < iCount; i ++ ) {                            
-      punit = m_CUnitList1Minute[i];
+      punit = m_vCUnit1Minute[i];
       if ( punit->CountDown( 60000 ) ) punit->Exective();  
     }
   }
@@ -2072,26 +2062,26 @@ void CUnitComponent::PrepareRunTimeList(void) {
     pcunit = m_CRunTimeUnitList.GetNext( po );
 		pcunit->PrepareRunTimeList();		// 生成部件的运行时态序列.
     if ( ((pcunit->GetScanRate()/60000)*60000) == pcunit->GetScanRate() ) {
-      m_CUnitList1Minute.push_back( pcunit );
+      m_vCUnit1Minute.push_back( pcunit );
     }
     else if ( ((pcunit->GetScanRate()/1000)*1000) == pcunit->GetScanRate() ) {
-      m_CUnitList1Second.push_back( pcunit );
+      m_vCUnit1Second.push_back( pcunit );
     }
     else if ( ((pcunit->GetScanRate()/100)*100) == pcunit->GetScanRate() ) {
-      m_CUnitList100MS.push_back( pcunit );
+      m_vCUnit100MS.push_back( pcunit );
     }
     else if ( ((pcunit->GetScanRate()/10)*10) == pcunit->GetScanRate() ) {
-      m_CUnitList10MS.push_back( pcunit );
+      m_vCUnit10MS.push_back( pcunit );
     }
     else {
-      m_CUnitList1MS.push_back( pcunit );
+      m_vCUnit1MS.push_back( pcunit );
     }
   }
-  ASSERT( iCount == ( m_CUnitList1Minute.size() + 
-                     m_CUnitList1Second.size() +
-                     m_CUnitList100MS.size() +
-                     m_CUnitList10MS.size() +
-										 m_CUnitList1MS.size() ) );
+  ASSERT( iCount == ( m_vCUnit1Minute.size() + 
+                     m_vCUnit1Second.size() +
+                     m_vCUnit100MS.size() +
+                     m_vCUnit10MS.size() +
+										 m_vCUnit1MS.size() ) );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
