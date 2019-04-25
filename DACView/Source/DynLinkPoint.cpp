@@ -12,11 +12,11 @@
 void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pptSecond, CPoint ptCurrent) {
   CPoint *ppt2, *ppt1, *ppt3;
 
-  if (plistLinkPoint->GetCount() == 1) { // 起点开始 
-    ppt1 = plistLinkPoint->GetTail(); // 此时list中已经预存了起始点
+  if (plistLinkPoint->size() == 1) { // 起点开始 
+    ppt1 = plistLinkPoint->back(); // 此时list中已经预存了起始点
     *ppt1 = *pptFirst;		// 设置起始点的位置为第一个点的位置
     ppt2 = new CPoint;
-    plistLinkPoint->AddTail(ppt2);		// 将第二个点加入list中
+    plistLinkPoint->push_back(ppt2);		// 将第二个点加入list中
 
     if ((ptCurrent.x == pptFirst->x) || (ptCurrent.y == pptFirst->y)) { // 如果当前点（m_ptCurrent)位于第一个单元的正上、正下、正左或者正右方
       *ppt2 = ptCurrent; // 设第二个点就是当前点，此时list中有两个点
@@ -25,14 +25,14 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pp
       *ppt2 = *pptSecond; // 设第二个点是第二点的位置
       ppt3 = new CPoint;		// 生成第三个点
       *ppt3 = ptCurrent;	// 第三个点的位置为当前点
-      plistLinkPoint->AddTail(ppt3); // 此时list中有三个点
+      plistLinkPoint->push_back(ppt3); // 此时list中有三个点
       // 三个点时，控制点就要往下移一个
       *pptFirst = *pptSecond;
       *pptSecond = ptCurrent;
     }
   }
   else { // 无起点
-    ppt1 = plistLinkPoint->GetTail();
+    ppt1 = plistLinkPoint->back();
     if (ptCurrent.x == pptFirst->x) {
       ppt1->y = pptSecond->y;
     }
@@ -44,7 +44,7 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pp
     }
     ppt2 = new CPoint;
     *ppt2 = ptCurrent;
-    plistLinkPoint->AddTail(ppt2);
+    plistLinkPoint->push_back(ppt2);
     //控制点往下移一个
     *pptFirst = *pptSecond;
     *pptSecond = ptCurrent;
@@ -57,15 +57,15 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CRect rectSecond,
   CPoint *ppt, *ppt1, *ppt2;
 
   // 表中已经有至少一个点，生成最后的一个点或者两个点（折线）
-  ASSERT(plistLinkPoint->GetCount() >= 1);
-  if (plistLinkPoint->GetCount() == 1) { // 只有一个点，那么就是起点和终点都有了
-    ppt = plistLinkPoint->GetHead();
+  ASSERT(plistLinkPoint->size() >= 1);
+  if (plistLinkPoint->size() == 1) { // 只有一个点，那么就是起点和终点都有了
+    ppt = plistLinkPoint->front();
     *ppt = ptFirst; // 修正起点坐标
     ppt = new CPoint;
     *ppt = ptSecond;
-    plistLinkPoint->AddTail(ppt); // 需要把ptSecond加进去。
+    plistLinkPoint->push_back(ppt); // 需要把ptSecond加进去。
   }
-  ppt1 = plistLinkPoint->GetTail();
+  ppt1 = plistLinkPoint->back();
   if ((ptFirst.x == ptCurrent.x) || (ptFirst.y == ptCurrent.y)) { // 生成直线
     if (ppt1->x < rectSecond.left) ppt1->x = rectSecond.left;
     else if (ppt1->x > rectSecond.right) ppt1->x = rectSecond.right;
@@ -91,19 +91,19 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CRect rectSecond,
       ppt2->y = rectSecond.bottom;
       ppt2->x = ptSecond.x;
     }
-    plistLinkPoint->AddTail(ppt2);
+    plistLinkPoint->push_back(ppt2);
   }
 
-  if (plistLinkPoint->GetCount() == 2) { // 只有两个点,则加上两个中点（这样当移动单元时，不会出现斜线）
-    ppt1 = plistLinkPoint->GetTail();
+  if (plistLinkPoint->size() == 2) { // 只有两个点,则加上两个中点（这样当移动单元时，不会出现斜线）
+    ppt1 = plistLinkPoint->back();
     ppt2 = new CPoint;
     ppt2->x = (ptFirst.x + ppt1->x) / 2;
     ppt2->y = (ptFirst.y + ppt1->y) / 2;
-    POSITION po = plistLinkPoint->GetHeadPosition();
-    plistLinkPoint->InsertAfter(po, ppt2);
+    auto it = plistLinkPoint->end();
+    plistLinkPoint->insert(--it, ppt2);
     ppt = new CPoint;
     *ppt = *ppt2;
-    plistLinkPoint->InsertAfter(po, ppt);
+    plistLinkPoint->insert(it, ppt);
   }
 }
 

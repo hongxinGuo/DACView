@@ -565,14 +565,14 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
   if ( pcSrc == this ) {  // if I was been changed size
     iCount = m_listDynLink.GetCount();
     po = m_listDynLink.GetHeadPosition();
-    for ( i = 0; i < iCount; i++ ) {
+    for ( i= 0; i < iCount; i++ ) {
       pDL = m_listDynLink.GetNext( po );
 			if ((pDL->GetDynLinkClass() == COMPONENT_TO_UNIT) || (pDL->GetDynLinkClass() == COMPONENT_TO_UNIT))
 				break; //当联出本单元所在的复合单元时，不需要调整动态链接线的位置（调整了就出错了）
       plist = pDL->GetLinkPointList();
-      poLine = plist->GetHeadPosition();
-      ppt1 = plist->GetNext( poLine );
-      ppt2 = plist->GetNext( poLine );
+      auto itPoint = plist->begin();
+      ppt1 = *itPoint++;
+      ppt2 = *itPoint++;
       if ( ppt1->x == ppt2->x ) {	// 从单元引出的动态连接线是竖直的.
         if ( (ppt1->y < ppt2->y) && (m_rectArea.top > ppt2->y) ) {// 
           ppt1->x += ptEnd.x - ptStart.x;
@@ -649,9 +649,10 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
     if ( fDo ) {
       rect = pcunit->GetSize();
       plist = pDL->GetLinkPointList();
-      poLine = plist->GetTailPosition();
-      ppt1 = plist->GetPrev( poLine );
-      ppt2 = plist->GetPrev( poLine );
+      auto it = plist->end();
+      it--;
+      ppt1 = *it--;
+      ppt2 = *it--;
 			rectSrc = pcSrc->GetSize();
       if ( ppt1->x == ppt2->x ) {
         if ( (ppt1->y < ppt2->y) && (rect.top > ppt2->y) ) {
@@ -1302,7 +1303,7 @@ void CUnitBase::ToShow( CDC * const pdc ) {
       // they are show in CUnitComponent that have me
       break;
     case UNIT_TO_CptPARAMETER : // 此类型在封装部件后才会出现于已封装部件的内部单元序列的动态链接中，不用显示其动态链接线。而且其动态链接线应该是空的。
-      ASSERT(pUnitDynLink->GetLinkPointList()->IsEmpty()); // 此类型的动态连接线序列已经移到了包含其的部件处。
+      ASSERT(pUnitDynLink->GetLinkPointList()->size() == 0); // 此类型的动态连接线序列已经移到了包含其的部件处。
       break;
     default :
       ASSERT( false );

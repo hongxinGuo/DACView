@@ -58,21 +58,22 @@ namespace DACViewTest {
 
     ppt = new CPoint;
     *ppt = ptFirst;
-    listPoint.AddTail(ppt);
+    listPoint.push_back(ppt);
     ppt = new CPoint;  
     *ppt = ptFirst;
-    listPoint.AddTail(ppt);
+    listPoint.push_back(ppt);
     ppt = new CPoint;
     *ppt = ptSecond;
-    listPoint.AddTail(ppt);
+    listPoint.push_back(ppt);
 
     CreateDynLinkPoint(&listPoint, rectSecond, ptFirst, ptSecond,ptCurrent);
 
-    EXPECT_LE(3, listPoint.GetCount()) << "无起点有终点的动态链接线至少有三个点";
-    POSITION po = listPoint.GetTailPosition();
-    ppt3 = listPoint.GetPrev(po);
-    ppt2 = listPoint.GetPrev(po);
-    ppt1 = listPoint.GetPrev(po);
+    EXPECT_LE(3, listPoint.size()) << "无起点有终点的动态链接线至少有三个点";
+    auto it = listPoint.end();
+    it--;
+    ppt3 = *it--;
+    ppt2 = *it--;
+    ppt1 = *it;
     if (ptSecond.y < rectSecond.top) {
     EXPECT_EQ(ppt3->x, ppt2->x);
     EXPECT_EQ(ppt3->y, rectSecond.top);
@@ -90,13 +91,13 @@ namespace DACViewTest {
       EXPECT_EQ(ppt3->x, rectSecond.right);
     }
 
-    po = listPoint.GetHeadPosition();
-    int iTotal = listPoint.GetCount();
+    it = listPoint.begin();
+    int iTotal = listPoint.size();
     for (int i = 0; i < iTotal; i++) {
-      ppt = listPoint.GetNext(po);
+      ppt = *it++;
       delete ppt;
     }
-    listPoint.RemoveAll();
+    listPoint.clear();
   }
 
   TEST_P(TestDLPointFindDest, TestCreateDynLinkPointFindDest2) { // 有起点有终点
@@ -111,47 +112,47 @@ namespace DACViewTest {
 
     ppt = new CPoint;
     *ppt = ptFirst;
-    listPoint.AddTail(ppt);
+    listPoint.push_back(ppt);
 
     CreateDynLinkPoint(&listPoint, rectSecond, ptFirst, ptSecond, ptCurrent);
 
-    EXPECT_LE(listPoint.GetCount(), 4); // 有起点有终点的动态链接线最多四个点
-    POSITION po = listPoint.GetTailPosition();
-    ppt3 = listPoint.GetPrev(po);
-    ppt2 = listPoint.GetPrev(po);
-    ppt1 = listPoint.GetPrev(po);
+    EXPECT_LE(listPoint.size(), 4); // 有起点有终点的动态链接线最多四个点
+    auto it = listPoint.end();
+    ppt3 = *--it;
+    ppt2 = *--it;
+    ppt1 = *--it;
     if ((ptFirst.y >= rectSecond.top) && (ptFirst.y < rectSecond.bottom)) {
-      ppt4 = listPoint.GetPrev(po);      
+      ppt4 = *--it;      
       if (ptFirst.x < rectSecond.left) {
-        EXPECT_EQ(4, listPoint.GetCount());
+        EXPECT_EQ(4, listPoint.size());
         EXPECT_EQ(ppt3->y, ppt4->y);
         EXPECT_EQ(ppt3->y, ppt2->y);
         EXPECT_EQ(ppt3->x, rectSecond.left);
       }
       else {
-        EXPECT_EQ(4, listPoint.GetCount());
+        EXPECT_EQ(4, listPoint.size());
         EXPECT_EQ(ppt3->y, ppt4->y);
         EXPECT_EQ(ppt3->y, ppt2->y);
         EXPECT_EQ(ppt3->x, rectSecond.right);
       }
     }
     else if ((ptFirst.x >= rectSecond.left) && (ptFirst.x < rectSecond.right)) {
-      ppt4 = listPoint.GetPrev(po);
+      ppt4 = *--it;
       if (ptFirst.y < rectSecond.top) {
-        EXPECT_EQ(4, listPoint.GetCount());
+        EXPECT_EQ(4, listPoint.size());
         EXPECT_EQ(ppt3->x, ppt4->x);
         EXPECT_EQ(ppt3->x, ppt2->x);
         EXPECT_EQ(ppt3->y, rectSecond.top);
       }
       else {
-        EXPECT_EQ(4, listPoint.GetCount());
+        EXPECT_EQ(4, listPoint.size());
         EXPECT_EQ(ppt3->x, ppt4->x);
         EXPECT_EQ(ppt3->x, ppt2->x);
         EXPECT_EQ(ppt3->y, rectSecond.bottom);
       }
     }
     else { // 三个点
-      EXPECT_EQ(3, listPoint.GetCount());
+      EXPECT_EQ(3, listPoint.size());
       if (ptSecond.y >= rectSecond.bottom) {
         EXPECT_EQ(ppt3->x, ppt2->x);
         EXPECT_EQ(ppt3->y, rectSecond.bottom);
@@ -170,13 +171,11 @@ namespace DACViewTest {
       }
     }
 
-    po = listPoint.GetHeadPosition();
-    int iTotal = listPoint.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      ppt = listPoint.GetNext(po);
+    for (auto it1 = listPoint.begin(); it1 != listPoint.end(); it1++) {
+      ppt = *it++;
       delete ppt;
     }
-    listPoint.RemoveAll();
+    listPoint.clear();
 
   }
 
@@ -229,7 +228,7 @@ namespace DACViewTest {
 
     ppt = new CPoint;
     *ppt = ptFirst;
-    listPoint.AddTail(ppt);
+    listPoint.push_back(ppt);
 
     if ((ptSecond.x == ptCurrent.x) && (ptSecond.y == ptCurrent.y)) { // 直线
       if (ptSecond.x == ptFirst.x) { // 纵向
@@ -241,21 +240,21 @@ namespace DACViewTest {
     }
     CreateDynLinkPoint(&listPoint, &ptFirst1, &ptSecond1, ptCurrent);
 
-    po = listPoint.GetTailPosition();
+    auto it = listPoint.end();
     if ((ptSecond.x == ptCurrent.x) && (ptSecond.y == ptCurrent.y)) { // 直线
-      EXPECT_EQ(2, listPoint.GetCount());
-      ppt1 = listPoint.GetTail();
+      EXPECT_EQ(2, listPoint.size());
+      ppt1 = *--it;
       EXPECT_EQ(ppt1->x, ptSecond.x);
       EXPECT_EQ(ppt1->y, ptSecond.y);
       EXPECT_EQ(ppt->x, ptFirst.x); // 测试是否移至ptFirst
       EXPECT_EQ(ppt->y, ptFirst.y);
     }
     else {
-      EXPECT_EQ(3, listPoint.GetCount()); 
-      po = listPoint.GetHeadPosition();
-      ppt = listPoint.GetNext(po);
-      ppt2 = listPoint.GetNext(po);
-      ppt3 = listPoint.GetNext(po);
+      EXPECT_EQ(3, listPoint.size()); 
+      it = listPoint.begin();
+      ppt = *it++;
+      ppt2 = *it++;
+      ppt3 = *it++;
       EXPECT_EQ(ppt2->x, ptFirst1.x); // 此时ptFirst1已经移至ptSecond
       EXPECT_EQ(ppt2->y, ptFirst1.y);
       EXPECT_EQ(ppt3->x, ptSecond1.x); // 此时ptSecond1已经移至当前点
@@ -264,14 +263,13 @@ namespace DACViewTest {
       EXPECT_EQ(ptFirst1.y, ptSecond.y);
     }
 
-    po = listPoint.GetHeadPosition();
-    int iTotal = listPoint.GetCount();
+    it = listPoint.begin();
+    int iTotal = listPoint.size();
     for (int i = 0; i < iTotal; i++) {
-      ppt = listPoint.GetNext(po);
+      ppt = *it++;
       delete ppt;
     }
-    listPoint.RemoveAll();
-
+    listPoint.clear();
   }
 
   TEST_P(TestDLPointNotFindDest, TestCreateDynLinkPointNotFindDest2) { // 无起点无终点
@@ -287,31 +285,28 @@ namespace DACViewTest {
 
     ppt = new CPoint;
     *ppt = ptFirst;
-    listPoint.AddTail(ppt);
+    listPoint.push_back(ppt);
     ppt = new CPoint;
     *ppt = ptSecond;
-    listPoint.AddTail(ppt);
+    listPoint.push_back(ppt);
 
     CreateDynLinkPoint(&listPoint, &ptFirst, &ptSecond, ptCurrent);
 
-    ppt = listPoint.GetTail();
+    ppt = listPoint.back();
     EXPECT_EQ(ppt->x, ptSecond.x); // 此时ptFirst已经移至ptSecond
     EXPECT_EQ(ppt->y, ptSecond.y);
     EXPECT_EQ(ptSecond1.x, ptFirst.x);
     EXPECT_EQ(ptSecond1.y, ptFirst.y);
 
-    POSITION po = listPoint.GetHeadPosition();
-    int iTotal = listPoint.GetCount();
+    auto it = listPoint.begin();
+    int iTotal = listPoint.size();
     for (int i = 0; i < iTotal; i++) {
-      ppt = listPoint.GetNext(po);
+      ppt = *it++;
       delete ppt;
     }
-    listPoint.RemoveAll();
-
+    listPoint.clear();
   }
-
 }
-
 
 namespace DACViewTest {
   struct AdjustDLPoint {

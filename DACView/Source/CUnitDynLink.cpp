@@ -69,16 +69,14 @@ CUnitDynLink::CUnitDynLink( void ) : CObjectPrimitive() {
 
 
 CUnitDynLink::~CUnitDynLink() {
-  POSITION po = m_plistLinkPoint->GetHeadPosition();
-  INT_PTR i, iCount = m_plistLinkPoint->GetCount();
+  INT_PTR iCount = m_plistLinkPoint->size();
   CPoint * ppt;
 
-  for ( i = 0; i < iCount; i++ ) {
-    ppt = m_plistLinkPoint->GetNext( po );
+  for (auto it = m_plistLinkPoint->begin(); it != m_plistLinkPoint->end(); it++) {
+    ppt = *it;
     delete ppt;
-    ppt = nullptr;
   }
-  m_plistLinkPoint->RemoveAll();
+  m_plistLinkPoint->clear();
   delete m_plistLinkPoint;
 } 
 
@@ -94,7 +92,7 @@ CUnitDynLink::~CUnitDynLink() {
 void CUnitDynLink::Serialize( CArchive& ar ) {
   CObjectPrimitive::Serialize( ar );
 
-  INT64 i, iCount = m_plistLinkPoint->GetCount();
+  INT64 iCount = m_plistLinkPoint->size();
   CPoint pt, * ppt;
   
   if( ar.IsStoring() ) {
@@ -102,9 +100,8 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
        << m_lSrcIndex << m_lDestIndex 
        << m_ulDynLinkType << m_ulDynLinkClass
        << iCount;
-    POSITION po = m_plistLinkPoint->GetHeadPosition();
-    for ( i = 0; i < iCount; i++ ) {
-      ppt = m_plistLinkPoint->GetNext( po );
+    for (auto it = m_plistLinkPoint->begin(); it != m_plistLinkPoint->end(); ++it) {
+      ppt = *it;
       ar << *ppt;
     }
   }
@@ -113,11 +110,11 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
 			>> m_lSrcIndex >> m_lDestIndex
 			>> m_ulDynLinkType >> m_ulDynLinkClass
 			>> iCount;
-		for (i = 0; i < iCount; i++) {
+		for (int i = 0; i < iCount; i++) {
 			ar >> pt;
 			ppt = new CPoint;
 			*ppt = pt;
-			m_plistLinkPoint->AddTail(ppt);
+			m_plistLinkPoint->push_back(ppt);
 		}
   } 
 }               
@@ -139,8 +136,8 @@ void CUnitDynLink::ToShow( CDC * const pdc ) {
   CPoint pt1, pt2, *ppt;
 
   CPen cp, * pcp;
-  INT_PTR i, iCount = m_plistLinkPoint->GetCount();
-  POSITION po = m_plistLinkPoint->GetHeadPosition();
+  INT_PTR iCount = m_plistLinkPoint->size();
+  auto it = m_plistLinkPoint->begin();
 
   if (iCount == 0) return; // 如果没有可显示点，则返回。
     
@@ -183,11 +180,11 @@ void CUnitDynLink::ToShow( CDC * const pdc ) {
 
   int x = 0, y = 0; // initialize
   pcp = pdc->SelectObject( &cp );
-  ppt = m_plistLinkPoint->GetNext( po );
+  ppt = *it++;
   pt1 = *ppt;
-  for ( i = 1; i < iCount; i++ ) {
+  for ( int i = 1; i < iCount; i++ ) {
     pdc->MoveTo( pt1 );  
-    ppt = m_plistLinkPoint->GetNext( po );
+    ppt = *it++;
     pdc->LineTo( *ppt );
     x = ppt->x;
     y = ppt->y;
@@ -472,16 +469,14 @@ void CUnitDynLink::SetDestIndex( INT32 ulIndex) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 void CUnitDynLink::SetLinkPointList( CPointList * plist ) {
-  POSITION po;
-  INT_PTR i, iCount;
+  INT_PTR iCount;
   CPoint * ppt;
 
-  iCount = plist->GetCount();
+  iCount = plist->size();
 	ASSERT( iCount >= 3 );			//至少三个点.
-  po = plist->GetHeadPosition();
-  m_plistLinkPoint->RemoveAll();
-  for ( i = 0; i < iCount; i++ ) {
-    ppt = plist->GetNext( po );
-    m_plistLinkPoint->AddTail( ppt );
+  m_plistLinkPoint->clear();
+  for (auto it = plist->begin(); it != plist->end(); it++) {
+    ppt = *it;
+    m_plistLinkPoint->push_back(ppt);
   }
 }

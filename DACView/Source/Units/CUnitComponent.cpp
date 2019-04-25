@@ -1142,13 +1142,13 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
         iCount = plistDynLink->GetCount();
         for (j = 0; j < iCount; j++) {
           pDL = plistDynLink->GetNext(po);
+          plist = pDL->GetLinkPointList();
+          auto itLine = plist->begin();
           switch (pDL->GetDynLinkClass()) {
           case COMPONENT_TO_UNIT:
           case COMPONENT_TO_COMPONENT:
-            plist = pDL->GetLinkPointList();
-            poLine = plist->GetHeadPosition();
-            ppt1 = plist->GetNext(poLine);
-            ppt2 = plist->GetNext(poLine);
+            ppt1 = *itLine++;
+            ppt2 = *itLine++;
             if (ppt1->x == ppt2->x) {
               if ((ppt1->y < ppt2->y) && (m_rectArea.top > ppt2->y)) {
                 ppt1->x += ptEnd.x - ptStart.x;
@@ -1243,9 +1243,9 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
         if (fDo) {
           rect = pcunit->GetSize();
           plist = pDL->GetLinkPointList();
-          poLine = plist->GetTailPosition();
-          ppt1 = plist->GetPrev(poLine);
-          ppt2 = plist->GetPrev(poLine);
+          auto itLine = plist->end();
+          ppt1 = *itLine--;
+          ppt2 = *itLine--;
           rectSrc = pcSrc->GetSize();
           if (ppt1->x == ppt2->x) {
             if ((ppt1->y < ppt2->y) && (rect.top > ppt2->y)) {
@@ -1933,7 +1933,7 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
         else pDLNew->SetDynLinkClass(UNIT_TO_COMPONENT); // 更改动态链接类型
         pDLNew->SetLinkPointList(pDL->GetLinkPointList());
         this->m_listDynLink.AddTail(pDLNew);
-        pDL->GetLinkPointList()->RemoveAll();   // 不再用内部单元来显示链接线
+        pDL->GetLinkPointList()->clear();   // 不再用内部单元来显示链接线
         // 将原动态链接的目的单元设置为本部件，参数索引也改为相关的参数位置
         pDL->mTest_pDestUnitSaved = pDL->GetDestUnit(); // 测试用：保存当前目的单元。
         pDL->SetDestUnit(this); // 目的单元为本部件

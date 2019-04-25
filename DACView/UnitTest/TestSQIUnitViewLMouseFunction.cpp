@@ -77,7 +77,7 @@ namespace DACViewTest {
 		EXPECT_TRUE(m_View.GetCurrentUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetFirstUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetSecondUnitSize().IsRectEmpty());
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty());
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty());
 		EXPECT_EQ(m_View.GetDynLinkType(), 0);
 		EXPECT_EQ(m_View.GetDynLinkClass(), 0);
 		EXPECT_EQ(-1, m_View.GetSrcIndex());
@@ -97,7 +97,7 @@ namespace DACViewTest {
 		EXPECT_TRUE(m_View.GetCurrentUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetFirstUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetSecondUnitSize().IsRectEmpty());
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty());
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty());
 		EXPECT_EQ(m_View.GetDynLinkClass(), 0);
 		EXPECT_EQ(m_View.GetDynLinkType(), 0);
 		EXPECT_EQ(-1, m_View.GetSrcIndex());
@@ -117,13 +117,14 @@ namespace DACViewTest {
 
 		CPointList * plistPoint = m_View.GetLinkPointList();
 		CPoint * pt1 = new CPoint(0, 0);
-		plistPoint->AddTail(pt1); // 故意加入一个元素
-		EXPECT_EQ(plistPoint->GetCount(), 1);
+		plistPoint->push_back(pt1); // 故意加入一个元素
+		EXPECT_EQ(plistPoint->size(), 1);
+
 		// 执行LButtonUp
 		m_View.OnLButtonUp(0, m_View.m_ptPoint);
 
-		EXPECT_EQ(plistPoint->GetCount(), 0);
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty()); // 此时动态点序列为空
+		EXPECT_EQ(plistPoint->size(), 0);
+    EXPECT_TRUE(m_View.GetLinkPointList()->empty()) << "此时动态点序列为空";
 
 		// 动作结束
 	}
@@ -139,7 +140,7 @@ namespace DACViewTest {
 		EXPECT_TRUE(m_View.GetCurrentUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetFirstUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetSecondUnitSize().IsRectEmpty());
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty());
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty());
 		EXPECT_EQ(m_View.GetDynLinkType(), 0);
 		EXPECT_EQ(m_View.GetDynLinkClass(), 0);
 		EXPECT_EQ(-1, m_View.GetSrcIndex());
@@ -164,7 +165,7 @@ namespace DACViewTest {
 		EXPECT_FALSE(m_View.GetCurrentUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetFirstUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetSecondUnitSize().IsRectEmpty());
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty());
+		EXPECT_TRUE(m_View.GetLinkPointList()->size() == 0);
 		EXPECT_EQ(m_View.GetDynLinkClass(), 0);
 		EXPECT_EQ(m_View.GetDynLinkType(), 0);
 		EXPECT_EQ(-1, m_View.GetSrcIndex());
@@ -184,14 +185,14 @@ namespace DACViewTest {
 
 		CPointList * plistPoint = m_View.GetLinkPointList();
 		CPoint * pt1 = new CPoint(0, 0);
-		plistPoint->AddTail(pt1); // 故意加入一个元素
-		EXPECT_EQ(plistPoint->GetCount(), 1);
+		plistPoint->push_back(pt1); // 故意加入一个元素
+		EXPECT_EQ(plistPoint->size(), 1);
 
 		// 执行LButtonUp
 		m_View.OnLButtonUp(0, m_View.m_ptPoint);
 
-		EXPECT_EQ(plistPoint->GetCount(), 1) << "此种状态时没有重置";
-		EXPECT_TRUE(!m_View.GetLinkPointList()->IsEmpty()) << "此时动态点序列不为空";
+		EXPECT_EQ(plistPoint->size(), 1) << "此种状态时没有重置";
+		EXPECT_TRUE(!m_View.GetLinkPointList()->empty()) << "此时动态点序列不为空";
 
 		// 动作结束
 		delete pt1;
@@ -209,7 +210,7 @@ namespace DACViewTest {
 		EXPECT_TRUE(m_View.GetCurrentUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetFirstUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetSecondUnitSize().IsRectEmpty());
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty());
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty());
 		EXPECT_EQ(m_View.GetDynLinkClass(), 0);
 		EXPECT_EQ(m_View.GetDynLinkType(), 0);
 		EXPECT_EQ(-1, m_View.GetSrcIndex());
@@ -235,7 +236,7 @@ namespace DACViewTest {
 		EXPECT_TRUE(m_View.GetCurrentUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetFirstUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetSecondUnitSize().IsRectEmpty());
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty());
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty());
 		EXPECT_EQ(m_View.GetDynLinkClass(), 0);
 		EXPECT_EQ(m_View.GetDynLinkType(), 0);
 		EXPECT_EQ(-1, m_View.GetSrcIndex());
@@ -255,13 +256,13 @@ namespace DACViewTest {
 
 		CPointList * plistPoint = m_View.GetLinkPointList();
 		CPoint * pt1 = new CPoint(0, 0);
-		plistPoint->AddTail(pt1); // 故意加入一个元素
-		EXPECT_EQ(plistPoint->GetCount(), 1);
+		plistPoint->push_back(pt1); // 故意加入一个元素
+		EXPECT_EQ(plistPoint->size(), 1);
 		// 执行LButtonUp
 		m_View.OnLButtonUp(0, m_View.m_ptPoint);
 
-		EXPECT_EQ(plistPoint->GetCount(), 0);
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty()); // 此时动态点序列为空
+		EXPECT_EQ(plistPoint->size(), 0);
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty()); // 此时动态点序列为空
 		// 动作结束
 	}
 
@@ -277,7 +278,7 @@ namespace DACViewTest {
 		EXPECT_TRUE(m_View.GetCurrentUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetFirstUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetSecondUnitSize().IsRectEmpty());
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty());
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty());
 		EXPECT_EQ(m_View.GetDynLinkClass(), 0);
 		EXPECT_EQ(m_View.GetDynLinkType(), 0);
 		EXPECT_EQ(-1, m_View.GetSrcIndex());
@@ -303,7 +304,7 @@ namespace DACViewTest {
 		EXPECT_TRUE(m_View.GetCurrentUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetFirstUnitSize().IsRectEmpty());
 		EXPECT_TRUE(m_View.GetSecondUnitSize().IsRectEmpty());
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty());
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty());
 		EXPECT_EQ(m_View.GetDynLinkClass(), 0);
 		EXPECT_EQ(m_View.GetDynLinkType(), 0);
 		EXPECT_EQ(-1, m_View.GetSrcIndex());
@@ -323,16 +324,14 @@ namespace DACViewTest {
 
 		CPointList * plistPoint = m_View.GetLinkPointList();
 		CPoint * pt1 = new CPoint(0, 0);
-		plistPoint->AddTail(pt1); // 故意加入一个元素
-		EXPECT_EQ(plistPoint->GetCount(), 1);
+		plistPoint->push_back(pt1); // 故意加入一个元素
+		EXPECT_EQ(plistPoint->size(), 1);
 		// 执行LButtonUp
 		m_View.OnLButtonUp(0, m_View.m_ptPoint);
 
-		EXPECT_EQ(plistPoint->GetCount(), 0);
-		EXPECT_TRUE(m_View.GetLinkPointList()->IsEmpty()); // 此时动态点序列为空
+		EXPECT_EQ(plistPoint->size(), 0);
+		EXPECT_TRUE(m_View.GetLinkPointList()->empty()); // 此时动态点序列为空
 		// 动作结束
 	}
-
-
 
 }

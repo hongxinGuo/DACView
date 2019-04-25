@@ -390,7 +390,6 @@ CSQIUnitView::CSQIUnitView(void)
   m_pCUnitComponentCurrent = nullptr;       // 不存在包含最上层单元序列的部件。
 
   m_plistLinkPoint = new CPointList;
-  m_plistLinkPoint->RemoveAll();
 
   m_lSrcIndex = m_lDestIndex = -1;
 	m_ulDynLinkType = 0;
@@ -400,7 +399,7 @@ CSQIUnitView::CSQIUnitView(void)
 
 CSQIUnitView::~CSQIUnitView()
 {
-  m_plistLinkPoint->RemoveAll();
+  m_plistLinkPoint->clear();
   delete m_plistLinkPoint;
 }
 
@@ -812,13 +811,13 @@ void CSQIUnitView::CreateUniName(CUnitBase * pCUnit) {
 }
 
 void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointList * plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent) {
-  POSITION po = plistLinkPoint->GetHeadPosition();
-  INT_PTR i, iCount = plistLinkPoint->GetCount();
+  auto it = plistLinkPoint->begin();
+  INT_PTR iCount = plistLinkPoint->size();
   CPoint *ppt1 = nullptr, *ppt2 = nullptr;
 
-  ppt1 = plistLinkPoint->GetNext(po);
-  for (i = 1; i < (iCount - 1); i++) {
-    ppt2 = plistLinkPoint->GetNext(po);
+  ppt1 = *it++;
+  for (int i = 1; i < (iCount - 1); i++) {
+    ppt2 = *it++;
     DrawInvertLine(pdc, 1, *ppt1, *ppt2);
     ppt1 = ppt2;
   }
@@ -849,20 +848,14 @@ void CSQIUnitView::AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint pt
 }
 
 void CSQIUnitView::DeleteDynLinkPointList(CPointList * plistLinkPoint) {
-  POSITION po;
-  INT_PTR iCount;
   CPoint * ppt;
 
-  po = plistLinkPoint->GetHeadPosition();
-  iCount = plistLinkPoint->GetCount();
-  for (int i = 0; i < iCount; i++) {
-    ppt = plistLinkPoint->GetNext(po);
+  for (auto it = plistLinkPoint->begin(); it != plistLinkPoint->end(); it++) {
+    ppt = *it;
     delete ppt;
   }
-  plistLinkPoint->RemoveAll();
+  plistLinkPoint->clear();
 }
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////
 //
@@ -1298,7 +1291,7 @@ void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
     if (!IsInRect(ptDevice, pcUnit)) { // 如果当前鼠标不在单元内的话， 则画动态链接线（当鼠标位于单元范围内时，动态链接线就不动了，不太好）
       DrawInvertDynLinkLine(pdc, m_plistLinkPoint, m_ptFirst, m_ptSecond, m_ptCurrent);
       m_ptCurrent = ptDevice;
-      if (m_plistLinkPoint->GetCount() == 1) { // 创建第一个动态链接点
+      if (m_plistLinkPoint->size() == 1) { // 创建第一个动态链接点
         AdjustDynLinkPoint(m_rectFirstUnit, m_ptFirst, m_ptSecond, m_ptCurrent);
       }
       else {
@@ -1546,7 +1539,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
       m_pCUnitDynLinkCurrent->SetSrcUnit(m_pCUnitFirst);
       m_pCUnitDynLinkCurrent->SetDestUnit(m_pCUnitSecond);
       m_pCUnitDynLinkCurrent->SetLinkPointList(m_plistLinkPoint);
-      m_plistLinkPoint->RemoveAll();
+      m_plistLinkPoint->clear();
       m_pCUnitDynLinkCurrent->SetSrcIndex(m_lSrcIndex);
       m_pCUnitDynLinkCurrent->SetDestIndex(m_lDestIndex);
       m_pCUnitFirst->AddDynLink(m_pCUnitDynLinkCurrent);
@@ -1594,7 +1587,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
       ASSERT(!m_pCUnitCurrent->CanLinkIn()); // 不允许再次链接未封装的或不允许封装的部件，动态链接只允许陷入一层
       ASSERT(m_pCUnitFirst == nullptr);
       m_pCUnitFirst = m_pCUnitCurrent;
-      ASSERT(m_plistLinkPoint->GetCount() == 1);
+      ASSERT(m_plistLinkPoint->size() == 1);
       m_pCUnitFirst->PrepareParaDictionary(CCPDlg.GetDicList(), tMODIFIABLE | tOUTPUT | tDOUBLE | tBOOL | tWORD | tSTRING);
       switch (CCPDlg.DoModal()) {
       case IDOK:
@@ -1612,7 +1605,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
       if (m_fLinkIntoSourceComponent) {
         ViewOut();        // 返回上层
         ASSERT(m_pCUnitCurrent != nullptr);
-        if (m_plistLinkPoint->GetCount() == 1) { // 创建第一个动态链接点
+        if (m_plistLinkPoint->size() == 1) { // 创建第一个动态链接点
           AdjustDynLinkPoint(m_rectFirstUnit, m_ptFirst, m_ptSecond, m_ptCurrent); // 从下层上来后要调整动态链接线
         }
         else {
@@ -2722,9 +2715,9 @@ void CSQIUnitView::OnArrangeMakedynlink()
   CDlgChoiceParameter CCPDlg;
 
   ASSERT(m_pCUnitCurrent != NULL);
-  ASSERT(m_plistLinkPoint->GetCount() == 0);
+  ASSERT(m_plistLinkPoint->size() == 0);
   m_pCUnitFirst = m_pCUnitSecond = nullptr;
-  m_plistLinkPoint->RemoveAll();
+  m_plistLinkPoint->clear();
   if (m_pCUnitCurrent->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 部件？
     if (m_pCUnitCurrent->IsEncapsulated()) { // 已经封装了的部件？则视其为简单单元
       m_pCUnitFirst = m_pCUnitCurrent;
@@ -2746,11 +2739,11 @@ void CSQIUnitView::OnArrangeMakedynlink()
   m_rectFirstUnit = m_pCUnitCurrent->GetSize(); // 设置第一个单元的位置
   m_ptFirst.x = m_ptSecond.x = m_ptCurrent.x = m_rectFirstUnit.right;
   m_ptFirst.y = m_ptSecond.y = m_ptCurrent.y = m_rectFirstUnit.top;
-  ASSERT(m_plistLinkPoint->GetCount() == 0); // 确保没有动态链接点
+  ASSERT(m_plistLinkPoint->size() == 0); // 确保没有动态链接点
   ppt = new CPoint;
   TRACE("Start position：%d %d\n", m_ptFirst.x, m_ptFirst.y);
   *ppt = m_ptFirst;
-  m_plistLinkPoint->AddTail(ppt);
+  m_plistLinkPoint->push_back(ppt);
 
   if (m_ulDynLinkClass == COMPONENT_TO_UNIT) { // 部件
     ASSERT(m_pCUnitCurrent->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
