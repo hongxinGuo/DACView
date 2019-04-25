@@ -1514,7 +1514,7 @@ void CSQIObjectView::OnUpdateArrangeBreakdynlink(CCmdUI* pCmdUI)
   // TODO: Add your command update UI handler code here
   switch ( m_nCurrentFunction ) {
   case OBJECT_SELECTED :
-    if ( m_pCObjectCurrent->GetDynLinkList()->GetCount() > 0 ) {  // have dynamic link ?
+    if ( m_pCObjectCurrent->GetDynLinkList()->size() > 0 ) {  // have dynamic link ?
       pCmdUI->Enable(TRUE);
     }
     else {

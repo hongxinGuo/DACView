@@ -44,7 +44,7 @@ namespace DACViewTest {
     pcODL->SetUnitIndex(1); // input2
     pcODL->SetLinkMethod(IDD_INPUT_BOOL);
     podlList = cButton.GetDynLinkList();
-    podlList->AddTail(pcODL);
+    podlList->push_back(pcODL);
     cAnd.SetBool(1, true);
     cButton.ExectiveDynLink();
     EXPECT_FALSE(cAnd.GetBool(1));

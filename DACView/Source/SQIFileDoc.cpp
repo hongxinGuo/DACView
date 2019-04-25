@@ -445,17 +445,13 @@ CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj
     }
 	}
 
-	CODLList * pODLL = pcObj->GetDynLinkList();
-	po = pODLL->GetHeadPosition();
-	iTotal = pODLL->GetCount();
-	CObjectDynLink * pDY;
+	CODLList * pODLList = pcObj->GetDynLinkList();
 	ULONG ulIndex;
 
 	// 将已有的动态连接置入词典中
-	for ( int i = 0; i < iTotal; i++ ) {
-		pDY = pODLL->GetNext( po );
-		ulIndex = pDY->GetUnitIndex();
-		pcunit = pDY->GetUnit();
+	for ( const auto pODL : *pODLList ) {
+		ulIndex = pODL->GetUnitIndex();
+		pcunit = pODL->GetUnit();
 		pDic = make_shared<CUnitDictionary>( pcunit, ulIndex, pcunit->GetParaType( ulIndex ) );
 		m_CDicList.push_back( pDic );
 		}

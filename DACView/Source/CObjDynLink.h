@@ -9,6 +9,9 @@
 ////////////////////////////////////////////////////////////////////////
 #pragma once
 
+using namespace std;
+#include<list>
+
 #include "cObjectPrimitive.h"
 
 class CUnitBase;
@@ -79,6 +82,6 @@ protected :
 	bool 				m_fDeleteMe;				// 是否删除的标志.
 };                        
 
-typedef CList<CObjectDynLink *, CObjectDynLink *> CODLList;
+typedef list<CObjectDynLink *> CODLList;
 
   

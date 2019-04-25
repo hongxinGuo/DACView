@@ -138,15 +138,10 @@ const CString& CObjectNumberInput::GetClassNameStr( void ) {
 
 bool CObjectNumberInput::ExectiveDynLink( void ) {
   // Dynamic Link Button
-  POSITION po = m_listDynLink.GetHeadPosition();
-  CObjectDynLink * pcobjDynLink;
   CUnitBase * pcunit;
   ULONG ulDestIndex;
-  
-	INT_PTR i, iTemp = m_listDynLink.GetCount();
-  
-  for ( i = 0; i < iTemp; i++ ) {
-    pcobjDynLink = m_listDynLink.GetNext(po);
+    
+  for (const auto pcobjDynLink : m_listDynLink) {
     pcunit = pcobjDynLink->GetUnit();                    
     ulDestIndex = pcobjDynLink->GetUnitIndex();   
     switch ( pcobjDynLink->GetLinkMethod() ) {
@@ -436,13 +431,10 @@ bool CObjectNumberInput::SetProperty( void ) {
 }
 
 bool CObjectNumberInput::CheckSelf( void ) {
-	POSITION poDL = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
 	CObjectDynLink * pc;
 	CString str;
 
-	for( i = 0; i < iCount; i++ ) {
-		pc = m_listDynLink.GetNext( poDL );
+	for( const auto pc : m_listDynLink ) {
 	}
 	return( TRUE );
 }

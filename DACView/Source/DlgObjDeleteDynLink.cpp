@@ -10,6 +10,9 @@
 
 #include "DlgObjDeleteDynLink.h"
 
+using namespace std;
+#include<algorithm>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -60,14 +63,13 @@ END_MESSAGE_MAP()
 void CODelDynLink::OnButtonDelete() 
 {
 	// TODO: Add your control notification handler code here
-	CObjectDynLink * pDL = m_plistObjectDynLink->GetHead();
-	POSITION po = m_plistObjectDynLink->GetHeadPosition();
-	ULONG i;
+	auto it = m_plistObjectDynLink->begin();
 
-	for ( i = 0; i <= m_ulChoiceIndex; i++ ) {
-		pDL = m_plistObjectDynLink->GetNext(po);
+	for ( int i = 0; i <= m_ulChoiceIndex; i++ ) {
+		it++;
 	}
-	pDL->SetDeleteMeFlag( TRUE );
+  auto pODL = *it;
+	pODL->SetDeleteMeFlag( TRUE );
 	UpdateListBox();
 }
 
@@ -76,14 +78,13 @@ void CODelDynLink::OnSelchangeListDynlink()
 	// TODO: Add your control notification handler code here
 	m_ulChoiceIndex = (ULONG)SendDlgItemMessage(IDC_LIST_DYNLINK, LB_GETCURSEL, 0, 0L);
 	
-	CObjectDynLink * pDL = m_plistObjectDynLink->GetHead();
-	POSITION po = m_plistObjectDynLink->GetHeadPosition();
-	ULONG i;
+	auto it = m_plistObjectDynLink->begin();
 
-	for ( i = 0; i <= m_ulChoiceIndex; i++ ) {
-		pDL = m_plistObjectDynLink->GetNext(po);
+	for ( int i = 0; i <= m_ulChoiceIndex; i++ ) {
+    it++;
 	}
-	if ( pDL->IsDeleteMe() ) {
+  auto pODL = *it;
+	if ( pODL->IsDeleteMe() ) {
 		GetDlgItem(IDC_BUTTON_DELETE)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_UNDELETE)->EnableWindow(TRUE);
 	}
@@ -102,18 +103,13 @@ void CODelDynLink::OnDblclkListDynlink()
 void CODelDynLink::OnOK() 
 {
 	// TODO: Add extra validation here
-	CObjectDynLink * pDL;
-	POSITION po1, po = m_plistObjectDynLink->GetHeadPosition();
-	INT_PTR i, iCount = m_plistObjectDynLink->GetCount();
 
-
-	for ( i = 0; i < iCount; i++ ) {
-		pDL = m_plistObjectDynLink->GetNext(po);
-		if ( pDL->IsDeleteMe() ) {
-			po1 = m_plistObjectDynLink->Find( pDL );
-			m_plistObjectDynLink->RemoveAt( po1 );
-			delete pDL;
-			pDL = nullptr;
+  for (auto it = m_plistObjectDynLink->begin(); it != m_plistObjectDynLink->end(); it++) {
+    auto pODL = *it;
+		if ( pODL->IsDeleteMe() ) {
+			m_plistObjectDynLink->erase( it );
+			delete pODL;
+			pODL = nullptr;
 		}
 	}
 
@@ -123,14 +119,9 @@ void CODelDynLink::OnOK()
 void CODelDynLink::OnCancel() 
 {
 	// TODO: Add extra cleanup here
-	CObjectDynLink * pDL;
-	POSITION po = m_plistObjectDynLink->GetHeadPosition();
-	INT_PTR i, iCount = m_plistObjectDynLink->GetCount();
 
-
-	for ( i = 0; i < iCount; i++ ) {
-		pDL = m_plistObjectDynLink->GetNext(po);
-		pDL->SetDeleteMeFlag( FALSE );
+	for ( const auto pODL : *m_plistObjectDynLink ) {
+		pODL->SetDeleteMeFlag( FALSE );
 	}
 	CDialog::OnCancel();
 }
@@ -147,14 +138,11 @@ BOOL CODelDynLink::OnInitDialog()
 }
 
 void CODelDynLink::UpdateListBox( void ) {
-	CObjectDynLink * pDL;
-	POSITION po = m_plistObjectDynLink->GetHeadPosition();
-	INT_PTR i, j, iCount = m_plistObjectDynLink->GetCount();
+	INT_PTR i = 0, j;
 	CString strPara;
 
 	SendDlgItemMessage(IDC_LIST_DYNLINK, LB_RESETCONTENT, (WPARAM)0, (LPARAM)0);
-	for ( i = 0; i < iCount; i++ ) {
-		pDL = m_plistObjectDynLink->GetNext(po);
+	for ( const auto pDL : *m_plistObjectDynLink ) {
 		strPara = m_pcobj->GetName();
 		strPara += '.';
 		strPara += m_pcobj->GetParaName( pDL->GetObjectIndex() );
@@ -167,10 +155,11 @@ void CODelDynLink::UpdateListBox( void ) {
 		}
 		j = SendDlgItemMessage(IDC_LIST_DYNLINK, LB_INSERTSTRING, (WPARAM)i,                    
 											 		 (LPARAM)(LPCTSTR(strPara)));
+    i++;
 	}	
 	SendDlgItemMessage(IDC_LIST_DYNLINK, LB_SETCURSEL, m_ulChoiceIndex = 0, 0L);
 
-	pDL = m_plistObjectDynLink->GetHead();
+	auto pDL = m_plistObjectDynLink->front();
 	if ( pDL->IsDeleteMe() ) {
 		GetDlgItem(IDC_BUTTON_DELETE)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_UNDELETE)->EnableWindow(TRUE);
@@ -184,13 +173,12 @@ void CODelDynLink::UpdateListBox( void ) {
 void CODelDynLink::OnButtonUndelete() 
 {
 	// TODO: Add your control notification handler code here
-	CObjectDynLink * pDL = m_plistObjectDynLink->GetHead();
-	POSITION po = m_plistObjectDynLink->GetHeadPosition();
-	ULONG i;
+  auto it = m_plistObjectDynLink->begin();
 
-	for ( i = 0; i <= m_ulChoiceIndex; i++ ) {
-		pDL = m_plistObjectDynLink->GetNext(po);
+	for ( int i = 0; i <= m_ulChoiceIndex; i++ ) {
+    it++;
 	}
+  auto pDL = *it;
 	pDL->SetDeleteMeFlag( FALSE );
 	UpdateListBox();
 }
