@@ -51,7 +51,3 @@ protected :
 
 };                        
 
-// ÉùÃ÷×ÖµäµÄ±í
-typedef CList<CUnitDictionary *, CUnitDictionary *> CDicList;
-
-

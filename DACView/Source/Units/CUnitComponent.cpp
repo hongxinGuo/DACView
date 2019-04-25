@@ -1382,7 +1382,7 @@ void CUnitComponent::PrepareParameterDictionary(CDicList &CListDic, ULONG ulType
 				ASSERT((m_pInterfacePara[i]->GetDestUnit() == nullptr) && (m_pInterfacePara[i]->GetSrcUnit() == nullptr));
 				m_aulSuitable[j++] = i;
 				pDic = new CUnitDictionary(this, i, ulType);
-				CListDic.AddTail(pDic);
+				CListDic.push_back(pDic);
 			}
 		}
 		break;
@@ -2155,7 +2155,7 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
         if ((m_pInterfacePara[i]->GetDynLinkType() & ulType) && (m_vfSelected[i] == false)) { // 被写入的参数不允许与Object发生数据链接
           m_aulSuitable[j++] = i;
           pDic = new CUnitDictionary(this, i, ulType);
-          CListDic.AddTail(pDic);
+          CListDic.push_back(pDic);
         }
       }
     }
@@ -2167,7 +2167,7 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
           if (m_vfSelected[i] == false) { // 被写入参数必须没有链接源单元
             m_aulSuitable[j++] = i;
             pDic = new CUnitDictionary(this, i, ulType);
-            CListDic.AddTail(pDic);
+            CListDic.push_back(pDic);
           }
         }
       }
@@ -2180,7 +2180,7 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
           if (m_pInterfacePara[i]->GetParaType() & tOUTPUT) {
             m_aulSuitable[j++] = i;
             pDic = new CUnitDictionary(this, i, ulType);
-            CListDic.AddTail(pDic);
+            CListDic.push_back(pDic);
           }
         }
       }

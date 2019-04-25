@@ -106,15 +106,12 @@ CSQIFileDoc::~CSQIFileDoc() {
   m_CRunTimeUnitList.RemoveAll(); // 运行时单元序列也需要删除
 
   // 删除字典序列
-	POSITION Po = m_CDicList.GetHeadPosition();
   CUnitDictionary * pcDic;
-  INT64 iTemp = m_CDicList.GetCount();
-  for ( int i = 0; i < iTemp; i++ ) {
-    pcDic = m_CDicList.GetNext(Po);
+  for ( auto it = m_CDicList.begin(); it != m_CDicList.end(); it++ ) {
+    pcDic = *it;
     delete pcDic;
-		pcDic = nullptr;
   } 
-  m_CDicList.RemoveAll();
+  m_CDicList.clear();
 }
 
 bool ReleaseSQIFile(CUnitList * pUnitList, CObjectList * pObjectList) {
@@ -432,20 +429,17 @@ void CSQIFileDoc::Dump(CDumpContext& dc) const
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj ) {
-	INT_PTR iTotal = m_CDicList.GetCount();
-	POSITION po = m_CDicList.GetHeadPosition();
 	CUnitDictionary * pDic = nullptr;
 	
 	// 清除以前的词典.
-	for ( int i = 0; i < iTotal; i++ ) {
-		pDic = m_CDicList.GetNext( po );
+	for ( auto it = m_CDicList.begin(); it != m_CDicList.end(); it++ ) {
+		pDic = *it;
 		delete pDic;
-		pDic = nullptr;
 	}
-	m_CDicList.RemoveAll();
+	m_CDicList.clear();
 	
-	iTotal = m_pCurrentUnitList->GetCount();
-	po = m_pCurrentUnitList->GetHeadPosition();
+	INT64 iTotal = m_pCurrentUnitList->GetCount();
+	POSITION po = m_pCurrentUnitList->GetHeadPosition();
 	CUnitBase * pcunit;
 
 	// 得到合适的词典.
@@ -468,8 +462,7 @@ CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj
 		ulIndex = pDY->GetUnitIndex();
 		pcunit = pDY->GetUnit();
 		pDic = new CUnitDictionary( pcunit, ulIndex, pcunit->GetParaType( ulIndex ) );
-		m_CDicList.AddTail( pDic );
-		pDic = nullptr;
+		m_CDicList.push_back( pDic );
 		}
 
 	return( &m_CDicList );

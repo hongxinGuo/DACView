@@ -178,17 +178,15 @@ ULONG CDynamicLinkDlg::GetLinkMethodIndex( ULONG ulLinkMethod ) {
 ////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::ChangeLinkName( ULONG ulLinkType ) {
 	CUnitDictionary * pDic;
-  POSITION po = m_pDicList->GetHeadPosition();
-  INT_PTR i, j, iCount = m_pDicList->GetCount();
   CString str;
 	ULONG ulAttr;
 	CUnitBase * pcunit;
 	ULONG ulUnitIndex;
              
   SendDlgItemMessage(IDC_LINK_NAME, CB_RESETCONTENT, 0L, 0L); // clear former Dlg's items
-  j = 0;  // reset count
-  for( i = 0; i < iCount; i++ ) {
-    pDic = m_pDicList->GetNext(po);
+  int j = 0;  // reset count
+  for( auto it = m_pDicList->begin(); it != m_pDicList->end(); it++ ) {
+    pDic = *it;
 		ulAttr = pDic->GetType();
 		pcunit = pDic->GetUnit();
 		ulUnitIndex = pDic->GetIndex();
@@ -225,10 +223,8 @@ void CDynamicLinkDlg::ChangeLinkName( ULONG ulLinkType ) {
 /////////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::ResetDicIndex( void ) {
 	CUnitDictionary * pDic;
-  POSITION po = m_pDicList->GetHeadPosition();
-  INT_PTR i, iCount = m_pDicList->GetCount();
-  for( i = 0; i < iCount; i++ ) {
-    pDic = m_pDicList->GetNext(po);
+  for( auto it = m_pDicList->begin(); it != m_pDicList->end(); it++ ) {
+    pDic = *it;
 		pDic->SetIndexNumber(-1);
   }
 }
@@ -288,11 +284,11 @@ void CDynamicLinkDlg::UpdateDlg( CObjectDynLink * pcDyn ) {
 
   // find current show dictionary's item
   CUnitDictionary * pDic;
-  POSITION po = m_pDicList->GetHeadPosition();
+  auto it = m_pDicList->begin();
 	int i = 0;
   do {
-  	pDic = m_pDicList->GetNext(po);
-		ASSERT( i++ < m_pDicList->GetCount() );	// 不能越界,出错.
+  	pDic = *it++;
+		ASSERT( i++ < m_pDicList->size() );	// 不能越界,出错.
   } while ( (pDic->GetUnit() != pcDyn->GetUnit()) || (pDic->GetIndex() != m_lUnitIndex) );
   SendDlgItemMessage(IDC_LINK_NAME, CB_SETCURSEL, (WPARAM)pDic->GetIndexNumber(), (LPARAM)0L);
   SendDlgItemMessage(IDC_LINK_METHOD, CB_SETCURSEL,(WPARAM)GetLinkMethodIndex(pcDyn->GetLinkMethod()));
@@ -551,7 +547,7 @@ void CDynamicLinkDlg::OnClickedButtonNew()
   m_pCTag = new CObjectDynLink;
   m_pCTag->SetName("Untitled"); 
   m_pCTag->SetObjectIndex(0);
-  m_pCUnitCurrent = m_pDicList->GetHead()->GetUnit();
+  m_pCUnitCurrent = m_pDicList->front()->GetUnit();
   m_pCTag->SetUnit( m_pCUnitCurrent );
   m_pCTag->SetObject( m_pCObjectCurrent );
   m_pCObjectCurrent->SelectParameter( tMODIFIABLE );
@@ -644,10 +640,10 @@ void CDynamicLinkDlg::OnSelchangeLinkName()
   
   // Get Object parameter's index
   i = SendDlgItemMessage(IDC_LINK_NAME, CB_GETCURSEL, 0, 0L);
-	ASSERT( i < m_pDicList->GetCount() );
-  po = m_pDicList->GetHeadPosition();   
+	ASSERT( i < m_pDicList->size() );
+  auto it = m_pDicList->begin();   
   do {
-    pDic = m_pDicList->GetNext(po);
+    pDic = *it++;
   } while ( pDic->GetIndexNumber() != i );
   m_pCUnitCurrent = pDic->GetUnit();
 	m_lUnitIndex = pDic->GetIndex();

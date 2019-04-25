@@ -54,5 +54,5 @@ typedef vector<CObjectBase *> CObjectVector;
 typedef CList<CObjectBase *, CObjectBase *> CObjectList;
 
 class CUnitDictionary;
-typedef CList<CUnitDictionary *, CUnitDictionary *> CDicList;
+typedef list<CUnitDictionary *> CDicList;
 typedef vector<CUnitBase *> CUnitVector;

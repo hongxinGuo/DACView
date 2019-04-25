@@ -64,18 +64,16 @@ BOOL CDlgChoiceCUCPara::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
-	INT_PTR i, iTotal = m_CDicList.GetCount();
-	POSITION po = m_CDicList.GetHeadPosition();
 	CUnitDictionary * pDic;
 
 	// 将词典中的内容加入选择框中.
-	for (i = 0; i < iTotal; i++) {
-		pDic = m_CDicList.GetNext(po);
+	for (auto it = m_CDicList.begin(); it!= m_CDicList.end(); it++) {
+		pDic = *it;
 		SendDlgItemMessage(IDC_COMBO_CHOICE_CUCPARAMETER,
 			CB_INSERTSTRING, (WPARAM)-1,
 			(LPARAM)((LPSTR)pDic->GetParaName().GetBuffer()));
 	}
-	if (i == 0) { // no proper paremeter to select
+	if (m_CDicList.empty()) { // no proper paremeter to select
 		GetDlgItem(IDOK)->EnableWindow(FALSE);
 	}
 	else {	// 选择第一个参数.
@@ -94,14 +92,12 @@ void CDlgChoiceCUCPara::OnDestroy()
 	CDialogEx::OnDestroy();
 
 	// TODO: 在此处添加消息处理程序代码
-	INT_PTR i, iTotal = m_CDicList.GetCount();
-	POSITION po = m_CDicList.GetHeadPosition();
 	CUnitDictionary * pDic;
 
 	// 清除词典的内容.
-	for (i = 0; i < iTotal; i++) {
-		pDic = m_CDicList.GetNext(po);
+	for (auto it = m_CDicList.begin(); it != m_CDicList.end(); it++) {
+		pDic = *it;
 		delete pDic;
 	}
-	m_CDicList.RemoveAll();
+	m_CDicList.clear();
 }

@@ -1678,19 +1678,19 @@ void CUnitBase::CreateParaDictionary( CDicList &CListDic, ULONG ulType ) {
       if ( (ulType & (tINPUT | tOUTPUT)) == tINPUT ) {		// 选择被写入(INPUT)参数? 
 				if ( (m_vfSelected[i] == false) && (pParaName[i].ulType & tINPUT) ) { // 被写入参数必须没有被选择过.
 					pDic = new CUnitDictionary( this, pParaName[i].ulIndex, pParaName[i].ulType );
-					CListDic.AddTail( pDic );
+					CListDic.push_back( pDic );
 				}
 			}
 			else if ( (ulType & (tINPUT | tOUTPUT)) == tOUTPUT ) {	// 选择被读出(OUTPUT)参数, 被读出参数可输出无数次.
 				if ( pParaName[i].ulType & tOUTPUT ) { 
 					pDic = new CUnitDictionary( this, pParaName[i].ulIndex, pParaName[i].ulType );
-					CListDic.AddTail( pDic );
+					CListDic.push_back( pDic );
 				}
 			}
 			else if ( (ulType & tMODIFIABLE) == tMODIFIABLE ) {	// 选择所有的参数,包括输入和输出类型.
 				if ( (pParaName[i].ulType & tMODIFIABLE) && (m_vfSelected[i] == false) ) { // 被写入参数必须没有被选择过.
 					pDic = new CUnitDictionary( this, pParaName[i].ulIndex, pParaName[i].ulType );
-					CListDic.AddTail( pDic );
+					CListDic.push_back( pDic );
 				}
 			}
 			else { // 出错.
