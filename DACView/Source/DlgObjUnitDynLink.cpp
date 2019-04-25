@@ -223,8 +223,7 @@ void CDynamicLinkDlg::ChangeLinkName( ULONG ulLinkType ) {
 /////////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::ResetDicIndex( void ) {
 	CUnitDictionary * pDic;
-  for( auto it = m_pDicList->begin(); it != m_pDicList->end(); it++ ) {
-    pDic = *it;
+  for( auto& pDic : *m_pDicList ) {
 		pDic->SetIndexNumber(-1);
   }
 }

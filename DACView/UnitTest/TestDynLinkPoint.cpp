@@ -221,7 +221,6 @@ namespace DACViewTest {
     CPoint ptCurrent = pFindDest->ptCurrent;
     CPointList listPoint;
     CPoint *ppt, *ppt1, *ppt2, *ppt3;
-    POSITION po;
 
     ptSecond1 = ptSecond;
     ptFirst1 = ptFirst;

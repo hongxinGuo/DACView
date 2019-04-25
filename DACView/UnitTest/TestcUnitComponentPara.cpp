@@ -27,7 +27,7 @@ namespace DACViewTest {
 		CFile cFile1, cFile2;
 		char buffer[512];
 		CPoint pt1(100, 100);
-		CUnitAdd c1("c1", pt1), c4("UnitAdd2", pt1), *cp2;
+		CUnitAdd c1("c1", pt1), c4("UnitAdd2", pt1);
 		CString strFileName = "CUCPara.tst";
 		CUnitBase * cp1;
 

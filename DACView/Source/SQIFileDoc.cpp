@@ -432,8 +432,7 @@ CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj
 	CUnitDictionary * pDic = nullptr;
 	
 	// 清除以前的词典.
-	for ( auto it = m_CDicList.begin(); it != m_CDicList.end(); it++ ) {
-		pDic = *it;
+	for ( auto &pDic : m_CDicList ) {
 		delete pDic;
 	}
 	m_CDicList.clear();

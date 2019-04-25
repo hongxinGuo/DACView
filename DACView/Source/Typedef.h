@@ -48,11 +48,11 @@ typedef list<CPoint *> CPointList;
 
 class CUnitBase;
 typedef CList<CUnitBase *, CUnitBase *> CUnitList;
-class CObjectBase;
+typedef vector<CUnitBase *> CUnitVector;
 
+class CObjectBase;
 typedef vector<CObjectBase *> CObjectVector;
 typedef CList<CObjectBase *, CObjectBase *> CObjectList;
 
 class CUnitDictionary;
 typedef list<CUnitDictionary *> CDicList;
-typedef vector<CUnitBase *> CUnitVector;
