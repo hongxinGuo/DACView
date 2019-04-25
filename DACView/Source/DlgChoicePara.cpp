@@ -68,7 +68,7 @@ BOOL CDlgChoiceParameter::OnInitDialog()
 	CDialog::OnInitDialog();           
 	
 	// TODO: Add extra initialization here
-	CUnitDictionary * pDic;
+  shared_ptr<CUnitDictionary> pDic;
 
 	// 将词典中的内容加入选择框中.
 	for ( auto it = m_CDicList.begin(); it != m_CDicList.end(); it++ ) {
@@ -99,12 +99,8 @@ void CDlgChoiceParameter::OnDestroy()
 	CDialog::OnDestroy();
 	
 	// TODO: Add your message handler code here
-	CUnitDictionary * pDic;
+  shared_ptr<CUnitDictionary> pDic;
 
 	// 清除词典的内容.
-	for ( auto it = m_CDicList.begin(); it != m_CDicList.end(); it++ ) {
-		pDic = *it;
-		delete pDic;
-		}
 	m_CDicList.clear();
 }

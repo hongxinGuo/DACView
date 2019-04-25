@@ -93,6 +93,9 @@
 
 #include "DlgUnitDeleteDynLink.h"
 
+using namespace std;
+#include<memory>
+
 IMPLEMENT_SERIAL(CUnitBase, CObjectPrimitive, 1 | VERSIONABLE_SCHEMA);
 
 #ifdef _DEBUG
@@ -1664,7 +1667,7 @@ void CUnitBase::PrepareParaDictionary( CDicList &CListDic, ULONG ulType ) {
 }
 
 void CUnitBase::CreateParaDictionary( CDicList &CListDic, ULONG ulType ) {
-	CUnitDictionary * pDic;
+	shared_ptr<CUnitDictionary> pDic;
 	ParaName * pParaName = GetParaNameAddress();
 	int i = 0;
   ULONG ulTypeLowPart, ulTypeHighPart;
@@ -1677,19 +1680,19 @@ void CUnitBase::CreateParaDictionary( CDicList &CListDic, ULONG ulType ) {
     if (((pParaName[i].ulType | ulTypeHighPart) == pParaName[i].ulType) && (ulTypeLowPart & GetDynLinkType(i))) { //参数合适?
       if ( (ulType & (tINPUT | tOUTPUT)) == tINPUT ) {		// 选择被写入(INPUT)参数? 
 				if ( (m_vfSelected[i] == false) && (pParaName[i].ulType & tINPUT) ) { // 被写入参数必须没有被选择过.
-					pDic = new CUnitDictionary( this, pParaName[i].ulIndex, pParaName[i].ulType );
+					pDic = make_shared<CUnitDictionary>( this, pParaName[i].ulIndex, pParaName[i].ulType );
 					CListDic.push_back( pDic );
 				}
 			}
 			else if ( (ulType & (tINPUT | tOUTPUT)) == tOUTPUT ) {	// 选择被读出(OUTPUT)参数, 被读出参数可输出无数次.
 				if ( pParaName[i].ulType & tOUTPUT ) { 
-					pDic = new CUnitDictionary( this, pParaName[i].ulIndex, pParaName[i].ulType );
+					pDic = make_shared<CUnitDictionary>( this, pParaName[i].ulIndex, pParaName[i].ulType );
 					CListDic.push_back( pDic );
 				}
 			}
 			else if ( (ulType & tMODIFIABLE) == tMODIFIABLE ) {	// 选择所有的参数,包括输入和输出类型.
 				if ( (pParaName[i].ulType & tMODIFIABLE) && (m_vfSelected[i] == false) ) { // 被写入参数必须没有被选择过.
-					pDic = new CUnitDictionary( this, pParaName[i].ulIndex, pParaName[i].ulType );
+					pDic = make_shared<CUnitDictionary>( this, pParaName[i].ulIndex, pParaName[i].ulType );
 					CListDic.push_back( pDic );
 				}
 			}

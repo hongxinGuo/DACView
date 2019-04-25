@@ -39,6 +39,9 @@
 
 #include "stdafx.h"
 
+using namespace std;
+#include<memory>
+
 #include "Dacview.h"
 #include "globedef.h"
 
@@ -106,11 +109,7 @@ CSQIFileDoc::~CSQIFileDoc() {
   m_CRunTimeUnitList.RemoveAll(); // 运行时单元序列也需要删除
 
   // 删除字典序列
-  CUnitDictionary * pcDic;
-  for ( auto it = m_CDicList.begin(); it != m_CDicList.end(); it++ ) {
-    pcDic = *it;
-    delete pcDic;
-  } 
+  shared_ptr<CUnitDictionary> pDic;
   m_CDicList.clear();
 }
 
@@ -429,12 +428,9 @@ void CSQIFileDoc::Dump(CDumpContext& dc) const
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj ) {
-	CUnitDictionary * pDic = nullptr;
+	shared_ptr<CUnitDictionary> pDic;
 	
 	// 清除以前的词典.
-	for ( auto &pDic : m_CDicList ) {
-		delete pDic;
-	}
 	m_CDicList.clear();
 	
 	INT64 iTotal = m_pCurrentUnitList->GetCount();
@@ -460,7 +456,7 @@ CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj
 		pDY = pODLL->GetNext( po );
 		ulIndex = pDY->GetUnitIndex();
 		pcunit = pDY->GetUnit();
-		pDic = new CUnitDictionary( pcunit, ulIndex, pcunit->GetParaType( ulIndex ) );
+		pDic = make_shared<CUnitDictionary>( pcunit, ulIndex, pcunit->GetParaType( ulIndex ) );
 		m_CDicList.push_back( pDic );
 		}
 

@@ -64,7 +64,7 @@ BOOL CDlgChoiceCUCPara::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
-	CUnitDictionary * pDic;
+	shared_ptr<CUnitDictionary> pDic;
 
 	// 将词典中的内容加入选择框中.
 	for (auto it = m_CDicList.begin(); it!= m_CDicList.end(); it++) {
@@ -92,12 +92,8 @@ void CDlgChoiceCUCPara::OnDestroy()
 	CDialogEx::OnDestroy();
 
 	// TODO: 在此处添加消息处理程序代码
-	CUnitDictionary * pDic;
+  shared_ptr<CUnitDictionary> pDic;
 
 	// 清除词典的内容.
-	for (auto it = m_CDicList.begin(); it != m_CDicList.end(); it++) {
-		pDic = *it;
-		delete pDic;
-	}
 	m_CDicList.clear();
 }

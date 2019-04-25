@@ -177,7 +177,7 @@ ULONG CDynamicLinkDlg::GetLinkMethodIndex( ULONG ulLinkMethod ) {
 //
 ////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::ChangeLinkName( ULONG ulLinkType ) {
-	CUnitDictionary * pDic;
+  shared_ptr<CUnitDictionary> pDic;
   CString str;
 	ULONG ulAttr;
 	CUnitBase * pcunit;
@@ -282,7 +282,7 @@ void CDynamicLinkDlg::UpdateDlg( CObjectDynLink * pcDyn ) {
 	}
 
   // find current show dictionary's item
-  CUnitDictionary * pDic;
+  shared_ptr<CUnitDictionary> pDic;
   auto it = m_pDicList->begin();
 	int i = 0;
   do {
@@ -635,8 +635,8 @@ void CDynamicLinkDlg::OnSelchangeLinkName()
   // TODO: Add your control notification handler code here
   POSITION po;
   LRESULT i;
-	CUnitDictionary * pDic;
-  
+  shared_ptr<CUnitDictionary> pDic;
+
   // Get Object parameter's index
   i = SendDlgItemMessage(IDC_LINK_NAME, CB_GETCURSEL, 0, 0L);
 	ASSERT( i < m_pDicList->size() );

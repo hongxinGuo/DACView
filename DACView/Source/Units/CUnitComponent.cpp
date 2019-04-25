@@ -39,6 +39,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 
+using namespace std;
+#include<memory>
 #include<algorithm>
 
 #include"CUnitBase.h"
@@ -1368,20 +1370,19 @@ bool CUnitComponent::CanLinkIn( void ) {
 //
 //////////////////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::PrepareParameterDictionary(CDicList &CListDic, ULONG ulType, int iLinked) {
-	CUnitDictionary * pDic;
-	
-	ULONG i = 0;
+  shared_ptr<CUnitDictionary> pDic;
+
 	ULONG j = 0;
 
 	switch (iLinked) {
 	case 0: // 选择没有动态链接的参数
   case 1:
   case -1:
-		for (i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; i++) {
 			if (!m_pInterfacePara[i]->IsLinked()) { // 没有动态链接？
 				ASSERT((m_pInterfacePara[i]->GetDestUnit() == nullptr) && (m_pInterfacePara[i]->GetSrcUnit() == nullptr));
 				m_aulSuitable[j++] = i;
-				pDic = new CUnitDictionary(this, i, ulType);
+				pDic = make_shared<CUnitDictionary>(this, i, ulType);
 				CListDic.push_back(pDic);
 			}
 		}
@@ -2142,7 +2143,7 @@ const CPoint& CUnitComponent::GetUpperScrollPosition(void) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
 	// 准备参数
-  CUnitDictionary * pDic;
+  shared_ptr<CUnitDictionary> pDic;
   ULONG ulParaType = ulType & (tMODIFIABLE | tINPUT | tOUTPUT);
   ULONG j = 0;
 
@@ -2154,7 +2155,7 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
       if (m_pInterfacePara[i]->IsLinked()) {
         if ((m_pInterfacePara[i]->GetDynLinkType() & ulType) && (m_vfSelected[i] == false)) { // 被写入的参数不允许与Object发生数据链接
           m_aulSuitable[j++] = i;
-          pDic = new CUnitDictionary(this, i, ulType);
+          pDic = make_shared<CUnitDictionary>(this, i, ulType);
           CListDic.push_back(pDic);
         }
       }
@@ -2166,7 +2167,7 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
         if ((m_pInterfacePara[i]->GetParaType() | ulType) == m_pInterfacePara[i]->GetParaType()) {
           if (m_vfSelected[i] == false) { // 被写入参数必须没有链接源单元
             m_aulSuitable[j++] = i;
-            pDic = new CUnitDictionary(this, i, ulType);
+            pDic = make_shared<CUnitDictionary>(this, i, ulType);
             CListDic.push_back(pDic);
           }
         }
@@ -2179,7 +2180,7 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
         if ((m_pInterfacePara[i]->GetParaType() | ulType) == m_pInterfacePara[i]->GetParaType()) {
           if (m_pInterfacePara[i]->GetParaType() & tOUTPUT) {
             m_aulSuitable[j++] = i;
-            pDic = new CUnitDictionary(this, i, ulType);
+            pDic = make_shared<CUnitDictionary>(this, i, ulType);
             CListDic.push_back(pDic);
           }
         }

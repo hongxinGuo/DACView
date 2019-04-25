@@ -3,6 +3,7 @@
 using namespace std;
 #include<vector>
 #include<list>
+#include<memory>
 
 typedef struct {
                   CString Name;				//参数的名称
@@ -55,4 +56,4 @@ typedef vector<CObjectBase *> CObjectVector;
 typedef CList<CObjectBase *, CObjectBase *> CObjectList;
 
 class CUnitDictionary;
-typedef list<CUnitDictionary *> CDicList;
+typedef list<shared_ptr<CUnitDictionary>> CDicList;
