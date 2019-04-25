@@ -69,13 +69,6 @@ CUnitDynLink::CUnitDynLink( void ) : CObjectPrimitive() {
 
 
 CUnitDynLink::~CUnitDynLink() {
-  INT_PTR iCount = m_plistLinkPoint->size();
-  CPoint * ppt;
-
-  for (auto it = m_plistLinkPoint->begin(); it != m_plistLinkPoint->end(); it++) {
-    ppt = *it;
-    delete ppt;
-  }
   m_plistLinkPoint->clear();
   delete m_plistLinkPoint;
 } 
@@ -93,8 +86,9 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
   CObjectPrimitive::Serialize( ar );
 
   INT64 iCount = m_plistLinkPoint->size();
-  CPoint pt, * ppt;
-  
+  CPoint pt;
+  shared_ptr<CPoint> ppt;
+
   if( ar.IsStoring() ) {
     ar << m_pSrcUnit << m_pDestUnit
        << m_lSrcIndex << m_lDestIndex 
@@ -112,8 +106,7 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
 			>> iCount;
 		for (int i = 0; i < iCount; i++) {
 			ar >> pt;
-			ppt = new CPoint;
-			*ppt = pt;
+			ppt = make_shared<CPoint>(pt);
 			m_plistLinkPoint->push_back(ppt);
 		}
   } 
@@ -133,7 +126,8 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
 //
 //////////////////////////////////////////////////////////////////////////////////////
 void CUnitDynLink::ToShow( CDC * const pdc ) {
-  CPoint pt1, pt2, *ppt;
+  CPoint pt1, pt2;
+  shared_ptr<CPoint> ppt;
 
   CPen cp, * pcp;
   INT_PTR iCount = m_plistLinkPoint->size();
@@ -470,7 +464,7 @@ void CUnitDynLink::SetDestIndex( INT32 ulIndex) {
 ///////////////////////////////////////////////////////////////////////////////////////
 void CUnitDynLink::SetLinkPointList( CPointList * plist ) {
   INT_PTR iCount;
-  CPoint * ppt;
+  shared_ptr<CPoint> ppt;
 
   iCount = plist->size();
 	ASSERT( iCount >= 3 );			//至少三个点.

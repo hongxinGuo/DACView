@@ -10,12 +10,12 @@
 
 // 有起始点
 void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pptSecond, CPoint ptCurrent) {
-  CPoint *ppt2, *ppt1, *ppt3;
+  shared_ptr<CPoint> ppt1, ppt2, ppt3;
 
   if (plistLinkPoint->size() == 1) { // 起点开始 
     ppt1 = plistLinkPoint->back(); // 此时list中已经预存了起始点
     *ppt1 = *pptFirst;		// 设置起始点的位置为第一个点的位置
-    ppt2 = new CPoint;
+    ppt2 = make_shared<CPoint>();
     plistLinkPoint->push_back(ppt2);		// 将第二个点加入list中
 
     if ((ptCurrent.x == pptFirst->x) || (ptCurrent.y == pptFirst->y)) { // 如果当前点（m_ptCurrent)位于第一个单元的正上、正下、正左或者正右方
@@ -23,7 +23,7 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pp
     }
     else { // 第一个点位于第一个单元的左上、左下、右上或者右下方，此时需要画折线
       *ppt2 = *pptSecond; // 设第二个点是第二点的位置
-      ppt3 = new CPoint;		// 生成第三个点
+      ppt3 = make_shared<CPoint>();		// 生成第三个点
       *ppt3 = ptCurrent;	// 第三个点的位置为当前点
       plistLinkPoint->push_back(ppt3); // 此时list中有三个点
       // 三个点时，控制点就要往下移一个
@@ -42,7 +42,7 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pp
     else {
       *ppt1 = *pptSecond;
     }
-    ppt2 = new CPoint;
+    ppt2 = make_shared<CPoint>();
     *ppt2 = ptCurrent;
     plistLinkPoint->push_back(ppt2);
     //控制点往下移一个
@@ -54,14 +54,14 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pp
 // 有终点
 void CreateDynLinkPoint(CPointList *plistLinkPoint, CRect rectSecond,
                         CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent) {
-  CPoint *ppt, *ppt1, *ppt2;
+  shared_ptr<CPoint> ppt1, ppt2, ppt3, ppt;
 
   // 表中已经有至少一个点，生成最后的一个点或者两个点（折线）
   ASSERT(plistLinkPoint->size() >= 1);
   if (plistLinkPoint->size() == 1) { // 只有一个点，那么就是起点和终点都有了
     ppt = plistLinkPoint->front();
     *ppt = ptFirst; // 修正起点坐标
-    ppt = new CPoint;
+    ppt = make_shared<CPoint>();
     *ppt = ptSecond;
     plistLinkPoint->push_back(ppt); // 需要把ptSecond加进去。
   }
@@ -74,7 +74,7 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CRect rectSecond,
   }
   else { // 生成折线
     *ppt1 = ptSecond;
-    ppt2 = new CPoint;
+    ppt2 = make_shared<CPoint>();
     if (ptSecond.x < rectSecond.left) {
       ppt2->x = rectSecond.left;
       ppt2->y = ptSecond.y;
@@ -96,12 +96,12 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CRect rectSecond,
 
   if (plistLinkPoint->size() == 2) { // 只有两个点,则加上两个中点（这样当移动单元时，不会出现斜线）
     ppt1 = plistLinkPoint->back();
-    ppt2 = new CPoint;
+    ppt2 = make_shared<CPoint>();
     ppt2->x = (ptFirst.x + ppt1->x) / 2;
     ppt2->y = (ptFirst.y + ppt1->y) / 2;
     auto it = plistLinkPoint->end();
     plistLinkPoint->insert(--it, ppt2);
-    ppt = new CPoint;
+    ppt = make_shared<CPoint>();
     *ppt = *ppt2;
     plistLinkPoint->insert(it, ppt);
   }

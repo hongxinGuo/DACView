@@ -54,15 +54,15 @@ namespace DACViewTest {
     CPoint ptFirst = pFindDest->ptFirst;
     CPoint ptCurrent = pFindDest->ptCurrent;
     CPointList listPoint;
-    CPoint *ppt, *ppt1, *ppt2, *ppt3;
+    shared_ptr<CPoint> ppt, ppt1, ppt2, ppt3;
 
-    ppt = new CPoint;
+    ppt = make_shared<CPoint>();
     *ppt = ptFirst;
     listPoint.push_back(ppt);
-    ppt = new CPoint;  
+    ppt = make_shared<CPoint>();  
     *ppt = ptFirst;
     listPoint.push_back(ppt);
-    ppt = new CPoint;
+    ppt = make_shared<CPoint>();
     *ppt = ptSecond;
     listPoint.push_back(ppt);
 
@@ -91,12 +91,6 @@ namespace DACViewTest {
       EXPECT_EQ(ppt3->x, rectSecond.right);
     }
 
-    it = listPoint.begin();
-    int iTotal = listPoint.size();
-    for (int i = 0; i < iTotal; i++) {
-      ppt = *it++;
-      delete ppt;
-    }
     listPoint.clear();
   }
 
@@ -108,9 +102,9 @@ namespace DACViewTest {
     CPoint ptFirst = pFindDest->ptFirst;
     CPoint ptCurrent = pFindDest->ptCurrent;
     CPointList listPoint;
-    CPoint *ppt, *ppt1, *ppt2, *ppt3, *ppt4;
+    shared_ptr<CPoint> ppt, ppt1, ppt2, ppt3, ppt4;
 
-    ppt = new CPoint;
+    ppt = make_shared<CPoint>();
     *ppt = ptFirst;
     listPoint.push_back(ppt);
 
@@ -170,13 +164,7 @@ namespace DACViewTest {
         EXPECT_EQ(ppt3->x, rectSecond.right);
       }
     }
-
-    for (auto it1 = listPoint.begin(); it1 != listPoint.end(); it1++) {
-      ppt = *it++;
-      delete ppt;
-    }
     listPoint.clear();
-
   }
 
   struct DLPointNotFindDest {
@@ -220,12 +208,12 @@ namespace DACViewTest {
     CPoint ptFirst1, ptFirst = pFindDest->ptFirst;
     CPoint ptCurrent = pFindDest->ptCurrent;
     CPointList listPoint;
-    CPoint *ppt, *ppt1, *ppt2, *ppt3;
+    shared_ptr<CPoint> ppt, ppt1, ppt2, ppt3;
 
     ptSecond1 = ptSecond;
     ptFirst1 = ptFirst;
 
-    ppt = new CPoint;
+    ppt = make_shared<CPoint>();
     *ppt = ptFirst;
     listPoint.push_back(ppt);
 
@@ -261,13 +249,6 @@ namespace DACViewTest {
       EXPECT_EQ(ptFirst1.x, ptSecond.x);
       EXPECT_EQ(ptFirst1.y, ptSecond.y);
     }
-
-    it = listPoint.begin();
-    int iTotal = listPoint.size();
-    for (int i = 0; i < iTotal; i++) {
-      ppt = *it++;
-      delete ppt;
-    }
     listPoint.clear();
   }
 
@@ -278,14 +259,14 @@ namespace DACViewTest {
     CPoint ptSecond1, ptFirst = pFindDest->ptFirst;
     CPoint ptCurrent = pFindDest->ptCurrent;
     CPointList listPoint;
-    CPoint *ppt;
+    shared_ptr<CPoint> ppt;
 
     ptSecond1 = ptSecond;
 
-    ppt = new CPoint;
+    ppt = make_shared<CPoint>();
     *ppt = ptFirst;
     listPoint.push_back(ppt);
-    ppt = new CPoint;
+    ppt = make_shared<CPoint>();
     *ppt = ptSecond;
     listPoint.push_back(ppt);
 
@@ -297,12 +278,6 @@ namespace DACViewTest {
     EXPECT_EQ(ptSecond1.x, ptFirst.x);
     EXPECT_EQ(ptSecond1.y, ptFirst.y);
 
-    auto it = listPoint.begin();
-    int iTotal = listPoint.size();
-    for (int i = 0; i < iTotal; i++) {
-      ppt = *it++;
-      delete ppt;
-    }
     listPoint.clear();
   }
 }

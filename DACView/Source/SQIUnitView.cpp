@@ -813,7 +813,7 @@ void CSQIUnitView::CreateUniName(CUnitBase * pCUnit) {
 void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointList * plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent) {
   auto it = plistLinkPoint->begin();
   INT_PTR iCount = plistLinkPoint->size();
-  CPoint *ppt1 = nullptr, *ppt2 = nullptr;
+  shared_ptr<CPoint> ppt1, ppt2;
 
   ppt1 = *it++;
   for (int i = 1; i < (iCount - 1); i++) {
@@ -848,12 +848,6 @@ void CSQIUnitView::AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint pt
 }
 
 void CSQIUnitView::DeleteDynLinkPointList(CPointList * plistLinkPoint) {
-  CPoint * ppt;
-
-  for (auto it = plistLinkPoint->begin(); it != plistLinkPoint->end(); it++) {
-    ppt = *it;
-    delete ppt;
-  }
   plistLinkPoint->clear();
 }
 
@@ -2711,7 +2705,7 @@ BOOL CSQIUnitView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 void CSQIUnitView::OnArrangeMakedynlink()
 {
   // TODO: Add your command handler code here
-  CPoint * ppt;
+  shared_ptr<CPoint> ppt;
   CDlgChoiceParameter CCPDlg;
 
   ASSERT(m_pCUnitCurrent != NULL);
@@ -2740,7 +2734,7 @@ void CSQIUnitView::OnArrangeMakedynlink()
   m_ptFirst.x = m_ptSecond.x = m_ptCurrent.x = m_rectFirstUnit.right;
   m_ptFirst.y = m_ptSecond.y = m_ptCurrent.y = m_rectFirstUnit.top;
   ASSERT(m_plistLinkPoint->size() == 0); // 确保没有动态链接点
-  ppt = new CPoint;
+  ppt = make_shared<CPoint>();
   TRACE("Start position：%d %d\n", m_ptFirst.x, m_ptFirst.y);
   *ppt = m_ptFirst;
   m_plistLinkPoint->push_back(ppt);

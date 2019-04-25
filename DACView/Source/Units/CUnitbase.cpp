@@ -562,7 +562,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
   CUnitDynLink * pDL;
   POSITION poLine, po = m_listDynLink.GetHeadPosition();
 	INT_PTR i, iCount = m_listDynLink.GetCount();
-  CPoint *ppt1, * ppt2;
+  shared_ptr<CPoint> ppt1, ppt2;
   CPointList * plist;
 
   if ( pcSrc == this ) {  // if I was been changed size

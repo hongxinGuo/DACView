@@ -45,7 +45,7 @@ enum {
   };
 
 // 用于显示动态连接线具体位置的list类型
-typedef list<CPoint *> CPointList;
+typedef list<shared_ptr<CPoint>> CPointList;
 
 class CUnitBase;
 typedef CList<CUnitBase *, CUnitBase *> CUnitList;

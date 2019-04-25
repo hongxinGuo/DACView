@@ -10,6 +10,10 @@
 //
 /////////////////////////////////////////////////////////////////////////////////
 #include"stdafx.h"
+
+using namespace std;
+#include<memory>
+
 #include "gtest/gtest.h"
 
 #include"CSQIUnitViewTest.h"
@@ -116,7 +120,7 @@ namespace DACViewTest {
 		EXPECT_EQ(m_View.GetUnitMouseMove(), nullptr);
 
 		CPointList * plistPoint = m_View.GetLinkPointList();
-		CPoint * pt1 = new CPoint(0, 0);
+		shared_ptr<CPoint> pt1 = make_shared<CPoint>(0, 0);
 		plistPoint->push_back(pt1); // 故意加入一个元素
 		EXPECT_EQ(plistPoint->size(), 1);
 
@@ -184,7 +188,7 @@ namespace DACViewTest {
 		EXPECT_STREQ(m_View.GetUnitMouseMove()->GetName(), "UnitOr_4");
 
 		CPointList * plistPoint = m_View.GetLinkPointList();
-		CPoint * pt1 = new CPoint(0, 0);
+		shared_ptr<CPoint> pt1 = make_shared<CPoint>(0, 0);
 		plistPoint->push_back(pt1); // 故意加入一个元素
 		EXPECT_EQ(plistPoint->size(), 1);
 
@@ -193,9 +197,6 @@ namespace DACViewTest {
 
 		EXPECT_EQ(plistPoint->size(), 1) << "此种状态时没有重置";
 		EXPECT_TRUE(!m_View.GetLinkPointList()->empty()) << "此时动态点序列不为空";
-
-		// 动作结束
-		delete pt1;
 	}
 
 
@@ -255,7 +256,7 @@ namespace DACViewTest {
 		EXPECT_EQ(m_View.GetUnitMouseMove(), nullptr);
 
 		CPointList * plistPoint = m_View.GetLinkPointList();
-		CPoint * pt1 = new CPoint(0, 0);
+		shared_ptr<CPoint> pt1 = make_shared<CPoint>(0, 0);
 		plistPoint->push_back(pt1); // 故意加入一个元素
 		EXPECT_EQ(plistPoint->size(), 1);
 		// 执行LButtonUp
@@ -323,7 +324,7 @@ namespace DACViewTest {
 		EXPECT_EQ(m_View.GetUnitMouseMove(), nullptr);
 
 		CPointList * plistPoint = m_View.GetLinkPointList();
-		CPoint * pt1 = new CPoint(0, 0);
+		shared_ptr<CPoint> pt1 = make_shared<CPoint>(0, 0);
 		plistPoint->push_back(pt1); // 故意加入一个元素
 		EXPECT_EQ(plistPoint->size(), 1);
 		// 执行LButtonUp

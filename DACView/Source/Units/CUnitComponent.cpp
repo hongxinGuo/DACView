@@ -1127,7 +1127,7 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
     CUnitDynLink * pDL;
     POSITION poLine, po;
     INT_PTR i, j, iCount;
-    CPoint *ppt1, *ppt2;
+    shared_ptr<CPoint> ppt1, ppt2;
     CPointList * plist;
 
     POSITION poUnit = m_CUnitList.GetHeadPosition();
