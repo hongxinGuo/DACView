@@ -81,7 +81,10 @@
 // SetProperty()
 //
 ////////////////////////////////////////////////////////////////
-#include "stdafx.h"    
+#include "stdafx.h" 
+
+using namespace std;
+#include<algorithm>
 
 #include "..\\resource.h"
 
@@ -162,17 +165,12 @@ CUnitBase::CUnitBase( void ) : CObjectPrimitive() {
 
 CUnitBase::~CUnitBase() {
   // delete m_listDynLink
-  POSITION Po = m_listDynLink.GetHeadPosition();
-  CUnitDynLink * pcDynLink;
-	INT_PTR iTemp = m_listDynLink.GetCount();
-  for ( int i = 0; i < iTemp; i++ ) {
-    pcDynLink = m_listDynLink.GetNext(Po);
+  for ( auto pcDynLink : m_listDynLink ) {
     delete pcDynLink;
-    pcDynLink = nullptr;
   } 
 	// TRACE("%d Dynamic Links in Unit %s deleted\n", iTemp, m_strName);                  
   // release list's memory
-  m_listDynLink.RemoveAll();
+  m_listDynLink.clear();
 } 
 
 void CUnitBase::Serialize( CArchive& ar ) {
@@ -201,16 +199,12 @@ void CUnitBase::Serialize( CArchive& ar ) {
   if (ar.IsStoring())
   {
     // TODO: add storing code here
-    pos = m_listDynLink.GetHeadPosition();
 		iTemp = 0;
-		for ( int i = 0; i < m_listDynLink.GetCount(); i++ ) {
-      pcDynLink = m_listDynLink.GetNext(pos);
+		for ( auto pcDynLink : m_listDynLink ) {
       if ( !pcDynLink->IsDeleteMe() ) iTemp++;
 		}
 		ar << iTemp;
-    pos = m_listDynLink.GetHeadPosition();
-    for ( int i = 0; i < m_listDynLink.GetCount(); i ++ ) { 
-      pcDynLink = m_listDynLink.GetNext(pos);
+    for ( auto pcDynLink : m_listDynLink ) { 
       // when cut or copy me to clipboard, some dynamic links that I have
       // can't copy to clipboard, for its link to other unit. so if its 
       // delete flag is set, I didn't store it.
@@ -224,7 +218,7 @@ void CUnitBase::Serialize( CArchive& ar ) {
 		ar >> iTemp;
 		for (int i = 0; i < iTemp; i++) {
 			ar >> pcDynLink;
-			m_listDynLink.AddTail(pcDynLink);
+			m_listDynLink.push_back(pcDynLink);
 		}
 	}
 }
@@ -400,10 +394,7 @@ bool CUnitBase::IsDynLinkFromUpper(void) {
 		for (int i = 0; i < iCount; i++) {
 			pUnit = pList->GetNext(po);
 			pDynLinkList = pUnit->GetDynLinkList();
-			jCount = pDynLinkList->GetCount();
-			po2 = pDynLinkList->GetHeadPosition();
-			for (int j = 0; j < jCount; j++) {
-				pcunitDynLink = pDynLinkList->GetNext( po2 );
+			for ( auto pcunitDynLink : *pDynLinkList ) {
 				if (pcunitDynLink->GetDestUnit() == this) {
 					iDynLinkNum++;
 				}
@@ -439,13 +430,9 @@ bool CUnitBase::IsDynLinkFromUpper(void) {
 //
 ///////////////////////////////////////////////////////////////////////////
 void CUnitBase::SetDestUnitPriority( void ) {
-	INT_PTR i, iTemp = m_listDynLink.GetCount();
-  CUnitDynLink * pcunitDynLink;
-  POSITION po = m_listDynLink.GetHeadPosition();
   CUnitBase * punit = nullptr;
   
-  for ( i = 0; i < iTemp; i++ ) {
-    pcunitDynLink = m_listDynLink.GetNext(po);
+  for ( auto pcunitDynLink : m_listDynLink ) {
     punit = pcunitDynLink->GetDestUnit();
     if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 如果时简单单元
       punit->SetExectivePriority(m_lExectivePriority + 1);
@@ -559,17 +546,13 @@ bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
 //
 ////////////////////////////////////////////////////////////////////////
 void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPoint ptEnd) {
-  CUnitDynLink * pDL;
-  POSITION poLine, po = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
+  POSITION poLine, po;
+	INT_PTR i, iCount;
   shared_ptr<CPoint> ppt1, ppt2;
   CPointList * plist;
 
-  if ( pcSrc == this ) {  // if I was been changed size
-    iCount = m_listDynLink.GetCount();
-    po = m_listDynLink.GetHeadPosition();
-    for ( i= 0; i < iCount; i++ ) {
-      pDL = m_listDynLink.GetNext( po );
+  if (pcSrc == this) {  // if I was been changed size
+    for (auto pDL : m_listDynLink) {
 			if ((pDL->GetDynLinkClass() == COMPONENT_TO_UNIT) || (pDL->GetDynLinkClass() == COMPONENT_TO_UNIT))
 				break; //当联出本单元所在的复合单元时，不需要调整动态链接线的位置（调整了就出错了）
       plist = pDL->GetLinkPointList();
@@ -633,13 +616,10 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
   }
 
   // if my link to unit was been moved
-  po = m_listDynLink.GetHeadPosition();
-  iCount = m_listDynLink.GetCount();
   bool fDo;
   CUnitBase * pcunit;
   CRect rect, rectSrc;
-  for ( i = 0; i < iCount; i++ ) {
-    pDL = m_listDynLink.GetNext( po );
+  for ( auto pDL : m_listDynLink ) {
     if ( (pcunit = pDL->GetDestUnit()->GetComponentUpper()) == pcSrc ) {
       fDo = true;
     }
@@ -717,7 +697,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
 
 void CUnitBase::AddDynLink( CUnitDynLink * punitDynLink ) {
   ASSERT( punitDynLink != nullptr );
-  m_listDynLink.AddTail(punitDynLink); 
+  m_listDynLink.push_back(punitDynLink); 
 }  
 
 /////////////////////////////////////////////////////////////////////////
@@ -733,11 +713,11 @@ void CUnitBase::AddDynLink( CUnitDynLink * punitDynLink ) {
 /////////////////////////////////////////////////////////////////////////
 bool CUnitBase::ArrangeDynLink( void ) {
   CDelDynLink cDialogDel;
-	INT_PTR iTotal = m_listDynLink.GetCount();
+	INT_PTR iTotal = m_listDynLink.size();
 
   cDialogDel.SetLink( &m_listDynLink );
   cDialogDel.DoModal();
-	if ( iTotal != m_listDynLink.GetCount() ) {
+	if ( iTotal != m_listDynLink.size() ) {
 		return( true );
 		}
 	else return( false );
@@ -758,19 +738,18 @@ bool CUnitBase::ArrangeDynLink( void ) {
 //		
 /////////////////////////////////////////////////////////////////////////
 bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
-	INT_PTR iTemp = m_listDynLink.GetCount();
+	INT_PTR iTemp = m_listDynLink.size();
   CUnitDynLink * pcunitDynLink;
-  POSITION pos, po = m_listDynLink.GetHeadPosition();
   CUnitBase * pcunit;
   
-  for ( int i = 0; i < iTemp; i++ ) {
-    pcunitDynLink = m_listDynLink.GetNext(po);
+  for (auto it = m_listDynLink.begin(); it != m_listDynLink.end(); it++) {
+    pcunitDynLink = *it++;
     pcunit = pcunitDynLink->GetDestUnit();
     if ( pUnit == pcunit ) {
-      pos = m_listDynLink.Find( pcunitDynLink );
-      ASSERT( pos != nullptr );
+      auto itFind = find(m_listDynLink.begin(), m_listDynLink.end(), pcunitDynLink);
+      ASSERT( itFind != m_listDynLink.end() );
       pcunit->SetParameterLock( pcunitDynLink->GetDestIndex(), false );
-      m_listDynLink.RemoveAt( pos );
+      m_listDynLink.erase(itFind);
       delete pcunitDynLink;
       pcunitDynLink = nullptr;
     }
@@ -787,17 +766,10 @@ bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
 //
 ////////////////////////////////////////////////////////////////////////
 void CUnitBase::SetParaLockFlag( void ) {
-  CUnitDynLink * pUnitDynLink;
   CUnitBase * pUnit;
-  POSITION poDynLink;
   int iDynLinkUnitCount;
 
-  poDynLink = m_listDynLink.GetHeadPosition();
-  iDynLinkUnitCount = m_listDynLink.GetCount();
-  CString strName;
-
-  for ( int i = 0; i < iDynLinkUnitCount; i++ ) {
-    pUnitDynLink = m_listDynLink.GetNext(poDynLink);
+  for ( const auto pUnitDynLink : m_listDynLink ) {
     pUnit = pUnitDynLink->GetDestUnit();
     pUnit->SetParameterLock( pUnitDynLink->GetDestIndex(), true );  // set Index selected
   }
@@ -851,17 +823,13 @@ void CUnitBase::Exective( void ) {
 //
 ///////////////////////////////////////////////////////////////////////////
 bool CUnitBase::ExectiveDynLink( void ) {
-  POSITION po = m_listDynLink.GetHeadPosition();
-	INT_PTR iTemp = m_listDynLink.GetCount();
-  CUnitDynLink * pcunitDynLink;
   ULONG ulSourceIndex, ulDestIndex;
   double eTemp;
   LONG lTemp;
   bool fTemp;
 	CString strTemp;
 
-  for ( int i = 0; i < iTemp; i++ ) {
-    pcunitDynLink = m_listDynLink.GetNext(po);
+  for ( const auto pcunitDynLink : m_listDynLink ) {
     ulSourceIndex = pcunitDynLink->GetSrcIndex();
     ulDestIndex = pcunitDynLink->GetDestIndex();
     ASSERT((pcunitDynLink->GetSrcUnit()->GetDynLinkType(ulSourceIndex) & (tINPUT | tOUTPUT | tMODIFIABLE)) == 0);
@@ -1056,13 +1024,10 @@ bool CUnitBase::SetParameterSelected(ULONG ulIndex, bool fSelected) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////
 bool CUnitBase::CheckSelf( void ) {
-	CUnitDynLink * pUDL;
-	POSITION po = m_listDynLink.GetHeadPosition();
 	CUnitBase * pSrc, * pDest;
 	ULONG ulSrcType, ulDestType, ulType;
 
-	for ( int i = 0; i < m_listDynLink.GetCount(); i++ ) {
-		pUDL = m_listDynLink.GetNext( po );
+	for ( const auto pUDL : m_listDynLink ) {
 		pSrc = pUDL->GetSrcUnit();
 		pDest = pUDL->GetDestUnit();
 		ulSrcType = pSrc->GetParaType( pUDL->GetSrcIndex() );
@@ -1199,12 +1164,8 @@ void CUnitBase::ToShow( CDC * const pdc ) {
 	}
 
 	// 如果存在COMPONENT_TO_UNIT或者COMPONENT_TO_COMPONENT，则显示一个蓝色方块于右下方
-	CUnitDynLink* pUnitDynLink = nullptr;
-	POSITION poUnitDynLink = m_listDynLink.GetTailPosition();
-	INT_PTR iTemp = m_listDynLink.GetCount();
 	bool fFind = false;
-	for (int i = 0; i < iTemp; i++) {
-		pUnitDynLink = m_listDynLink.GetPrev(poUnitDynLink);
+  for (const auto pUnitDynLink : m_listDynLink) {
 		switch (pUnitDynLink->GetDynLinkClass()) {
 		case COMPONENT_TO_UNIT:
 		case COMPONENT_TO_COMPONENT:
@@ -1291,10 +1252,7 @@ void CUnitBase::ToShow( CDC * const pdc ) {
   pdc->SelectObject(pcp);
   
   // show the dynamic link 
-	iTemp = m_listDynLink.GetCount();
-  poUnitDynLink = m_listDynLink.GetTailPosition();
-  for ( int i = 0; i < iTemp; i++ ) { 
-    pUnitDynLink = m_listDynLink.GetPrev(poUnitDynLink);
+  for ( const auto pUnitDynLink : m_listDynLink ) { 
     switch ( pUnitDynLink->GetDynLinkClass() ) {
     case UNIT_TO_UNIT :
     case UNIT_TO_COMPONENT :
@@ -1342,10 +1300,7 @@ void CUnitBase::AssertValid() const
 void CUnitBase::Dump(CDumpContext& dc) const
 {
   CObjectPrimitive::Dump(dc);
-  CUnitDynLink * pc;
-  POSITION po = m_listDynLink.GetHeadPosition();
-  for ( int i = 0; i < m_listDynLink.GetCount(); i++ ) {
-    pc = m_listDynLink.GetNext(po);
+  for ( const auto pc : m_listDynLink  ) {
     dc << pc << "\n";
   }
 }
@@ -1382,12 +1337,7 @@ CString	CUnitBase::GetComment(void) {
 //
 ////////////////////////////////////////////////////////////////
 void CUnitBase::ClearLoopDetectFlag( void ) {
-  CUnitDynLink * pcunitDL;
-  POSITION po = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
-
-  for ( i = 0; i < iCount; i++ ) {
-    pcunitDL = m_listDynLink.GetNext( po );
+  for ( const auto pcunitDL : m_listDynLink ) {
     pcunitDL->SetLoopDetectFlag( false );
   }
 }
@@ -1408,12 +1358,7 @@ void CUnitBase::ClearLoopDetectFlag( void ) {
 //
 /////////////////////////////////////////////////////////////////////////
 bool CUnitBase::SetLoopDetectFlag( CUnitBase * pcunit ) {
-  CUnitDynLink * pcunitDL;
-  POSITION po = m_listDynLink.GetHeadPosition();
-	INT_PTR iCount = m_listDynLink.GetCount();
-
-  for ( int i = 0; i < iCount; i++ ) {
-    pcunitDL = m_listDynLink.GetNext( po );
+  for ( const auto pcunitDL : m_listDynLink ) {
     if ( pcunitDL->GetDestUnit() == pcunit ) {
       pcunitDL->SetLoopDetectFlag( true );
       return( true );
@@ -1448,14 +1393,10 @@ bool CUnitBase::SetLoopDetectFlag( CUnitBase * pcunit ) {
 //
 ////////////////////////////////////////////////////////////////////////////
 bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
-  CUnitDynLink * pcunitDL;
-  POSITION po = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
   CUnitBase * pcunit;
 
   pCUnitList->AddTail( this );
-  for ( i = 0; i < iCount; i++ ) {
-    pcunitDL = m_listDynLink.GetNext(po);
+  for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
     if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
       if (!pcunit->IsSetCutOff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
@@ -1485,15 +1426,12 @@ bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
 //
 /////////////////////////////////////////////////////////////////////////////
 bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
-  CUnitDynLink * pcunitDL;
-  POSITION po2, po = m_listDynLink.GetHeadPosition();
-  INT_PTR i, iCount = m_listDynLink.GetCount();
+  POSITION po2;
   CUnitBase * pcunit, *pcUnit4;
   long lTotal;
 
   pCUnitList->AddTail(this);
-  for (i = 0; i < iCount; i++) {
-    pcunitDL = m_listDynLink.GetNext(po);
+  for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
     if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
       if (pCUnitList->Find(pcunit)) { // 找到了动态链接循环？
@@ -1546,16 +1484,12 @@ bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
 //
 ////////////////////////////////////////////////////////////////////////////
 void CUnitBase::CheckInnerDataLink(INT64 lSrcParaPos, INT64 , CUnitList * pCUnitList) {
-  CUnitDynLink * pcunitDL;
-  POSITION po = m_listDynLink.GetHeadPosition();
-  INT_PTR iCount = m_listDynLink.GetCount();
   CUnitBase * pcunit;
   CUnitBase *pFirstUnit = pCUnitList->GetHead();
 
 	ASSERT(pCUnitList->GetCount() > 0); // 不允许直接调用本函数，必须由部件类发起检查。
   ASSERT(pFirstUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))); // 这个函数最初是由被查的部件调用的，第一个单元就是被查的部件本身。
-  for (int i = 0; i < iCount; i++) {
-    pcunitDL = m_listDynLink.GetNext(po);
+  for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
     if ((CUnitComponent *)pcunit == pFirstUnit) { // 找到了
       ((CUnitComponent *)pcunit)->SetInnerDataLinked(lSrcParaPos, pcunitDL->GetDestIndex(), true); // 设置内部链接标志
@@ -1591,13 +1525,9 @@ void CUnitBase::CheckInnerDataLink(INT64 lSrcParaPos, INT64 , CUnitList * pCUnit
 //
 ///////////////////////////////////////////////////////////////////////////
 void CUnitBase::SetDeleteDynLinkFlag( CUnitList& listUnit ) {
-  CUnitDynLink * pcunitDL;
-  POSITION po = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
   CUnitBase * pcunit;
 
-  for ( i = 0; i < iCount; i++ ) {
-    pcunitDL = m_listDynLink.GetNext(po);
+  for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
     if ( listUnit.Find( pcunit ) == nullptr ) { // 如果目的单元不在已选择的单元序列中
       pcunitDL->SetDeleteMeFlag( true );			// 则本单元的动态链接是链接到了外部单元，需要删除
@@ -1620,12 +1550,7 @@ void CUnitBase::SetDeleteDynLinkFlag( CUnitList& listUnit ) {
 //
 ///////////////////////////////////////////////////////////////////////////
 void CUnitBase::ClearDeleteDynLinkFlag( void ) {
-  CUnitDynLink * pcunitDL;
-  POSITION po = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
-
-  for ( i = 0; i < iCount; i++ ) {
-    pcunitDL = m_listDynLink.GetNext(po);
+  for ( const auto pcunitDL : m_listDynLink ) {
     pcunitDL->SetDeleteMeFlag( false );
   }
 }

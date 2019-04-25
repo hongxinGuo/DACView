@@ -28,8 +28,6 @@ enum { 	UNIT_TO_UNIT		 			  = 0X0001,	// ¼òµ¥µ¥Ôª£¨»òÕßÒÑ·â×°µÄ²¿¼ş£©Óë¼òµ¥µ¥Ôª£
 
 #include "CObjectPrimitive.h"
 
-class CUnitBase;
-
 class CUnitDynLink : public CObjectPrimitive {
 public :
   CUnitDynLink( void );
@@ -97,6 +95,6 @@ public:
   CUnitBase * mTest_pDestUnitSaved;   // µ±·â×°²¿¼şµÄÊä³öĞÍ²ÎÊıÊ±£¬ÓÃÓÚ±£´æÔ­¶¯Ì¬Á´½ÓµÄÄ¿µÄµ¥Ôª
 };                        
 
-typedef CList<CUnitDynLink *, CUnitDynLink *> CUDLList;
+typedef list<CUnitDynLink *> CUDLList;
 
   

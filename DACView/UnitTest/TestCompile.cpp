@@ -134,10 +134,7 @@ namespace DACViewTest {
           }
         }
         CUDLList * pDLList = pctemp->GetDynLinkList();
-        POSITION poDL = pDLList->GetHeadPosition();
-        INT64 kTotal = pDLList->GetCount();
-        for (int k = 0; k < kTotal; k++) {
-          CUnitDynLink * pDL = pDLList->GetNext(poDL);
+        for (const auto pDL : *pDLList) {
           if (pDL->GetDestUnit() == pcunit) iDynLinkToNumber2++;
         }
       }
@@ -217,11 +214,7 @@ namespace DACViewTest {
       }
       EXPECT_GT(pcunitTemp->GetExectivePriority(), 0) << "执行优先级大于1的单元有源单元（数据输入）";
       CUDLList * pUDLList = pcunitTemp->GetDynLinkList();
-      INT64 jTotal = pUDLList->GetCount();
-      POSITION poDL = pUDLList->GetHeadPosition();
-      CUnitDynLink * pDL;
-      for (int j = 0; j < jTotal; j++) {
-        pDL = pUDLList->GetNext(poDL);
+      for (const auto pDL : *pUDLList) {
         EXPECT_LT(pcunitTemp->GetExectivePriority(), pDL->GetDestUnit()->GetExectivePriority()) << "动态链接优先级出错："
           << strFileName << "  " << pcunitTemp->GetName() << "  " << pDL->GetDestUnit()->GetName();
       }
@@ -318,10 +311,8 @@ namespace DACViewTest {
     }
 
     // 测试执行优先级。所有的单元序列（包括部件内部的单元序列）皆测试。
-    CUnitDynLink * pDL;
     CUDLList * pUDLList;
-    int jTotal, k, l;
-    POSITION poDL;
+    int k, l;
     CUnitBase * pDestUnit;
 
     poUnit = rtUnitList.GetHeadPosition();
@@ -331,10 +322,7 @@ namespace DACViewTest {
       EXPECT_TRUE(pctemp->IsCompiled()) << strFileName << "  " << pctemp->GetName() << "  此时单元序列应该已经被编译了";
       EXPECT_LE(1, pctemp->GetExectivePriority());
       pUDLList = pctemp->GetDynLinkList();
-      jTotal = pUDLList->GetCount();
-      poDL = pUDLList->GetHeadPosition();
-      for (int j = 0; j < jTotal; j++) {
-        pDL = pUDLList->GetNext(poDL);
+      for (const auto pDL : *pUDLList) {
         k = pctemp->GetExectivePriority();
         pDestUnit = pDL->GetDestUnit();
         l = pDestUnit->GetExectivePriority();
@@ -427,15 +415,12 @@ namespace DACViewTest {
     CreateUniUnitList(&m_unitlist, listTotalUnit);
 
     // 计算从部件输入和输出的动态链接数据的数量，以备封装部件时测试接口参数的设置是否正确
-    POSITION poUnit3, poDL, poDL2, poUnit = listTotalUnit.GetHeadPosition();
+    POSITION poUnit3, poUnit = listTotalUnit.GetHeadPosition();
     iTotal = listTotalUnit.GetCount();
     for (int i = 0; i < iTotal; i++) {
       pcunitTemp = listTotalUnit.GetNext(poUnit);
       pDLList = pcunitTemp->GetDynLinkList();
-      jTotal = pDLList->GetCount();
-      POSITION poDL = pDLList->GetHeadPosition();
-      for (int j = 0; j < jTotal; j++) {
-        pDL = pDLList->GetNext(poDL);
+      for (const auto pDL : *pDLList) {
         switch (pDL->GetDynLinkClass()) {
         case COMPONENT_TO_UNIT:
           pSrcComponent = pDL->GetSrcUnit()->GetComponentUpper();
@@ -543,11 +528,11 @@ namespace DACViewTest {
               if ((pCUCP->GetParaType(l) & (tINPUT | tOUTPUT)) == tOUTPUT) {
                 CUnitBase * punit11 = pCUCP->GetParaSrcUnit(l);
                 CUDLList * pUDLList = punit11->GetDynLinkList();
-                kTotal = pUDLList->GetCount();
-                POSITION poDL1 = pUDLList->GetHeadPosition();
-                CUnitDynLink * pDL = pUDLList->GetNext(poDL1);
+                kTotal = pUDLList->size();
+                auto itDL1 = pUDLList->begin();
+                CUnitDynLink * pDL = *itDL1;
                 while (pDL->GetDestUnit() != pCUCP) {
-                  pDL = pUDLList->GetNext(poDL1);
+                  pDL = *++itDL1;
                 }
                 EXPECT_EQ(pDL->GetDestUnit(), pCUCP) << "输出型参数生成新动态链接时其目的单元就是本部件";
                 EXPECT_EQ(pDL->GetSrcUnit(), punit11);
@@ -572,11 +557,7 @@ namespace DACViewTest {
             if (pCUCP->IsParaLinked(k)) {
               if (((pCUCP->GetParaType(k) & (tINPUT | tOUTPUT)) == tINPUT) && (pCUCP->GetParaSrcUnit(k) != nullptr)) {
                 CUDLList *pDLList = pCUCP->GetParaSrcUnit(k)->GetDynLinkList();
-                INT64 lTotal = pDLList->GetCount();
-                POSITION poDL = pDLList->GetHeadPosition();
-                CUnitDynLink * pDL11;
-                for (int l = 0; l < lTotal; l++) {
-                  pDL11 = pDLList->GetNext(poDL);
+                for (const auto pDL11 : *pDLList) {
                   if (pDL11->GetDestUnit() == pCUCP) { // 找到源单元的动态链接了
                     CUnitBase * pSrcUnit = pDL11->GetSrcUnit();
                     if (pSrcUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
@@ -614,7 +595,7 @@ namespace DACViewTest {
           }
           EXPECT_EQ(iComponentExectivePriority + 1, pCUCP->GetExectivePriority());
 
-          EXPECT_EQ((pCUCP->GetDynLinkList())->GetCount(), 0); // 处理输出型动态链接前，部件本身的动态链接序列是零
+          EXPECT_EQ((pCUCP->GetDynLinkList())->size(), 0); // 处理输出型动态链接前，部件本身的动态链接序列是零
           // 寻找是否存在联出本部件的动态链接。
           // 在本部件中生成一个新的动态链接，将联出的动态链接赋予此新的动态链接，其源单元改为本部件，
           // 并将内部源单元的目的单元设置为本部件，重置部件参数中的目的单元指针和目的参数索引。
@@ -628,17 +609,12 @@ namespace DACViewTest {
           for (int l = 0; l < lTotal; l++) {
             pcunitTemp = pUnitList3->GetNext(poUnit3);
             pDLList = pcunitTemp->GetDynLinkList();
-            poDL = pDLList->GetHeadPosition();
-            jTotal = pDLList->GetCount();
-            for (int j = 0; j < jTotal; j++) {
-              pDL = pDLList->GetNext(poDL);
+            for (const auto pDL : *pDLList) {
               if (pDL->GetDestUnit() == pCUCP) {
                 if (pDL->mTest_pDestUnitSaved != nullptr) {
                   pDLList2 = pCUCP->GetDynLinkList();
-                  poDL2 = pDLList2->GetHeadPosition();
-                  kTotal = pDLList2->GetCount();
-                  for (int k = 0; k < kTotal; k++) {
-                    pDL2 = pDLList2->GetNext(poDL2);
+                  for (auto itDL2 = pDLList2->begin(); itDL2 != pDLList2->end(); itDL2++) {
+                    pDL2 = *itDL2;
                     if (pDL2->GetDestUnit() == pDL->mTest_pDestUnitSaved) {
                       fFound = true;
                       break;
@@ -858,20 +834,15 @@ namespace DACViewTest {
     }
 
     po = m_unitlist.GetHeadPosition();
-    POSITION poDL;
     CUnitBase * pcunittemp, * pcunit2;
     CString strName;
     CUDLList * pDLList;
-    CUnitDynLink * pUnitDynLink;
     iTotal = m_unitlist.GetCount();
     INT32 a, b;
     for (int i = 0; i < iTotal; i++) {
       pcunittemp = m_unitlist.GetNext(po);
       pDLList = pcunittemp->GetDynLinkList();
-      poDL = pDLList->GetHeadPosition();
-      int jTotal = pDLList->GetCount();
-      for (int j = 0; j < jTotal; j++) {
-        pUnitDynLink = pDLList->GetNext(poDL);
+      for (const auto pUnitDynLink : *pDLList) {
         a = pcunittemp->GetExectivePriority();
         pcunit2 = pUnitDynLink->GetDestUnit();
         b = pcunit2->GetExectivePriority();
@@ -952,12 +923,12 @@ namespace DACViewTest {
                     l++;
 										CUnitBase * pcunit3 = pCpt->GetParaSrcUnit(k);
 										CUDLList * pUDLList = pcunit3->GetDynLinkList();
-										POSITION poDL = pUDLList->GetHeadPosition();
-										INT64 jTotal = pUDLList->GetCount();
+										auto it = pUDLList->begin();
+										INT64 jTotal = pUDLList->size();
 										bool fFind = false;
 										CUnitDynLink * pDL;
 										while (!fFind) {
-											pDL = pUDLList->GetNext(poDL);
+											pDL = *it++;
 											if (pDL->GetDestUnit() == pCpt) fFind = true;
 										}
 										EXPECT_TRUE(fFind);
