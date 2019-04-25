@@ -267,10 +267,9 @@ void CUnitComponent::ClearParaSelectedFlag(void)
 ////////////////////////////////////////////////////////////////////////////
 bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
   CUnitBase *pcunit;
-  POSITION po, poDL;
+  POSITION po;
   CUDLList * pDLList;
-  CUnitDynLink *pDL;
-  INT64 iTotal, iDLTotal;
+  INT64 iTotal;
     
 
   if (m_fEncapsulated) { // 部件封装了？
@@ -282,10 +281,7 @@ bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
           if (m_pInterfacePara[i]->IsInnerDataLinked(j)) { // 如果此两参数之间有内部数据链接（通过内部单元序列的动态链接而产生）
             // 在本部件的动态链接序列中寻找相应的动态链接
             pDLList = this->GetDynLinkList();
-            iDLTotal = pDLList->GetCount();
-            poDL = pDLList->GetHeadPosition();
-            for (int k = 0; k < iDLTotal; k++) {
-              pDL = pDLList->GetNext(poDL);
+            for (const auto pDL : *pDLList) {
               if ( pDL->GetSrcIndex() == j) { // 如果动态链接的源参数位置与检查的参数位置相同
                 pcunit = pDL->GetDestUnit(); // 
                 if (!pcunit->IsSetCutOff()) {   // 如果是寻找循环并且没有设置截断标志
@@ -334,10 +330,9 @@ bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
   CUnitBase *pcunit;
-  POSITION po, poDL;
+  POSITION po;
   CUDLList * pDLList;
-  CUnitDynLink *pDL;
-  INT64 iTotal, iDLTotal;
+  INT64 iTotal;
 
   if (m_fEncapsulated) { // 部件封装了？
     //检查封装后的部件
@@ -347,10 +342,7 @@ bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
         for (int j = 0; j < 16; j++) {
           if (m_pInterfacePara[i]->IsInnerDataLinked(j)) { // 如果此两参数之间有内部数据链接（通过内部单元序列的动态链接）
             pDLList = GetDynLinkList();
-            iDLTotal = pDLList->GetCount();
-            poDL = pDLList->GetHeadPosition();
-            for (int k = 0; k < iDLTotal; k++) {
-              pDL = pDLList->GetNext(poDL);
+            for (const auto pDL : *pDLList) {
               if (pDL->GetSrcIndex() == j) { // 如果动态链接的源参数位置与检查的参数位置相同
                 pcunit = pDL->GetDestUnit(); // 
                 if (!pcunit->IsSetCutOff()) {   // 如果是寻找循环并且没有设置截断标志
@@ -416,10 +408,7 @@ bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
 ////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::CheckInnerDataLink(INT64 lSrcIndex, INT64 lDestParaPos, CUnitList * pCUnitList) {
   CUnitBase *pcunit, *pcunit2;
-  POSITION poDL;
   CUDLList * pDLList, pDLList2;
-  CUnitDynLink *pDL2;
-  INT64 jTotal;
 
   ASSERT(m_fEncapsulated); // 本部件必须被封装了
   ASSERT(m_fCutOff == false); // 本部件的截断标志已经在调用本函数之前就判断为假了
@@ -429,10 +418,7 @@ void CUnitComponent::CheckInnerDataLink(INT64 lSrcIndex, INT64 lDestParaPos, CUn
       ASSERT((m_pInterfacePara[lDestParaPos]->GetParaType() & (tINPUT | tOUTPUT)) == tINPUT);
       pCUnitList->AddTail(this);
       pDLList = this->GetDynLinkList();
-      poDL = pDLList->GetHeadPosition();
-      jTotal = pDLList->GetCount();
-      for (int j = 0; j < jTotal; j++) {
-        pDL2 = pDLList->GetNext(poDL);
+      for (const auto pDL2 : *pDLList) {
         if ((pDL2->GetSrcIndex() == i) && (pDL2->GetSrcUnit() == this)) { // 找到从本部件相应参数位置处联出的动态链接
           pcunit2 = pDL2->GetDestUnit();
           if (((CUnitComponent *)pcunit2) == (this->GetComponentUpper())) { // 找到了
@@ -589,9 +575,6 @@ void CUnitComponent::ToShow( CDC * const pdc ) {
 	INT_PTR jTemp = m_CUnitList.GetCount();
 
 	CUDLList * pDynLinkList;
-	CUnitDynLink* pUnitDynLink;
-	POSITION poUnitDynLink;
-	INT_PTR iTemp;;
 
   // 调用基类函数，显示部件本身的动态链接线
   CUnitBase::ToShow(pdc);   // show status
@@ -600,10 +583,7 @@ void CUnitComponent::ToShow( CDC * const pdc ) {
   for (int j = 0; j < jTemp; j++) {
     pUnitBase = m_CUnitList.GetNext(poUnit);
     pDynLinkList = pUnitBase->GetDynLinkList();
-    poUnitDynLink = pDynLinkList->GetHeadPosition();
-    iTemp = pDynLinkList->GetCount();
-    for (int i = 0; i < iTemp; i++) {
-      pUnitDynLink = m_listDynLink.GetNext(poUnitDynLink);
+    for (const auto pUnitDynLink : m_listDynLink) {
       switch (pUnitDynLink->GetDynLinkClass()) {
       case COMPONENT_TO_UNIT:
       case COMPONENT_TO_COMPONENT:
@@ -1124,9 +1104,7 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
     CUnitBase::AdjustDynLinkLinePosition(pcSrc, ptStart, ptEnd);
   }
   else { // 未封装的部件同时处理自身和内部单元序列
-    CUnitDynLink * pDL;
-    POSITION poLine, po;
-    INT_PTR i, j, iCount;
+    INT_PTR i;
     shared_ptr<CPoint> ppt1, ppt2;
     CPointList * plist;
 
@@ -1140,10 +1118,7 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
       for (i = 0; i < iCountUnit; i++) {
         pUnit = m_CUnitList.GetNext(poUnit);
         plistDynLink = pUnit->GetDynLinkList();
-        po = plistDynLink->GetHeadPosition();
-        iCount = plistDynLink->GetCount();
-        for (j = 0; j < iCount; j++) {
-          pDL = plistDynLink->GetNext(po);
+        for (const auto pDL : *plistDynLink) {
           plist = pDL->GetLinkPointList();
           auto itLine = plist->begin();
           switch (pDL->GetDynLinkClass()) {
@@ -1226,10 +1201,7 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
     for (i = 0; i < iCountUnit; i++) {
       pUnit = m_CUnitList.GetNext(poUnit);
       plistDynLink = pUnit->GetDynLinkList();
-      iCount = plistDynLink->GetCount();
-      po = plistDynLink->GetHeadPosition();
-      for (j = 0; j < iCount; j++) {
-        pDL = plistDynLink->GetNext(po);
+      for (const auto pDL : *plistDynLink) {
         ulLinkClass = pDL->GetDynLinkClass();
         if ((ulLinkClass == UNIT_TO_UNIT)
           || (ulLinkClass == UNIT_TO_COMPONENT)) continue;
@@ -1772,7 +1744,7 @@ bool CUnitComponent::CreateNewDynLinkFromInterfaceOutputTypePara() {
         pDL->SetDynLinkClass(UNIT_TO_UNIT); // 不能是COMPONENT_TO_UNIT和COMPONENT_TO_COMPONENT那两种，否则会被错误的处理。
         pDL->SetDynLinkType(m_pInterfacePara[i]->GetDynLinkType());
         pDLList = pcUnit->GetDynLinkList();
-        pDLList->AddTail(pDL);
+        pDLList->push_back(pDL);
       }
     }
   }
@@ -1799,21 +1771,16 @@ bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
 
   POSITION poUnit = listTotalUnit.GetHeadPosition();
   INT64 iTotal = listTotalUnit.GetCount();
-  POSITION poDL;
-  CUnitDynLink * pDL;
   CString strParaName;
-  CUDLList *pDLlist = nullptr;
+  CUDLList *pDLList = nullptr;
   CUnitBase * pcunit;
   int iPo = 16;
 
   ASSERT(m_lDynLinkToNumber == 0); // 封装前部件自身的联入动态链接为零
   for (int i = 0; i < iTotal; i++) {
     pcunit = listTotalUnit.GetNext(poUnit);
-    pDLlist = pcunit->GetDynLinkList();
-    poDL = pDLlist->GetHeadPosition();
-    INT_PTR jTotal = pDLlist->GetCount();
-    for (int j = 0; j < jTotal; j++) {
-      pDL = pDLlist->GetNext(poDL);
+    pDLList = pcunit->GetDynLinkList();
+    for (const auto pDL : *pDLList) {
       switch (pDL->GetDynLinkClass()) {
       case COMPONENT_TO_COMPONENT: // 源单元位于上层单元序列中部件的内部单元序列      
       case UNIT_TO_COMPONENT: // 源单元位于上层单元序列中
@@ -1888,10 +1855,8 @@ bool CUnitComponent::SetMyselfExectivePriority( void ) {
 bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
   // 在本部件中生成一个新的动态链接，将联出的动态链接赋予此新的动态链接，其源单元改为本部件，
   // 并将内部源单元的目的单元设置为本部件，重置部件参数中的目的单元指针和目的参数索引。
-  POSITION poDL;
-  CUnitDynLink * pDL;
   CString strParaName;
-  CUDLList *pDLlist = nullptr;
+  CUDLList *pDLList = nullptr;
   CUnitBase * pcunit;
   int iPo = 16;
   CUnitDynLink * pDLNew;
@@ -1899,11 +1864,8 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
   INT64 iTotal = m_CUnitList.GetCount();
   for (int i = 0; i < iTotal; i++) {
     pcunit = m_CUnitList.GetNext(poUnit);
-    pDLlist = pcunit->GetDynLinkList();
-    poDL = pDLlist->GetHeadPosition();
-    INT64 jTotal = pDLlist->GetCount();
-    for (int j = 0; j < jTotal; j++) {
-      pDL = pDLlist->GetNext(poDL);
+    pDLList = pcunit->GetDynLinkList();
+    for (const auto pDL : *pDLList) {
       switch (pDL->GetDynLinkClass()) {
       case COMPONENT_TO_UNIT:
       case COMPONENT_TO_COMPONENT:
@@ -1933,7 +1895,7 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
         }
         else pDLNew->SetDynLinkClass(UNIT_TO_COMPONENT); // 更改动态链接类型
         pDLNew->SetLinkPointList(pDL->GetLinkPointList());
-        this->m_listDynLink.AddTail(pDLNew);
+        this->m_listDynLink.push_back(pDLNew);
         pDL->GetLinkPointList()->clear();   // 不再用内部单元来显示链接线
         // 将原动态链接的目的单元设置为本部件，参数索引也改为相关的参数位置
         pDL->mTest_pDestUnitSaved = pDL->GetDestUnit(); // 测试用：保存当前目的单元。

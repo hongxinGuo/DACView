@@ -31,7 +31,7 @@ namespace DACViewTest {
 		EXPECT_EQ(0, c.HowManyLinkToComponent());
 		CUDLList *pList;
 		pList = c.GetDynLinkList();
-		EXPECT_EQ(0, pList->GetCount());
+		EXPECT_EQ(0, pList->size());
 		EXPECT_FALSE(c.IsDynLinkFromUpper());
 		EXPECT_TRUE(c.IsEncapsulated());
 		EXPECT_FALSE(c.IsLinkToComponent());
@@ -53,7 +53,7 @@ namespace DACViewTest {
     EXPECT_EQ(0, c2.GetExectivePriority());
     EXPECT_EQ(0, c2.HowManyLinkToComponent());
     pList = c2.GetDynLinkList();
-    EXPECT_EQ(0, pList->GetCount());
+    EXPECT_EQ(0, pList->size());
     EXPECT_FALSE(c2.IsDynLinkFromUpper());
     EXPECT_TRUE(c2.IsEncapsulated());
     EXPECT_FALSE(c2.IsLinkToComponent());
@@ -234,7 +234,7 @@ namespace DACViewTest {
 		pDL->SetSrcUnit(&c1);
 		pDL->SetSrcIndex(2);
 		pDL->SetDynLinkType(tDOUBLE);
-		plist->AddTail(pDL);
+		plist->push_back(pDL);
 
 		pDL2 = new CUnitDynLink;
 		pDL2->SetDestUnit(&c3);
@@ -242,7 +242,7 @@ namespace DACViewTest {
 		pDL2->SetSrcUnit(&c1);
 		pDL2->SetSrcIndex(2);
 		pDL2->SetDynLinkType(tDOUBLE);
-		plist->AddTail(pDL2);
+		plist->push_back(pDL2);
 
 		EXPECT_FALSE(pDL->IsDeleteMe());
 		EXPECT_FALSE(pDL2->IsDeleteMe());
@@ -255,7 +255,7 @@ namespace DACViewTest {
 
 		delete pDL;
 		delete pDL2;
-		plist->RemoveAll();
+		plist->clear();
 	}
 	
 
@@ -305,12 +305,11 @@ namespace DACViewTest {
 		CUnitBase c;
 		CUnitDynLink * pDL2 = new CUnitDynLink, *pDL;
 		CUDLList * pDLList = c.GetDynLinkList();
-		int iCount = pDLList->GetCount();
+		int iCount = pDLList->size();
 		pDL2->SetName("aaa");
-		pDLList->AddTail(pDL2);
-		EXPECT_EQ(pDLList->GetCount(), iCount + 1);
-		POSITION po = pDLList->GetTailPosition();
-		pDL = pDLList->GetPrev(po);
+		pDLList->push_back(pDL2);
+		EXPECT_EQ(pDLList->size(), iCount + 1);
+		pDL = pDLList->back();
 		CString str = pDL->GetName();
 		EXPECT_STREQ(pDL->GetName(), "aaa");
 	}

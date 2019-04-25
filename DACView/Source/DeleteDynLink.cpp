@@ -95,11 +95,7 @@ void DeleteDynLinkFromMe(CUnitBase * pUnit) {
   }
 
   plistDL = pUnit->GetDynLinkList();
-  POSITION Po = plistDL->GetHeadPosition();
-  CUnitDynLink * pcDynLink;
-  INT64 iTemp = plistDL->GetCount();
-  for (int i = 0; i < iTemp; i++) {
-    pcDynLink = plistDL->GetNext(Po);
+  for (auto pcDynLink : *plistDL) {
     // clear destination unit's selected flag
     pcDynLink->GetDestUnit()->SetParameterLock(pcDynLink->GetDestIndex(), FALSE);
   }

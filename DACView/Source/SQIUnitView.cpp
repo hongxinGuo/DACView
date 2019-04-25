@@ -2546,7 +2546,7 @@ void CSQIUnitView::OnUpdateArrangeBreakdynlink(CCmdUI* pCmdUI)
   switch (m_nCurrentFunction) {
   case UNIT_SELECTED:
     ASSERT(m_pCUnitCurrent != nullptr);
-    if (m_pCUnitCurrent->GetDynLinkList()->GetCount() > 0) {  // have dynamic link ?
+    if (m_pCUnitCurrent->GetDynLinkList()->size() > 0) {  // have dynamic link ?
       pCmdUI->Enable(true);
     }
     else {
