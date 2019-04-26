@@ -39,7 +39,7 @@ namespace DACViewTest {
 		void TearDown(void) override {
 			// clearup
 			ReleaseSQIFile(&m_unitlist, &m_objectlist);
-			EXPECT_TRUE(m_unitlist.IsEmpty());
+			EXPECT_TRUE(m_unitlist.empty());
 			EXPECT_TRUE(m_objectlist.IsEmpty());
 		}
 
@@ -68,23 +68,15 @@ namespace DACViewTest {
 
   // 测试设置单元参数标志
   TEST_P(TestCompile, TestSetParaSelectedFlag) {
-    INT64 iTotal;
     INT64 iCurrentUnit = sizeof(ULONG);
-    CUnitBase * pctemp, *pcunit;
     CUnitList UnitList;
 
     // 测试封装后的部件其编译标志已重置
-    POSITION poUnit = m_unitlist.GetHeadPosition();
-    iTotal = m_unitlist.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pctemp = m_unitlist.GetNext(poUnit);
+    for (const auto pctemp : m_unitlist) {
       if (pctemp->IsEncapsulable() && pctemp->IsEncapsulated()) {
         EXPECT_TRUE(pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
         CUnitList *pUList2 = ((CUnitComponent *)pctemp)->GetUnitList();
-        POSITION poUnit2 = pUList2->GetHeadPosition();
-        int jTotal = pUList2->GetCount();
-        for (int j = 0; j < jTotal; j++) {
-          CUnitBase * pcunit2 = pUList2->GetNext(poUnit2);
+        for (const auto pcunit2 : *pUList2) {
           EXPECT_FALSE(pcunit2->IsCompiled()); // 只检测了一层，更下面的层没有验证。
         }
       }
@@ -93,10 +85,7 @@ namespace DACViewTest {
     ReSetCompileFlag(&m_unitlist);
 
     // 测试编译标志是否重置
-    POSITION po;
-    poUnit = m_unitlist.GetHeadPosition();
-    for (int i = 0; i < iTotal; i++) {
-      pcunit = m_unitlist.GetNext(poUnit);
+    for (const auto pcunit : m_unitlist) {
       if (!pcunit->IsEncapsulated()) {
         EXPECT_FALSE(pcunit->IsCompiled()) << "重置后编译标志为假";
       }
@@ -110,17 +99,12 @@ namespace DACViewTest {
     // 没有什么好的测试函数，暂时什么也不做了。
 
     // 测试设置参数选择标志是否正确，使用生成的UnitList做为对照
-    poUnit = UnitList.GetHeadPosition();
-    iTotal = UnitList.GetCount();
     int iDynLinkToNumber, iDynLinkToNumber2;
-    for (int i = 0; i < iTotal; i++) {
-      pcunit = UnitList.GetNext(poUnit);
+    for (const auto pcunit : UnitList) {
       EXPECT_EQ(pcunit->GetExectivePriority(), 0) << "编译前执行优先级为0";
       iDynLinkToNumber = pcunit->GetInputParameterNumber(); 
-      po = UnitList.GetHeadPosition();
       iDynLinkToNumber2 = 0;
-      for (int j = 0; j < iTotal; j++) {
-        pctemp = UnitList.GetNext(po);
+      for (const auto pctemp : UnitList) {
         if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
           CUnitComponent * pCpt = (CUnitComponent *)pctemp;
           if (!pCpt->IsEncapsulated()) { // 如果是未封装的部件，则检测是否存在部件参数输入至内部单元的情况
@@ -146,10 +130,8 @@ namespace DACViewTest {
   // 测试设置无源单元的执行优先级为1
   TEST_P(TestCompile, TestSetNoSrcUnitExectivePriority) {
     CUnitList rtUnitList;
-    CUnitBase *pcunitTemp;
     CUnitComponent * pCpt = nullptr;
     INT64 iCurrentUnit = 0;
-    INT64 iTotal;
 
     ReSetCompileFlag(&m_unitlist);
 
@@ -159,10 +141,7 @@ namespace DACViewTest {
 
     SetNoSrcUnitExectivePriority(&rtUnitList);
 
-    iTotal = rtUnitList.GetCount();
-    POSITION poUnit = rtUnitList.GetHeadPosition();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = rtUnitList.GetNext(poUnit);
+    for (const auto pcunitTemp : rtUnitList) {
       if (pcunitTemp->GetExectivePriority() == 1) {
         EXPECT_TRUE(!pcunitTemp->IsHaveSourceUnit()) << "执行优先级为1的单元没有数据输入";
       }
@@ -181,7 +160,6 @@ namespace DACViewTest {
   TEST_P(TestCompile, TestExectiveCompilation) {
     CUnitList listUnit, runtimeUnitList;
     CUnitComponent * pCpt = nullptr;
-    INT64 iTotal;
 
     CUnitBase *pcunitTemp;
 
@@ -193,20 +171,13 @@ namespace DACViewTest {
 
     SetNoSrcUnitExectivePriority(&listUnit);
 
-    CUnitBase * pcunit;
-    POSITION poUnit = runtimeUnitList.GetHeadPosition();
-    iTotal = runtimeUnitList.GetCount();
-    for (int i = 0; i < iTotal - 1; i++) {
-      pcunit = runtimeUnitList.GetNext(poUnit);
+    for (const auto pcunit : runtimeUnitList) {
       EXPECT_FALSE(pcunit->IsCompiled()) << "此时单元序列尚未编译" << pcunit->GetName();
     }
 
     ExectiveCompilation(listUnit, &runtimeUnitList);
 
-    poUnit = listUnit.GetHeadPosition();
-    iTotal = listUnit.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = listUnit.GetNext(poUnit);
+    for (const auto pcunitTemp : listUnit) {
       if (pcunitTemp->GetExectivePriority() == 1) {
         EXPECT_TRUE(!pcunitTemp->IsHaveSourceUnit()) << "执行优先级为1的单元没有数据输入";
       }
@@ -221,11 +192,8 @@ namespace DACViewTest {
       }
     }
 
-    poUnit = runtimeUnitList.GetHeadPosition();
-    iTotal = runtimeUnitList.GetCount();
-    pcunitTemp = runtimeUnitList.GetNext(poUnit);
-    for (int i = 0; i < iTotal - 1; i++) {
-      pcunit = runtimeUnitList.GetNext(poUnit);
+    pcunitTemp = runtimeUnitList.front();
+    for (const auto pcunit : runtimeUnitList) {
       EXPECT_TRUE(pcunit->IsCompiled()) << "此时单元序列都编译了" << pcunit->GetName();
       EXPECT_LE(pcunitTemp->GetExectivePriority(), pcunit->GetExectivePriority()) << "运行时单元序列执行优先级排列错误";
       pcunitTemp = pcunit;
@@ -234,9 +202,7 @@ namespace DACViewTest {
 
   TEST_P(TestCompile, TestEncapsulateUnitList) {
     CUnitList listUnit, runtimeUnitList;
-    CUnitBase *pcunitTemp;
     CUnitComponent * pCpt = nullptr;
-    INT64 iTotal;
     INT64 iCurrentUnit = sizeof(ULONG);
 
     ReSetCompileFlag(&m_unitlist);
@@ -251,12 +217,9 @@ namespace DACViewTest {
 
     EncapsulateUnitlist(&listUnit, listUnit);
 
-    EXPECT_EQ(runtimeUnitList.GetCount(), listUnit.GetCount()) << strFileName << "运行时单元序列与所有单元的数量不符";
+    EXPECT_EQ(runtimeUnitList.size(), listUnit.size()) << strFileName << "运行时单元序列与所有单元的数量不符";
 
-    POSITION poUnit = listUnit.GetHeadPosition();
-    iTotal = listUnit.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = listUnit.GetNext(poUnit);
+    for (const auto pcunitTemp : listUnit) {
       if (pcunitTemp->GetExectivePriority() == 1) {
         EXPECT_TRUE(!pcunitTemp->IsHaveSourceUnit()) << "执行优先级为1的单元没有数据输入";
       }
@@ -274,8 +237,7 @@ namespace DACViewTest {
   }
 
   TEST_P(TestCompile, TestCompile) {
-    INT64 iTotal;
-    CUnitBase * pctemp, *pcunitTemp;
+    CUnitBase *pcunitTemp;
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
 
@@ -283,14 +245,11 @@ namespace DACViewTest {
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
-    POSITION po = m_unitlist.GetHeadPosition();
-    iTotal = m_unitlist.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pctemp = m_unitlist.GetNext(po);
+    for (const auto pctemp : m_unitlist) {
       if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCpt = (CUnitComponent *)pctemp;
         if (!pCpt->IsPermitEncapsulation()) {
-          EXPECT_EQ(pCpt->GetRunTimeUnitList()->GetCount(), 0); // 不可封装部件的执行单元序列是空的
+          EXPECT_EQ(pCpt->GetRunTimeUnitList()->size(), 0); // 不可封装部件的执行单元序列是空的
         }
       }
     }
@@ -302,12 +261,8 @@ namespace DACViewTest {
     }
     else ASSERT_TRUE(0); // 有循环出现的话，就退出测试。
 
-    CUnitBase * pcunit;
-    POSITION poUnit = rtUnitList.GetHeadPosition();
-    iTotal = rtUnitList.GetCount();
-    pcunitTemp = rtUnitList.GetNext(poUnit);
-    for (int i = 0; i < iTotal - 1; i++) {
-      pcunit = rtUnitList.GetNext(poUnit);
+    pcunitTemp = rtUnitList.front();
+    for (const auto pcunit : rtUnitList) {
       EXPECT_LE(pcunitTemp->GetExectivePriority(), pcunit->GetExectivePriority()) << "运行时单元序列执行优先级排列错误";
     }
 
@@ -316,10 +271,7 @@ namespace DACViewTest {
     int k, l;
     CUnitBase * pDestUnit;
 
-    poUnit = rtUnitList.GetHeadPosition();
-    iTotal = rtUnitList.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pctemp = rtUnitList.GetNext(poUnit);
+    for (const auto pctemp : rtUnitList) {
       EXPECT_TRUE(pctemp->IsCompiled()) << strFileName << "  " << pctemp->GetName() << "  此时单元序列应该已经被编译了";
       EXPECT_LE(1, pctemp->GetExectivePriority());
       pUDLList = pctemp->GetDynLinkList();
@@ -336,10 +288,7 @@ namespace DACViewTest {
     }
 
     // 
-    po = m_unitlist.GetHeadPosition();
-    iTotal = m_unitlist.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pctemp = m_unitlist.GetNext(po);
+    for (const auto pctemp : m_unitlist) {
       if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCpt = (CUnitComponent *)pctemp;
         if (pCpt->IsEncapsulable()) {
@@ -348,7 +297,7 @@ namespace DACViewTest {
         if ( !pCpt->IsPermitEncapsulation() ) {
           EXPECT_FALSE(pCpt->IsEncapsulated());
           CUnitList * pUnitList = pCpt->GetRunTimeUnitList();
-          EXPECT_EQ(pUnitList->GetCount(), 0); // 不可封装部件的执行单元序列是空的
+          EXPECT_EQ(pUnitList->size(), 0); // 不可封装部件的执行单元序列是空的
         }
       }
     }
@@ -356,8 +305,6 @@ namespace DACViewTest {
 
 
   TEST_P(TestCompile, TestComponentEncapsulation) {
-    CUnitBase  *pcunitTemp;
-    INT64 iTotal;
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
     CUnitList unitListRunTime;
@@ -371,11 +318,9 @@ namespace DACViewTest {
 
     // 所有与编译有关的测试，都需要编译整体文件。由于系统数据关联的原因，无法单独部件本身，故而需要编译整体文件，最后再测试封装。
     CompileUnitList(&m_unitlist, &unitListRunTime);
-
-    POSITION poUnit = m_unitlist.GetHeadPosition();
-    iTotal = m_unitlist.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = m_unitlist.GetNext(poUnit);
+    int i = 0;
+    for (const auto pcunitTemp : m_unitlist) {
+      i++;
       if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCpt = (CUnitComponent *)pcunitTemp;
         if (pCpt->IsEncapsulable()) {
@@ -399,8 +344,6 @@ namespace DACViewTest {
   ////////////////////////////////////////////////////////////////////////////////////////
   TEST_P(TestCompile, TestEncapsulationStepByStep) {
     CUnitList listTotalUnit, runtimeUnitList, *pUnitList3;
-    CUnitBase  *pcunitTemp, *pcunit;
-    INT64 iTotal, jTotal, lTotal;
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
     CUDLList * pDLList = nullptr, *pDLList2 = nullptr;
@@ -416,10 +359,7 @@ namespace DACViewTest {
     CreateUniUnitList(&m_unitlist, listTotalUnit);
 
     // 计算从部件输入和输出的动态链接数据的数量，以备封装部件时测试接口参数的设置是否正确
-    POSITION poUnit3, poUnit = listTotalUnit.GetHeadPosition();
-    iTotal = listTotalUnit.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = listTotalUnit.GetNext(poUnit);
+    for (const auto pcunitTemp : listTotalUnit) {
       pDLList = pcunitTemp->GetDynLinkList();
       for (const auto pDL : *pDLList) {
         switch (pDL->GetDynLinkClass()) {
@@ -447,10 +387,7 @@ namespace DACViewTest {
       }
     }
     //再加上计算部件本身参数的输入输出参数个数，就得出部件总共的输入输出数据的数量
-    poUnit = listTotalUnit.GetHeadPosition();
-    iTotal = listTotalUnit.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = listTotalUnit.GetNext(poUnit);
+    for (const auto pcunitTemp : listTotalUnit) {
       if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCUCP = (CUnitComponent *)pcunitTemp;
         if (pCUCP->IsEncapsulable()) {
@@ -474,13 +411,8 @@ namespace DACViewTest {
     ExectiveCompilation(listTotalUnit, &runtimeUnitList);
 
     // 将Encapsulation展开，分段执行和测试
-    poUnit = m_unitlist.GetHeadPosition();
-    iTotal = m_unitlist.GetCount();
     CUnitList * pUnitList;
-    POSITION po;
-    CUnitBase * punit;
-    for (int i = 0; i < iTotal; i++) {
-      pcunit = m_unitlist.GetNext(poUnit);
+    for (const auto pcunit : m_unitlist) {
       if (pcunit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCUCP = (CUnitComponent *)pcunit;
         if (pCUCP->IsEncapsulable()) { // 可封装部件的动作
@@ -490,10 +422,7 @@ namespace DACViewTest {
 
           // 验证下层部件都封装了（目前只是验证下面一层，再往下的尚未能测试，只能靠最后的测试所有的部件都封装了来间接验证）
           pUnitList = pCUCP->GetUnitList();
-          po = pUnitList->GetHeadPosition();
-          jTotal = pUnitList->GetCount();
-          for (int j = 0; j < jTotal; j++) {
-            punit = pUnitList->GetNext(po);
+          for (const auto punit : *pUnitList) {
             if (punit->IsEncapsulable()) {
               EXPECT_TRUE(punit->IsEncapsulated()) << "下面一层的部件都封装了";
             }
@@ -507,13 +436,11 @@ namespace DACViewTest {
 
           // 测试生成的运行时单元序列与内部单元序列的数量是相同的（封装后既是），且其执行优先级按升序排列（允许相同级别）
           CUnitList * pRTUnitList = pCUCP->GetRunTimeUnitList();
-          EXPECT_EQ(pUnitList->GetCount(), pRTUnitList->GetCount()) << "下层部件封装后的运行时单元序列，其单元数量与内部单元序列的相等";
-          POSITION poRT = pRTUnitList->GetHeadPosition();
-          INT64 kTotal = pRTUnitList->GetCount();
-          CUnitBase * punitTemp3, *punitTemp2 = pRTUnitList->GetNext(poRT);
+          EXPECT_EQ(pUnitList->size(), pRTUnitList->size()) << "下层部件封装后的运行时单元序列，其单元数量与内部单元序列的相等";
+          INT64 kTotal = pRTUnitList->size();
+          CUnitBase *punitTemp2 = pRTUnitList->front();
           if (kTotal > 1) {
-            for (int k = 0; k < kTotal - 1; k++) {
-              punitTemp3 = pRTUnitList->GetNext(poRT);
+            for (const auto punitTemp3 : *pRTUnitList) {
               EXPECT_LE(punitTemp2->GetExectivePriority(), punitTemp3->GetExectivePriority()) << "单元序列封装后其执行优先级升序排列";
               punitTemp2 = punitTemp3;
             }
@@ -564,7 +491,7 @@ namespace DACViewTest {
                     if (pSrcUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
                       EXPECT_EQ(pDL11->GetDynLinkClass(), UNIT_TO_UNIT) << "源单元为部件的其动态链接类型为COMPONENT_TO_COMPONENT";
                     }
-                    else if (m_unitlist.Find(pSrcUnit->GetComponentUpper())) { // 包含单元的部件位于本单元序列中
+                    else if (find(m_unitlist.begin(), m_unitlist.end(), pSrcUnit->GetComponentUpper()) != m_unitlist.end()) { // 包含单元的部件位于本单元序列中
                       EXPECT_EQ(pDL11->GetDynLinkClass(), COMPONENT_TO_UNIT) << "包含源单元的部件位于最上层单元序列中";
                       if (pSrcUnit->GetComponentUpper()->IsEncapsulable()) {
                         EXPECT_FALSE(pSrcUnit->GetComponentUpper()->IsEncapsulated()) << "部件尚未封装";
@@ -605,10 +532,7 @@ namespace DACViewTest {
           // 测试处理输出型动态链接是否正确
           bool fFound = false;
           pUnitList3 = pCUCP->GetUnitList();
-          poUnit3 = pUnitList3->GetHeadPosition();
-          lTotal = pUnitList3->GetCount();
-          for (int l = 0; l < lTotal; l++) {
-            pcunitTemp = pUnitList3->GetNext(poUnit3);
+          for (const auto pcunitTemp : *pUnitList3) {
             pDLList = pcunitTemp->GetDynLinkList();
             for (const auto pDL : *pDLList) {
               if (pDL->GetDestUnit() == pCUCP) {
@@ -653,10 +577,7 @@ namespace DACViewTest {
 
           // 测试是否下层部件都封装了
           pUnitList = pCUCP->GetUnitList();
-          po = pUnitList->GetHeadPosition();
-          jTotal = pUnitList->GetCount();
-          for (int j = 0; j < jTotal; j++) {
-            punit = pUnitList->GetNext(po);
+          for (const auto punit : *pUnitList) {
             if (punit->IsEncapsulable()) {
               EXPECT_TRUE(punit->IsEncapsulated()) << "下面一层的部件都封装了";
             }
@@ -665,32 +586,26 @@ namespace DACViewTest {
           // 检查部件状态是否正确
           pCUCP->CheckComponentSelf();
           // 确保不可封装部件的运行时单元序列为空
-          EXPECT_TRUE(pCUCP->GetRunTimeUnitList()->IsEmpty()) << strFileName << "不可封装部件运行时单元序列应该为空";
+          EXPECT_TRUE(pCUCP->GetRunTimeUnitList()->empty()) << strFileName << "不可封装部件运行时单元序列应该为空";
         }
       }
     }
 
     // 测试可封装部件都封装了（除不可封装的部件外）
-    po = listTotalUnit.GetHeadPosition();
-    jTotal = listTotalUnit.GetCount();
-    for (int j = 0; j < jTotal; j++) {
-      punit = listTotalUnit.GetNext(po);
+    for (const auto punit : listTotalUnit) {
       if (punit->IsEncapsulable()) { // 可封装部件？
         EXPECT_TRUE(punit->IsEncapsulated()) << "可封装部件应该已经都被封装了";
       }
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) ) {
         if (!((CUnitComponent *)punit)->IsPermitEncapsulation() ) {
-          EXPECT_TRUE(((CUnitComponent *)punit)->GetRunTimeUnitList()->IsEmpty()) << strFileName << "不可封装部件运行时单元序列应该为空";
+          EXPECT_TRUE(((CUnitComponent *)punit)->GetRunTimeUnitList()->empty()) << strFileName << "不可封装部件运行时单元序列应该为空";
         }
       }
     }
 
-    EXPECT_EQ(runtimeUnitList.GetCount(), listTotalUnit.GetCount()) << "运行时单元序列与所有单元的数量不符";
+    EXPECT_EQ(runtimeUnitList.size(), listTotalUnit.size()) << "运行时单元序列与所有单元的数量不符";
 
-    poUnit = listTotalUnit.GetHeadPosition();
-    iTotal = listTotalUnit.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = listTotalUnit.GetNext(poUnit);
+    for (const auto pcunitTemp : listTotalUnit) {
       if (pcunitTemp->GetExectivePriority() == 1) {
         EXPECT_TRUE(!pcunitTemp->IsHaveSourceUnit()) << "执行优先级为1的单元没有数据输入";
       }
@@ -705,11 +620,8 @@ namespace DACViewTest {
     }
 
     //测试部件的输入输出参数个数。
-    poUnit = listTotalUnit.GetHeadPosition();
-    iTotal = listTotalUnit.GetCount();
     INT64 lSrc = 0, lDest = 0;
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = listTotalUnit.GetNext(poUnit);
+    for (const auto pcunitTemp : listTotalUnit) {
       if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         lSrc = 0;
         lDest = 0;
@@ -756,11 +668,8 @@ namespace DACViewTest {
     LoadSQIFile(ar, &m_unitlist, &m_objectlist, &iUnitNumber, &iObjectNumber);
 		*/
     CUnitList listTotalUnit, runtimeUnitList;
-    CUnitBase *pcunitTemp;
-    INT64 i, iTotal;
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
-    POSITION poUnit;
 
 
     ReSetCompileFlag(&m_unitlist);
@@ -775,11 +684,7 @@ namespace DACViewTest {
 
     EncapsulateUnitlist(&m_unitlist, listTotalUnit);
 
-    POSITION po = listTotalUnit.GetHeadPosition();
-    INT64 jTotal = listTotalUnit.GetCount();
-    CUnitBase * punit;
-    for (int j = 0; j < jTotal; j++) {
-      punit = listTotalUnit.GetNext(po);
+    for (const auto punit : listTotalUnit) {
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         if (punit->IsEncapsulable()) { // 可封装部件？
           EXPECT_TRUE(punit->IsEncapsulated()) << "可封装部件应该已经都被封装了";
@@ -787,12 +692,9 @@ namespace DACViewTest {
       }
     }
 
-    EXPECT_EQ(runtimeUnitList.GetCount(), listTotalUnit.GetCount()) << "运行时单元序列与所有单元的数量不符";
+    EXPECT_EQ(runtimeUnitList.size(), listTotalUnit.size()) << "运行时单元序列与所有单元的数量不符";
     // 检查所有的部件内部单元的运行优先级
-    poUnit = listTotalUnit.GetHeadPosition();
-    iTotal = listTotalUnit.GetCount();
-    for (i = 0; i < iTotal; i++) {
-      pcunitTemp = listTotalUnit.GetNext(poUnit);
+    for (const auto pcunitTemp : listTotalUnit) {
       if (pcunitTemp->GetExectivePriority() == 1) {
         EXPECT_TRUE(!pcunitTemp->IsHaveSourceUnit()) << "执行优先级为1的单元没有数据输入";
       }
@@ -808,8 +710,6 @@ namespace DACViewTest {
   }
 
   TEST_P(TestCompile, TestSetExectivePriority) {
-    CUnitBase * pctemp;
-    INT64 iTotal;
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
 
@@ -822,10 +722,7 @@ namespace DACViewTest {
     EXPECT_FALSE(UnitListLoopDetect(&m_unitlist));  // 如果没有发现动态链接循环
     CompileUnitList(&m_unitlist, &rtUnitList);
 
-    POSITION po = m_unitlist.GetHeadPosition();
-    iTotal = m_unitlist.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pctemp = m_unitlist.GetNext(po);
+    for (const auto pctemp : m_unitlist) {
       if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCpt = (CUnitComponent *)pctemp;
         if (pCpt->IsEncapsulable()) {
@@ -834,14 +731,11 @@ namespace DACViewTest {
       }
     }
 
-    po = m_unitlist.GetHeadPosition();
-    CUnitBase * pcunittemp, * pcunit2;
+    CUnitBase * pcunit2;
     CString strName;
     CUDLList * pDLList;
-    iTotal = m_unitlist.GetCount();
     INT32 a, b;
-    for (int i = 0; i < iTotal; i++) {
-      pcunittemp = m_unitlist.GetNext(po);
+    for (const auto pcunittemp : m_unitlist) {
       pDLList = pcunittemp->GetDynLinkList();
       for (const auto pUnitDynLink : *pDLList) {
         a = pcunittemp->GetExectivePriority();
@@ -880,8 +774,6 @@ namespace DACViewTest {
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
     CString strFileHeader;
-    CUnitBase *pcunitTemp;
-    INT64 iTotal;
     INT64 iUnitNumber, iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
     CUnitList m_unitlist, unitListRunTime;
@@ -902,10 +794,7 @@ namespace DACViewTest {
     CompileUnitList(&m_unitlist, &unitListRunTime);
 
     int l = 0;
-    POSITION poUnit = m_unitlist.GetHeadPosition();
-    iTotal = m_unitlist.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = m_unitlist.GetNext(poUnit);
+    for (const auto pcunitTemp : m_unitlist) {
       if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCpt = (CUnitComponent *)pcunitTemp;
         if (pCpt->IsEncapsulable()) {
@@ -948,7 +837,7 @@ namespace DACViewTest {
 
     // clear up
     ReleaseSQIFile(&m_unitlist, &m_objectlist);
-    EXPECT_TRUE(m_unitlist.IsEmpty());
+    EXPECT_TRUE(m_unitlist.empty());
     EXPECT_TRUE(m_objectlist.IsEmpty());
 
   }

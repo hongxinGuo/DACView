@@ -379,11 +379,8 @@ void	CUnitBase::SetInputParameterNumber(LONG lNumber) {
 ///////////////////////////////////////////////////////////////////
 bool CUnitBase::IsDynLinkFromUpper(void) {
 	CUnitList * pList;
-	INT_PTR iCount, iDynLinkNum = 0, jCount;
-	POSITION po, po2;
-	CUnitBase* pUnit;
+	INT_PTR iCount, iDynLinkNum = 0;
 	CUDLList * pDynLinkList;
-	CUnitDynLink * pcunitDynLink;
 	if ( m_pUnitComponentUpper != nullptr ) { // 本单元被包含于部件中
     // 统计部件内部单元序列中数据输出至本单元的数量
 		pList = m_pUnitComponentUpper->GetUnitList();
@@ -489,8 +486,7 @@ CUDLList * CUnitBase::GetDynLinkList( void ) {
 ///////////////////////////////////////////////////////////////////////////
 bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
   bool fFind = false;
-	INT_PTR iTemp = 1, i, iCount;
-  CUnitBase * pcunit;
+	INT_PTR iTemp = 1;
   CString strNumber;
   char s[10];
 
@@ -536,8 +532,6 @@ bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
 //
 ////////////////////////////////////////////////////////////////////////
 void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPoint ptEnd) {
-  POSITION poLine, po;
-	INT_PTR i, iCount;
   shared_ptr<CPoint> ppt1, ppt2;
   CPointList * plist;
 
@@ -1515,7 +1509,7 @@ void CUnitBase::SetDeleteDynLinkFlag( CUnitList& listUnit ) {
 
   for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
-    if (find(listUnit.begin(), listUnit.end(), pcunit) != listUnit.end()) { // 如果目的单元不在已选择的单元序列中
+    if (find(listUnit.begin(), listUnit.end(), pcunit) == listUnit.end()) { // 如果目的单元不在已选择的单元序列中
       pcunitDL->SetDeleteMeFlag( true );			// 则本单元的动态链接是链接到了外部单元，需要删除
     }
   }

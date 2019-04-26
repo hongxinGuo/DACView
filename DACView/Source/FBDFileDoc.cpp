@@ -202,7 +202,6 @@ BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
 } 
 
 void CFBDFileDoc::SaveUnitList( CArchive& ar ) {
-  CUnitBase * pcunit;
   INT64 iCount = m_CUnitList.size();
   CString strStrategyFile;
   
@@ -417,7 +416,6 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
   CFBDFileDoc * pDoc = (CFBDFileDoc *)dwUser;
   ULONGLONG ulTimeTick;
   CObjectBase * pcobj;
-  POSITION pos; 
   INT_PTR iCount, i;
 	CUnitBase * punit;
       

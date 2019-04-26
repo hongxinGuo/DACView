@@ -226,7 +226,7 @@ namespace DACViewTest {
 		shared_ptr<CUnitDynLink> pDL, pDL2;
 		CUnitList list;
 		
-		list.AddTail(&c2);
+		list.push_back(&c2);
 
 		pDL = make_shared<CUnitDynLink>();
 		pDL->SetDestUnit(&c2);
@@ -470,8 +470,8 @@ namespace DACViewTest {
 		CUnitList cList;
 		CUnitBase *pc, *pc2;
 		pc = &c;
-		cList.AddHead(pc);
-		pc2 = cList.GetHead();
+		cList.push_back(pc);
+		pc2 = cList.front();
 		EXPECT_EQ(pc, pc2);
 	}
 

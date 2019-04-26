@@ -60,7 +60,7 @@ namespace DACViewTest {
 
 		void TearDown() override {
 			ReleaseSQIFile(&m_unitlist, &m_objectlist);
-			EXPECT_TRUE(m_unitlist.IsEmpty());
+			EXPECT_TRUE(m_unitlist.empty());
 			EXPECT_TRUE(m_objectlist.IsEmpty());
 		}
 
@@ -102,10 +102,10 @@ namespace DACViewTest {
     CUnitAdd *pc1;
 
     pc1 = new CUnitAdd;
-    pUnitList->AddTail(pc1);
+    pUnitList->push_back(pc1);
 
     m_View.UnitToBack(pUnitList, pc1);
-    EXPECT_EQ(pUnitList->GetHead(), pc1);
+    EXPECT_EQ(pUnitList->front(), pc1);
 
   }
 
@@ -114,10 +114,10 @@ namespace DACViewTest {
     CUnitAdd *pc1;
 
     pc1 = new CUnitAdd;
-    pUnitList->AddHead(pc1);
+    pUnitList->push_front(pc1);
 
     m_View.UnitToFront(pUnitList, pc1);
-    EXPECT_EQ(pUnitList->GetTail(), pc1);
+    EXPECT_EQ(pUnitList->back(), pc1);
   }
 
   TEST_F(TestSQIUnitView, TestSetFocus) {

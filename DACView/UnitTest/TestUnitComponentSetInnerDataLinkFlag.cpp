@@ -47,28 +47,20 @@ namespace DACViewTestCUnitComponent {
 
     CompileUnitList(&unitlist, &rtUnitList);
 
-    CUnitComponent * pCUC;
-    POSITION po = unitlist.GetHeadPosition();
-    iTotal = unitlist.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pctemp = unitlist.GetNext(po);
+    for (const auto pctemp : unitlist) {
       if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCUC = (CUnitComponent *)pctemp;
+        CUnitComponent * pCUC = (CUnitComponent *)pctemp;
         EXPECT_FALSE(pCUC->IsSetCutOff()) << "参数有内部数据链接的截断标志在执行任务后未设置为假";
       }
     }
 
     // clearup
-    POSITION Po = unitlist.GetHeadPosition();
-    iTotal = unitlist.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunitTemp = unitlist.GetNext(Po);
+    for (auto pcunitTemp : unitlist) {
       delete pcunitTemp;
-      pcunitTemp = nullptr;
     }
     // release list's memory
-    rtUnitList.RemoveAll();
-    unitlist.RemoveAll();
+    rtUnitList.clear();
+    unitlist.clear();
   }
 
 }

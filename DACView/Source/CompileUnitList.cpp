@@ -47,7 +47,7 @@ void ClearLoopDetectFlag(CUnitList * pUnitList) {
 ////////////////////////////////////////////////////////////////////////////////////////
 BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
 	CUnitBase * pcunit1, *pCUnit;
-	INT_PTR i, j, jTemp, iTemp;
+	INT_PTR jTemp;
 	CUnitList unitlist;
 	BOOL fFind = FALSE;
 
@@ -61,7 +61,7 @@ BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
 			// delete units that not in loop list from unitlist
 			while (1) {
 				pcunit1 = *it++;
-				if (pcunit == pCUnit) break;
+				if (pcunit1 == pCUnit) break;
 				unitlist.pop_front();
 			}
 			// tell user that has find a loop 
@@ -77,7 +77,7 @@ BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
 			// set loop detect flag
 			CUnitBase * pcunitPrev = unitlist.front();
       auto it1 = unitlist.begin();
-			for (++it1; it1 != unitlist.end(); it++) {
+			for (++it1; it1 != unitlist.end(); it1++) {
 				pcunit1 = *it1;
 				pcunitPrev->SetLoopDetectFlag(pcunit1);
 				pcunitPrev = pcunit1;
@@ -109,8 +109,7 @@ BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////// 
 BOOL AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
-	CUnitBase * pcCutOff, *pcunit, *pcunitTemp;
-	INT_PTR i, iCount, iTemp;
+	CUnitBase * pcCutOff;
 	CUnitList unitlist;
 	CString strName, str;
 	BOOL fFind = FALSE;
@@ -120,7 +119,7 @@ BOOL AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
 		if (fFind && (find(unitlist.begin(), unitlist.end(), pCUnit) != unitlist.end())) {
 			auto it = unitlist.begin();
 			while (1) {
-				pcunit = *it++;
+				auto pcunit = *it++;
 				if (pcunit == pCUnit) break;
 				unitlist.pop_front();
 			}
@@ -228,8 +227,6 @@ bool CheckRunTimeUnitListCompiledStatus(CUnitList * pRunTimeUnitList) {
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////
 bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
-  POSITION poUnit;
-  CUnitBase * pcunit;
   INT64 iRunTimeTemp = 0, iTotal;
 
   TRACE("Compile unit list\n");

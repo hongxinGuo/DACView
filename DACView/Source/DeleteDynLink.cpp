@@ -20,8 +20,6 @@ void DeleteDynLinkToMe(CUnitList * pUnitList, CObjectList * pObjectList, CUnitBa
   CUnitList listUnit;
   CUnitComponent * pCpt = nullptr;
   CUnitList *plistCpt;
-  INT64 iTotalCpt = 0;
-  CUnitBase * pcunit = nullptr;
 
   if (pUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 处理部件类的删除工作
     pCpt = (CUnitComponent *)pUnit;
@@ -35,7 +33,7 @@ void DeleteDynLinkToMe(CUnitList * pUnitList, CObjectList * pObjectList, CUnitBa
   }
 
   // 生成临时单元序列
-  for (const auto pcunit : *pUnitList) {
+  for (const auto pcUnit : *pUnitList) {
     pcUnit->AddToList(listUnit);
   }
   // 清除单元序列中指向被删除单元的动态链接
@@ -67,8 +65,6 @@ void DeleteDynLinkFromMe(CUnitBase * pUnit) {
   CUnitList listUnit;
   CUnitComponent * pCpt = nullptr;
   CUnitList *plistCpt;
-  INT64 iTotalCpt = 0;
-  CUnitBase * pcunit = nullptr;
 
   if (pUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 处理部件类的删除工作
     pCpt = (CUnitComponent *)pUnit;
