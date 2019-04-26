@@ -18,13 +18,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 void ClearLoopDetectFlag(CUnitList * pUnitList) {
-	POSITION poUnit = pUnitList->GetHeadPosition();
-	CUnitBase * pcunitTemp;
-	INT_PTR i, iCount = pUnitList->GetCount();
-
-	for (i = 0; i < iCount; i++) {
-		pcunitTemp = pUnitList->GetNext(poUnit);
-		pcunitTemp->ClearLoopDetectFlag();
+	for (const auto pcunit : *pUnitList) {
+		pcunit->ClearLoopDetectFlag();
 	}
 }
 
@@ -51,59 +46,50 @@ void ClearLoopDetectFlag(CUnitList * pUnitList) {
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
-	POSITION po, poUnit = pCUnitList->GetHeadPosition();
-	CUnitBase * pcunit, *pCUnit;
-	INT_PTR i, j, jTemp, iTemp = pCUnitList->GetCount();
+	CUnitBase * pcunit1, *pCUnit;
+	INT_PTR jTemp;
 	CUnitList unitlist;
 	BOOL fFind = FALSE;
 
 	// 寻找是否有循环.
 	ClearLoopDetectFlag(pCUnitList);
-  po = pCUnitList->GetHeadPosition();
-  iTemp = pCUnitList->GetCount();
-	for (i = 0; i < iTemp; i++) {
-		pcunit = pCUnitList->GetNext(poUnit);
+	for (const auto pcunit : *pCUnitList) {
 		fFind = pcunit->LoopDetect(&unitlist);
 		if (fFind) {
-			po = unitlist.GetTailPosition();
-			pCUnit = unitlist.GetPrev(po);
-			po = unitlist.GetHeadPosition();
+			pCUnit = unitlist.back();
+			auto it = unitlist.begin();
 			// delete units that not in loop list from unitlist
 			while (1) {
-				pcunit = unitlist.GetNext(po);
-				if (pcunit == pCUnit) break;
-				unitlist.RemoveHead();
+				pcunit1 = *it++;
+				if (pcunit1 == pCUnit) break;
+				unitlist.pop_front();
 			}
 			// tell user that has find a loop 
 			CString str;
-			jTemp = unitlist.GetCount();
-			po = unitlist.GetHeadPosition();
 
 			// make loop string from loop units
-			for (j = 0; j < jTemp; j++) {
-				pcunit = unitlist.GetNext(po);
+			for (const auto pcunit : unitlist) {
 				str += pcunit->GetName();
 				str += "->";
 			}
 			ShowMessageIndirect(ID_ERROR_STRATEGY_LOOP_DETECT, (LPCTSTR)str);
 
 			// set loop detect flag
-			poUnit = unitlist.GetHeadPosition();
-			jTemp = unitlist.GetCount();
-			CUnitBase * pcunitPrev = unitlist.GetNext(poUnit);
-			for (j = 1; j < jTemp; j++) {
-				pcunit = unitlist.GetNext(poUnit);
-				pcunitPrev->SetLoopDetectFlag(pcunit);
-				pcunitPrev = pcunit;
+			CUnitBase * pcunitPrev = unitlist.front();
+      auto it1 = unitlist.begin();
+			for (++it1; it1 != unitlist.end(); it1++) {
+				pcunit1 = *it1;
+				pcunitPrev->SetLoopDetectFlag(pcunit1);
+				pcunitPrev = pcunit1;
 			}
 
-			unitlist.RemoveAll();
-			return(TRUE);
+			unitlist.clear();
+			return(true);
 		}
-		unitlist.RemoveAll();
+		unitlist.clear();
 	}
 
-	return(FALSE); // not find Loop
+	return(false); // not find Loop
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -123,47 +109,39 @@ BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////// 
 BOOL AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
-	POSITION po, poUnit = pUnitList->GetHeadPosition();
-	CUnitBase * pcCutOff, *pcunit, *pcunitTemp;
-	INT_PTR i, iCount, iTemp = pUnitList->GetCount();
+	CUnitBase * pcCutOff;
 	CUnitList unitlist;
 	CString strName, str;
 	BOOL fFind = FALSE;
 
-	for (i = 0; i < iTemp; i++) {
-		pcunitTemp = pUnitList->GetNext(poUnit);
+	for (const auto pcunitTemp : *pUnitList) {
 		fFind = pcunitTemp->CheckCutOff(&unitlist);
-		if (fFind && unitlist.Find(pCUnit)) {
-			po = unitlist.GetHeadPosition();
+		if (fFind && (find(unitlist.begin(), unitlist.end(), pCUnit) != unitlist.end())) {
+			auto it = unitlist.begin();
 			while (1) {
-				pcunit = unitlist.GetNext(po);
+				auto pcunit = *it++;
 				if (pcunit == pCUnit) break;
-				unitlist.RemoveHead();
+				unitlist.pop_front();
 			}
-			iCount = unitlist.GetCount();
-			po = unitlist.GetHeadPosition();
-			for (ULONG j = 0; j < iCount; j++) {
-				pcunit = unitlist.GetNext(po);
+			for (const auto pcunit : unitlist) {
 				if (pcunit->IsSetCutOff()) {
 					pcCutOff = pcunit;
-					po = unitlist.GetHeadPosition();
-					for (j = 0; j < iCount; j++) {
-						pcunit = unitlist.GetNext(po);
-						str += pcunit->GetName();
+					for (const auto pcunit2 : unitlist) {
+						str += pcunit2->GetName();
 						str += "->";
 					}
 					str += pcCutOff->GetName();
 					ShowMessageIndirect(ID_ERROR_STRATEGY_TOO_MANY_START_POINT, (LPCTSTR)str);
-					unitlist.RemoveAll();
-					return(TRUE);
+					unitlist.clear();
+					return(true);
 				}
 			}
 		}
-		unitlist.RemoveAll();
+		unitlist.clear();
 	}
-	unitlist.RemoveAll();
+	unitlist.clear();
 
-	return(FALSE); // not find Loop
+	return(false); // not find Loop
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -173,14 +151,9 @@ BOOL AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit) {
-  POSITION poUnit = pUnitList->GetHeadPosition();
-  CUnitBase * pcunit;
-  INT64 iTotal = pUnitList->GetCount();
-
   // 在此之前，单元已经清除编译标志和执行优先级，设置了输入参数个数
   // 将所有的单元(包括部件本身）组成一个单独的单元序列. 此时部件尚未进行下层部件的封装，故而下层部件内的单元也添加进此单元序列中。这是为了测试是否有循环存在
-  for (int i = 0; i < iTotal; i++) {
-    pcunit = pUnitList->GetNext(poUnit);
+  for (const auto pcunit : *pUnitList) {
     if ( !pcunit->IsEncapsulated() ) ASSERT(pcunit->GetExectivePriority() == 0);
     pcunit->CheckSelf();
     pcunit->AddToList(listUniUnit);
@@ -194,13 +167,8 @@ bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 bool SetNoSrcUnitExectivePriority(CUnitList * plistUnit) { 
-	POSITION poUnit = plistUnit->GetHeadPosition();
-	INT64 iTotal = plistUnit->GetCount();
-  CUnitBase * punit;
-
 	// 设置没有源单元的单元(输入参数连接的单元)的处理优先值为1(最先处理).
-	for (int i = 0; i < iTotal; i++) {
-		punit = plistUnit->GetNext(poUnit);
+	for (const auto punit : *plistUnit) {
 		if (!punit->IsHaveSourceUnit()) { // no one link to me ?
 			punit->SetExectivePriority(1);
 		}
@@ -216,12 +184,7 @@ bool SetNoSrcUnitExectivePriority(CUnitList * plistUnit) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////
 bool EncapsulateUnitlist(CUnitList * pUnitList, CUnitList & listTotalUnit) {
-  CUnitBase * pcunit;
-  
-  INT64 iTotal = pUnitList->GetCount();
-  POSITION poUnit = pUnitList->GetHeadPosition();
-  for (int i = 0; i < iTotal; i++) {
-    pcunit = pUnitList->GetNext(poUnit);
+  for (const auto pcunit : *pUnitList) {
     if ( pcunit->IsEncapsulated() ) ASSERT(pcunit->IsCompiled());
     pcunit->Encapsulation(listTotalUnit);
   }
@@ -230,11 +193,7 @@ bool EncapsulateUnitlist(CUnitList * pUnitList, CUnitList & listTotalUnit) {
 
 bool CheckUnitListCompiledStatus(CUnitList * pUnitList) {
   // 简单检测本层的单元序列（不包括部件）都设置了执行优先级
-  CUnitBase *pcunit;
-  INT64 iTotal = pUnitList->GetCount();
-  POSITION poUnit = pUnitList->GetHeadPosition();
-  for (int i = 0; i < iTotal; i++) {
-    pcunit = pUnitList->GetNext(poUnit);
+  for (const auto pcunit : *pUnitList) {
     if (!pcunit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
       ASSERT(pcunit->GetExectivePriority() > 0);
     }
@@ -247,11 +206,7 @@ bool CheckUnitListCompiledStatus(CUnitList * pUnitList) {
 
 bool CheckRunTimeUnitListCompiledStatus(CUnitList * pRunTimeUnitList) {
   // 简单检测运行时单元序列（除部件外）都设置了执行优先级
-  CUnitBase *pcunit;
-  INT64 iTotal = pRunTimeUnitList->GetCount();
-  POSITION poUnit = pRunTimeUnitList->GetHeadPosition();
-  for (int i = 0; i < iTotal; i++) {
-    pcunit = pRunTimeUnitList->GetNext(poUnit);
+  for (const auto pcunit : *pRunTimeUnitList) {
     if (!pcunit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
       ASSERT(pcunit->GetExectivePriority() > 0);
       pcunit->SetComment("aaabbb");
@@ -272,34 +227,30 @@ bool CheckRunTimeUnitListCompiledStatus(CUnitList * pRunTimeUnitList) {
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////
 bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
-  POSITION poUnit;
-  CUnitBase * pcunit;
   INT64 iRunTimeTemp = 0, iTotal;
 
   TRACE("Compile unit list\n");
 
   // clear runtime unitList
-  pRunTimeUnitList->RemoveAll();
+  pRunTimeUnitList->clear();
   // 开始编译
   ULONG iRunTimeTempOld = 0, iCurrentPriority = 0;
-  BOOL done = FALSE, fFindLoop = FALSE;
-  iTotal = unitlist.GetCount();
+  bool done = false, fFindLoop = false;
+  iTotal = unitlist.size();
   while ((!done) && (!fFindLoop)) {
     iCurrentPriority++;
-    poUnit = unitlist.GetHeadPosition();
-    for (int i = 0; i < iTotal; i++) {
-      pcunit = unitlist.GetNext(poUnit);
+    for (const auto pcunit : unitlist) {
       if (pcunit->GetExectivePriority() == iCurrentPriority) {
         pcunit->SetDestUnitPriority();
         pcunit->SetCompiledFlag(true);
-        pRunTimeUnitList->AddTail(pcunit); // create runtime list
+        pRunTimeUnitList->push_back(pcunit); // create runtime list
         TRACE("%s(%u)\n", (LPCTSTR)(pcunit->GetName()), pcunit->GetExectivePriority());
       }
     }
-    iRunTimeTemp = pRunTimeUnitList->GetCount();
+    iRunTimeTemp = pRunTimeUnitList->size();
 
     if (iRunTimeTemp == iTotal) {		// 全找到了
-      done = TRUE;
+      done = true;
     }
     else if (iRunTimeTemp == iRunTimeTempOld) {// 如无法找到更多的单元(全找到了或还剩下循环)
       fFindLoop = TRUE; // 发现了循环存在
@@ -307,16 +258,14 @@ bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
     else iRunTimeTempOld = iRunTimeTemp;
 
     if (iRunTimeTemp > iTotal) {    // something was wrong 
-      pRunTimeUnitList->RemoveAll();
-      return(FALSE);
+      pRunTimeUnitList->clear();
+      return(false);
     }
   }
 
   // 如有循环剩下,则将循环开始单元(cut_off unit)的优先值设为iCurrentPriority.
   if (fFindLoop) {
-    poUnit = unitlist.GetHeadPosition();
-    for (int i = 0; i < iTotal; i++) {
-      pcunit = unitlist.GetNext(poUnit);
+    for (const auto pcunit : unitlist) {
       if (pcunit->IsSetCutOff()) {
         pcunit->SetExectivePriorityDirect(iCurrentPriority);
         pcunit->SetCompiledFlag(true);
@@ -326,26 +275,24 @@ bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
     // 处理与循环有关的单元.
     iRunTimeTempOld = 0;
     while (!done) {
-      poUnit = unitlist.GetHeadPosition();
-      for (int i = 0; i < iTotal; i++) {
-        pcunit = unitlist.GetNext(poUnit);
+      for (const auto pcunit : unitlist) {
         if (pcunit->GetExectivePriority() == iCurrentPriority) {
           pcunit->SetDestUnitPriority();
           pcunit->SetCompiledFlag(true);
-          pRunTimeUnitList->AddTail(pcunit);     // create runtime list
+          pRunTimeUnitList->push_back(pcunit);     // create runtime list
           TRACE("%s(%u)\n", (LPCTSTR)(pcunit->GetName()),
             pcunit->GetExectivePriority());
         }
       }
-      iRunTimeTemp = pRunTimeUnitList->GetCount();
+      iRunTimeTemp = pRunTimeUnitList->size();
       if (iRunTimeTemp == iRunTimeTempOld) done = TRUE;
       else {
         iRunTimeTempOld = iRunTimeTemp;
       }
       if (iRunTimeTemp == iTotal) done = TRUE;
       if (iRunTimeTemp > iTotal) {    // something was wrong 
-        pRunTimeUnitList->RemoveAll();
-        return(FALSE);
+        pRunTimeUnitList->clear();
+        return(false);
       }
       iCurrentPriority++;
     }
@@ -357,14 +304,8 @@ bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
 
 void ReSetCompileFlag(CUnitList * pUnitList)
 {
-  CUnitBase * pcUnit;
-  INT64 iTotal;
-
   // 重置编译标志。这步现在要做，以防止出现可能的误存储。
-  POSITION poUnit = pUnitList->GetHeadPosition();
-  iTotal = pUnitList->GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    pcUnit = pUnitList->GetNext(poUnit);
+  for (const auto pcUnit : *pUnitList) {
     pcUnit->ResetCompileFlag();
   }
 }
@@ -375,20 +316,13 @@ void ReSetCompileFlag(CUnitList * pUnitList)
 //
 ///////////////////////////////////////////////////////////////////////////////
 void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
-  CUnitBase * pcUnit;
-  INT64 iTotal;
-  POSITION poUnit = pUnitList->GetHeadPosition();
-  iTotal = pUnitList->GetCount();
-
   // set unit select parameter
-  poUnit = pUnitList->GetHeadPosition();
-  for (int i = 0; i < iTotal; i++) {
-    pcUnit = pUnitList->GetNext(poUnit);
+  for (const auto pcUnit : *pUnitList) {
     pcUnit->SetParaLockFlag();
   }
 
   POSITION poObj = pObjectList->GetHeadPosition();
-  iTotal = pObjectList->GetCount();
+  INT64 iTotal = pObjectList->GetCount();
   CObjectBase * pcObj;
   for (int i = 0; i < iTotal; i++) {
     pcObj = pObjectList->GetNext(poObj);
@@ -442,29 +376,22 @@ bool CompileUnitList( CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 
   // 此时单元序列pUnitList已经编译了，故而可封装的部件已经封装，不再将内部单元序列加入运行时单元序列.
   // 不可封装的部件仍然将内部单元序列加入unitlist中。
-  unitlist.RemoveAll();
-  POSITION poUnit = pUnitList->GetHeadPosition();
-  CUnitBase * pcunit;
-  INT64 iTotal = pUnitList->GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    pcunit = pUnitList->GetNext(poUnit);
+  unitlist.clear();
+  for (const auto pcunit : *pUnitList) {
     pcunit->AddToList(unitlist);
   }
 
   // 将rtUnitList中存在于unitlist单元序列的单元加入pRunTimeUnitList。
-  ASSERT(pRunTimeUnitList->IsEmpty());
-  poUnit = rtUnitList.GetHeadPosition();
-  iTotal = rtUnitList.GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    pcunit = rtUnitList.GetNext(poUnit);
-    if (unitlist.Find(pcunit)) {
-      pRunTimeUnitList->AddTail(pcunit);
+  ASSERT(pRunTimeUnitList->empty());
+  for (const auto pcunit : rtUnitList) {
+    if (find(unitlist.begin(), unitlist.end(), pcunit) != unitlist.end()) {
+      pRunTimeUnitList->push_back(pcunit);
     }
   }
-  ASSERT(pRunTimeUnitList->GetCount() == unitlist.GetCount());
+  ASSERT(pRunTimeUnitList->size() == unitlist.size());
 
-  unitlist.RemoveAll();
-  rtUnitList.RemoveAll();
-	return (TRUE);
+  unitlist.clear();
+  rtUnitList.clear();
+	return (true);
 }
 

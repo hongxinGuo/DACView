@@ -117,15 +117,10 @@ const CString& CObjectMeter::GetClassNameStr( void ) {
 
 bool CObjectMeter::ExectiveDynLink( void ) {
   // Dynamic Link Button
-  POSITION po = m_listDynLink.GetHeadPosition();
-  CObjectDynLink * pcobjDynLink;
   CUnitBase * pcunit;
   ULONG ulDestIndex, ulSourceIndex;
-  
-	INT_PTR i, iTemp = m_listDynLink.GetCount();
-  
-  for ( i = 0; i < iTemp; i++ ) {
-    pcobjDynLink = m_listDynLink.GetNext(po);
+    
+  for (const auto pcobjDynLink : m_listDynLink ) {
     pcunit = pcobjDynLink->GetUnit();                    
     ulDestIndex = pcobjDynLink->GetObjectIndex();
     ulSourceIndex = pcobjDynLink->GetUnitIndex();   
@@ -501,13 +496,9 @@ bool CObjectMeter::SetProperty( void ) {
 }													 
   
 bool CObjectMeter::CheckSelf( void ) {
-	POSITION poDL = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
-	CObjectDynLink * pc;
 	CString str;
 
-	for( i = 0; i < iCount; i++ ) {
-		pc = m_listDynLink.GetNext( poDL );
+	for(const auto pc : m_listDynLink) {
 		if ( pc->GetLinkMethod() != IDD_OUTPUT_METER ) {
 			ShowMessage(ID_WARN_LINK_METHOD_MISMATCH, (LPCTSTR)m_strName);
 			pc->SetLinkMethod( IDD_OUTPUT_METER );

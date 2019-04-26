@@ -115,15 +115,10 @@ const CString& CObjectSlider::GetClassNameStr( void ) {
 }
 
 bool CObjectSlider::ExectiveDynLink( ) {
-  POSITION po = m_listDynLink.GetHeadPosition();
-  CObjectDynLink * pcobjDynLink;
   CUnitBase * pcunit;
   ULONG ulSourceIndex, ulDestIndex;
-  
-	INT_PTR i, iTemp = m_listDynLink.GetCount();
-  
-  for ( i = 0; i < iTemp; i++ ) {
-    pcobjDynLink = (CObjectDynLink *)m_listDynLink.GetNext(po);
+    
+  for (const auto pcobjDynLink : m_listDynLink) {
     pcunit = pcobjDynLink->GetUnit();                    
     ulSourceIndex = pcobjDynLink->GetUnitIndex();
     ulDestIndex = pcobjDynLink->GetObjectIndex();   

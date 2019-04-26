@@ -223,12 +223,12 @@ namespace DACViewTest {
 	TEST(TestCUnitBase, TestClearDynamicLinkFlag) {
 		CUnitAdd c1, c2, c3;
 		CUDLList * plist = c1.GetDynLinkList();
-		CUnitDynLink *pDL, * pDL2;
+		shared_ptr<CUnitDynLink> pDL, pDL2;
 		CUnitList list;
 		
-		list.AddTail(&c2);
+		list.push_back(&c2);
 
-		pDL = new CUnitDynLink;
+		pDL = make_shared<CUnitDynLink>();
 		pDL->SetDestUnit(&c2);
 		pDL->SetDestIndex(1);
 		pDL->SetSrcUnit(&c1);
@@ -236,7 +236,7 @@ namespace DACViewTest {
 		pDL->SetDynLinkType(tDOUBLE);
 		plist->push_back(pDL);
 
-		pDL2 = new CUnitDynLink;
+		pDL2 = make_shared<CUnitDynLink>();
 		pDL2->SetDestUnit(&c3);
 		pDL2->SetDestIndex(0);
 		pDL2->SetSrcUnit(&c1);
@@ -253,8 +253,6 @@ namespace DACViewTest {
 		EXPECT_FALSE(pDL->IsDeleteMe());
 		EXPECT_FALSE(pDL2->IsDeleteMe());
 
-		delete pDL;
-		delete pDL2;
 		plist->clear();
 	}
 	
@@ -303,7 +301,7 @@ namespace DACViewTest {
 
 	TEST(TestCUnitBase, TestAddDynLink) {
 		CUnitBase c;
-		CUnitDynLink * pDL2 = new CUnitDynLink, *pDL;
+		shared_ptr<CUnitDynLink> pDL2 = make_shared<CUnitDynLink>(), pDL;
 		CUDLList * pDLList = c.GetDynLinkList();
 		int iCount = pDLList->size();
 		pDL2->SetName("aaa");
@@ -355,7 +353,7 @@ namespace DACViewTest {
 	
 	TEST(TestCUnitBase, TestSetDestUnitPriority) {
 		CUnitBase cc, *pc = new CUnitBase;
-		CUnitDynLink *pdl = new CUnitDynLink;
+		shared_ptr<CUnitDynLink> pdl = make_shared<CUnitDynLink>();
 		cc.SetInputParameterNumber(1);// 在调试状态下，SetHaveSourceUnit的函数中有一个断言m_ulDynLinkToNumber大于0，故而需要直接设置其大于0
 		pdl->SetDestUnit(&cc);
 		pdl->SetSrcUnit(pc);
@@ -472,8 +470,8 @@ namespace DACViewTest {
 		CUnitList cList;
 		CUnitBase *pc, *pc2;
 		pc = &c;
-		cList.AddHead(pc);
-		pc2 = cList.GetHead();
+		cList.push_back(pc);
+		pc2 = cList.front();
 		EXPECT_EQ(pc, pc2);
 	}
 

@@ -148,15 +148,10 @@ const CString& CObjectFillBar::GetClassNameStr( void ) {
 }
 
 bool CObjectFillBar::ExectiveDynLink( ) {
-  POSITION po = m_listDynLink.GetHeadPosition();
-	CObjectDynLink * pcobjDynLink;
 	CUnitBase * pcunit;
 	ULONG ulSourceIndex, ulDestIndex;
-	
-	INT_PTR iTemp = m_listDynLink.GetCount();
-	
-	for ( int i = 0; i < iTemp; i++ ) {
-		pcobjDynLink = m_listDynLink.GetNext(po);
+		
+	for ( const auto pcobjDynLink : m_listDynLink) {
 		pcunit = pcobjDynLink->GetUnit();                    
 		ulSourceIndex = pcobjDynLink->GetUnitIndex();
 		ulDestIndex = pcobjDynLink->GetObjectIndex();		
@@ -484,13 +479,9 @@ INT32 CObjectFillBar::GetIndex( ULONG ulIndex ) {
 }
 
 bool CObjectFillBar::CheckSelf( void ) {
-	POSITION poDL = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
-	CObjectDynLink * pc;
 	CString str;
 
-	for( i = 0; i < iCount; i++ ) {
-		pc = m_listDynLink.GetNext( poDL );
+	for(const auto pc : m_listDynLink) {
 		if ( pc->GetLinkMethod() != IDD_OUTPUT_FILLBAR ) {
 			ShowMessage(ID_WARN_LINK_METHOD_MISMATCH, (LPCTSTR)m_strName);
 			pc->SetLinkMethod( IDD_OUTPUT_FILLBAR );

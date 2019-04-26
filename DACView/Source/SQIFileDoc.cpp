@@ -106,7 +106,7 @@ CSQIFileDoc::~CSQIFileDoc() {
 
   ReleaseSQIFile(&m_CUnitList, &m_CObjectList);
 
-  m_CRunTimeUnitList.RemoveAll(); // 运行时单元序列也需要删除
+  m_CRunTimeUnitList.clear(); // 运行时单元序列也需要删除
 
   // 删除字典序列
   shared_ptr<CUnitDictionary> pDic;
@@ -126,16 +126,11 @@ bool ReleaseSQIFile(CUnitList * pUnitList, CObjectList * pObjectList) {
   // release list's memory
   pObjectList->RemoveAll();
 
-  Po = pUnitList->GetHeadPosition();
-  CUnitBase * pcunit;
-  iTemp = pUnitList->GetCount();
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = pUnitList->GetNext(Po);
+  for (const auto pcunit : *pUnitList) {
     delete pcunit;
-    pcunit = nullptr;
   }
   // release list's memory
-  pUnitList->RemoveAll();
+  pUnitList->clear();
 
   return(true);
 }
@@ -169,7 +164,7 @@ bool LoadUnitList( CArchive & ar, CUnitList * pUnitList, INT64 * pUnitNumber ) {
   // load origin cUnitList
   for ( int i = 0; i < iTemp; i ++ ) {
     ar >> pcunit;
-    pUnitList->AddTail( pcunit );
+    pUnitList->push_back( pcunit );
     pcunit->SetUpperUnitList(pUnitList);
   }  
   return( true );
@@ -212,25 +207,19 @@ bool LoadSQIFile(CArchive & ar, CUnitList * pUnitList, CObjectList * pObjectList
 //	
 ////////////////////////////////////////////////////////////////////////////////////////////
 void CSQIFileDoc::SaveUnitList( CArchive& ar ) {
-  CUnitBase * pcunit;
-  POSITION pos = m_CUnitList.GetHeadPosition();                          
-  INT64 iTemp = m_CUnitList.GetCount();
   CString strStrategyFile;
-  
+  INT64 iTemp = m_CUnitList.size();
 	//存储UnitList
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
   ar << strStrategyFile << iTemp;
-  for ( int i = 0; i < iTemp; i ++ ) { 
-    pcunit = m_CUnitList.GetNext(pos);
+  for (const auto pcunit : m_CUnitList) { 
     ar << pcunit;
   } 
 
 	//存储RunTimeUnitList
-	pos = m_CRunTimeUnitList.GetHeadPosition();                          
-  iTemp = m_CRunTimeUnitList.GetCount();
+  iTemp = m_CRunTimeUnitList.size();
   ar << iTemp;
-  for ( int i = 0; i < iTemp; i ++ ) { 
-    pcunit = m_CRunTimeUnitList.GetNext(pos);
+  for (const auto pcunit : m_CRunTimeUnitList) { 
     ar << pcunit;
   } 
 }
@@ -249,14 +238,10 @@ void CSQIFileDoc::SaveUnitList( CArchive& ar ) {
 //	
 ////////////////////////////////////////////////////////////////////////////////////////////
 void CSQIFileDoc::SaveRunTimeUnitList(CArchive& ar) {
-  CUnitBase * pcunit;
-  POSITION pos = m_CRunTimeUnitList.GetHeadPosition();
-  INT64 iTemp = m_CRunTimeUnitList.GetCount();
-
   //存储RunTimeUnitList
+  INT64 iTemp = m_CRunTimeUnitList.size();
   ar << iTemp;
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = m_CRunTimeUnitList.GetNext(pos);
+  for (const auto pcunit : m_CRunTimeUnitList) {
     ar << pcunit;
   }
 }
@@ -314,12 +299,7 @@ BOOL CSQIFileDoc::OnNewDocument()
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 void CSQIFileDoc::ClearLoopDetectFlag( void ) {
-  POSITION poUnit = m_CUnitList.GetHeadPosition();
-  CUnitBase * pcunit;
-  INT_PTR iCount = m_CUnitList.GetCount();
-
-  for ( int i = 0; i < iCount; i++ ) {
-    pcunit = m_CUnitList.GetNext( poUnit );
+  for (const auto pcunit : m_CUnitList) {
     pcunit->ClearLoopDetectFlag();
   }
 }
@@ -353,26 +333,22 @@ void CSQIFileDoc::Serialize(CArchive& ar)
   CString strTemp, strViewFile;
 	CString strStrategyFile;
   CObjectBase * pcobj;
-  POSITION poObj;                          
   INT64 iTotal;
-	CUnitBase * pcUnit;
                               
   VERIFY(strViewFile.LoadString(IDS_VIEW_FILE_VERSION));
   if (ar.IsStoring())
   {
     // TODO: add storing code here
-		POSITION poUnit = m_CUnitList.GetHeadPosition();
-		iTotal = m_CUnitList.GetCount();
+		iTotal = m_CUnitList.size();
 		VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
 		
 		ar << strStrategyFile << m_nCurrentUnitNumber << iTotal;
-    for ( int i = 0; i < iTotal; i ++ ) { 
-      pcUnit = m_CUnitList.GetNext(poUnit);
+    for (const auto pcUnit : m_CUnitList) { 
       pcUnit->CheckSelf();
       ar << pcUnit;
     } 
 
-		poObj = m_CObjectList.GetHeadPosition();
+		POSITION poObj = m_CObjectList.GetHeadPosition();
 		iTotal = m_CObjectList.GetCount();
     ar << strViewFile << m_nCurrentObjNumber << iTotal;
     for ( int i = 0; i < iTotal; i ++ ) { 
@@ -433,29 +409,20 @@ CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj
 	// 清除以前的词典.
 	m_CDicList.clear();
 	
-	INT64 iTotal = m_pCurrentUnitList->GetCount();
-	POSITION po = m_pCurrentUnitList->GetHeadPosition();
-	CUnitBase * pcunit;
-
 	// 得到合适的词典.
-	for ( int i = 0; i < iTotal; i++ ) {
-		pcunit = m_pCurrentUnitList->GetNext( po );
+	for (const auto pcunit : *m_pCurrentUnitList) {
     if (pcunit->IsEncapsulated()) { // 简单单元或者已封装的部件
       pcunit->PrepareParaDictionary(m_CDicList, ulType);
     }
 	}
 
-	CODLList * pODLL = pcObj->GetDynLinkList();
-	po = pODLL->GetHeadPosition();
-	iTotal = pODLL->GetCount();
-	CObjectDynLink * pDY;
+	CODLList * pODLList = pcObj->GetDynLinkList();
 	ULONG ulIndex;
 
 	// 将已有的动态连接置入词典中
-	for ( int i = 0; i < iTotal; i++ ) {
-		pDY = pODLL->GetNext( po );
-		ulIndex = pDY->GetUnitIndex();
-		pcunit = pDY->GetUnit();
+	for ( const auto pODL : *pODLList ) {
+		ulIndex = pODL->GetUnitIndex();
+		CUnitBase * pcunit = pODL->GetUnit();
 		pDic = make_shared<CUnitDictionary>( pcunit, ulIndex, pcunit->GetParaType( ulIndex ) );
 		m_CDicList.push_back( pDic );
 		}

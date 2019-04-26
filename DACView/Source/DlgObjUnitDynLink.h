@@ -44,12 +44,12 @@ protected :
 // no serialized data declaration	
 	CDicList *						m_pDicList;
 	CString  							m_strName;
-	CODLList * 						m_listDynLink;
+	CODLList * 						m_plistDynLink;
 	ParaName * 						m_ptParaName;
 
-	POSITION 							m_po;
+	CODLList::iterator 		m_it;
 	CObjectDynLink * 			m_pCTag;
-	CODLList *						m_listNewDynLink;
+	CODLList *						m_plistNewDynLink;
 
 	INT32			            m_lUnitIndex;
 	INT32									m_lObjectIndex;

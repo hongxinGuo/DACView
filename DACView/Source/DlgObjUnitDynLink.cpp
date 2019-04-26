@@ -95,7 +95,7 @@ void CDynamicLinkDlg::SetLink( CDicList * pDicList, CObjectBase * pCObject,
                                CODLList* LinkList, ParaName * ptName ) {
   m_pDicList				= pDicList;
   m_pCObjectCurrent = pCObject;
-  m_listDynLink			= LinkList;
+  m_plistDynLink			= LinkList;
   m_strName					= m_pCObjectCurrent->GetName();
   m_ptParaName			= ptName;
 }
@@ -222,7 +222,6 @@ void CDynamicLinkDlg::ChangeLinkName( ULONG ulLinkType ) {
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::ResetDicIndex( void ) {
-	CUnitDictionary * pDic;
   for( auto& pDic : *m_pDicList ) {
 		pDic->SetIndexNumber(-1);
   }
@@ -377,7 +376,7 @@ BOOL CDynamicLinkDlg::OnInitDialog()
     i++;
   }  
   
-  switch ( m_listDynLink->GetCount() ) {
+  switch ( m_plistDynLink->size() ) {
   case 0 :  // no dynamic link
     m_pCTag = nullptr;
     GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(FALSE);
@@ -390,16 +389,16 @@ BOOL CDynamicLinkDlg::OnInitDialog()
 
     break;
   case 1 :  // only one dynamic link
-    m_pCTag = m_listDynLink->GetHead();
-    m_po = m_listDynLink->GetHeadPosition();
+    m_pCTag = m_plistDynLink->front();
+    m_it = m_plistDynLink->begin();
     GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE); 
     GetDlgItem(IDC_BUTTON_DELETE)->EnableWindow(TRUE);
     UpdateDlg( m_pCTag );
     break;
   default:  // two or more dynamic links
-    m_pCTag = m_listDynLink->GetHead();
-    m_po = m_listDynLink->GetHeadPosition();
+    m_pCTag = m_plistDynLink->front();
+    m_it = m_plistDynLink->begin();
     GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(TRUE); 
     GetDlgItem(IDC_BUTTON_DELETE)->EnableWindow(TRUE);
@@ -408,15 +407,13 @@ BOOL CDynamicLinkDlg::OnInitDialog()
   } // switch
 
 	// Create new dynamic link list
-	m_listNewDynLink = new CODLList;
+	m_plistNewDynLink = new CODLList;
 
-	CObjectDynLink * pDynLink, * pNewDynLink;
-	POSITION po = m_listDynLink->GetHeadPosition();
-	for ( i = 0; i < m_listDynLink->GetCount(); i ++ ) {
+	CObjectDynLink * pNewDynLink;
+	for (const auto pDynLink : *m_plistDynLink ) {
 		pNewDynLink = new CObjectDynLink;
-		pDynLink = m_listDynLink->GetNext( po );
 		pNewDynLink->Copy( pDynLink );
-		m_listNewDynLink->AddTail( pNewDynLink );
+		m_plistNewDynLink->push_back( pNewDynLink );
 	}
   
   return TRUE;  // return TRUE  unless you set the focus to a control
@@ -435,17 +432,11 @@ void CDynamicLinkDlg::OnOK()
   // TODO: Add extra validation here
   if ( m_pCTag != nullptr ) UpdateDynLink(m_pCTag); // restore variable
 
-	POSITION po, poNew;
-	INT_PTR iTotal = m_listDynLink->GetCount();
-	INT_PTR jTotal = m_listNewDynLink->GetCount();
 	ULONG ulObjIndex, ulNewObjIndex, ulUnitIndex, ulNewUnitIndex;
 	CUnitBase * pUnit, *pNewUnit;
-	CObjectDynLink * pDynLink, *pNewDynLink;
 
 	// 清除原来的输入连接标志.
-	poNew = m_listNewDynLink->GetHeadPosition();
-	for ( int j = 0; j < jTotal; j++ ) {
-		pNewDynLink = m_listNewDynLink->GetNext( poNew );
+	for ( const auto pNewDynLink : *m_plistNewDynLink ) {
 		ulNewObjIndex = pNewDynLink->GetObjectIndex();
 		pNewUnit = pNewDynLink->GetUnit();
 		ulNewUnitIndex = pNewDynLink->GetUnitIndex();
@@ -456,9 +447,7 @@ void CDynamicLinkDlg::OnOK()
 	}
 
 	// 设置新的输入连接标志.
-	po = m_listDynLink->GetHeadPosition();
-	for ( int i = 0; i < iTotal; i++ ) {
-		pDynLink = m_listDynLink->GetNext( po );
+	for (const auto pDynLink : *m_plistDynLink) {
 		ulObjIndex = pDynLink->GetObjectIndex();
 		pUnit = pDynLink->GetUnit();
 		ulUnitIndex = pDynLink->GetUnitIndex();
@@ -467,13 +456,11 @@ void CDynamicLinkDlg::OnOK()
 		}
 	}
 
-	poNew = m_listNewDynLink->GetHeadPosition();
-	for ( int j = 0; j < jTotal; j++ ) {
-		pNewDynLink = m_listNewDynLink->GetNext( poNew );
+	for (auto pNewDynLink : *m_plistNewDynLink) {
 		delete pNewDynLink;
 	}
-	m_listNewDynLink->RemoveAll();
-	delete m_listNewDynLink;		
+	m_plistNewDynLink->clear();
+	delete m_plistNewDynLink;		
   CDialog::OnOK();
 }
 
@@ -487,29 +474,22 @@ void CDynamicLinkDlg::OnOK()
 //////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::OnCancel()
 {
-  // TODO: Add extra cleanup here  
-	POSITION po = m_listDynLink->GetHeadPosition();
-	INT_PTR i, iTotal = m_listDynLink->GetCount();
-	CObjectDynLink * pDynLink;
-
 	// delete modified dynamic link list
-	for ( i = 0; i < iTotal; i++ ) {
-		pDynLink = m_listDynLink->GetNext( po );
-		delete pDynLink;
-	}
-	m_listDynLink->RemoveAll();
-
-	po = m_listNewDynLink->GetHeadPosition();
-	iTotal = m_listNewDynLink->GetCount();
+  for (auto pDynLink : *m_plistDynLink) {
+    delete pDynLink;
+  }
+  m_plistDynLink->clear();
 
 	// set dynamic link list to original
-	for ( i = 0; i < iTotal; i++ ) {
-		pDynLink = m_listNewDynLink->GetNext( po );
-		m_listDynLink->AddTail( pDynLink );
+	for (const auto pDynLink : *m_plistNewDynLink) {
+		m_plistDynLink->push_back( pDynLink );
 	}
 	// delete temporary dynamic link list
-	m_listNewDynLink->RemoveAll();
-	delete m_listNewDynLink;
+	for (auto pDynLink : *m_plistNewDynLink) {
+		delete pDynLink;
+	}
+	m_plistNewDynLink->clear();
+	delete m_plistNewDynLink;
 
 	CDialog::OnCancel();
 }
@@ -566,9 +546,9 @@ void CDynamicLinkDlg::OnClickedButtonNew()
   m_pCTag->SetUnitIndex(m_pCUnitCurrent->GetIndex(0));
   m_pCTag->SetLinkMethod(sm_LinkMethod[sm_aulSuitable[0]].LinkMethod);
   m_pCTag->SetComment("");
-  m_listDynLink->AddTail(m_pCTag);    // add new dynamic link to list
-  m_po = m_listDynLink->GetTailPosition();    // set m_po to current position
-  TRACE("%d Dynamic link objects in %s\n", m_listDynLink->GetCount(), m_strName);
+  m_plistDynLink->push_back(m_pCTag);    // add new dynamic link to list
+  m_it = m_plistDynLink->end()--;    // set m_po to current position
+  TRACE("%d Dynamic link objects in %s\n", m_plistDynLink->size(), m_strName);
   UpdateDlg( m_pCTag );
 }
 
@@ -633,7 +613,6 @@ void CDynamicLinkDlg::OnSelchangeVariableParameter()
 void CDynamicLinkDlg::OnSelchangeLinkName()
 {
   // TODO: Add your control notification handler code here
-  POSITION po;
   LRESULT i;
   shared_ptr<CUnitDictionary> pDic;
 
@@ -652,11 +631,11 @@ void CDynamicLinkDlg::OnClickedButtonNext()
 {
   // TODO: Add your control notification handler code here
   UpdateDynLink( m_pCTag );
-  m_po = m_listDynLink->Find(m_pCTag);
-  m_pCTag = m_listDynLink->GetNext(m_po);
-  m_pCTag = m_listDynLink->GetNext(m_po);
+  m_it = find(m_plistDynLink->begin(), m_plistDynLink->end(), m_pCTag);
+  m_it++;
+  m_pCTag = *m_it++;
   UpdateDlg( m_pCTag );
-  if ( m_pCTag == m_listDynLink->GetTail() ) {
+  if ( m_it == m_plistDynLink->end() ) {
     GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE);  
   }
   GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(TRUE);
@@ -666,11 +645,11 @@ void CDynamicLinkDlg::OnClickedButtonPrev()
 {
   // TODO: Add your control notification handler code here
   UpdateDynLink( m_pCTag );
-  m_po = m_listDynLink->Find(m_pCTag);
-  m_pCTag = m_listDynLink->GetPrev(m_po);
-  m_pCTag = m_listDynLink->GetPrev(m_po);
+  m_it = find(m_plistDynLink->begin(), m_plistDynLink->end(), m_pCTag);
+  m_it--;
+  m_pCTag = *m_it--;
   UpdateDlg( m_pCTag ); 
-  if ( m_pCTag == m_listDynLink->GetHead() ) {
+  if ( m_it == m_plistDynLink->begin() ) {
     GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(FALSE);  
   }
   GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(TRUE);
@@ -681,31 +660,28 @@ void CDynamicLinkDlg::OnClickedButtonDelete()
   // TODO: Add your control notification handler code here
   CObjectDynLink * pc = nullptr;
   
-  if ( m_listDynLink->GetCount() == 1 ) {
+  if ( m_plistDynLink->size() == 1 ) { // 只有一个元素
     GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(FALSE);  
     GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_DELETE)->EnableWindow(FALSE);
   }
   else {
-    m_po = m_listDynLink->Find(m_pCTag);
-    if ( m_po != m_listDynLink->GetTailPosition() ) {
-      pc = m_listDynLink->GetNext(m_po);
-      pc = m_listDynLink->GetNext(m_po);
+    m_it = find(m_plistDynLink->begin(), m_plistDynLink->end(), m_pCTag);
+    if ( m_it == m_plistDynLink->begin() ) {
+      m_plistDynLink->erase(m_it);
+      m_it = m_plistNewDynLink->begin();
+      
     }
-    else {
-      pc = m_listDynLink->GetPrev(m_po);
-      pc = m_listDynLink->GetPrev(m_po);
-    }
-    if ( pc == m_listDynLink->GetHead() ) {
+    if ( pc == m_plistDynLink->front() ) {
       GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(FALSE);  
     }
-    if ( pc == m_listDynLink->GetTail() ) {
+    if ( pc == m_plistDynLink->back() ) {
       GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE);  
     }
   }
   
-  m_po = m_listDynLink->Find(m_pCTag);
-  m_listDynLink->RemoveAt(m_po);
+  m_it = find(m_plistDynLink->begin(), m_plistDynLink->end(), m_pCTag);
+  m_plistDynLink->erase(m_it);
 	  
 	delete m_pCTag;
   m_pCTag = pc;

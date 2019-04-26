@@ -48,7 +48,7 @@ enum {
 typedef list<shared_ptr<CPoint>> CPointList;
 
 class CUnitBase;
-typedef CList<CUnitBase *, CUnitBase *> CUnitList;
+typedef list<CUnitBase *> CUnitList;
 typedef vector<CUnitBase *> CUnitVector;
 
 class CObjectBase;

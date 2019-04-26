@@ -16,44 +16,33 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 void DeleteDynLinkToMe(CUnitList * pUnitList, CObjectList * pObjectList, CUnitBase * pUnit) {
-  POSITION po = pUnitList->GetHeadPosition(), poCpt;
-  INT_PTR iTemp = pUnitList->GetCount();
   CUnitBase * pcUnit;
   CUnitList listUnit;
   CUnitComponent * pCpt = nullptr;
   CUnitList *plistCpt;
-  INT64 iTotalCpt = 0;
-  CUnitBase * pcunit = nullptr;
 
   if (pUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 处理部件类的删除工作
     pCpt = (CUnitComponent *)pUnit;
     if (!pCpt->IsEncapsulable() || (pCpt->IsEncapsulable() && !pCpt->IsEncapsulated())) { // 处理未封装的部件或者不允许封装的部件
       // 清除所有指向本部件内部单元序列的动态链接
       plistCpt = pCpt->GetUnitList();
-      poCpt = plistCpt->GetHeadPosition();
-      iTotalCpt = plistCpt->GetCount();
-      for (int j = 0; j < iTotalCpt; j++) {
-        pcunit = plistCpt->GetNext(poCpt);
+      for (const auto pcunit : *plistCpt) {
         DeleteDynLinkToMe(pUnitList, pObjectList, pcunit);
       }
     }
   }
-  po = pUnitList->GetHeadPosition();
-  INT iTotal = pUnitList->GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    pcUnit = pUnitList->GetNext(po);
+
+  // 生成临时单元序列
+  for (const auto pcUnit : *pUnitList) {
     pcUnit->AddToList(listUnit);
   }
   // 清除单元序列中指向被删除单元的动态链接
-  po = listUnit.GetHeadPosition();
-  iTotal = listUnit.GetCount();
-  for (int i = 0; i < iTemp; i++) {
-    pcUnit = listUnit.GetNext(po);
+  for (const auto pcUnit : listUnit) {
     pcUnit->DeleteDynLink(pUnit);
   }
 
-  po = pObjectList->GetHeadPosition();
-  iTemp = pObjectList->GetCount();
+  POSITION po = pObjectList->GetHeadPosition();
+  INT64 iTemp = pObjectList->GetCount();
   CObjectBase * pcObj;
   // 清除物体序列中指向被删除单元的动态链接
   for (int i = 0; i < iTemp; i++) {
@@ -76,19 +65,13 @@ void DeleteDynLinkFromMe(CUnitBase * pUnit) {
   CUnitList listUnit;
   CUnitComponent * pCpt = nullptr;
   CUnitList *plistCpt;
-  INT64 iTotalCpt = 0;
-  CUnitBase * pcunit = nullptr;
-  POSITION poCpt;
 
   if (pUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 处理部件类的删除工作
     pCpt = (CUnitComponent *)pUnit;
     if (!pCpt->IsEncapsulable() || (pCpt->IsEncapsulable() && !pCpt->IsEncapsulated())) { // 处理未封装的部件或者不允许封装的部件
       // 清除本部件内部单元序列指向的所有动态链接
       plistCpt = pCpt->GetUnitList();
-      poCpt = plistCpt->GetHeadPosition();
-      iTotalCpt = plistCpt->GetCount();
-      for (int j = 0; j < iTotalCpt; j++) {
-        pcunit = plistCpt->GetNext(poCpt);
+      for (const auto pcunit : *plistCpt) {
         DeleteDynLinkFromMe(pcunit);
       }
     }

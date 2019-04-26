@@ -104,13 +104,13 @@ CFBDFileDoc::CFBDFileDoc()
   m_lCountHour = 0;
   m_lCountShowStatus = 0;
   gl_ulRealTimeProcessTime = 0;
-  m_fInterRunUnitList = FALSE;
+  m_fInterRunUnitList = false;
 
-  m_CUnitList.RemoveAll();
-  m_CRunTimeUnitList.RemoveAll();
+  m_CUnitList.clear();
+  m_CRunTimeUnitList.clear();
 
-	m_fRun = FALSE;
-  m_fInitialRun = FALSE;
+	m_fRun = false;
+  m_fInitialRun = false;
 
 	m_pObjectShowStatus = nullptr;
 }
@@ -160,19 +160,15 @@ CFBDFileDoc::~CFBDFileDoc() {
 
 void CFBDFileDoc::ClearUnitList( void ) {
   // delete m_CUnitList and m_CRunTimeUnitList
-  POSITION Po = m_CUnitList.GetHeadPosition();
-  CUnitBase * pcunitTemp;
-  INT_PTR iTemp = m_CUnitList.GetCount();
-  for ( int i = 0; i < iTemp; i++ ) {
-    pcunitTemp = m_CUnitList.GetNext(Po);
-    delete pcunitTemp;
-    pcunitTemp = nullptr;
+  INT64 iTemp = m_CUnitList.size();
+  for (auto pcunit : m_CUnitList) {
+    delete pcunit;
   } 
   TRACE("%d Units deleted\n", iTemp);                  
   // release list's memory
-  m_CUnitList.RemoveAll();
+  m_CUnitList.clear();
   
-  m_CRunTimeUnitList.RemoveAll();
+  m_CRunTimeUnitList.clear();
 }
 
 BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
@@ -192,38 +188,32 @@ BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
 
 	for ( int i = 0; i < iTotal; i ++ ) {
     ar >> pcunit;
-    m_CUnitList.AddTail( pcunit );
+    m_CUnitList.push_back( pcunit );
   }
 
 	// load CRunTimeUnitList
   ar >> iTotal;
   for ( int i = 0; i < iTotal; i ++ ) {
     ar >> pcunit;
-    m_CRunTimeUnitList.AddTail( pcunit );
+    m_CRunTimeUnitList.push_back( pcunit );
   }
 
   return( TRUE );
 } 
 
 void CFBDFileDoc::SaveUnitList( CArchive& ar ) {
-  CUnitBase * pcunit;
-  POSITION pos = m_CUnitList.GetHeadPosition();                          
-  INT64 iCount = m_CUnitList.GetCount();
+  INT64 iCount = m_CUnitList.size();
   CString strStrategyFile;
   
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
   ar << strStrategyFile << iCount;
-  for ( int i = 0; i < iCount; i ++ ) { 
-    pcunit = m_CUnitList.GetNext(pos);
+  for (const auto pcunit : m_CUnitList) { 
     ar << pcunit;
   } 
 
-	pos = m_CRunTimeUnitList.GetHeadPosition();                          
-  iCount = m_CRunTimeUnitList.GetCount();
-  
+  iCount = m_CRunTimeUnitList.size();
   ar << iCount;
-  for ( int i = 0; i < iCount; i ++ ) { 
-    pcunit = m_CRunTimeUnitList.GetNext(pos);
+  for (const auto pcunit : m_CRunTimeUnitList) { 
     ar << pcunit;
   } 
 }
@@ -231,14 +221,7 @@ void CFBDFileDoc::SaveUnitList( CArchive& ar ) {
 BOOL CFBDFileDoc::MakeRunTimeUnitList( void ) {
   
   // create exective list 10ms, 100ms, 1Second, 1Minute
-  POSITION po;
-  CUnitBase * pcunit;
-  INT_PTR iCount;
-
-  po = m_CRunTimeUnitList.GetHeadPosition();
-  iCount = m_CRunTimeUnitList.GetCount();
-  for ( int i = 0; i < iCount; i++ ) {
-    pcunit = m_CRunTimeUnitList.GetNext( po );
+  for (const auto pcunit : m_CRunTimeUnitList) {
 		pcunit->PrepareRunTimeList();	// 生成部件的运行时态序列.
     if ( ((pcunit->GetScanRate()/60000)*60000) == pcunit->GetScanRate() ) {
       m_vCUnit1Minute.push_back(pcunit);
@@ -256,11 +239,11 @@ BOOL CFBDFileDoc::MakeRunTimeUnitList( void ) {
       m_vCUnit1MS.push_back(pcunit);
     }
   }
-  ASSERT( iCount == ( m_vCUnit1Minute.size() + 
-                     m_vCUnit1Second.size() +
-                     m_vCUnit100MS.size() +
-                     m_vCUnit10MS.size() +
-										 m_vCUnit1MS.size() ) );
+  ASSERT( m_CRunTimeObjectList.GetSize() == (  m_vCUnit1Minute.size() + 
+                                               m_vCUnit1Second.size() +
+                                               m_vCUnit100MS.size() +
+                                               m_vCUnit10MS.size() +
+										                           m_vCUnit1MS.size() ) );
   return ( TRUE );
 }
 
@@ -433,7 +416,6 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
   CFBDFileDoc * pDoc = (CFBDFileDoc *)dwUser;
   ULONGLONG ulTimeTick;
   CObjectBase * pcobj;
-  POSITION pos; 
   INT_PTR iCount, i;
 	CUnitBase * punit;
       
@@ -545,12 +527,7 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
 }
 
 CUnitBase * CFBDFileDoc::FindUnit( CString TagName ) {
-  CUnitBase * pc;
-  POSITION pos = m_CUnitList.GetHeadPosition(); 
-	INT_PTR iCount = m_CUnitList.GetCount();
-
-  for ( int i = 0; i < iCount; i ++ ) {                            
-    pc = m_CUnitList.GetNext(pos);
+  for (const auto pc : m_CUnitList) {                            
     if ( pc->IsMe( TagName ) ) {
       return( pc );
     }

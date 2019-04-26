@@ -75,8 +75,6 @@ void CObjRectBase::Serialize( CArchive& ar ) {
 //
 //////////////////////////////////////////////////////////////////////////////
 bool CObjRectBase::ExectiveDynLink( void ) {
-	POSITION po = m_listDynLink.GetHeadPosition();
-	CObjectDynLink * pcobjDynLink;
 	CUnitBase * pcunit;
 	ULONG ulUnitIndex, ulObjectIndex;
 	CString strTemp;
@@ -85,12 +83,11 @@ bool CObjRectBase::ExectiveDynLink( void ) {
 	double eTemp;
 	bool fTemp;
 	bool fUpdate = FALSE, fEndUpdate = FALSE;
-	INT_PTR iTemp = m_listDynLink.GetCount();
+  int iTemp;
 
   if ( !m_fNeedUpdate ) {
     m_fChangeSize = FALSE;
-    for ( int i = 0; i < iTemp; i++ ) {
-  	  pcobjDynLink = m_listDynLink.GetNext(po);
+    for (const auto pcobjDynLink : m_listDynLink) {
   	  pcunit = pcobjDynLink->GetUnit();                    
   	  ulUnitIndex = pcobjDynLink->GetUnitIndex();
   	  ulObjectIndex = pcobjDynLink->GetObjectIndex();
@@ -187,7 +184,7 @@ bool CObjRectBase::ExectiveDynLink( void ) {
     //////////////////////////////////////////////////////////////////////////////////////////
   		  case IDD_OUTPUT_STRING :
   			  lTemp = pcunit->GetInteger(ulUnitIndex);
-  			  _itoa( iTemp, str, 10 );
+  			  _itoa( lTemp, str, 10 );
   			  strTemp = str;
   			  fUpdate = SetString( ulObjectIndex, strTemp );
   			  break;
@@ -486,13 +483,9 @@ void CObjRectBase::SetDynamicSize( const CRect& rectArea ) {
 }
 
 bool CObjRectBase::CheckSelf( void ) {
-	POSITION poDL = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
-	CObjectDynLink * pc;
 	CString str;
 
-	for( i = 0; i < iCount; i++ ) {
-		pc = m_listDynLink.GetNext( poDL );
+	for(const auto pc : m_listDynLink) {
 		switch ( pc->GetUnitDynLinkType() ) {
 		case tBOOL :
 			break;

@@ -138,14 +138,11 @@ CObjectBase::CObjectBase( void ) : CObjectPrimitive() {
 }
 
 CObjectBase::~CObjectBase() { 
-  CObjectDynLink * pcobjDL;
 	CUnitBase * pcUnit;
-  POSITION Po = m_listDynLink.GetHeadPosition();
-	INT_PTR iCount = m_listDynLink.GetCount();
   
   // delete my dynamic links
-  for ( int i = 0; i < iCount; i++ ) {
-    pcobjDL = m_listDynLink.GetNext(Po);
+  for (auto it = m_listDynLink.begin(); it != m_listDynLink.end(); it++ ) {
+    auto pcobjDL = *it;
 		pcUnit = pcobjDL->GetUnit();
 		if ( !pcobjDL->IsUnitToObject() ) {
 			pcUnit->SetParameterLock( pcobjDL->GetUnitIndex(), FALSE );
@@ -153,9 +150,8 @@ CObjectBase::~CObjectBase() {
     delete pcobjDL;
     pcobjDL = nullptr;
   }
-  if (iCount) TRACE("%d Dynamic link name deleted\n", iCount);
   // release dynamic list's memory
-  m_listDynLink.RemoveAll(); 
+  m_listDynLink.clear(); 
   
 	m_rgnClip.DeleteObject();
 
@@ -174,27 +170,25 @@ void CObjectBase::Serialize( CArchive& ar ) {
   }                                  
   
   CString strTemp;
-  CObjectDynLink * pcDynLinkTemp;
-  POSITION pos = m_listDynLink.GetHeadPosition();                          
-  INT64 iTemp = m_listDynLink.GetCount();
+  INT64 iTemp = m_listDynLink.size();
   
   if (ar.IsStoring())
   {
     // TODO: add storing code here
     ar << iTemp;
-    for ( int i = 0; i < iTemp; i ++ ) { 
-      pcDynLinkTemp = m_listDynLink.GetNext(pos);
-      ar << pcDynLinkTemp;
+    for ( const auto pcDynLink : m_listDynLink ) { 
+      ar << pcDynLink;
     }
   }
   else
   {
     // TODO: add loading code here
 		ar >> iTemp;
+    CObjectDynLink * pcDynLink = nullptr;
 		for (int i = 0; i < iTemp; i++) {
-			ar >> pcDynLinkTemp;
-			pcDynLinkTemp->SetObject(this);
-			m_listDynLink.AddTail(pcDynLinkTemp);
+			ar >> pcDynLink;
+			pcDynLink->SetObject(this);
+			m_listDynLink.push_back(pcDynLink);
 		}
   }
 }
@@ -254,15 +248,9 @@ CObjectSymbol * CObjectBase::GetSymbolThatHaveMe( void ) {
 //
 ///////////////////////////////////////////////////////////////////////////
 bool CObjectBase::SetParameterSelected(void) {
-  CObjectDynLink * pODL;
-  POSITION poDL;
-  INT64 iTotal;
   ULONG ulParaType = 0;
 
-  poDL = m_listDynLink.GetHeadPosition();
-  iTotal = m_listDynLink.GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    pODL = m_listDynLink.GetNext(poDL);
+  for (const auto pODL : m_listDynLink) {
     ulParaType = pODL->GetUnitParaType();
     if (ulParaType & tINPUT) { // 单元参数类型为输入型
       // 设置参数被选择标志，由于此动态链接不影响执行优先级，故不调用SetParameterLock
@@ -321,11 +309,11 @@ bool CObjectBase::SetColor(ULONG , LONG ) {
 ///////////////////////////////////////////////////////////////////////////
 bool CObjectBase::IsDeleteDynLink( void ) {
   CODelDynLink cDialogDel;
-	INT_PTR iTotal = m_listDynLink.GetCount();
+	INT_PTR iTotal = m_listDynLink.size();
 
   cDialogDel.SetLink( &m_listDynLink, this );
   cDialogDel.DoModal();
-	if ( iTotal != m_listDynLink.GetCount() ) {	// 删除了动态连接?
+	if ( iTotal != m_listDynLink.size() ) {	// 删除了动态连接?
 		return( true );
 		}
 	else return( false );
@@ -389,10 +377,7 @@ void CObjectBase::AssertValid() const
 void CObjectBase::Dump(CDumpContext& dc) const
 {
   CObjectPrimitive::Dump(dc);
-  CObjectDynLink * pcobj;
-  POSITION po = m_listDynLink.GetHeadPosition();
-  for ( int i = 0; i < m_listDynLink.GetCount(); i++ ) {
-    pcobj = m_listDynLink.GetNext(po);
+  for ( const auto pcobj : m_listDynLink ) {
     dc << pcobj << "\n";
   }
 }
@@ -565,24 +550,20 @@ bool CObjectBase::IsRectShape( void ) {
 //
 /////////////////////////////////////////////////////////////////////////
 bool CObjectBase::DeleteDynLink( CUnitBase * pUnit ) {
-	INT_PTR i, iTemp = m_listDynLink.GetCount();
-  CObjectDynLink * pcobjDynLink;
-  POSITION pos, po = m_listDynLink.GetHeadPosition();
   CUnitBase * pc;
   
-  for ( i = 0; i < iTemp; i++ ) {
-    pcobjDynLink = m_listDynLink.GetNext(po);
+  for (auto it = m_listDynLink.begin(); it != m_listDynLink.end(); it++ ) {
+    auto pcobjDynLink = *it;
     pc = pcobjDynLink->GetUnit();
     if ( pUnit == pc ) { //需要删除
-      pos = m_listDynLink.Find( pcobjDynLink );
-      ASSERT( pos != nullptr );
 			if ( !pcobjDynLink->IsUnitToObject() ) { // 联入方向为从对象至单元
 				pc->SetParameterLock( pcobjDynLink->GetUnitIndex(), FALSE );// 解参数锁
 			}
-      m_listDynLink.RemoveAt( pos );
+      m_listDynLink.erase( ++it );
+      it--;
       delete pcobjDynLink;
       pcobjDynLink = nullptr;
     }
   }
-  return( TRUE );
+  return( true );
 }

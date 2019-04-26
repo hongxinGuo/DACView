@@ -160,13 +160,8 @@ void CFBDUnitView::OnDraw(CDC* pDC)
 	}
 	else pDoc->SetInterRunUnitList( TRUE );	 // no one do this, so I can do it
 
-  CUnitBase * pcunitTemp;
-  POSITION poUnit = m_pCUnitListCurrent->GetHeadPosition();                          
-	INT_PTR i, iTemp = m_pCUnitListCurrent->GetCount();
-  
-  for ( i = 0; i < iTemp; i ++ ) {                            
-    pcunitTemp = m_pCUnitListCurrent->GetNext(poUnit);
-		pcunitTemp->ToShow( pDC ); 
+  for (const auto pcunit : *m_pCUnitListCurrent) {                            
+		pcunit->ToShow( pDC ); 
   }
 	pDoc->SetInterRunUnitList( FALSE );		// I have done it. clear the flag.
   
@@ -188,12 +183,7 @@ void CFBDUnitView::OnDraw(CDC* pDC)
 //
 ////////////////////////////////////////////////////////////////////////
 CUnitBase * CFBDUnitView::FindUnit( CString TagName ) {
-  CUnitBase * pc;
-  POSITION pos = m_pCUnitListCurrent->GetHeadPosition(); 
-	INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
-  
-  for ( int i = 0; i < iTemp; i ++ ) {                            
-    pc = m_pCUnitListCurrent->GetNext(pos);
+  for (const auto pc : *m_pCUnitListCurrent) {                            
     if ( (pc->IsMe(TagName))  ) {
       return( pc );
     }
@@ -244,12 +234,7 @@ void 	CFBDUnitView::SetStrategyClipRect( CRect rectClip ) {
 //
 ///////////////////////////////////////////////////////////////////////  
 BOOL CFBDUnitView::IsInRect( POINT const pt, CUnitBase* & pcobj ) {
-  CUnitBase* pc;
-  POSITION poUnit = m_pCUnitListCurrent->GetTailPosition(); // Tail position is the top most
-	INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
-  
-  for ( int i = 0; i < iTemp; i ++ ) {                            
-    pc = m_pCUnitListCurrent->GetPrev(poUnit);
+  for (const auto pc : *m_pCUnitListCurrent) {                            
     if ( pc->InIt( pt ) ) {
       pcobj = pc;
       return ( TRUE );
@@ -294,21 +279,19 @@ void CFBDUnitView::OnTimer(UINT_PTR nIDEvent)
 	// TODO: Add your message handler code here and/or call default
   CFBDFileDoc * pDoc = GetDocument();
   CDC * pdc;
-	CUnitBase * pcunit;
-  POSITION pos;                          
-	INT_PTR iCount = m_pCUnitListCurrent->GetCount();
+	INT_PTR iCount = m_pCUnitListCurrent->size();
   CRect rectTemp;
-	BOOL fEnd = FALSE;
+	bool fEnd = FALSE;
 
 	ULONGLONG ulTick;
 	ulTick = GetTickCount64();
   
-  pos = m_pCUnitListCurrent->GetHeadPosition();
+  auto it = m_pCUnitListCurrent->begin();
 	for ( ULONG i = 0; i < m_ulUnitListCurrentCount; i++ ) {
-		pcunit = m_pCUnitListCurrent->GetNext( pos );
+		it++;
 	}
   while ( (!fEnd) && (m_ulUnitListCurrentCount++ < iCount) ) {
-    pcunit = m_pCUnitListCurrent->GetNext(pos);
+    auto pcunit = *it;
     if ( pcunit->IsNeedUpdate() ) {
 			pdc = GetDC();
 			OnPrepareDC( pdc );
@@ -345,13 +328,9 @@ int CFBDUnitView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pCUnitListCurrent = GetDocument()->GetUnitList();		// initialize current unitList
 
 	CRect rectTemp(0, 0, 800, 500);
-	CUnitBase * pcunitTemp;
-  POSITION pos = m_pCUnitListCurrent->GetHeadPosition();                          
-	INT_PTR i, iTemp = m_pCUnitListCurrent->GetCount();
   
-  for ( i = 0; i < iTemp; i ++ ) { 
-    pcunitTemp = m_pCUnitListCurrent->GetNext(pos);
-    rectTemp |= pcunitTemp->GetSize();
+  for (const auto pcunit : *m_pCUnitListCurrent) { 
+    rectTemp |= pcunit->GetSize();
   }                                 
 	m_sizeUnitDoc = CSize(rectTemp.right,rectTemp.bottom); 
 

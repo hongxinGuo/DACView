@@ -147,7 +147,7 @@ protected:
 	INT32  	  		   		m_lSrcIndex;
 	INT32 			 				m_lDestIndex;
 	ULONG								m_ulDynLinkClass;
-	CUnitDynLink *      m_pCUnitDynLinkCurrent;
+	shared_ptr<CUnitDynLink>      m_pCUnitDynLinkCurrent;
 	CUnitBase * 				m_pCUnitFirst;					// 指向第一个单元，如果选中的单元是未封装的部件，则第一个单元包含于此部件
 	CUnitBase * 				m_pCUnitSecond;					// 指向第二个单元。
 	

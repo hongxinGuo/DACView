@@ -462,13 +462,9 @@ void CSQIUnitView::OnDraw(CDC* pDC)
   // pfontTemp = pDC->SelectObject(&m_fontStrategyView);
   pDC->GetClipBox(&m_crectClip);
 
-  CUnitBase * pcunit;
-  POSITION poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
   CRect rectTemp;
 
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     pcunit->ToShow(pDC);
   }
 }
@@ -572,18 +568,16 @@ void CSQIUnitView::DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoi
 //
 /////////////////////////////////////////////////////////////////////////////
 bool CSQIUnitView::DeleteUnit(CUnitBase * pCUnit) {
-  POSITION po;
-
+  list<CUnitBase *>::iterator it;
   ASSERT(pCUnit != nullptr);
-  if ((po = m_pCUnitListCurrent->Find(pCUnit)) != nullptr) { // find unit ?
+  if ((it = find(m_pCUnitListCurrent->begin(), m_pCUnitListCurrent->end(), pCUnit)) != m_pCUnitListCurrent->end()) { // find unit ?
     // 清除所有指向本单元的动态链接
     DeleteDynLinkToMe(m_pCUnitListTop, m_pObjectList, pCUnit);
     // 清除所有本单元指向的动态链接
     DeleteDynLinkFromMe(pCUnit);
     // 删除本单元
-    m_pCUnitListCurrent->RemoveAt(po);
+    m_pCUnitListCurrent->erase(it);
     delete pCUnit;
-
     return (true);
   }
   return(false);
@@ -606,13 +600,9 @@ bool CSQIUnitView::DeleteUnit(CUnitBase * pCUnit) {
 ////////////////////////////////////////////////////////////////////////
 CSize CSQIUnitView::GetUnitDocSize(void) {
   CRect rectTemp(0, 0, 2000, 1500);
-  CUnitBase * pcunitTemp;
-  POSITION pos = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
 
-  for (int i = 0; i < iTemp; i++) {
-    pcunitTemp = m_pCUnitListCurrent->GetNext(pos);
-    rectTemp |= pcunitTemp->GetSize();
+  for (const auto pcunit : *m_pCUnitListCurrent) {
+    rectTemp |= pcunit->GetSize();
   }
   return(CSize(rectTemp.Width(), rectTemp.Height()));
 }
@@ -636,17 +626,16 @@ CSize CSQIUnitView::GetUnitDocSize(void) {
 //
 ////////////////////////////////////////////////////////////////////////////
 bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBase*& pcunit) {
-  CUnitBase* pc;
-  POSITION poUnit = m_pCUnitListCurrent->GetTailPosition(); // Tail position is the top most
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
+  auto it = m_pCUnitListCurrent->end(); // Tail position is the top most
 
-  for (int i = 0; i < iTemp; i++) {
-    pc = m_pCUnitListCurrent->GetPrev(poUnit);
+  do {
+    it--;
+    auto pc = *it;
     if (pc->InIt(pt)) {
       pcunit = pc;
       return (true);
     }
-  }
+  } while (it != m_pCUnitListCurrent->begin());
   pcunit = nullptr;
   return (false);
 }
@@ -667,13 +656,13 @@ bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBase*& pcunit) {
 /////////////////////////////////////////////////////////////////////////  
 bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit) {
   ASSERT(pCUnit != nullptr);
-  ASSERT(pUnitList->GetCount() > 0);
+  ASSERT(pUnitList->size() > 0);
   CUnitBase * pc = pCUnit;
-  POSITION poUnit;
 
-  poUnit = pUnitList->Find(pCUnit);
-  pUnitList->RemoveAt(poUnit);
-  pUnitList->AddHead(pc);
+  auto it = m_pCUnitListCurrent->begin();
+  it = find(m_pCUnitListCurrent->begin(), m_pCUnitListCurrent->end(), pCUnit);
+  pUnitList->erase(it);
+  pUnitList->push_front(pc);
   return (true);
 }
 
@@ -694,11 +683,11 @@ bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit) {
 bool CSQIUnitView::UnitToFront(CUnitList * pUnitList, CUnitBase * const pCUnit) {
   ASSERT(pCUnit != NULL);
   CUnitBase * pc = pCUnit;
-  POSITION poUnit;
 
-  poUnit = pUnitList->Find(pCUnit);
-  pUnitList->RemoveAt(poUnit);
-  pUnitList->AddTail(pc);
+  auto it = m_pCUnitListCurrent->begin();
+  it = find(m_pCUnitListCurrent->begin(), m_pCUnitListCurrent->end(), pCUnit);
+  pUnitList->erase(it);
+  pUnitList->push_back(pc);
   return (true);
 }
 
@@ -717,12 +706,7 @@ bool CSQIUnitView::UnitToFront(CUnitList * pUnitList, CUnitBase * const pCUnit) 
 //
 /////////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::SetFocus(CDC *pdc) {
-  CUnitBase * pcunit;
-  POSITION poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
-
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->SetFocus(pdc);
     }
@@ -744,12 +728,7 @@ void CSQIUnitView::SetFocus(CDC *pdc) {
 //
 /////////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::ClearFocus(CDC * pdc) {
-  CUnitBase * pcunit;
-  POSITION poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
-
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->SetSelect(false);
       pcunit->ClearFocus(pdc);
@@ -769,12 +748,7 @@ void CSQIUnitView::ClearFocus(CDC * pdc) {
 //
 /////////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::ClearAllSelect(void) {
-  CUnitBase * pcunit;
-  POSITION poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
-
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->SetSelect(false);
     }
@@ -797,13 +771,9 @@ void CSQIUnitView::ClearAllSelect(void) {
 /////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::CreateUniName(CUnitBase * pCUnit) {
   CUnitList listUnit;
-  INT64 i, iCount = m_pCUnitListCurrent->GetCount();
-  POSITION po = m_pCUnitListCurrent->GetHeadPosition();
-  CUnitBase * pcunit;
 
   // Send all units(include compound) to listUnit
-  for (i = 0; i < iCount; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     pcunit->AddToList(listUnit); // 包括部件本身
   }
   // create unique name 
@@ -837,12 +807,7 @@ void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointList * plistLinkPoint,
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint ptStart, CPoint ptEnd) {
-  POSITION po = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iCount = m_pCUnitListCurrent->GetCount();
-  CUnitBase * pcunit;
-
-  for (int i = 0; i < iCount; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     pcunit->AdjustDynLinkLinePosition(punitCurrent, ptStart, ptEnd);
   }
 }
@@ -906,9 +871,8 @@ void CSQIUnitView::ViewOut(void) {
 ///////////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::CenterAlign()
 {
-  CUnitBase * pcunit;
-  POSITION poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
+  auto it = m_pCUnitListCurrent->begin();
+  auto pcunit = *it;
   CRect rectTemp;
   int w, i1;
   CPoint ptEnd, ptStart;
@@ -916,24 +880,23 @@ void CSQIUnitView::CenterAlign()
   ptStart.y = 0;
   ptEnd.y = 0;
   do {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
+    pcunit = *it++;
     if (pcunit->IsSelect()) {   // if selected
       rectTemp = pcunit->GetSize();
     }
   } while (!pcunit->IsSelect());
   w = rectTemp.left + (rectTemp.right - rectTemp.left) / 2;
-  poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
-    if (pcunit->IsSelect()) {   // if selected
-      rectTemp = pcunit->GetSize();
+
+  for (const auto pcunit1 : *m_pCUnitListCurrent) {
+    if (pcunit1->IsSelect()) {   // if selected
+      rectTemp = pcunit1->GetSize();
       ptStart.x = rectTemp.left;
       i1 = w - ((rectTemp.right - rectTemp.left) / 2);
       rectTemp.right = w + (rectTemp.right - rectTemp.left) - ((rectTemp.right - rectTemp.left) / 2);
       rectTemp.left = i1;
       ptEnd.x = i1;
-      pcunit->SetSize(rectTemp);
-      AdjustDynLinkLinePosition(pcunit, ptStart, ptEnd);
+      pcunit1->SetSize(rectTemp);
+      AdjustDynLinkLinePosition(pcunit1, ptStart, ptEnd);
     }
   }
 }
@@ -945,9 +908,8 @@ void CSQIUnitView::CenterAlign()
 ////////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::LeftAlign()
 {
-  CUnitBase * pcunit;
-  POSITION poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
+  auto it = m_pCUnitListCurrent->begin();
+  auto pcunit = *it;
   CRect rectTemp;
   int w, h;
   CPoint ptEnd, ptStart;
@@ -956,24 +918,23 @@ void CSQIUnitView::LeftAlign()
   ptEnd.y = 0;
 
   do {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
+    pcunit = *it++;
     if (pcunit->IsSelect()) {   // if selected
       rectTemp = pcunit->GetSize();
     }
   } while (!pcunit->IsSelect());
   w = rectTemp.left;
-  poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
-    if (pcunit->IsSelect()) {   // if selected
-      rectTemp = pcunit->GetSize();
+
+  for (const auto pcunit1 : *m_pCUnitListCurrent) {
+    if (pcunit1->IsSelect()) {   // if selected
+      rectTemp = pcunit1->GetSize();
       ptStart.x = rectTemp.left;
       h = rectTemp.right - rectTemp.left;
       rectTemp.left = w;
       rectTemp.right = h + w;
       ptEnd.x = w;
-      pcunit->SetSize(rectTemp);
-      AdjustDynLinkLinePosition(pcunit, ptStart, ptEnd);
+      pcunit1->SetSize(rectTemp);
+      AdjustDynLinkLinePosition(pcunit1, ptStart, ptEnd);
     }
   }
 }
@@ -985,33 +946,31 @@ void CSQIUnitView::LeftAlign()
 /////////////////////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::RightAlign()
 {
-  CUnitBase * pcunit;
-  POSITION poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  INT_PTR iTemp = m_pCUnitListCurrent->GetCount();
+  auto it = m_pCUnitListCurrent->begin();
+  auto pcunit = *it;
   CRect rectTemp;
   int w, h;
   CPoint ptEnd, ptStart;
 
   ptEnd.y = ptStart.y = 0;
   do {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
+    pcunit = *it++;
     if (pcunit->IsSelect()) {   // if selected
       rectTemp = pcunit->GetSize();
     }
   } while (!pcunit->IsSelect());
   w = rectTemp.right;
-  poUnit = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < iTemp; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(poUnit);
-    if (pcunit->IsSelect()) {   // if selected
-      rectTemp = pcunit->GetSize();
+
+  for (const auto pcunit1 : *m_pCUnitListCurrent) {
+    if (pcunit1->IsSelect()) {   // if selected
+      rectTemp = pcunit1->GetSize();
       ptStart.x = rectTemp.left;
       h = rectTemp.right - rectTemp.left;
       rectTemp.right = w;
       rectTemp.left = w - h;
       ptEnd.x = rectTemp.left;
-      pcunit->SetSize(rectTemp);
-      AdjustDynLinkLinePosition(pcunit, ptStart, ptEnd);
+      pcunit1->SetSize(rectTemp);
+      AdjustDynLinkLinePosition(pcunit1, ptStart, ptEnd);
     }
   }
 }
@@ -1095,16 +1054,13 @@ void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
         // 设置拖曳区域内的单元的被选中标志为真
         rectScreen = m_rectTracker = __GetTrackerRect();
         rectScreen += ptOffset;
-        CUnitBase * pcUnit = NULL;
         CRect rect;
         bool fFind = false;
-        POSITION pos = m_pCUnitListCurrent->GetHeadPosition();
-        for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-          pcUnit = m_pCUnitListCurrent->GetNext(pos);
-          rect = pcUnit->GetSize();
+        for (const auto pcUnit1 : *m_pCUnitListCurrent) {
+          rect = pcUnit1->GetSize();
           if ((rectScreen & rect) == rect) {	// 位于拖曳区域内？
-            pcUnit->SetSelect(true);					// 设置被选中标志为真
-            m_pCUnitCurrent = pcUnit;
+            pcUnit1->SetSelect(true);					// 设置被选中标志为真
+            m_pCUnitCurrent = pcUnit1;
             m_nCurrentFunction = UNIT_GROUP_SELECTED; // 找到单元, 转至UNIT_GROUP_SELECTED
             fFind = true;
           }
@@ -1510,7 +1466,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
 		__SetDocModifiedFlag();  // document's content is changed
     __ClearFocus(pdc);
     m_pCUnitCurrent->SetSelect(true);
-    m_pCUnitListCurrent->AddTail(m_pCUnitCurrent);
+    m_pCUnitListCurrent->push_back(m_pCUnitCurrent);
     m_rectCurrent.SetRectEmpty();
     m_nCurrentFunction = UNIT_SELECTED;
     __Invalidate(); // draw this unit
@@ -1527,7 +1483,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
       m_lDestIndex = m_pCUnitSecond->GetIndex(CCPDlg.GetIndex());
       m_pCUnitSecond->SetParameterLock(m_lDestIndex, true); // 设置参数锁（输入型参数只允许一个源单元与其相链接
       // 生成新的动态链接
-      m_pCUnitDynLinkCurrent = new CUnitDynLink();  // create Dynamic Link
+      m_pCUnitDynLinkCurrent = make_shared<CUnitDynLink>();  // create Dynamic Link
       m_pCUnitDynLinkCurrent->SetDynLinkType(m_ulDynLinkType);
       m_pCUnitDynLinkCurrent->SetDynLinkClass(m_ulDynLinkClass);
       m_pCUnitDynLinkCurrent->SetSrcUnit(m_pCUnitFirst);
@@ -1667,34 +1623,29 @@ void CSQIUnitView::OnEditCopy()
   CArchive ar(&cFile, CArchive::store, 512, buffer);
 
   CUnitList listUnit;
-  CUnitBase * pcunit;
   INT64 iCount = 0;
-  POSITION po = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
-    if (pcunit->IsSelect()) {
-      pcunit->AddToList(listUnit); // 包括部件本身
+
+  for (const auto pcunit1 : *m_pCUnitListCurrent) {
+    if (pcunit1->IsSelect()) {
+      pcunit1->AddToList(listUnit); // 包括部件本身
       iCount++;
     }
   }
-  po = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->SetDeleteDynLinkFlag(listUnit);
     }
   }
-  po = m_pCUnitListCurrent->GetHeadPosition();
+
   ar << iCount;
-  for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       ar << pcunit;
     }
   }
-  po = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->ClearDeleteDynLinkFlag();
     }
@@ -1734,44 +1685,35 @@ void CSQIUnitView::OnEditCut()
   CArchive ar(&cFile, CArchive::store, 512, buffer);
 
   CUnitList listUnit;
-  CUnitBase * pcunit;
-  INT64 iDelete = 0, iCount;
-  POSITION po = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+  INT64 iDelete = 0;
+
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->AddToList(listUnit); // 包括部件本身
       iDelete++;
     }
   }
   // 将动态连接进行分类,决定是否跟随单元一起存储.如果不能一起存储的则设置删除标志。
-  po = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->SetDeleteDynLinkFlag(listUnit);
     }
   }
-  po = m_pCUnitListCurrent->GetHeadPosition();
+
   ar << iDelete;
-  for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       ar << pcunit;
     }
   }
-  po = m_pCUnitListCurrent->GetHeadPosition();
-  iCount = m_pCUnitListCurrent->GetCount();
-  for (int i = 0; i < iCount; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->ClearDeleteDynLinkFlag();
     }
   }
-  po = m_pCUnitListCurrent->GetHeadPosition();
-  iCount = m_pCUnitListCurrent->GetCount();
-  for (int i = 0; i < iCount; i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+
+  for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       VERIFY(DeleteUnit(pcunit));      // delete cut units
     }
@@ -1796,12 +1738,8 @@ void CSQIUnitView::OnEditCut()
 void CSQIUnitView::OnEditDelete()
 {
   // TODO: Add your command handler code here
-  CUnitBase * pcunit;
-  POSITION po = m_pCUnitListCurrent->GetHeadPosition();
-  po = m_pCUnitListCurrent->GetHeadPosition();
-  po = m_pCUnitListCurrent->GetHeadPosition();
-  for (int i = 0; i < m_pCUnitListCurrent->GetCount(); i++) {
-    pcunit = m_pCUnitListCurrent->GetNext(po);
+  for (auto it = m_pCUnitListCurrent->begin(); it != m_pCUnitListCurrent->end(); it++) {
+    auto pcunit = *it;
     if (pcunit->IsSelect()) {
       VERIFY(DeleteUnit(pcunit));      // delete units
     }
@@ -1839,8 +1777,6 @@ void CSQIUnitView::OnEditPaste()
   CArchive ar(&cFile, CArchive::load, 512, buffer);
   CUnitList listUnit;
   INT64 iCount = 0;
-  POSITION po;
-  CUnitBase * pcunit;
 
   ClearAllSelect();
 
@@ -1849,7 +1785,7 @@ void CSQIUnitView::OnEditPaste()
     ar >> m_pCUnitCurrent;
     CreateUniName(m_pCUnitCurrent);
     m_pCUnitCurrent->ResetCompileFlag();
-    unitlistTemp.AddTail(m_pCUnitCurrent); // 先暂存单元于暂时的单元序列中，以备单独处理之
+    unitlistTemp.push_back(m_pCUnitCurrent); // 先暂存单元于暂时的单元序列中，以备单独处理之
 
   }
   m_pCUnitCurrent->SetSelect(true);
@@ -1860,11 +1796,8 @@ void CSQIUnitView::OnEditPaste()
   SetParaLockFlag(&unitlistTemp, m_pObjectList);
 
   // 将设置好的单元加入当前层的单元序列中
-  po = unitlistTemp.GetHeadPosition();
-  iCount = unitlistTemp.GetCount();
-  for (int i = 0; i < iCount; i++) {
-    pcunit = unitlistTemp.GetNext(po);
-    m_pCUnitListCurrent->AddTail(pcunit); 
+  for (const auto pcunit : unitlistTemp) {
+    m_pCUnitListCurrent->push_back(pcunit); 
   }
 
   GetDocument()->m_trackerUnit.m_rect = m_pCUnitCurrent->GetSize() - GetScrollPosition();

@@ -40,6 +40,7 @@ void DrawInvertRect(CDC  * pdc, CRect const rect) {
   
     pdc->SelectObject(oldPen);
   }
+
 }   
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -61,19 +62,14 @@ void DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoint ptEnd) {
 }
 
 CUnitBase * FindUnit(CUnitList * pUnitList, CString strUnitName, bool fFind) {
-	POSITION poUnit = pUnitList->GetHeadPosition();
-	INT64 iTotal = pUnitList->GetCount();
-	CUnitBase * punitTemp;
-
-	for (int i = 0; i < iTotal; i++) {
-		punitTemp = pUnitList->GetNext(poUnit);
-		CString str = punitTemp->GetName();
+	for (const auto punit : *pUnitList) {
+		CString str = punit->GetName();
 		if (str.Compare(strUnitName) == 0) {
 			fFind = true;
-			return punitTemp;
+			return punit;
 		}
-		if (punitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-			CUnitComponent * pCpt = (CUnitComponent *)punitTemp;
+		if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+			CUnitComponent * pCpt = (CUnitComponent *)punit;
 			if ( !pCpt->IsEncapsulated()) {
 				return FindUnit(pCpt->GetUnitList(), strUnitName, fFind);
 			}

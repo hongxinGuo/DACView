@@ -166,17 +166,13 @@ const CString& CObjectGraph::GetClassNameStr( void ) {
 }
 
 bool CObjectGraph::ExectiveDynLink( ) {
-  POSITION po = m_listDynLink.GetHeadPosition();
-  CObjectDynLink * pcobjDynLink;
   CUnitBase * pcunit;
   ULONG ulSourceIndex, ulDestIndex;
-	INT_PTR i, iTemp = m_listDynLink.GetCount();
   double eTemp;
   LONG lTemp;
   bool fTemp;
 
-  for ( i = 0; i < iTemp; i++ ) {
-    pcobjDynLink = m_listDynLink.GetNext(po);
+  for ( const auto pcobjDynLink : m_listDynLink ) {
     pcunit = pcobjDynLink->GetUnit();                    
     ulSourceIndex = pcobjDynLink->GetUnitIndex();
     ulDestIndex = pcobjDynLink->GetObjectIndex();   
@@ -488,7 +484,7 @@ bool CObjectGraph::SetDouble(ULONG ulIndex, double eValue) {
 bool CObjectGraph::SetProperty( void ) {
   CDlgSetGraphProperty CDlg;
 
-  CDlg.SetData( GetDynLinkList()->GetCount(), m_ulDataLength, m_ulInputDataType, 
+  CDlg.SetData( GetDynLinkList()->size(), m_ulDataLength, m_ulInputDataType, 
                 m_clrForeGrd, m_clrBkGrd, m_strName, m_lScanRate  );
   if ( CDlg.DoModal() == IDOK ) {
     CDlg.GetData( m_ulDataLength, m_ulInputDataType, m_clrForeGrd, 
@@ -500,13 +496,9 @@ bool CObjectGraph::SetProperty( void ) {
 }
 
 bool CObjectGraph::CheckSelf( void ) {
-	POSITION poDL = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
-	CObjectDynLink * pc;
 	CString str;
 
-	for( i = 0; i < iCount; i++ ) {
-		pc = m_listDynLink.GetNext( poDL );
+	for(const auto pc : m_listDynLink) {
 		if ( pc->GetLinkMethod() != IDD_OUTPUT_GRAPH ) {
 			ShowMessage(ID_WARN_LINK_METHOD_MISMATCH, (LPCTSTR)m_strName);
 			pc->SetLinkMethod( IDD_OUTPUT_GRAPH );

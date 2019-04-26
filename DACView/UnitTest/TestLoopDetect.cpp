@@ -74,7 +74,7 @@ namespace DACViewTestLoopDetect {
 		ar >> strFileHeader >> iCurrentUnit >> iTotal;
 		for (i = 0; i < iTotal; i++) {
 			ar >> pctemp;
-			unitlist.AddTail(pctemp);
+			unitlist.push_back(pctemp);
 		}
 		ar.Flush();
 		cFile.Close();
@@ -88,16 +88,12 @@ namespace DACViewTestLoopDetect {
 		EXPECT_TRUE(UnitListLoopDetect(&unitlist));
 
 		// clearup
-		POSITION Po = unitlist.GetHeadPosition();
-		iTotal = unitlist.GetCount();
-		for (i = 0; i < iTotal; i++) {
-			pcunitTemp = unitlist.GetNext(Po);
+		for (auto pcunitTemp : unitlist) {
 			delete pcunitTemp;
-			pcunitTemp = nullptr;
 		}
 		// release list's memory
-		rtUnitList.RemoveAll();
-		unitlist.RemoveAll();
+		rtUnitList.clear();
+		unitlist.clear();
 	}
 
   /*
@@ -181,16 +177,13 @@ namespace DACViewTestLoopDetect {
 		EXPECT_TRUE(UnitListLoopDetect(&unitlist));
 
 		// clearup
-		POSITION Po = unitlist.GetHeadPosition();
-		iTotal = unitlist.GetCount();
-		for (i = 0; i < iTotal; i++) {
-			pcunitTemp = unitlist.GetNext(Po);
+		for (auto pcunitTemp : unitlist) {
 			delete pcunitTemp;
 			pcunitTemp = nullptr;
 		}
 		// release list's memory
-		rtUnitList.RemoveAll();
-		unitlist.RemoveAll();
+		rtUnitList.clear();
+		unitlist.clear();
 	}
 
 };

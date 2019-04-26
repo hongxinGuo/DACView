@@ -135,13 +135,9 @@ void CObjectRect::ToShowDynamic( CDC * const pdc ) {
 }
 
 bool CObjectRect::CheckSelf( void ) {
-	POSITION poDL = m_listDynLink.GetHeadPosition();
-	INT_PTR i, iCount = m_listDynLink.GetCount();
-	CObjectDynLink * pc;
 	CString str;
 
-	for( i = 0; i < iCount; i++ ) {
-		pc = m_listDynLink.GetNext( poDL );
+	for(const auto pc : m_listDynLink) {
 	}
 	return( TRUE );
 }
