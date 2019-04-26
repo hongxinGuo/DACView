@@ -560,7 +560,7 @@ void CUnitComponent::ToShow( CDC * const pdc ) {
   // 显示部件内部单元序列的动态链接线（如果类型为 COMPONENT_TO_UNIT和COMPONENT_TO_COMPONENT，即联出本部件）
   for (const auto pUnit : m_CUnitList) {
     pDynLinkList = pUnit->GetDynLinkList();
-    for (const auto pUnitDynLink : m_listDynLink) {
+    for (const auto pUnitDynLink : *pDynLinkList) {
       switch (pUnitDynLink->GetDynLinkClass()) {
       case COMPONENT_TO_UNIT:
       case COMPONENT_TO_COMPONENT:

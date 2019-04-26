@@ -47,7 +47,6 @@ void ClearLoopDetectFlag(CUnitList * pUnitList) {
 ////////////////////////////////////////////////////////////////////////////////////////
 BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
 	CUnitBase * pcunit1, *pCUnit;
-	INT_PTR jTemp;
 	CUnitList unitlist;
 	BOOL fFind = FALSE;
 

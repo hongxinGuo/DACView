@@ -168,7 +168,6 @@ namespace DACViewTest {
 
   TEST_F(TestSQIUnitView, TestResetAll) {
     //CSQIUnitView  c;
-    CUnitBase * pc;
 
     //c.CreateUniName(pc);
 
