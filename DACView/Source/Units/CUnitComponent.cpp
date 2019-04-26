@@ -162,25 +162,23 @@ void CUnitComponent::Serialize( CArchive& ar ) {
   
 	CString string;
 	CUnitBase * pcunit;
-	POSITION po;
 	INT64 iTotal;
-	CUnitBase * pcunitTemp;
 	INT64 iTemp = m_CUnitList.size();
 
 	if (ar.IsStoring())
   {
     // TODO: add storing code here
 		ar << iTemp;
-		for (const auto pcunit : m_CUnitList) {
-			ar << pcunit;
+		for (const auto pcunit1 : m_CUnitList) {
+			ar << pcunit1;
 		}
 
 		ar << (INT64)m_fEncapsulated << (INT64)m_fEncapsulationPermitted;
 		if ( m_fEncapsulated ) {
 			iTotal = m_CRunTimeUnitList.size();
 			ar << iTotal;
-			for (const auto pcunit : m_CRunTimeUnitList) {
-				ar << pcunit;
+			for (const auto pcunit1 : m_CRunTimeUnitList) {
+				ar << pcunit1;
 			}
 		}
 		ar << (INT64)m_fCanViewIn << m_lReserved11 << m_lReserved12;
@@ -258,10 +256,7 @@ void CUnitComponent::ClearParaSelectedFlag(void)
 ////////////////////////////////////////////////////////////////////////////
 bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
   CUnitBase *pcunit;
-  POSITION po;
-  CUDLList * pDLList;
-  INT64 iTotal;
-    
+  CUDLList * pDLList;   
 
   if (m_fEncapsulated) { // 部件封装了？
     //检查封装后的部件
@@ -299,8 +294,8 @@ bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
   return(false); // 没有找到 
   }
   else { // 部件尚未封装，检查内部单元序列是否存在循环
-    for (const auto pcunit : m_CUnitList) {
-      if (pcunit->LoopDetect(pCUnitList)) {
+    for (const auto pcunit1 : m_CUnitList) {
+      if (pcunit1->LoopDetect(pCUnitList)) {
         return(true);
       }
     }
@@ -319,9 +314,7 @@ bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
   CUnitBase *pcunit;
-  POSITION po;
   CUDLList * pDLList;
-  INT64 iTotal;
 
   if (m_fEncapsulated) { // 部件封装了？
     //检查封装后的部件
@@ -363,8 +356,8 @@ bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
     return(false);     // 返回假的只有这个位置，其他返回的点必须为真。
   }
   else { // 部件尚未封装，则检查其内部单元序列
-    for (const auto pcunit : m_CUnitList) {
-      if (pcunit->CheckCutOff(pCUnitList)) {
+    for (const auto pcunit1 : m_CUnitList) {
+      if (pcunit1->CheckCutOff(pCUnitList)) {
         return(true);
       }
     }
@@ -560,6 +553,9 @@ void CUnitComponent::ToShow( CDC * const pdc ) {
   // 显示部件内部单元序列的动态链接线（如果类型为 COMPONENT_TO_UNIT和COMPONENT_TO_COMPONENT，即联出本部件）
   for (const auto pUnit : m_CUnitList) {
     pDynLinkList = pUnit->GetDynLinkList();
+    // 下面这行代码，本来使用的是m_listDynLink而不是pDynLinkList。在使用Position寻址时，虽然代码错误，但执行确是正确的，估计是编译器的问题
+    // 使用范围循环语句，就检验出了这个错误，故而将m_listDynLink替换成了正确的pDynLinkList
+    // 我去查了以下，发现这个错误一直存在。
     for (const auto pUnitDynLink : *pDynLinkList) {
       switch (pUnitDynLink->GetDynLinkClass()) {
       case COMPONENT_TO_UNIT:
@@ -788,19 +784,18 @@ bool CUnitComponent::CreateUniName( CUnitList& listTotalUnit ) {
     return(CUnitBase::CreateUniName(listTotalUnit));
   }
   else {
-    INT_PTR iTemp = 1, iCount;
-    CUnitBase * pcunit;
+    INT_PTR iTemp = 1;
 
-    for (const auto pcunit : listTotalUnit) {
-      pcunit->CreateUniName(listTotalUnit);
+    for (const auto pcunit1 : listTotalUnit) {
+      pcunit1->CreateUniName(listTotalUnit);
     }
 
     bool fFind = false;
     CString strNumber;
     char s[10];
 
-    for (const auto pcunit : listTotalUnit) {
-      if (m_strName == pcunit->GetName()) {
+    for (const auto pcunit1 : listTotalUnit) {
+      if (m_strName == pcunit1->GetName()) {
         fFind = true;
         break;
       }
@@ -902,7 +897,6 @@ bool CUnitComponent::SetParameterSelected(ULONG ulIndex, bool fSelected) {
 //
 //////////////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::SetParaLockFlag( void ) {
-  CUnitBase * pUnit;
 
 	// 如果连入部件的参数中有输入参数,则不允许再连入此参数.
   if (!m_fEncapsulated) { // 如果没有封装，则执行内部单元序列的设置工作
@@ -1036,12 +1030,10 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
     CUnitBase::AdjustDynLinkLinePosition(pcSrc, ptStart, ptEnd);
   }
   else { // 未封装的部件同时处理自身和内部单元序列
-    INT_PTR i;
     shared_ptr<CPoint> ppt1, ppt2;
     CPointList * plist;
 
     CUDLList * plistDynLink;
-    CUnitBase * pUnit;
 
     // 如果部件本身位置发生了移动
     if (pcSrc == this) {
@@ -1619,8 +1611,6 @@ bool CUnitComponent::CheckComponentSelf() {
 bool CUnitComponent::CreateRunTimeUnitList() {
   // 生成内部单元序列的运行时单元序列
   bool fDone = false;
-  CUnitBase * punit = nullptr;
-  POSITION po;
   ULONG ulCurrentExectivePriority = 0, iUnitNum = 0;
   INT64 iTotal = m_CUnitList.size();
   ASSERT(m_CRunTimeUnitList.size() == 0);
@@ -1687,10 +1677,8 @@ bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
 
   // 寻找是否存在联入本部件的动态链接
 
-  INT64 iTotal;
   CString strParaName;
   CUDLList *pDLList = nullptr;
-  CUnitBase * pcunit;
   int iPo = 16;
 
   ASSERT(m_lDynLinkToNumber == 0); // 封装前部件自身的联入动态链接为零
@@ -1773,10 +1761,9 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
   // 并将内部源单元的目的单元设置为本部件，重置部件参数中的目的单元指针和目的参数索引。
   CString strParaName;
   CUDLList *pDLList = nullptr;
-  CUnitBase * pcunit;
   int iPo = 16;
   shared_ptr<CUnitDynLink> pDLNew;
-  INT64 iTotal;
+
   for (const auto pcunit : m_CUnitList) {
     pDLList = pcunit->GetDynLinkList();
     for (const auto pDL : *pDLList) {
@@ -1929,9 +1916,6 @@ INT32 * CUnitComponent::GetArrayIndex(void)
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::PrepareRunTimeList(void) {	
-  POSITION po;
-  CUnitBase * pcunit;
-  INT64 iCount;
 
   for (const auto pcunit : m_CRunTimeUnitList) {
 		pcunit->PrepareRunTimeList();		// 生成部件的运行时态序列.
