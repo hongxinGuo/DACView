@@ -222,7 +222,6 @@ void CDynamicLinkDlg::ChangeLinkName( ULONG ulLinkType ) {
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::ResetDicIndex( void ) {
-	CUnitDictionary * pDic;
   for( auto& pDic : *m_pDicList ) {
 		pDic->SetIndexNumber(-1);
   }
@@ -614,7 +613,6 @@ void CDynamicLinkDlg::OnSelchangeVariableParameter()
 void CDynamicLinkDlg::OnSelchangeLinkName()
 {
   // TODO: Add your control notification handler code here
-  POSITION po;
   LRESULT i;
   shared_ptr<CUnitDictionary> pDic;
 

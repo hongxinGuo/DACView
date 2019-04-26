@@ -135,7 +135,6 @@ void CObjectRect::ToShowDynamic( CDC * const pdc ) {
 }
 
 bool CObjectRect::CheckSelf( void ) {
-	CObjectDynLink * pc;
 	CString str;
 
 	for(const auto pc : m_listDynLink) {

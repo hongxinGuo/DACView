@@ -248,9 +248,6 @@ CObjectSymbol * CObjectBase::GetSymbolThatHaveMe( void ) {
 //
 ///////////////////////////////////////////////////////////////////////////
 bool CObjectBase::SetParameterSelected(void) {
-  CObjectDynLink * pODL;
-  POSITION poDL;
-  INT64 iTotal;
   ULONG ulParaType = 0;
 
   for (const auto pODL : m_listDynLink) {

@@ -140,18 +140,13 @@ CUnitComponent::~CUnitComponent() {
     }
   }
 
-	POSITION Po = m_CUnitList.GetHeadPosition();
-	CUnitBase * pcunit;
-	INT_PTR iTemp = m_CUnitList.GetCount();
-	for (int i = 0; i < iTemp; i++) {
-		pcunit = m_CUnitList.GetNext(Po);
+	for (auto pcunit : m_CUnitList) {
 		delete pcunit;
-		pcunit = nullptr;
 	}
 	//  TRACE("%d units in %s %s deleted\n", i, this->GetClassNameStr(), m_strName);                  
 		// release list's memory
-	m_CUnitList.RemoveAll();
-	m_CRunTimeUnitList.RemoveAll();
+	m_CUnitList.clear();
+	m_CRunTimeUnitList.clear();
 	
 	ASSERT(m_vfSelected.size() == 16);
 }
@@ -170,25 +165,21 @@ void CUnitComponent::Serialize( CArchive& ar ) {
 	POSITION po;
 	INT64 iTotal;
 	CUnitBase * pcunitTemp;
-	POSITION poUnit = m_CUnitList.GetHeadPosition();
-	INT64 iTemp = m_CUnitList.GetCount();
+	INT64 iTemp = m_CUnitList.size();
 
 	if (ar.IsStoring())
   {
     // TODO: add storing code here
 		ar << iTemp;
-		for (int i = 0; i < iTemp; i++) {
-			pcunitTemp = m_CUnitList.GetNext(poUnit);
-			ar << pcunitTemp;
+		for (const auto pcunit : m_CUnitList) {
+			ar << pcunit;
 		}
 
 		ar << (INT64)m_fEncapsulated << (INT64)m_fEncapsulationPermitted;
 		if ( m_fEncapsulated ) {
-			po = m_CRunTimeUnitList.GetHeadPosition();
-			iTotal = m_CRunTimeUnitList.GetCount();
+			iTotal = m_CRunTimeUnitList.size();
 			ar << iTotal;
-			for ( int i = 0; i < iTotal; i++ ) {
-				pcunit = m_CRunTimeUnitList.GetNext( po ) ;
+			for (const auto pcunit : m_CRunTimeUnitList) {
 				ar << pcunit;
 			}
 		}
@@ -201,10 +192,10 @@ void CUnitComponent::Serialize( CArchive& ar ) {
     // TODO: add loading code here
     ar >> iTemp;
     for (int i = 0; i < iTemp; i++) {
-      ar >> pcunitTemp;
-      pcunitTemp->SetComponentUpper(this);
-      m_CUnitList.AddTail(pcunitTemp);
-      pcunitTemp->SetUpperUnitList(&m_CUnitList); // 设置本单元的上层部件
+      ar >> pcunit;
+      pcunit->SetComponentUpper(this);
+      m_CUnitList.push_back(pcunit);
+      pcunit->SetUpperUnitList(&m_CUnitList); // 设置本单元的上层部件
     }
 
     INT64 a, b;
@@ -216,7 +207,7 @@ void CUnitComponent::Serialize( CArchive& ar ) {
       ar >> iTotal;
       for (int i = 0; i < iTotal; i++) {
         ar >> pcunit;
-        m_CRunTimeUnitList.AddTail(pcunit);
+        m_CRunTimeUnitList.push_back(pcunit);
       }
     }
 
@@ -274,7 +265,7 @@ bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
 
   if (m_fEncapsulated) { // 部件封装了？
     //检查封装后的部件
-  pCUnitList->AddTail(this); 
+  pCUnitList->push_back(this); 
   for (int i = 0; i < 16; i++) {
       if (m_pInterfacePara[i]->IsLinked() && (m_pInterfacePara[i]->GetParaType() & tINPUT)) { // 如果是输入型参数
         for (int j = 0; j < 16; j++) {
@@ -285,9 +276,9 @@ bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
               if ( pDL->GetSrcIndex() == j) { // 如果动态链接的源参数位置与检查的参数位置相同
                 pcunit = pDL->GetDestUnit(); // 
                 if (!pcunit->IsSetCutOff()) {   // 如果是寻找循环并且没有设置截断标志
-                  if (pCUnitList->Find(pcunit)) {	// 找到了循环？
+                  if (find(pCUnitList->begin(), pCUnitList->end(), pcunit) != pCUnitList->end()) {	// 找到了循环？
                     // 将本单元加入单元序列，并且报告发现了循环
-                    pCUnitList->AddTail(pcunit);
+                    pCUnitList->push_back(pcunit);
                     return(true);
                   }
                   else {
@@ -302,15 +293,13 @@ bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
         }
       }
     }
-  pcunit = pCUnitList->RemoveTail(); // remove me from tail
+  pcunit = pCUnitList->back();
+  pCUnitList->pop_back(); // remove me from tail
   ASSERT(pcunit == this);    
   return(false); // 没有找到 
   }
   else { // 部件尚未封装，检查内部单元序列是否存在循环
-    po = m_CUnitList.GetHeadPosition();
-    iTotal = m_CUnitList.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunit = m_CUnitList.GetNext(po);
+    for (const auto pcunit : m_CUnitList) {
       if (pcunit->LoopDetect(pCUnitList)) {
         return(true);
       }
@@ -336,7 +325,7 @@ bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
 
   if (m_fEncapsulated) { // 部件封装了？
     //检查封装后的部件
-    pCUnitList->AddTail(this);
+    pCUnitList->push_back(this);
     for (int i = 0; i < 16; i++) {
       if (m_pInterfacePara[i]->IsLinked() && (m_pInterfacePara[i]->GetParaType() & tINPUT)) { // 如果是输入型参数
         for (int j = 0; j < 16; j++) {
@@ -346,9 +335,9 @@ bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
               if (pDL->GetSrcIndex() == j) { // 如果动态链接的源参数位置与检查的参数位置相同
                 pcunit = pDL->GetDestUnit(); // 
                 if (!pcunit->IsSetCutOff()) {   // 如果是寻找循环并且没有设置截断标志
-                  if (pCUnitList->Find(pcunit)) {	// 找到了循环？
+                  if (find(pCUnitList->begin(), pCUnitList->end(), pcunit) != pCUnitList->end()) {	// 找到了循环？
                     // 将本单元加入单元序列，并且报告发现了截断
-                    pCUnitList->AddTail(pcunit);
+                    pCUnitList->push_back(pcunit);
                     return(true);
                   }
                   else {
@@ -367,16 +356,14 @@ bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
     // 检查完这十六个参数数组后，不用再去检查部件本身的动态链接，因为检查参数时，如果发现有输入型参数，则与之相链接的输出型参数对应的所有动态链接都已经检查过了。
     // 如果尚存有未被检查的动态链接，那么这个动态链接没有与之对应的输入，故而不会产生循环链接。
 
-    // 运行到这里，则表明没有发现截断标志。 
-    pcunit = pCUnitList->RemoveTail(); // remove me from tail
+    // 运行到这里，则表明没有发现截断标志。
+    pcunit = pCUnitList->back();
+    pCUnitList->pop_back(); // remove me from tail
     ASSERT(pcunit == this);
     return(false);     // 返回假的只有这个位置，其他返回的点必须为真。
   }
   else { // 部件尚未封装，则检查其内部单元序列
-    po = m_CUnitList.GetHeadPosition();
-    iTotal = m_CUnitList.GetCount();
-    for (int i = 0; i < iTotal; i++) {
-      pcunit = m_CUnitList.GetNext(po);
+    for (const auto pcunit : m_CUnitList) {
       if (pcunit->CheckCutOff(pCUnitList)) {
         return(true);
       }
@@ -416,7 +403,7 @@ void CUnitComponent::CheckInnerDataLink(INT64 lSrcIndex, INT64 lDestParaPos, CUn
     if (IsInnerDataLinked(lDestParaPos, i)) { // 如果参数lDestParaPos有内部数据链接至参数i
       ASSERT((m_pInterfacePara[i]->GetParaType() & (tINPUT | tOUTPUT)) == tOUTPUT);//
       ASSERT((m_pInterfacePara[lDestParaPos]->GetParaType() & (tINPUT | tOUTPUT)) == tINPUT);
-      pCUnitList->AddTail(this);
+      pCUnitList->push_back(this);
       pDLList = this->GetDynLinkList();
       for (const auto pDL2 : *pDLList) {
         if ((pDL2->GetSrcIndex() == i) && (pDL2->GetSrcUnit() == this)) { // 找到从本部件相应参数位置处联出的动态链接
@@ -425,7 +412,7 @@ void CUnitComponent::CheckInnerDataLink(INT64 lSrcIndex, INT64 lDestParaPos, CUn
             ((CUnitComponent *)pcunit2)->SetInnerDataLinked(lSrcIndex, pDL2->GetDestIndex(), true);
           }
           else { // 接着往下找
-            pCUnitList->AddTail(pcunit2);
+            pCUnitList->push_back(pcunit2);
             pcunit2->CheckInnerDataLink(lSrcIndex, pDL2->GetDestIndex(), pCUnitList);
           }
         }
@@ -433,9 +420,9 @@ void CUnitComponent::CheckInnerDataLink(INT64 lSrcIndex, INT64 lDestParaPos, CUn
     }
   }
   // 运行到这里，则表明没有发现循环或者截断标志
-  pcunit = pCUnitList->RemoveTail(); // remove me from tail
+  pcunit = pCUnitList->back();
+  pCUnitList->pop_back(); // remove me from tail
   ASSERT(pcunit == this);
-
 }
 
 const CString& CUnitComponent::GetClassNameStr( void ) {
@@ -452,13 +439,9 @@ bool CUnitComponent::IsMe( const CString& strName ) {
 		fFound = CUnitBase::IsMe(strName);
 		if (fFound) return(true);
 
-		CUnitBase * pcunitTemp;
-		POSITION poUnit = m_CUnitList.GetHeadPosition();
-		INT_PTR iTemp = m_CUnitList.GetCount();
     // 在内部单元序列里找
-		for (int i = 0; i < iTemp; i++) {
-			pcunitTemp = m_CUnitList.GetNext(poUnit);
-			if (pcunitTemp->IsMe(strName)) {
+		for (const auto pcunit : m_CUnitList) {
+			if (pcunit->IsMe(strName)) {
 				return(true);
 			}
 		}
@@ -569,20 +552,14 @@ void CUnitComponent::ToShow( CDC * const pdc ) {
 		}
 	}
 
-	
-	CUnitBase * pUnitBase;
-	POSITION poUnit = m_CUnitList.GetHeadPosition();
-	INT_PTR jTemp = m_CUnitList.GetCount();
-
 	CUDLList * pDynLinkList;
 
   // 调用基类函数，显示部件本身的动态链接线
   CUnitBase::ToShow(pdc);   // show status
 
   // 显示部件内部单元序列的动态链接线（如果类型为 COMPONENT_TO_UNIT和COMPONENT_TO_COMPONENT，即联出本部件）
-  for (int j = 0; j < jTemp; j++) {
-    pUnitBase = m_CUnitList.GetNext(poUnit);
-    pDynLinkList = pUnitBase->GetDynLinkList();
+  for (const auto pUnit : m_CUnitList) {
+    pDynLinkList = pUnit->GetDynLinkList();
     for (const auto pUnitDynLink : m_listDynLink) {
       switch (pUnitDynLink->GetDynLinkClass()) {
       case COMPONENT_TO_UNIT:
@@ -766,11 +743,7 @@ void CUnitComponent::SetDestUnitPriority(void) {
 }
 
 void CUnitComponent::SetCompiledFlag(bool fFlag) {
-  CUnitBase * punit = nullptr;
-  POSITION po = m_CUnitList.GetHeadPosition();
-  INT64 iTotal = m_CUnitList.GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    punit = m_CUnitList.GetNext(po);
+  for (const auto punit : m_CUnitList) {
     punit->SetCompiledFlag(fFlag);
   }
   m_fCompiled = fFlag;
@@ -789,11 +762,7 @@ bool CUnitComponent::IsCompiled(void) {
   
   if ( m_fEncapsulated ) return(true); // 封装后的部件都视为编译过的
 
-  CUnitBase * punit = nullptr;
-  POSITION po = m_CUnitList.GetHeadPosition();
-  INT64 iTotal = m_CUnitList.GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    punit = m_CUnitList.GetNext(po);
+  for (const auto punit : m_CUnitList) {
     if (!punit->IsCompiled()) return(false);
     if (punit->IsEncapsulable()) { // 可编译的部件，还需要测试本身是否编译了
       if (!m_fCompiled) return false;
@@ -807,12 +776,7 @@ bool CUnitComponent::DeleteDynLink( CUnitBase * pUnit ) {
     return(CUnitBase::DeleteDynLink(pUnit));// 本部件也可能有自己的动态链接，故而也需要删除之（如果pUnit在其中的话）。
   }
   else { // 未封装的部件在其单元序列中检查
-    POSITION poUnit = m_CUnitList.GetHeadPosition();
-    INT_PTR iTemp = m_CUnitList.GetCount();
-    CUnitBase * pcunit;
-
-    for (int i = 0; i < iTemp; i++) {
-      pcunit = m_CUnitList.GetNext(poUnit);
+    for (const auto pcunit : m_CUnitList) {
       pcunit->DeleteDynLink(pUnit);
     }
   }
@@ -824,23 +788,18 @@ bool CUnitComponent::CreateUniName( CUnitList& listTotalUnit ) {
     return(CUnitBase::CreateUniName(listTotalUnit));
   }
   else {
-    INT_PTR iTemp = 1, iCount = m_CUnitList.GetCount();
-    POSITION po = m_CUnitList.GetHeadPosition();
+    INT_PTR iTemp = 1, iCount;
     CUnitBase * pcunit;
 
-    for (int i = 0; i < iCount; i++) {
-      pcunit = listTotalUnit.GetNext(po);
+    for (const auto pcunit : listTotalUnit) {
       pcunit->CreateUniName(listTotalUnit);
     }
 
     bool fFind = false;
-    iCount = listTotalUnit.GetCount();
-    po = listTotalUnit.GetHeadPosition();
     CString strNumber;
     char s[10];
 
-    for (int i = 0; i < iCount; i++) {
-      pcunit = listTotalUnit.GetNext(po);
+    for (const auto pcunit : listTotalUnit) {
       if (m_strName == pcunit->GetName()) {
         fFind = true;
         break;
@@ -852,11 +811,8 @@ bool CUnitComponent::CreateUniName( CUnitList& listTotalUnit ) {
       while (!fDone) {
         _itoa(iTemp++, s, 10);
         m_strName += s;
-        iCount = listTotalUnit.GetCount();
-        po = listTotalUnit.GetHeadPosition();
         fDone = true;
-        for (int i = 0; i < iCount; i++) {
-          pcunit = listTotalUnit.GetNext(po);
+        for (const auto pcunit : listTotalUnit) {
           if (m_strName == pcunit->GetName()) {
             fDone = false;
             break;
@@ -947,8 +903,6 @@ bool CUnitComponent::SetParameterSelected(ULONG ulIndex, bool fSelected) {
 //////////////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::SetParaLockFlag( void ) {
   CUnitBase * pUnit;
-  POSITION poUnit = m_CUnitList.GetHeadPosition();
-	INT_PTR iCount = m_CUnitList.GetCount();
 
 	// 如果连入部件的参数中有输入参数,则不允许再连入此参数.
   if (!m_fEncapsulated) { // 如果没有封装，则执行内部单元序列的设置工作
@@ -972,8 +926,7 @@ void CUnitComponent::SetParaLockFlag( void ) {
       }
     }
     // 设置内部单元序列的标志
-    for (int i = 0; i < iCount; i++) {
-      pUnit = m_CUnitList.GetNext(poUnit);
+    for (const auto pUnit : m_CUnitList) {
       pUnit->SetParaLockFlag();
     }
   }
@@ -999,19 +952,14 @@ void CUnitComponent::SetParaLockFlag( void ) {
 /////////////////////////////////////////////////////////////////////////////   
 void CUnitComponent::AddToList( CUnitList& UnitList) {
 	if (!m_fEncapsulated) { // 本部件没有封装，则将本部件的内部单元加入list，否则将本部件本身加入序列
-		POSITION poUnit = m_CUnitList.GetHeadPosition();
-		INT_PTR iUnitCount = m_CUnitList.GetCount();
-    CUnitBase * pUnit;
-
-    for (int i = 0; i < iUnitCount; i++) {
-			pUnit = m_CUnitList.GetNext(poUnit);
+    for (const auto pUnit : m_CUnitList) {
 			pUnit->AddToList(UnitList);
 		}
     // 把部件本身也添加进单元序列
-    UnitList.AddTail(this);
+    UnitList.push_back(this);
 	}
   else {
-    UnitList.AddTail(this);
+    UnitList.push_back(this);
   }
 }
 
@@ -1055,16 +1003,10 @@ void CUnitComponent::SetDeleteDynLinkFlag( CUnitList& listUnit ) {
     CUnitBase::SetDeleteDynLinkFlag(listUnit);
   }
   else { // 未封装的部件设置其单元序列的动态链接的标志
-    POSITION po = m_CUnitList.GetHeadPosition();
-    INT_PTR iCount = m_CUnitList.GetCount();
-    CUnitBase * pcunit;
-
-    for (int i = 0; i < iCount; i++) {
-      pcunit = m_CUnitList.GetNext(po);
+    for (const auto pcunit : m_CUnitList) {
       pcunit->SetDeleteDynLinkFlag(listUnit);
     }
   }
- 
 }
 
 void CUnitComponent::ClearDeleteDynLinkFlag( void ) {
@@ -1072,12 +1014,7 @@ void CUnitComponent::ClearDeleteDynLinkFlag( void ) {
     CUnitBase::ClearDeleteDynLinkFlag();
   }
   else {
-    POSITION poUnit = m_CUnitList.GetHeadPosition();
-    INT_PTR i, iTotal = m_CUnitList.GetCount();
-    CUnitBase * pcunit;
-
-    for (i = 0; i < iTotal; i++) {
-      pcunit = m_CUnitList.GetNext(poUnit);
+    for (const auto pcunit : m_CUnitList) {
       pcunit->ClearLoopDetectFlag();
     }
   }
@@ -1088,13 +1025,8 @@ void CUnitComponent::ClearLoopDetectFlag( void ) {
     CUnitBase::ClearLoopDetectFlag();
   }
   else {
-    POSITION poUnit = m_CUnitList.GetHeadPosition();
-    INT_PTR i, iCount = m_CUnitList.GetCount();
-    CUnitBase * pcunitTemp;
-
-    for (i = 0; i < iCount; i++) {
-      pcunitTemp = m_CUnitList.GetNext(poUnit);
-      pcunitTemp->ClearLoopDetectFlag();
+    for (const auto pcunit : m_CUnitList) {
+      pcunit->ClearLoopDetectFlag();
     }
   }
 }
@@ -1108,15 +1040,12 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
     shared_ptr<CPoint> ppt1, ppt2;
     CPointList * plist;
 
-    POSITION poUnit = m_CUnitList.GetHeadPosition();
-    INT_PTR iCountUnit = m_CUnitList.GetCount();
     CUDLList * plistDynLink;
     CUnitBase * pUnit;
 
     // 如果部件本身位置发生了移动
     if (pcSrc == this) {
-      for (i = 0; i < iCountUnit; i++) {
-        pUnit = m_CUnitList.GetNext(poUnit);
+      for (const auto pUnit : m_CUnitList) {
         plistDynLink = pUnit->GetDynLinkList();
         for (const auto pDL : *plistDynLink) {
           plist = pDL->GetLinkPointList();
@@ -1124,6 +1053,7 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
           switch (pDL->GetDynLinkClass()) {
           case COMPONENT_TO_UNIT:
           case COMPONENT_TO_COMPONENT:
+            ASSERT(plist->size() > 2);
             ppt1 = *itLine++;
             ppt2 = *itLine++;
             if (ppt1->x == ppt2->x) {
@@ -1196,10 +1126,7 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
     CUnitBase * pcunit;
     CRect rect, rectSrc;
     ULONG ulLinkClass;
-    poUnit = m_CUnitList.GetHeadPosition();
-    iCountUnit = m_CUnitList.GetCount();
-    for (i = 0; i < iCountUnit; i++) {
-      pUnit = m_CUnitList.GetNext(poUnit);
+    for (const auto pUnit : m_CUnitList) {
       plistDynLink = pUnit->GetDynLinkList();
       for (const auto pDL : *plistDynLink) {
         ulLinkClass = pDL->GetDynLinkClass();
@@ -1217,8 +1144,9 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
         if (fDo) {
           rect = pcunit->GetSize();
           plist = pDL->GetLinkPointList();
+          ASSERT(plist->size() > 2);
           auto itLine = plist->end();
-          ppt1 = *--itLine;
+          ppt1 = *--itLine;   // 迭代器位于最后一个元素之后，故而需要先递减再赋值。
           ppt2 = *--itLine;
           rectSrc = pcSrc->GetSize();
           if (ppt1->x == ppt2->x) {
@@ -1499,8 +1427,8 @@ bool CUnitComponent::SetInnerDataLinkFlag(void)
   for (int i = 0; i < 16; i++) {
     if (m_pInterfacePara[i]->IsLinked()) {
       if (m_pInterfacePara[i]->GetParaType() & tINPUT) { // 存在输入型参数
-        listUnit.RemoveAll();
-        listUnit.AddHead(this);
+        listUnit.clear();
+        listUnit.push_front(this);
         (m_pInterfacePara[i]->GetDestUnit())->CheckInnerDataLink(i, m_pInterfacePara[i]->GetDestIndex(), &listUnit); /// 发现了内部数据链接
       }
     }
@@ -1655,11 +1583,7 @@ bool CUnitComponent::SetParaDestIndex(LONG lIndex, LONG lValue)
 //////////////////////////////////////////////////////////////////////
 bool CUnitComponent::EncapsulateBelowComponent(CUnitList & listTotalUnit) {
   // 封装下层部件（如果有的话）	
-  CUnitBase * punit;
-  POSITION po = m_CUnitList.GetHeadPosition();
-  INT64 iTotal = m_CUnitList.GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    punit = m_CUnitList.GetNext(po);
+  for (const auto punit : m_CUnitList) {
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
       ((CUnitComponent *)punit)->SetCompiledFlag(true);
       ((CUnitComponent *)punit)->Encapsulation(listTotalUnit);
@@ -1671,11 +1595,7 @@ bool CUnitComponent::EncapsulateBelowComponent(CUnitList & listTotalUnit) {
 bool CUnitComponent::CheckComponentSelf() {
   // 检查部件状态是否正确
   bool fGood = true;
-  CUnitBase *punit = nullptr;
-  POSITION po = m_CUnitList.GetHeadPosition();
-  INT64 iTotal = m_CUnitList.GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    punit = m_CUnitList.GetNext(po);
+  for (const auto punit : m_CUnitList) {
     if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
       ASSERT(((CUnitComponent *)punit)->GetExectivePriority() > 0); // 确保所有单元都被编译过了
     }
@@ -1702,15 +1622,13 @@ bool CUnitComponent::CreateRunTimeUnitList() {
   CUnitBase * punit = nullptr;
   POSITION po;
   ULONG ulCurrentExectivePriority = 0, iUnitNum = 0;
-  INT64 iTotal = m_CUnitList.GetCount();
-  ASSERT(m_CRunTimeUnitList.GetCount() == 0);
+  INT64 iTotal = m_CUnitList.size();
+  ASSERT(m_CRunTimeUnitList.size() == 0);
   while (!fDone) {
-    po = m_CUnitList.GetHeadPosition();
     ulCurrentExectivePriority++;
-    for (int i = 0; i < iTotal; i++) {
-      punit = m_CUnitList.GetNext(po);
+    for (const auto punit : m_CUnitList) {
       if (punit->GetExectivePriority() == ulCurrentExectivePriority) {
-        m_CRunTimeUnitList.AddTail(punit);
+        m_CRunTimeUnitList.push_back(punit);
         iUnitNum++;
       }
     }
@@ -1769,22 +1687,20 @@ bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
 
   // 寻找是否存在联入本部件的动态链接
 
-  POSITION poUnit = listTotalUnit.GetHeadPosition();
-  INT64 iTotal = listTotalUnit.GetCount();
+  INT64 iTotal;
   CString strParaName;
   CUDLList *pDLList = nullptr;
   CUnitBase * pcunit;
   int iPo = 16;
 
   ASSERT(m_lDynLinkToNumber == 0); // 封装前部件自身的联入动态链接为零
-  for (int i = 0; i < iTotal; i++) {
-    pcunit = listTotalUnit.GetNext(poUnit);
+  for (const auto pcunit : listTotalUnit) {
     pDLList = pcunit->GetDynLinkList();
     for (const auto pDL : *pDLList) {
       switch (pDL->GetDynLinkClass()) {
       case COMPONENT_TO_COMPONENT: // 源单元位于上层单元序列中部件的内部单元序列      
       case UNIT_TO_COMPONENT: // 源单元位于上层单元序列中
-        if (m_CRunTimeUnitList.Find(pDL->GetDestUnit()) != nullptr) { // 找到了联入单元
+        if (find(m_CRunTimeUnitList.begin(), m_CRunTimeUnitList.end(), pDL->GetDestUnit()) != m_CRunTimeUnitList.end()) { // 找到了联入单元
           if ((pDL->GetSrcUnit()->GetComponentUpper()) != this) { // 如果源单元不位于本部件内，则找到了
             iPo = FindNextAvailableParaPosition();
             ASSERT((iPo >= 0) && (iPo < 16));
@@ -1860,10 +1776,8 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
   CUnitBase * pcunit;
   int iPo = 16;
   shared_ptr<CUnitDynLink> pDLNew;
-  POSITION poUnit = m_CUnitList.GetHeadPosition();
-  INT64 iTotal = m_CUnitList.GetCount();
-  for (int i = 0; i < iTotal; i++) {
-    pcunit = m_CUnitList.GetNext(poUnit);
+  INT64 iTotal;
+  for (const auto pcunit : m_CUnitList) {
     pDLList = pcunit->GetDynLinkList();
     for (const auto pDL : *pDLList) {
       switch (pDL->GetDynLinkClass()) {
@@ -2019,10 +1933,7 @@ void CUnitComponent::PrepareRunTimeList(void) {
   CUnitBase * pcunit;
   INT64 iCount;
 
-  po = m_CRunTimeUnitList.GetHeadPosition();
-  iCount = m_CRunTimeUnitList.GetCount();
-  for ( int i = 0; i < iCount; i++ ) {
-    pcunit = m_CRunTimeUnitList.GetNext( po );
+  for (const auto pcunit : m_CRunTimeUnitList) {
 		pcunit->PrepareRunTimeList();		// 生成部件的运行时态序列.
     if ( ((pcunit->GetScanRate()/60000)*60000) == pcunit->GetScanRate() ) {
       m_vCUnit1Minute.push_back( pcunit );
@@ -2040,11 +1951,11 @@ void CUnitComponent::PrepareRunTimeList(void) {
       m_vCUnit1MS.push_back( pcunit );
     }
   }
-  ASSERT( iCount == ( m_vCUnit1Minute.size() + 
-                     m_vCUnit1Second.size() +
-                     m_vCUnit100MS.size() +
-                     m_vCUnit10MS.size() +
-										 m_vCUnit1MS.size() ) );
+  ASSERT( m_CRunTimeUnitList.size() == ( m_vCUnit1Minute.size() + 
+                                         m_vCUnit1Second.size() +
+                                         m_vCUnit100MS.size() +
+                                         m_vCUnit10MS.size() +
+										                     m_vCUnit1MS.size() ) );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2057,17 +1968,12 @@ void CUnitComponent::PrepareRunTimeList(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::ResetCompileFlag( void ) {
   if (!m_fEncapsulated) { // 如果没有封装，则重置内部单元序列
-    POSITION po = m_CUnitList.GetHeadPosition();
-    INT_PTR iTotal = m_CUnitList.GetCount();
-    CUnitBase * pcunit;
-
-    for (int i = 0; i < iTotal; i++) {
-      pcunit = m_CUnitList.GetNext(po);
+    for (const auto pcunit : m_CUnitList) {
       pcunit->ResetCompileFlag();
     }
   }
   // 重置本部件自身
-  m_CRunTimeUnitList.RemoveAll();
+  m_CRunTimeUnitList.clear();
   CUnitBase::ResetCompileFlag();
 }
 

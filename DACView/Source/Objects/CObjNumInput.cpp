@@ -431,7 +431,6 @@ bool CObjectNumberInput::SetProperty( void ) {
 }
 
 bool CObjectNumberInput::CheckSelf( void ) {
-	CObjectDynLink * pc;
 	CString str;
 
 	for( const auto pc : m_listDynLink ) {
