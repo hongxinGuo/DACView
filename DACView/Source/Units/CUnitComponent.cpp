@@ -1729,14 +1729,14 @@ bool CUnitComponent::CreateRunTimeUnitList() {
 bool CUnitComponent::CreateNewDynLinkFromInterfaceOutputTypePara() {
   CUnitBase * pcUnit;
   CUDLList *pDLList;
-  CUnitDynLink * pDL;
+  shared_ptr<CUnitDynLink> pDL;
   // 将部件参数中输出型的在内部源单元处建立一个新的动态链接，目的单元为本部件。
   // 此步骤要先于处理联入联出的过程执行。
   for (int i = 0; i < 16; i++) {
     if (m_pInterfacePara[i]->IsLinked()) {
       if (m_pInterfacePara[i]->GetParaType() & tOUTPUT) { // 存在输出型参数
         //在源单元中加入一新的动态链接
-        pDL = new CUnitDynLink;
+        pDL = make_shared<CUnitDynLink>();
         pDL->SetDestUnit(this);
         pDL->SetDestIndex(i);
         pDL->SetSrcUnit(pcUnit = m_pInterfacePara[i]->GetSrcUnit());
@@ -1859,7 +1859,7 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
   CUDLList *pDLList = nullptr;
   CUnitBase * pcunit;
   int iPo = 16;
-  CUnitDynLink * pDLNew;
+  shared_ptr<CUnitDynLink> pDLNew;
   POSITION poUnit = m_CUnitList.GetHeadPosition();
   INT64 iTotal = m_CUnitList.GetCount();
   for (int i = 0; i < iTotal; i++) {
@@ -1884,7 +1884,7 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
         ASSERT((this->GetParaType(iPo) & tINPUT) == 0); // 不允许同时存在输入型标志
         this->SetParaLinkedFlag(iPo, true);
         //生成一个新的动态链接，加入本部件的动态链接序列中
-        pDLNew = new CUnitDynLink;
+        pDLNew = make_shared<CUnitDynLink>();
         pDLNew->SetDestUnit(pDL->GetDestUnit());  // 目的单元存贮于此动态链接处
         pDLNew->SetDestIndex(pDL->GetDestIndex());// 目的单元参数索引
         pDLNew->SetSrcUnit(this);

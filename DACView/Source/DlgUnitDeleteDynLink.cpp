@@ -97,12 +97,11 @@ void CDelDynLink::OnOK()
 	// TODO: Add extra validation here
 
   for (auto it = m_plistUnitDynLink->begin(); it != m_plistUnitDynLink->end(); it++) {
-    CUnitDynLink * pDL = *it;
+    shared_ptr<CUnitDynLink> pDL = *it;
 		if ( pDL->IsDeleteMe() ) {
 			auto it1 = find( m_plistUnitDynLink->begin(), m_plistUnitDynLink->end(), pDL );
 			m_plistUnitDynLink->erase( it1 );
 			pDL->GetDestUnit()->SetParameterLock(pDL->GetDestIndex(), FALSE);	// clear selected Flag
-			delete pDL;
 		}
 	}
 
@@ -130,7 +129,7 @@ BOOL CDelDynLink::OnInitDialog()
 }
 
 void CDelDynLink::UpdateListBox( ) {
-	CUnitDynLink * pDL;
+	shared_ptr<CUnitDynLink> pDL;
 	CString strPara;
 
   int i = 0, j;

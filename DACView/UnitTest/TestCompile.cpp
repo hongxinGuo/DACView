@@ -1,11 +1,12 @@
 #include"stdafx.h"
-#include"pch.h"
 
 #include"CUnitBase.h"
 #include"CUnitComponent.h"
 #include"SQIFileDoc.h"
 
 #include"compileUnitList.h"
+
+#include"pch.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -403,7 +404,7 @@ namespace DACViewTest {
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
     CUDLList * pDLList = nullptr, *pDLList2 = nullptr;
-    CUnitDynLink * pDL = nullptr, *pDL2 = nullptr;
+    shared_ptr<CUnitDynLink> pDL, pDL2;
     CUnitComponent * pSrcComponent = nullptr, *pDestComponent = nullptr;
     CUnitComponent * pCUCP = nullptr;
 
@@ -530,7 +531,7 @@ namespace DACViewTest {
                 CUDLList * pUDLList = punit11->GetDynLinkList();
                 kTotal = pUDLList->size();
                 auto itDL1 = pUDLList->begin();
-                CUnitDynLink * pDL = *itDL1;
+                shared_ptr<CUnitDynLink> pDL = *itDL1;
                 while (pDL->GetDestUnit() != pCUCP) {
                   pDL = *++itDL1;
                 }
@@ -926,7 +927,7 @@ namespace DACViewTest {
 										auto it = pUDLList->begin();
 										INT64 jTotal = pUDLList->size();
 										bool fFind = false;
-										CUnitDynLink * pDL;
+										shared_ptr<CUnitDynLink> pDL;
 										while (!fFind) {
 											pDL = *it++;
 											if (pDL->GetDestUnit() == pCpt) fFind = true;

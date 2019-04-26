@@ -44,7 +44,7 @@ public:
 	INT32 GetSrcIndex(void) { return m_lSrcIndex; }
 	INT32 GetDestIndex(void) { return m_lDestIndex; }
 	ULONG GetDynLinkClass(void) { return m_ulDynLinkClass; }
-	CUnitDynLink * GetCurrentDynLink(void) { return m_pCUnitDynLinkCurrent; }
+	shared_ptr<CUnitDynLink> GetCurrentDynLink(void) { return m_pCUnitDynLinkCurrent; }
 	bool  IsLinkIntoSrcComponnet(void) { return m_fLinkIntoSourceComponent; }
 	bool IsLinkIntoDestComponent(void) { return m_fLinkIntoDestComponent; }
 	CUnitComponent * GetCurrentComponent(void) { return m_pCUnitComponentCurrent; }

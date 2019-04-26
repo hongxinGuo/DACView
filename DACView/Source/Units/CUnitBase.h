@@ -119,7 +119,7 @@ public:
 	virtual void			PrepareRunTimeList( void );
 
 	// 将一个动态连接加入本单元的动态连接序列.
-	void 							AddDynLink( CUnitDynLink * punitDynLink // 指向动态连接的指针.
+	void 							AddDynLink( shared_ptr<CUnitDynLink> punitDynLink // 指向动态连接的指针.
 															 ) ;
 	
 	// 观察并处理本单元的动态连接.

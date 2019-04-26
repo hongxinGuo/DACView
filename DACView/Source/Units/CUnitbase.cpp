@@ -164,11 +164,6 @@ CUnitBase::CUnitBase( void ) : CObjectPrimitive() {
 }
 
 CUnitBase::~CUnitBase() {
-  // delete m_listDynLink
-  for ( auto pcDynLink : m_listDynLink ) {
-    delete pcDynLink;
-  } 
-	// TRACE("%d Dynamic Links in Unit %s deleted\n", iTemp, m_strName);                  
   // release list's memory
   m_listDynLink.clear();
 } 
@@ -191,7 +186,7 @@ void CUnitBase::Serialize( CArchive& ar ) {
   }
   
   CString strTemp;
-  CUnitDynLink * pcDynLink;
+  CUnitDynLink * pcDynLinkTag;
   POSITION pos;                          
 
   INT64 iTemp;
@@ -208,8 +203,10 @@ void CUnitBase::Serialize( CArchive& ar ) {
       // when cut or copy me to clipboard, some dynamic links that I have
       // can't copy to clipboard, for its link to other unit. so if its 
       // delete flag is set, I didn't store it.
-      if ( !pcDynLink->IsDeleteMe() )
-        ar << pcDynLink;
+      if (!pcDynLink->IsDeleteMe()) {
+        pcDynLinkTag = pcDynLink.get();
+        ar << pcDynLinkTag;
+      }
     }
 	}
 	else
@@ -217,7 +214,9 @@ void CUnitBase::Serialize( CArchive& ar ) {
 		// TODO: add loading code here
 		ar >> iTemp;
 		for (int i = 0; i < iTemp; i++) {
-			ar >> pcDynLink;
+      shared_ptr<CUnitDynLink> pcDynLink;
+			ar >> pcDynLinkTag;
+      pcDynLink.reset(pcDynLinkTag);
 			m_listDynLink.push_back(pcDynLink);
 		}
 	}
@@ -695,8 +694,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
   }
 }
 
-void CUnitBase::AddDynLink( CUnitDynLink * punitDynLink ) {
-  ASSERT( punitDynLink != nullptr );
+void CUnitBase::AddDynLink( shared_ptr<CUnitDynLink> punitDynLink ) {
   m_listDynLink.push_back(punitDynLink); 
 }  
 
@@ -739,7 +737,7 @@ bool CUnitBase::ArrangeDynLink( void ) {
 /////////////////////////////////////////////////////////////////////////
 bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
 	INT_PTR iTemp = m_listDynLink.size();
-  CUnitDynLink * pcunitDynLink;
+  shared_ptr<CUnitDynLink> pcunitDynLink;
   CUnitBase * pcunit;
   
   for (auto it = m_listDynLink.begin(); it != m_listDynLink.end(); it++) {
@@ -750,8 +748,6 @@ bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
       ASSERT( itFind != m_listDynLink.end() );
       pcunit->SetParameterLock( pcunitDynLink->GetDestIndex(), false );
       m_listDynLink.erase(itFind);
-      delete pcunitDynLink;
-      pcunitDynLink = nullptr;
     }
   }
   return( true );
@@ -1301,7 +1297,7 @@ void CUnitBase::Dump(CDumpContext& dc) const
 {
   CObjectPrimitive::Dump(dc);
   for ( const auto pc : m_listDynLink  ) {
-    dc << pc << "\n";
+    dc << pc.get() << "\n";
   }
 }
 

@@ -95,6 +95,6 @@ public:
   CUnitBase * mTest_pDestUnitSaved;   // 当封装部件的输出型参数时，用于保存原动态链接的目的单元
 };                        
 
-typedef list<CUnitDynLink *> CUDLList;
+typedef list<shared_ptr<CUnitDynLink>> CUDLList;
 
   

@@ -1527,7 +1527,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
       m_lDestIndex = m_pCUnitSecond->GetIndex(CCPDlg.GetIndex());
       m_pCUnitSecond->SetParameterLock(m_lDestIndex, true); // 设置参数锁（输入型参数只允许一个源单元与其相链接
       // 生成新的动态链接
-      m_pCUnitDynLinkCurrent = new CUnitDynLink();  // create Dynamic Link
+      m_pCUnitDynLinkCurrent = make_shared<CUnitDynLink>();  // create Dynamic Link
       m_pCUnitDynLinkCurrent->SetDynLinkType(m_ulDynLinkType);
       m_pCUnitDynLinkCurrent->SetDynLinkClass(m_ulDynLinkClass);
       m_pCUnitDynLinkCurrent->SetSrcUnit(m_pCUnitFirst);
