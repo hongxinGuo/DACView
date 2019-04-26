@@ -1218,8 +1218,8 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
           rect = pcunit->GetSize();
           plist = pDL->GetLinkPointList();
           auto itLine = plist->end();
-          ppt1 = *itLine--;
-          ppt2 = *itLine--;
+          ppt1 = *--itLine;
+          ppt2 = *--itLine;
           rectSrc = pcSrc->GetSize();
           if (ppt1->x == ppt2->x) {
             if ((ppt1->y < ppt2->y) && (rect.top > ppt2->y)) {
