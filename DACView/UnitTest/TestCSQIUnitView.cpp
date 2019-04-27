@@ -61,7 +61,7 @@ namespace DACViewTest {
 		void TearDown() override {
 			ReleaseSQIFile(&m_unitlist, &m_objectlist);
 			EXPECT_TRUE(m_unitlist.empty());
-			EXPECT_TRUE(m_objectlist.IsEmpty());
+			EXPECT_TRUE(m_objectlist.empty());
 		}
 
 

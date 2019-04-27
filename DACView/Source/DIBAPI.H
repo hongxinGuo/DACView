@@ -32,7 +32,7 @@ DECLARE_HANDLE(HDIB);
 #define WIDTHBYTES(bits)    (((bits) + 31) / 32 * 4)
 
 /* Function prototypes */
-BOOL      WINAPI  PaintDIB (HDC, LPRECT, HDIB, LPRECT, CPalette* pPal);
+BOOL      WINAPI  PaintDIB(HDC, LPRECT, HDIB, LPRECT, CPalette * pPal);
 BOOL      WINAPI  CreateDIBPalette(HDIB hDIB, CPalette* cPal);
 LPSTR     WINAPI  FindDIBBits (LPSTR lpbi);
 DWORD     WINAPI  DIBWidth (LPSTR lpDIB);

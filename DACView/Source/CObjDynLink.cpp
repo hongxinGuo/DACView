@@ -15,6 +15,7 @@ static char THIS_FILE[] = __FILE__;
 CObjectDynLink::CObjectDynLink(CString Name)
   : CObjectPrimitive(Name) {
 	m_pCUnit = nullptr;
+  m_pCObject = nullptr;
 	m_lScanRate = 100000000;
   m_lUnitIndex = m_lObjectIndex = -1;
   m_fDeleteMe = FALSE;
@@ -23,6 +24,7 @@ CObjectDynLink::CObjectDynLink(CString Name)
 
 CObjectDynLink::CObjectDynLink( void ) : CObjectPrimitive() { 
 	m_pCUnit = nullptr;
+  m_pCObject = nullptr;
   m_strName.Empty();
   m_lScanRate = 100000000;
   m_lUnitIndex = m_lObjectIndex = -1;

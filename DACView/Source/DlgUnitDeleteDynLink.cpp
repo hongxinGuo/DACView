@@ -129,7 +129,6 @@ BOOL CDelDynLink::OnInitDialog()
 }
 
 void CDelDynLink::UpdateListBox( ) {
-	shared_ptr<CUnitDynLink> pDL;
 	CString strPara;
 
   int i = 0, j;
@@ -151,7 +150,7 @@ void CDelDynLink::UpdateListBox( ) {
 	}	
 	SendDlgItemMessage(IDC_LIST_DYNLINK, LB_SETCURSEL, m_ulChoiceIndex = 0, 0L);
 	
-	pDL = m_plistUnitDynLink->front();
+	shared_ptr<CUnitDynLink> pDL = m_plistUnitDynLink->front();
 	if ( pDL->IsDeleteMe() ) {
 		GetDlgItem(IDC_BUTTON_DELETE)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_UNDELETE)->EnableWindow(TRUE);

@@ -1,5 +1,9 @@
 #include "stdafx.h"
 
+using namespace std;
+#include<memory>
+#include<algorithm>
+
 #include "globedef.h"
 
 #include "cObjComponent.h"
@@ -31,11 +35,6 @@ CObjectComponent::~CObjectComponent() {
 	if (m_hDIB != nullptr)
 	{
 		::GlobalFree((HGLOBAL) m_hDIB);
-	}
-	if (m_palDIB != nullptr)
-	{
-		delete m_palDIB;
-    m_palDIB = nullptr;
 	}
 }
 
@@ -109,17 +108,12 @@ void CObjectComponent::Serialize( CArchive& ar ) {
 			return;
 		}
 		END_CATCH
-		if (m_palDIB != nullptr)
-		{
-			delete m_palDIB;
-			m_palDIB = nullptr;
-		}
 		if (m_hDIB == nullptr)
 		{
 			return;
 		}
 		// Create copy of palette
-		m_palDIB = new CPalette;
+		m_palDIB = make_shared<CPalette>();
 		if (m_palDIB == nullptr)
 		{
 			// we must be really low on memory
@@ -128,12 +122,9 @@ void CObjectComponent::Serialize( CArchive& ar ) {
 			ShowMessage(ID_ERROR_OUT_OF_MEMORY, "");
 			return;
 		}
-		if (::CreateDIBPalette(m_hDIB, m_palDIB) == NULL)
+		if (::CreateDIBPalette(m_hDIB, m_palDIB.get()) == NULL)
 		{
 			// DIB may not have a palette
-			delete m_palDIB;
-			m_palDIB = nullptr;
-			return;
 		}   
   } 
 } 
@@ -146,7 +137,7 @@ const CString& CObjectComponent::GetClassNameStr( void ) {
 
 void CObjectComponent::ToShowStatic( CDC * const pdc, CPoint  ) {
   CRect rectArea = m_rectArea;
-  CPoint pt = GetOffset();
+  const CPoint pt = GetOffset();
 
   rectArea += pt;
   if ( pdc->RectVisible(rectArea) ) {  	// if I need to redraw ?
@@ -161,7 +152,7 @@ void CObjectComponent::ToShowStatic( CDC * const pdc, CPoint  ) {
 			rcDIB.right = cxDIB;
 			rcDIB.bottom = cyDIB;
 			PaintDIB(pdc->GetSafeHdc(), &rectArea, m_hDIB,
-				&rcDIB, m_palDIB);
+				&rcDIB, m_palDIB.get());
 		}
 		else {
   		CBrush cbb, *pcb;
@@ -193,7 +184,7 @@ void CObjectComponent::ToShowDynamic( CDC * const pdc ) {
 		rcDIB.right = cxDIB;
 		rcDIB.bottom = cyDIB;
 		PaintDIB(pdc->GetSafeHdc(), &rectArea, m_hDIB,
-			&rcDIB, m_palDIB);
+			&rcDIB, m_palDIB.get());
 	}
 	else {
   	CBrush cbb, *pcb;
@@ -231,32 +222,25 @@ bool CObjectComponent::SetProperty( void ) {
 	  CATCH (CFileException, eLoad) {
 		  file.Abort(); // will not throw an exception
 		  m_hDIB = nullptr;
-		  return( FALSE );
+		  return(false);
 	  }
 	  END_CATCH 
 	
-	  if (m_palDIB != nullptr) {
-		  delete m_palDIB;
-		  m_palDIB = nullptr;
-	  }
 	  if (m_hDIB == nullptr) {
-		  return( FALSE );
+		  return(false);
 	  }
 	  // Create copy of palette
-	  m_palDIB = new CPalette;
+	  m_palDIB = make_shared<CPalette>();
 	  if (m_palDIB == nullptr) {
 		// we must be really low on memory
 		  ::GlobalFree((HGLOBAL) m_hDIB);
 		  m_hDIB = nullptr;
-		  return( FALSE );
+		  return(false);
 	  }
-	  if (CreateDIBPalette(m_hDIB, m_palDIB) == NULL) {
+	  if (CreateDIBPalette(m_hDIB, m_palDIB.get()) == NULL) {
 		// DIB may not have a palette
-		  delete m_palDIB;
-		  m_palDIB = nullptr;
-		  return( FALSE );
 	  }
-    return( TRUE );
+    return(false);
   }
   return( FALSE );
 }

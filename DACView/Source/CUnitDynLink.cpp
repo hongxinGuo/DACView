@@ -56,6 +56,7 @@ CUnitDynLink::CUnitDynLink( void ) : CObjectPrimitive() {
   m_strName.Empty();
 	m_lScanRate = 100000000;
   m_ulDynLinkClass = 0;
+  m_ulDynLinkType = 0;
 	m_pDestUnit = nullptr;
   m_pSrcUnit = nullptr;
   m_lSrcIndex = -1;   // 索引位置不能为负值，故设置初始值为-1

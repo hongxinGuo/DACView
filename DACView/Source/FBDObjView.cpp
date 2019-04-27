@@ -383,10 +383,7 @@ void CFBDObjView::OnTimer(UINT_PTR nIDEvent)
   pdc = GetDC();
   OnPrepareDC( pdc );
           
-  CObjectBase * pcobjTemp;
-	INT_PTR i = 0;
   CRect rectTemp, rectThis;
-  POSITION pos;
   ULONGLONG ulTick;
   CBrush cbb;
 	CBitmap * pOldBitmap;
@@ -414,14 +411,14 @@ void CFBDObjView::OnTimer(UINT_PTR nIDEvent)
 	// clear old graph
   cbb.CreateSolidBrush( gl_clrBkGrd );
   for (const auto pcobj : *m_pCObjectListCurrent ) {
-    rectThis = pcobjTemp->GetLastSize();
+    rectThis = pcobj->GetLastSize();
     m_MemoryDC.FillRect( rectThis, & cbb );
   }
   
 	// draw current graph
   for (const auto pcobj : *m_pCObjectListCurrent) {
-		if ( !pcobjTemp->IsTransparent() ) {
-			pcobjTemp->ToShowDynamic( &m_MemoryDC );
+		if ( !pcobj->IsTransparent() ) {
+			pcobj->ToShowDynamic( &m_MemoryDC );
 		}
   }
   pdc->BitBlt(0, 0, m_sizeObjectDoc.cx, m_sizeObjectDoc.cy, 

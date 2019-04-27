@@ -63,7 +63,7 @@ protected:
 // serialized data
 
 // no serialized data
-  CList<CRect *, CRect *> m_CRectList;
+  list<CRect *>           m_CRectList;
   CRect                   m_rectSymbolOrigin;
 
 };                       

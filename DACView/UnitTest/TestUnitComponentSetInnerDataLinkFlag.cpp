@@ -29,8 +29,6 @@ namespace DACViewTestCUnitComponent {
 
     CString strFileHeader;
     CUnitList unitlist, rtUnitList;
-    CUnitBase * pctemp, *pcunitTemp;
-    INT64 iTotal;
 
     if (!cFile.Open(strFileName, CFile::modeRead)) {
       EXPECT_FALSE(true) << "read file %s failed" << strFileName;

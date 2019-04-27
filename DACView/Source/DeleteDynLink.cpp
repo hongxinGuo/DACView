@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 void DeleteDynLinkToMe(CUnitList * pUnitList, CObjectList * pObjectList, CUnitBase * pUnit) {
-  CUnitBase * pcUnit;
   CUnitList listUnit;
   CUnitComponent * pCpt = nullptr;
   CUnitList *plistCpt;

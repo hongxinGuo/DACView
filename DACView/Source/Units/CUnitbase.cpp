@@ -379,7 +379,7 @@ void	CUnitBase::SetInputParameterNumber(LONG lNumber) {
 ///////////////////////////////////////////////////////////////////
 bool CUnitBase::IsDynLinkFromUpper(void) {
 	CUnitList * pList;
-	INT_PTR iCount, iDynLinkNum = 0;
+	INT_PTR iDynLinkNum = 0;
 	CUDLList * pDynLinkList;
 	if ( m_pUnitComponentUpper != nullptr ) { // 本单元被包含于部件中
     // 统计部件内部单元序列中数据输出至本单元的数量
@@ -537,7 +537,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
 
   if (pcSrc == this) {  // if I was been changed size
     for (auto pDL : m_listDynLink) {
-			if ((pDL->GetDynLinkClass() == COMPONENT_TO_UNIT) || (pDL->GetDynLinkClass() == COMPONENT_TO_UNIT))
+			if ((pDL->GetDynLinkClass() == COMPONENT_TO_UNIT) || (pDL->GetDynLinkClass() == COMPONENT_TO_COMPONENT))
 				break; //当联出本单元所在的复合单元时，不需要调整动态链接线的位置（调整了就出错了）
       plist = pDL->GetLinkPointList();
       auto itPoint = plist->begin();
@@ -721,7 +721,6 @@ bool CUnitBase::ArrangeDynLink( void ) {
 //		
 /////////////////////////////////////////////////////////////////////////
 bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
-	INT_PTR iTemp = m_listDynLink.size();
   shared_ptr<CUnitDynLink> pcunitDynLink;
   CUnitBase * pcunit;
   
@@ -748,7 +747,6 @@ bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
 ////////////////////////////////////////////////////////////////////////
 void CUnitBase::SetParaLockFlag( void ) {
   CUnitBase * pUnit;
-  int iDynLinkUnitCount;
 
   for ( const auto pUnitDynLink : m_listDynLink ) {
     pUnit = pUnitDynLink->GetDestUnit();
@@ -925,7 +923,7 @@ INT32* CUnitBase::GetArrayIndex( void ) {
   return( nullptr );
 }
 
-bool CUnitBase::IsParameterLocked(ULONG ulIndex)
+bool CUnitBase::IsParameterLocked(ULONG )
 {
   ASSERT(0);
   return false;
@@ -1408,17 +1406,15 @@ bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
 //
 /////////////////////////////////////////////////////////////////////////////
 bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
-  POSITION po2;
-  CUnitBase * pcunit, *pcUnit1;
-  long lTotal;
+  CUnitBase * pcunit;
 
   pCUnitList->push_back(this);
   for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
     if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
       if (find(pCUnitList->begin(), pCUnitList->end(), pcunit) != pCUnitList->end()) { // 找到了动态链接循环？
-        for (const auto pcUnit1 : *pCUnitList) {
-          if (pcUnit1->IsSetCutOff()) {
+        for (const auto pcUnit3 : *pCUnitList) {
+          if (pcUnit3->IsSetCutOff()) { //如果此循环中存在截断，
             // 将本单元加入单元序列，并且报告发现了截断
             pCUnitList->push_back(pcunit);
             return(true);

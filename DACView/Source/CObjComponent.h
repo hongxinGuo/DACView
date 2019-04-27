@@ -10,6 +10,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+using namespace std;
+#include<memory>
+
 #include "cObjComponentBase.h"
 #include "DlgObjCompd.h"
 
@@ -53,6 +56,6 @@ protected:
 	CString						m_strBitmap;
 	
 	// noserialize data          
-	HDIB 							m_hDIB;
-	CPalette* 				m_palDIB;
+	HDIB 							    m_hDIB;
+	shared_ptr<CPalette>	m_palDIB;
 };

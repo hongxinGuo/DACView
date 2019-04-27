@@ -63,7 +63,7 @@ namespace DACViewTestLoopDetect {
 		CString strFileHeader;
 		CUnitList unitlist;
     CObjectList objectlist;
-		CUnitBase * pctemp, *pcunitTemp;
+		CUnitBase * pctemp;
 		INT64 i, iTotal;
 		INT64 iCurrentUnit;
 
@@ -156,8 +156,6 @@ namespace DACViewTestLoopDetect {
 
 		CString strFileHeader;
 		CUnitList unitlist;
-		CUnitBase *pcunitTemp;
-		INT64 i, iTotal;
 
 		if (!cFile.Open(strFileName, CFile::modeRead)) {
 			EXPECT_FALSE(true) << "read file %s failed" << strFileName;

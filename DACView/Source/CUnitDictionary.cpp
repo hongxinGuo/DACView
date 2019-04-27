@@ -30,7 +30,10 @@ CUnitDictionary::CUnitDictionary( CUnitBase * pcunit, INT64 ulIndex, INT64 ulTyp
 	m_pCUnit		= pcunit;
 	m_lIndex		= ulIndex;
 	m_lType		= ulType;
-	m_lNumber = 0;
+	m_lNumber = 0;  
+  
+  m_iIndexNumber = 0;
+
 }
 
 CUnitDictionary::CUnitDictionary( void ) : CObject() {
@@ -38,6 +41,9 @@ CUnitDictionary::CUnitDictionary( void ) : CObject() {
   m_lIndex = -1;
   m_lType = 0;
 	m_lNumber = 0;
+
+  m_iIndexNumber = 0;
+
 }
 
 CUnitDictionary::~CUnitDictionary() {

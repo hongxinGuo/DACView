@@ -83,7 +83,6 @@ bool CObjRectBase::ExectiveDynLink( void ) {
 	double eTemp;
 	bool fTemp;
 	bool fUpdate = FALSE, fEndUpdate = FALSE;
-  int iTemp;
 
   if ( !m_fNeedUpdate ) {
     m_fChangeSize = FALSE;

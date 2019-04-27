@@ -35,15 +35,10 @@ CObjectSymbol::~CObjectSymbol() {
 	// release list's memory
 	m_CObjectList.clear();
 
-  POSITION po = m_CRectList.GetHeadPosition();
-  INT_PTR iCount = m_CRectList.GetCount();
-  CRect * prect;
-  for ( int i = 0; i < iCount; i++ ) {
-    prect = m_CRectList.GetNext( po );
+  for (auto prect : m_CRectList) {
     delete prect;
-    prect = nullptr;
   }
-  m_CRectList.RemoveAll();
+  m_CRectList.clear();
 }
 
 bool CObjectSymbol::IsNeedUpdate( void ) {
@@ -158,7 +153,7 @@ void CObjectSymbol::Serialize( CArchive& ar ) {
   for (auto pcobj : m_CObjectList) {
     prect = new CRect;
     *prect = pcobj->GetSize();
-    m_CRectList.AddTail( prect );
+    m_CRectList.push_back( prect );
     pcobj->SetSymbolThatHaveMe( this );
   }
   m_rectSymbolOrigin = m_rectOrigin;
@@ -234,11 +229,8 @@ void CObjectSymbol::ToShowStatic( CDC * const pdc, CPoint ptScrollPos ) {
 }  
 
 void CObjectSymbol::ToShowDynamic( CDC * const pdc ) {
-	CObjectBase * pcobjTemp;
-	POSITION pos;
   CBrush cbb, cb;
   CBitmap * pOldBitmap;
-	INT_PTR i, iCoun;
   CRect rectThis, rectLast, rectIntersect;
 
   CRect rectArea = m_rectArea;
@@ -299,10 +291,6 @@ void CObjectSymbol::ToShowDynamic( CDC * const pdc ) {
 
 void CObjectSymbol::AdjustDynamicInnerSize( void ) {
 	CRect rectTemp;
-	CObjectBase * pcobjTemp;
-  CRect * prect;
-  INT64 iCount;
-	POSITION pos, po;                          
 	int w1, h1, w2, h2;
 	
   if ( m_rectArea != m_rectSymbolOrigin ) {
@@ -314,10 +302,7 @@ void CObjectSymbol::AdjustDynamicInnerSize( void ) {
 		if ( (w2 <= 0) || (h2 <= 0) ) return;
 
     for (auto pcobj : m_CObjectList) {
-      po = m_CRectList.GetHeadPosition();
-      iCount = m_CRectList.GetCount();
-      for (int i = 0; i < iCount; i++) { // 此段可能有问题。
-        prect = m_CRectList.GetNext(po);
+      for (const auto prect : m_CRectList) { // 此段可能有问题。
         rectTemp = *prect;
         rectTemp.left = (rectTemp.left * w2) / w1;
         rectTemp.right = (rectTemp.right * w2) / w1;
@@ -333,7 +318,6 @@ void CObjectSymbol::AdjustDynamicInnerSize( void ) {
 
 void CObjectSymbol::AdjustInnerSize( void ) {
 	CRect rectTemp, rect;
-	POSITION pos;
 	int w1, h1, w2, h2;
 		                        
 	rectTemp.SetRectEmpty();
@@ -363,7 +347,7 @@ bool CObjectSymbol::DumpCurrentStatus( char * pch ) const {
 #ifdef _DEBUG
   Dump( afxDump );
 #endif
-  return( TRUE );
+  return( true );
 }
 
 bool CObjectSymbol::SetProperty( void ) {

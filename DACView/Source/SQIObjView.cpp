@@ -539,13 +539,13 @@ void CSQIObjectView::CenterAlign()
   // calculate the center of the object             
   w = rectTemp.left + (rectTemp.right - rectTemp.left) / 2;
   // center the selected objects
-  for (const auto pcobjTemp : *m_pCObjectListCurrent) {
-    if ( pcobjTemp->IsSelect() ) {    // if selected
-      rectTemp = pcobjTemp->GetSize();
+  for (const auto pcobjTemp1 : *m_pCObjectListCurrent) {
+    if ( pcobjTemp1->IsSelect() ) {    // if selected
+      rectTemp = pcobjTemp1->GetSize();
       i1  = w - ((rectTemp.right - rectTemp.left) / 2);
       rectTemp.right = w + (rectTemp.right - rectTemp.left) - ((rectTemp.right - rectTemp.left)/2);
       rectTemp.left  = i1;
-      pcobjTemp->SetAllSize(rectTemp);
+      pcobjTemp1->SetAllSize(rectTemp);
     }
   }
 }
@@ -572,13 +572,13 @@ void CSQIObjectView::LeftAlign()
   } while ( !pcobjTemp->IsSelect() );
   w = rectTemp.left;
   // left align selected objects
-  for (const auto pcobjTemp : *m_pCObjectListCurrent) {
-    if ( pcobjTemp->IsSelect() ) {    // if selected
-      rectTemp = pcobjTemp->GetSize();
+  for (const auto pcobjTemp1 : *m_pCObjectListCurrent) {
+    if ( pcobjTemp1->IsSelect() ) {    // if selected
+      rectTemp = pcobjTemp1->GetSize();
       h = rectTemp.right - rectTemp.left;
       rectTemp.left = w;
       rectTemp.right = h + w;
-      pcobjTemp->SetAllSize(rectTemp);
+      pcobjTemp1->SetAllSize(rectTemp);
     }
   }
 }
@@ -603,13 +603,13 @@ void CSQIObjectView::RightAlign() {
     }
   } while ( !pcobjTemp->IsSelect() );             
   w = rectTemp.right;
-  for (const auto pcobjTemp : *m_pCObjectListCurrent) {
-    if ( pcobjTemp->IsSelect() ) {    // if selected
-      rectTemp = pcobjTemp->GetSize();
+  for (const auto pcobjTemp1 : *m_pCObjectListCurrent) {
+    if ( pcobjTemp1->IsSelect() ) {    // if selected
+      rectTemp = pcobjTemp1->GetSize();
       h = rectTemp.right - rectTemp.left;
       rectTemp.right = w;
       rectTemp.left = w - h;
-      pcobjTemp->SetAllSize(rectTemp);
+      pcobjTemp1->SetAllSize(rectTemp);
     }
   }
 }
@@ -727,10 +727,10 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 					rectScreen += ptScrollPosition;
 					CObjectBase * pcobjTemp = nullptr;
 					CRect rect;
-          for (const auto pcobjTemp : *m_pCObjectListCurrent) {
-						rect = pcobjTemp->GetSize() + pcobjTemp->GetOffset();
+          for (const auto pcobjTemp1 : *m_pCObjectListCurrent) {
+						rect = pcobjTemp1->GetSize() + pcobjTemp1->GetOffset();
 						if ((rectScreen & rect) == rect) {
-							pcobjTemp->SetSelect(TRUE);
+							pcobjTemp1->SetSelect(TRUE);
 						}
 					}
 					pDoc->m_trackerObject.m_rect.SetRectEmpty();
@@ -1061,7 +1061,6 @@ void CSQIObjectView::OnArrangeMakesymbol()
   char s[10];
   CPoint ptOffset = GetDeviceScrollPosition();
 
-  CObjectBase * pcobjTemp;
   BOOL fCanMakeSymbol = TRUE;
   
   // 复合对象和输出类对象(按钮,滚动条等)不能组成符号, 检查被选对象中是否有.

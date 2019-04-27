@@ -262,9 +262,6 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
 
   // clear temperary list listObject
   listObject.clear();
-  
-  POSITION po;
-  CObjectBase * pcobj;
 
   // create seperate list from RunTimeObjectList
   for (const auto pcobj : m_CRunTimeObjectList) {
@@ -299,7 +296,6 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
 void CFBDFileDoc::Serialize(CArchive& ar)
 { 
   CString str, strViewFile;
-  CObjectBase * pcobj;
   INT64 iCount;
   
   VERIFY(strViewFile.LoadString(IDS_VIEW_FILE_VERSION));
@@ -316,6 +312,7 @@ void CFBDFileDoc::Serialize(CArchive& ar)
 
 	if (ar.IsStoring()) {
     // TODO: add storing code here 
+    iCount = m_CObjectList.size();
     ar << strViewFile << iCount;
     for (const auto pcobj : m_CObjectList) {
       ar << pcobj;
@@ -323,6 +320,9 @@ void CFBDFileDoc::Serialize(CArchive& ar)
   }
   else {
     // TODO: add loading code here
+    CObjectBase * pcobj;
+
+
     ar >> str >> iCount;
     // test whether a Dacview file
     if ( str == strViewFile );

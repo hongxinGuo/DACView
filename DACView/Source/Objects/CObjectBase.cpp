@@ -282,7 +282,7 @@ bool CObjectBase::SetDouble(ULONG , double ) {
   ASSERT(  false );
   return(false);
 }
-double CObjectBase::GetDouble(ULONG index)
+double CObjectBase::GetDouble(ULONG )
 {
 	ASSERT(false);
 	return 0.0;
@@ -443,7 +443,6 @@ CRgn * CObjectBase::GetClipRgn( const CPoint&  ) {
 bool CObjectBase::CreateUniName( CObjectList& listObject ) {
   bool fFind = FALSE;
 	INT_PTR iTemp = 1;
-  CObjectBase * pcObj;
   char s[20];
 
   for (const auto pcobj : listObject) {
@@ -460,7 +459,7 @@ bool CObjectBase::CreateUniName( CObjectList& listObject ) {
       m_strName = GetClassNameStr() + s;
       fDone = TRUE;
       for (const auto pcobj : listObject) {
-        if ( m_strName == pcObj->GetName() ) {
+        if ( m_strName == pcobj->GetName() ) {
           fDone = FALSE;
           break;
         }

@@ -82,7 +82,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)\DACView\Source;$(SolutionDir)\DACView\Source\Objects;$(SolutionDir)\DACView\Source\Units;$(SolutionDir)\DACView;$(SolutionDir)\DACView\UnitTest;$(IncludePath)</IncludePath>
     <OutDir>.\x64\Debug\</OutDir>
-    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>

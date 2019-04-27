@@ -95,7 +95,7 @@ void CObjectComponentBase::Serialize( CArchive& ar ) {
 	CObjRectBase::Serialize( ar );
 
   CObjectBase * pcobjTemp;
-  INT64 iTemp;
+  INT64 iTemp = m_CObjectList.size();
                               
   if (ar.IsStoring())
   {

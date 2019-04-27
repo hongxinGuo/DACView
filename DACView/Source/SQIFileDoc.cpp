@@ -327,7 +327,6 @@ void CSQIFileDoc::Serialize(CArchive& ar)
 { 
   CString strTemp, strViewFile;
 	CString strStrategyFile;
-  CObjectBase * pcobj;
   INT64 iTotal;
                               
   VERIFY(strViewFile.LoadString(IDS_VIEW_FILE_VERSION));
@@ -434,7 +433,6 @@ void CSQIFileDoc::OnProjectCompile()
   // TODO: Add your command handler code here
   CString strPathName = GetPathName();
   CString strViewFile;
-  CObjectBase * pcobj;
   INT64 iTemp;
   ULONG iFilePoint = strPathName.Find('.');
 

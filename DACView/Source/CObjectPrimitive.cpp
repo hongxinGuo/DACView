@@ -151,19 +151,19 @@ void CObjectPrimitive::ClearParaSelectedFlag(void) {
   ASSERT(0);
 }
 
-bool CObjectPrimitive::SetParameterLock(ULONG ulIndex, bool fSelected)
+bool CObjectPrimitive::SetParameterLock(ULONG , bool )
 {
   ASSERT(0);
   return(false);
 }
 
-bool CObjectPrimitive::IsParameterLocked(ULONG ulIndex)
+bool CObjectPrimitive::IsParameterLocked(ULONG )
 {
   ASSERT(0);
   return(false);
 }
 
-bool CObjectPrimitive::SetParameterSelected(ULONG ulIndex, bool fSelected)
+bool CObjectPrimitive::SetParameterSelected(ULONG , bool )
 {
   ASSERT(0);
   return false;
@@ -205,7 +205,6 @@ bool CObjectPrimitive::CanViewIn( void ) const {
 
 bool CObjectPrimitive::DumpCurrentStatus( char * pch ) const {
   TRACE( "Call CObjectPrimitive's GetStatus\n" );
-  sprintf(pch, "Call CObjectPrimitive" );
 
   return( FALSE );
 }

@@ -40,7 +40,7 @@ namespace DACViewTest {
 			// clearup
 			ReleaseSQIFile(&m_unitlist, &m_objectlist);
 			EXPECT_TRUE(m_unitlist.empty());
-			EXPECT_TRUE(m_objectlist.IsEmpty());
+			EXPECT_TRUE(m_objectlist.empty());
 		}
 
 	public:
@@ -838,7 +838,7 @@ namespace DACViewTest {
     // clear up
     ReleaseSQIFile(&m_unitlist, &m_objectlist);
     EXPECT_TRUE(m_unitlist.empty());
-    EXPECT_TRUE(m_objectlist.IsEmpty());
+    EXPECT_TRUE(m_objectlist.empty()); 
 
   }
 

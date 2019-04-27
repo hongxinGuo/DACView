@@ -67,8 +67,8 @@ BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
 			CString str;
 
 			// make loop string from loop units
-			for (const auto pcunit : unitlist) {
-				str += pcunit->GetName();
+			for (const auto pcunit2 : unitlist) {
+				str += pcunit2->GetName();
 				str += "->";
 			}
 			ShowMessageIndirect(ID_ERROR_STRATEGY_LOOP_DETECT, (LPCTSTR)str);
