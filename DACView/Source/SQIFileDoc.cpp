@@ -115,16 +115,11 @@ CSQIFileDoc::~CSQIFileDoc() {
 
 bool ReleaseSQIFile(CUnitList * pUnitList, CObjectList * pObjectList) {
   // release Object's memory
-  POSITION Po = pObjectList->GetHeadPosition();
-  CObjectBase * pcobjTemp;
-  INT_PTR iTemp = pObjectList->GetCount();
-  for (int i = 0; i < iTemp; i++) {
-    pcobjTemp = pObjectList->GetNext(Po);
-    delete pcobjTemp;
-    pcobjTemp = nullptr;
+  for (auto pcobj : *pObjectList) {
+    delete pcobj;
   }
   // release list's memory
-  pObjectList->RemoveAll();
+  pObjectList->clear();
 
   for (const auto pcunit : *pUnitList) {
     delete pcunit;
@@ -182,7 +177,7 @@ bool LoadObjectList(CArchive & ar, CObjectList * pObjectList, INT32 * pObjectNum
   // test whether a Dacview file
   for (int i = 0; i < iTotal; i++) {
     ar >> pcobj;
-    pObjectList->AddTail(pcobj);
+    pObjectList->push_back(pcobj);
   }
   return(true);
 }
@@ -348,11 +343,8 @@ void CSQIFileDoc::Serialize(CArchive& ar)
       ar << pcUnit;
     } 
 
-		POSITION poObj = m_CObjectList.GetHeadPosition();
-		iTotal = m_CObjectList.GetCount();
     ar << strViewFile << m_nCurrentObjNumber << iTotal;
-    for ( int i = 0; i < iTotal; i ++ ) { 
-      pcobj = m_CObjectList.GetNext(poObj);
+    for (const auto pcobj : m_CObjectList) { 
       ar << pcobj;
     }
   }
@@ -443,7 +435,6 @@ void CSQIFileDoc::OnProjectCompile()
   CString strPathName = GetPathName();
   CString strViewFile;
   CObjectBase * pcobj;
-  POSITION pos = m_CObjectList.GetHeadPosition();
   INT64 iTemp;
   ULONG iFilePoint = strPathName.Find('.');
 
@@ -466,7 +457,7 @@ void CSQIFileDoc::OnProjectCompile()
   CFile cFile; 
   char buffer[512];
   
-  iTemp = m_CObjectList.GetCount();
+  iTemp = m_CObjectList.size();
   cFile.Open(strPathName, CFile::modeWrite | CFile::modeCreate | CFile::shareDenyRead);
   CArchive ar(&cFile, CArchive::store, 512, buffer); 
   VERIFY(strViewFile.LoadString(IDS_VIEW_FILE_VERSION));
@@ -474,8 +465,7 @@ void CSQIFileDoc::OnProjectCompile()
   // 存储运行时文件
   SaveUnitList(ar);
   ar << strViewFile << iTemp;
-  for ( int i = 0; i < iTemp; i ++ ) { 
-    pcobj = m_CObjectList.GetNext(pos);
+  for (const auto pcobj : m_CObjectList) { 
     ar << pcobj;
   }
 

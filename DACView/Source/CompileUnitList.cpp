@@ -320,11 +320,7 @@ void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
     pcUnit->SetParaLockFlag();
   }
 
-  POSITION poObj = pObjectList->GetHeadPosition();
-  INT64 iTotal = pObjectList->GetCount();
-  CObjectBase * pcObj;
-  for (int i = 0; i < iTotal; i++) {
-    pcObj = pObjectList->GetNext(poObj);
+  for (const auto pcObj : *pObjectList) {
     pcObj->SetParameterSelected();
   }
 }

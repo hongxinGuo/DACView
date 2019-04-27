@@ -136,21 +136,14 @@ CFBDFileDoc::~CFBDFileDoc() {
 	}
   timeEndPeriod(m_nTimerRes);
 
-  m_CRunTimeObjectList.RemoveAll();
+  m_CRunTimeObjectList.clear();
   
   // release Object's memory
-  POSITION Po = m_CObjectList.GetHeadPosition();
-  CObjectBase * pcobjTemp;
-	INT_PTR iTemp = m_CObjectList.GetCount();
-
-  for ( int i = 0; i < iTemp; i++ ) {
-    pcobjTemp = m_CObjectList.GetNext(Po);
-    delete pcobjTemp;
-    pcobjTemp = nullptr;
+  for (auto pcobj : m_CObjectList) {
+    delete pcobj;
   } 
-  TRACE("%d objects deleted\n", iTemp);                  
   // release list's memory
-  m_CObjectList.RemoveAll();
+  m_CObjectList.clear();
   
   ClearUnitList();
 } 
@@ -239,11 +232,11 @@ BOOL CFBDFileDoc::MakeRunTimeUnitList( void ) {
       m_vCUnit1MS.push_back(pcunit);
     }
   }
-  ASSERT( m_CRunTimeObjectList.GetSize() == (  m_vCUnit1Minute.size() + 
-                                               m_vCUnit1Second.size() +
-                                               m_vCUnit100MS.size() +
-                                               m_vCUnit10MS.size() +
-										                           m_vCUnit1MS.size() ) );
+  ASSERT( m_CRunTimeUnitList.size() == (  m_vCUnit1Minute.size() + 
+                                          m_vCUnit1Second.size() +
+                                          m_vCUnit100MS.size() +
+                                          m_vCUnit10MS.size() +
+										                      m_vCUnit1MS.size() ) );
   return ( TRUE );
 }
 
@@ -251,42 +244,30 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
 
   CObjectList listObject;
 
-  // create temperary list listObject
-  POSITION poObject = m_CObjectList.GetHeadPosition();
-  CObjectBase * pcObject;
-	INT_PTR iRunTime, iCount = m_CObjectList.GetCount();
-  
-  for ( int i = 0; i < iCount; i++ ) {
-    pcObject = m_CObjectList.GetNext(poObject);
+  // create temperary list listObject  
+  for (const auto pcObject : m_CObjectList) {
     pcObject->AddToList( listObject );
   }
 
   // create RunTimeObjctList from temperary list listObject
-  poObject = listObject.GetHeadPosition();
-  iCount =  listObject.GetCount();
   bool done = false;
+  int iCount = listObject.size();
   while ( ! done ) {
-    poObject = listObject.GetHeadPosition();
-    iCount = listObject.GetCount();
-    for ( int i = 0; i < iCount; i++ ) {
-      pcObject = listObject.GetNext(poObject);
-      m_CRunTimeObjectList.AddTail(pcObject);
+    for (const auto pcObject : listObject) {
+      m_CRunTimeObjectList.push_back(pcObject);
     }   
-    iRunTime = m_CRunTimeObjectList.GetCount();
+    int iRunTime = m_CRunTimeObjectList.size();
     if ( iRunTime == iCount ) done = true;
   }
 
   // clear temperary list listObject
-  listObject.RemoveAll();
+  listObject.clear();
   
   POSITION po;
   CObjectBase * pcobj;
 
   // create seperate list from RunTimeObjectList
-  po = m_CRunTimeObjectList.GetHeadPosition();
-  iCount = m_CRunTimeObjectList.GetCount();
-  for ( int i = 0; i < iCount; i++ ) {
-    pcobj = m_CRunTimeObjectList.GetNext( po );
+  for (const auto pcobj : m_CRunTimeObjectList) {
     if ( ((pcobj->GetScanRate()/60000)*60000) == pcobj->GetScanRate() ) {
       m_vCObject1Minute.push_back(pcobj);
     }
@@ -303,7 +284,7 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
       m_vCObject1MS.push_back( pcobj );
     }
   }
-  ASSERT( m_CRunTimeObjectList.GetCount() ==
+  ASSERT( m_CRunTimeObjectList.size() ==
             ( m_vCObject1Minute.size() +
               m_vCObject1Second.size() +
               m_vCObject100MS.size() +
@@ -319,8 +300,7 @@ void CFBDFileDoc::Serialize(CArchive& ar)
 { 
   CString str, strViewFile;
   CObjectBase * pcobj;
-  POSITION poObj = m_CObjectList.GetHeadPosition();                          
-  INT64 iCount = m_CObjectList.GetCount();
+  INT64 iCount;
   
   VERIFY(strViewFile.LoadString(IDS_VIEW_FILE_VERSION));
 
@@ -337,8 +317,7 @@ void CFBDFileDoc::Serialize(CArchive& ar)
 	if (ar.IsStoring()) {
     // TODO: add storing code here 
     ar << strViewFile << iCount;
-    for ( int i = 0; i < iCount; i ++ ) { 
-      pcobj = m_CObjectList.GetNext(poObj);
+    for (const auto pcobj : m_CObjectList) {
       ar << pcobj;
     }
   }
@@ -352,7 +331,7 @@ void CFBDFileDoc::Serialize(CArchive& ar)
     for ( int i = 0; i < iCount; i ++ ) {
       ar >> pcobj;
       pcobj->SetParameterSelected(); // 设置单元输入型参数被选择标志。
-      m_CObjectList.AddTail( pcobj );
+      m_CObjectList.push_back( pcobj );
     } 
     // create runtime object list
   	CreateRunTimeObjectList();

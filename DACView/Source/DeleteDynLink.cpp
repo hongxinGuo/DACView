@@ -41,12 +41,8 @@ void DeleteDynLinkToMe(CUnitList * pUnitList, CObjectList * pObjectList, CUnitBa
     pcUnit->DeleteDynLink(pUnit);
   }
 
-  POSITION po = pObjectList->GetHeadPosition();
-  INT64 iTemp = pObjectList->GetCount();
-  CObjectBase * pcObj;
   // 清除物体序列中指向被删除单元的动态链接
-  for (int i = 0; i < iTemp; i++) {
-    pcObj = pObjectList->GetNext(po);
+  for (const auto pcObj : *pObjectList) {
     pcObj->DeleteDynLink(pUnit);
   }
 }

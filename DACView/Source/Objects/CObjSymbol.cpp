@@ -29,19 +29,14 @@ CObjectSymbol::CObjectSymbol( void ) : CObjectComponentBase( ) {
 	
 CObjectSymbol::~CObjectSymbol() {
 	// release object's memory
-	POSITION po = m_CObjectList.GetHeadPosition();
-	INT_PTR iCount = m_CObjectList.GetCount();
-	CObjectBase * pcobjTemp;
-	for ( int i = 0; i < iCount; i++ ) {
-		pcobjTemp = m_CObjectList.GetNext(po);
-		delete pcobjTemp;
-		pcobjTemp = nullptr;
+  for (auto pcObj : m_CObjectList) {
+		delete pcObj;
 	}                   
 	// release list's memory
-	m_CObjectList.RemoveAll();
+	m_CObjectList.clear();
 
-  po = m_CRectList.GetHeadPosition();
-  iCount = m_CRectList.GetCount();
+  POSITION po = m_CRectList.GetHeadPosition();
+  INT_PTR iCount = m_CRectList.GetCount();
   CRect * prect;
   for ( int i = 0; i < iCount; i++ ) {
     prect = m_CRectList.GetNext( po );
@@ -52,13 +47,10 @@ CObjectSymbol::~CObjectSymbol() {
 }
 
 bool CObjectSymbol::IsNeedUpdate( void ) {
-	POSITION Po = m_CObjectList.GetHeadPosition();
-	CObjectBase * pcobjTemp;
 
   if ( m_fNeedUpdate ) return( TRUE );
-	for ( int i = 0; i < m_CObjectList.GetCount(); i++ ) {
-		pcobjTemp = m_CObjectList.GetNext(Po);
-		if ( pcobjTemp->IsNeedUpdate() ) {
+  for (auto pcObj : m_CObjectList) {
+		if ( pcObj->IsNeedUpdate() ) {
 			return( TRUE );
 		}
 	}  
@@ -66,13 +58,10 @@ bool CObjectSymbol::IsNeedUpdate( void ) {
 }
 
 bool CObjectSymbol::IsDrawAll( void ) {
-  POSITION Po = m_CObjectList.GetHeadPosition();
-	CObjectBase * pcobjTemp;
 
   if ( m_fDrawAll ) return( TRUE );
-	for ( int i = 0; i < m_CObjectList.GetCount(); i++ ) {
-		pcobjTemp = m_CObjectList.GetNext(Po);
-		if ( pcobjTemp->IsDrawAll() ) {
+  for (auto pcobj : m_CObjectList) {
+		if ( pcobj->IsDrawAll() ) {
 			return( TRUE );
 		}
 	}  
@@ -80,12 +69,8 @@ bool CObjectSymbol::IsDrawAll( void ) {
 }
 
 void CObjectSymbol::SetDrawAll( bool fFlag ) {
-  POSITION Po = m_CObjectList.GetHeadPosition();
-  CObjectBase * pcobjTemp;
-
-  for ( int i = 0; i < m_CObjectList.GetCount(); i++ ) {
-    pcobjTemp = m_CObjectList.GetNext(Po);
-    pcobjTemp->SetDrawAll( fFlag );
+  for (auto pcobj : m_CObjectList) {
+    pcobj->SetDrawAll( fFlag );
   }
 }
 
@@ -98,26 +83,25 @@ void CObjectSymbol::SetDrawAll( bool fFlag ) {
 
 CRgn * CObjectSymbol::GetClipRgn( const CPoint& ptScrollPos ) {
 	CRect rect;
-	POSITION Po = m_CObjectList.GetHeadPosition();
-	CObjectBase * pcobjTemp;
-	INT_PTR iCount = m_CObjectList.GetCount();
+	CObjectBase * pcobj;
   CPoint pt = GetOffset();
 
   m_rgnClip.DeleteObject();
 	if ( m_fTransparent ) {
-    if ( iCount < 1 ) {
+    if ( m_CObjectList.size() < 1 ) {
       m_rgnClip.CreateRectRgn(0, 0, 0, 0);
       return( &m_rgnClip );
     }
-    pcobjTemp = m_CObjectList.GetNext(Po);
-    rect = pcobjTemp->GetSize();
-    pt = pcobjTemp->GetOffset();
+    auto it = m_CObjectList.begin();
+    pcobj = *it++;
+    rect = pcobj->GetSize();
+    pt = pcobj->GetOffset();
 	  rect += pt - ptScrollPos;
     m_rgnClip.CreateRectRgn(rect.left, rect.top, rect.right, rect.bottom);
-	  for ( int i = 1; i < iCount; i++ ) {
-		  pcobjTemp = m_CObjectList.GetNext(Po);
+    for (; it != m_CObjectList.end(); it++) {
+		  pcobj = *it;
 		  m_rgnClip.CombineRgn( &m_rgnClip, 
-                            pcobjTemp->GetClipRgn( ptScrollPos ), 
+                            pcobj->GetClipRgn( ptScrollPos ), 
                             RGN_OR );
 	  }
   }
@@ -130,23 +114,17 @@ CRgn * CObjectSymbol::GetClipRgn( const CPoint& ptScrollPos ) {
 }
 
 void CObjectSymbol::ViewOut( void ) {
-  CObjectBase * pcobjTemp;
-  POSITION pos = m_CObjectList.GetHeadPosition();                          
-	INT_PTR i, iTemp = m_CObjectList.GetCount();
   CRect rectTemp, rect;
   
   // set my area to union of all my children              
   rectTemp.SetRectEmpty();                
-  for ( i = 0; i < iTemp; i ++ ) {                            
-    pcobjTemp = m_CObjectList.GetNext(pos);
-    rectTemp |= pcobjTemp->GetSize();
+  for (auto pcobj : m_CObjectList) {
+    rectTemp |= pcobj->GetSize();
   }
-  pos = m_CObjectList.GetHeadPosition();
-  for ( i = 0; i < iTemp; i++ ) {
-    pcobjTemp = m_CObjectList.GetNext( pos );
-    rect = pcobjTemp->GetSize();
+  for (auto pcobj : m_CObjectList) {
+    rect = pcobj->GetSize();
     rect -= rectTemp.TopLeft();
-    pcobjTemp->SetAllSize( rect );
+    pcobj->SetAllSize( rect );
   }
   m_rectOrigin.left = m_rectArea.left = m_rectLastTime.left = m_rectOrigin.left + rectTemp.left;
   m_rectOrigin.top = m_rectArea.top = m_rectLastTime.top = m_rectOrigin.top + rectTemp.top;
@@ -175,13 +153,9 @@ void CObjectSymbol::Dump(CDumpContext& dc) const
 
 void CObjectSymbol::Serialize( CArchive& ar ) {	
 	CObjectComponentBase::Serialize( ar );
-  POSITION po = m_CObjectList.GetHeadPosition();
-  INT_PTR i, iCount = m_CObjectList.GetCount();
-  CObjectBase * pcobj;
   CRect * prect;
 
-  for ( i = 0; i < iCount; i++ ) {
-    pcobj = m_CObjectList.GetNext( po );
+  for (auto pcobj : m_CObjectList) {
     prect = new CRect;
     *prect = pcobj->GetSize();
     m_CRectList.AddTail( prect );
@@ -219,33 +193,26 @@ bool CObjectSymbol::ExectiveDynLink( ) {
 }
 
 void CObjectSymbol::InsertObject( CObjectBase * pcobj ) {
-  m_CObjectList.AddTail(pcobj); 
+  m_CObjectList.push_back(pcobj); 
 	
-  TRACE("Current objects in symbol is %d\n", m_CObjectList.GetCount());
+  TRACE("Current objects in symbol is %d\n", m_CObjectList.size());
 }
 
 void CObjectSymbol::BreakSymbol( CObjectList * pObjList ) {
-	CObjectBase * pcobjTemp;
-	POSITION pos = m_CObjectList.GetHeadPosition();                          
-	INT_PTR iTemp = m_CObjectList.GetCount();
   CRect rect;
                 
-  for ( int i = 0; i < iTemp; i ++ ) {                            
-  	pcobjTemp = m_CObjectList.GetNext(pos);
-    rect = pcobjTemp->GetSize();
+  for (auto pcobj : m_CObjectList) {
+    rect = pcobj->GetSize();
     rect += m_rectArea.TopLeft();
-    pcobjTemp->SetAllSize( rect );
-    pcobjTemp->SetSymbolThatHaveMe( GetSymbolThatHaveMe() );
-  	pcobjTemp->SetSelect(TRUE);
-  	pObjList->AddTail( pcobjTemp );	
+    pcobj->SetAllSize( rect );
+    pcobj->SetSymbolThatHaveMe( GetSymbolThatHaveMe() );
+  	pcobj->SetSelect(TRUE);
+  	pObjList->push_back( pcobj );	
   }
-	m_CObjectList.RemoveAll();  
+	m_CObjectList.clear();  
 }
 
 void CObjectSymbol::ToShowStatic( CDC * const pdc, CPoint ptScrollPos ) {
-	CObjectBase * pcobjTemp;
-	POSITION pos = m_CObjectList.GetHeadPosition();                          
-	INT_PTR iTemp = m_CObjectList.GetCount();
   CRect rectArea = m_rectArea;
   CPoint pt = GetOffset();
 
@@ -259,9 +226,8 @@ void CObjectSymbol::ToShowStatic( CDC * const pdc, CPoint ptScrollPos ) {
     }
 
 		// draw objects
-		for ( int i = 0; i < iTemp; i ++ ) {                            
-	  	pcobjTemp = m_CObjectList.GetNext(pos);
-	  	pcobjTemp->ToShowStatic( pdc, ptScrollPos ); 
+    for (auto pcobj : m_CObjectList) {
+	  	pcobj->ToShowStatic( pdc, ptScrollPos ); 
 	  }           
 	}    
 	if ( m_fSelected ) SetFocus( pdc );
@@ -272,7 +238,7 @@ void CObjectSymbol::ToShowDynamic( CDC * const pdc ) {
 	POSITION pos;
   CBrush cbb, cb;
   CBitmap * pOldBitmap;
-	INT_PTR i, iCount = m_CObjectList.GetCount();
+	INT_PTR i, iCoun;
   CRect rectThis, rectLast, rectIntersect;
 
   CRect rectArea = m_rectArea;
@@ -308,17 +274,13 @@ void CObjectSymbol::ToShowDynamic( CDC * const pdc ) {
 		pdc->SelectClipRgn( GetClipRgn(pt), RGN_AND ); 
   }
 	// clear last view
-  pos = m_CObjectList.GetHeadPosition();
-  for ( i = 0; i < iCount; i++ ) {
-    pcobjTemp = m_CObjectList.GetNext( pos );
-    rectThis = pcobjTemp->GetLastSize();
+  for (auto pcobj : m_CObjectList) {
+    rectThis = pcobj->GetLastSize();
     m_MemoryDC.FillRect( rectThis, & cbb );
   }
 	// draw current view
-  pos = m_CObjectList.GetHeadPosition();
-  for ( i = 0; i < iCount; i++ ) {
-    pcobjTemp = m_CObjectList.GetNext( pos );
-    pcobjTemp->ToShowDynamic( &m_MemoryDC );
+  for (auto pcobj : m_CObjectList) {
+    pcobj->ToShowDynamic( &m_MemoryDC );
   }
 	// show it on upper layer's screen
   pdc->BitBlt(rectArea.left, rectArea.top, 
@@ -339,8 +301,8 @@ void CObjectSymbol::AdjustDynamicInnerSize( void ) {
 	CRect rectTemp;
 	CObjectBase * pcobjTemp;
   CRect * prect;
+  INT64 iCount;
 	POSITION pos, po;                          
-	INT_PTR iTemp = m_CObjectList.GetCount(), i;
 	int w1, h1, w2, h2;
 	
   if ( m_rectArea != m_rectSymbolOrigin ) {
@@ -351,35 +313,32 @@ void CObjectSymbol::AdjustDynamicInnerSize( void ) {
 	  h2 = m_rectArea.Height();
 		if ( (w2 <= 0) || (h2 <= 0) ) return;
 
-	  pos = m_CObjectList.GetHeadPosition();
-    po = m_CRectList.GetHeadPosition();
-	  for ( i = 0; i < iTemp; i ++ ) {                            
-	  	pcobjTemp = m_CObjectList.GetNext(pos);
-      prect = m_CRectList.GetNext( po );
-      rectTemp = *prect;
-	  	rectTemp.left   = (rectTemp.left * w2) / w1;
-	  	rectTemp.right  = (rectTemp.right * w2) / w1;
-	  	rectTemp.top    = (rectTemp.top * h2) / h1;
-	  	rectTemp.bottom = (rectTemp.bottom * h2) / h1;
-	  	pcobjTemp->SetOriginSize( rectTemp );
-      pcobjTemp->SetDynamicSize( rectTemp );
-	  	pcobjTemp->AdjustDynamicInnerSize();
+    for (auto pcobj : m_CObjectList) {
+      po = m_CRectList.GetHeadPosition();
+      iCount = m_CRectList.GetCount();
+      for (int i = 0; i < iCount; i++) { // 此段可能有问题。
+        prect = m_CRectList.GetNext(po);
+        rectTemp = *prect;
+        rectTemp.left = (rectTemp.left * w2) / w1;
+        rectTemp.right = (rectTemp.right * w2) / w1;
+        rectTemp.top = (rectTemp.top * h2) / h1;
+        rectTemp.bottom = (rectTemp.bottom * h2) / h1;
+        pcobj->SetOriginSize(rectTemp);
+        pcobj->SetDynamicSize(rectTemp);
+        pcobj->AdjustDynamicInnerSize();
+      }
 	  }
 	}                                
 }
 
 void CObjectSymbol::AdjustInnerSize( void ) {
 	CRect rectTemp, rect;
-	CObjectBase * pcobjTemp;
 	POSITION pos;
-	INT_PTR iTemp = m_CObjectList.GetCount(), i;
 	int w1, h1, w2, h2;
 		                        
 	rectTemp.SetRectEmpty();
-	pos = m_CObjectList.GetHeadPosition(); 
-	for ( i = 0; i < iTemp; i ++ ) {                            
-  	pcobjTemp = m_CObjectList.GetNext(pos);
-  	rectTemp |= pcobjTemp->GetSize(); 
+  for (auto pcobj : m_CObjectList) {
+  	rectTemp |= pcobj->GetSize(); 
   }
 
   w1 = rectTemp.Width();
@@ -388,16 +347,14 @@ void CObjectSymbol::AdjustInnerSize( void ) {
   w2 = m_rectArea.Width();
   h2 = m_rectArea.Height();
 	if ( (w2 <= 0) || (h2 <= 0) ) return;
-  pos = m_CObjectList.GetHeadPosition();
-  for ( i = 0; i < iTemp; i ++ ) {                            
-  	pcobjTemp = m_CObjectList.GetNext(pos);
-  	rect = pcobjTemp->GetSize(); 
+  for (auto pcobj : m_CObjectList) {
+  	rect = pcobj->GetSize(); 
   	rect.left   = rect.left * w2 / w1;
   	rect.right  = rect.right * w2 / w1;
   	rect.top    = rect.top * h2 / h1;
   	rect.bottom = rect.bottom * h2 / h1;
-  	pcobjTemp->SetAllSize( rect ); 
-  	pcobjTemp->AdjustInnerSize();
+  	pcobj->SetAllSize( rect ); 
+  	pcobj->AdjustInnerSize();
   }                                
 }
 

@@ -40,13 +40,9 @@ CObjectComponent::~CObjectComponent() {
 }
 
 bool CObjectComponent::IsNeedUpdate( void ) {
-	POSITION Po = m_CObjectList.GetHeadPosition();
-	CObjectBase * pcobjTemp;
-
-	for ( int i = 0; i < m_CObjectList.GetCount(); i++ ) {
-		pcobjTemp = m_CObjectList.GetNext(Po);
-		if ( pcobjTemp->IsNeedUpdate() ) {
-			pcobjTemp->SetUpdateFlag( FALSE );
+	for (const auto pcobj : m_CObjectList) {
+		if ( pcobj->IsNeedUpdate() ) {
+			pcobj->SetUpdateFlag( FALSE );
 		}
 	}  
 	return( m_fNeedUpdate );

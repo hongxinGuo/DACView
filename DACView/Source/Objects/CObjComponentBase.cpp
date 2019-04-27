@@ -22,37 +22,22 @@ CObjectComponentBase::CObjectComponentBase( void )
 	
 CObjectComponentBase::~CObjectComponentBase() {
 	// release Object's memory
-  POSITION Po = m_CObjectList.GetHeadPosition();
-  CObjectBase * pcobjTemp;
-	INT_PTR i, iTemp = m_CObjectList.GetCount();
-  for ( i = 0; i < iTemp; i++ ) {
-    pcobjTemp = m_CObjectList.GetNext(Po);
-    delete pcobjTemp;
-		pcobjTemp = nullptr;
+  for (auto pcObj : m_CObjectList) {
+    delete pcObj;
   } 
-  TRACE("%d objects deleted\n", i);                  
   // release list's memory
-  m_CObjectList.RemoveAll();
+  m_CObjectList.clear();
 }
 
 void CObjectComponentBase::SetUpdateFlag( bool fUpdate ) {
-	POSITION Po = m_CObjectList.GetHeadPosition();
-	CObjectBase * pcobjTemp;
-
-	for ( int i = 0; i < m_CObjectList.GetCount(); i++ ) {
-		pcobjTemp = m_CObjectList.GetNext(Po);
-		pcobjTemp->SetUpdateFlag(fUpdate);
+  for (const auto pcObj : m_CObjectList) {
+		pcObj->SetUpdateFlag(fUpdate);
 	}
   m_fNeedUpdate = fUpdate;
 }
 
 bool CObjectComponentBase::SetParameterSelected(void) {
-  INT_PTR iCount = m_CObjectList.GetCount();
-  POSITION po = m_CObjectList.GetHeadPosition();
-  CObjectBase * pcObj;
-
-  for (int i = 0; i < iCount; i++) {
-    pcObj = m_CObjectList.GetNext(po);
+  for (auto pcObj : m_CObjectList) {
     pcObj->SetParameterSelected();
   }
   CObjectBase::SetParameterSelected();
@@ -61,12 +46,7 @@ bool CObjectComponentBase::SetParameterSelected(void) {
 
 
 bool CObjectComponentBase::CreateUniName( CObjectList& listObject ) {
-	INT_PTR i, iCount = m_CObjectList.GetCount();
-  POSITION po = m_CObjectList.GetHeadPosition();
-  CObjectBase * pcObj;
-
-  for ( i = 0; i < iCount; i ++ ) {
-    pcObj = listObject.GetNext( po );
+  for (auto pcObj : m_CObjectList) {
     pcObj->CreateUniName( listObject );
   }
   CObjectBase::CreateUniName( listObject );
@@ -81,14 +61,9 @@ bool CObjectComponentBase::CreateUniName( CObjectList& listObject ) {
 //
 //////////////////////////////////////////////////////////////////////////////////
 void CObjectComponentBase::AddToList( CObjectList& ObjectList ) {
-  POSITION poObject = m_CObjectList.GetHeadPosition();
-	INT_PTR iObjectCount = m_CObjectList.GetCount();
-  CObjectBase * pcObj;
-  
   // this compound object must at the front of all its children
-  ObjectList.AddTail(this);
-  for ( int i = 0; i < iObjectCount; i++ ) {
-    pcObj = m_CObjectList.GetNext(poObject);
+  ObjectList.push_back(this);
+  for (auto pcObj : m_CObjectList) {
     pcObj->AddToList( ObjectList );
   }
 }
@@ -106,11 +81,8 @@ void CObjectComponentBase::AssertValid() const
 void CObjectComponentBase::Dump(CDumpContext& dc) const
 {
 	CObjRectBase::Dump(dc);
-  POSITION po = m_CObjectList.GetHeadPosition();
-  CObjectBase * pcobj;
-  for ( int i = 0; i < m_CObjectList.GetCount(); i++ ) {
-    pcobj = m_CObjectList.GetNext( po );
-    dc << pcobj;
+  for (auto pcObj : m_CObjectList) {
+    dc << pcObj;
   }
 }
 
@@ -123,16 +95,14 @@ void CObjectComponentBase::Serialize( CArchive& ar ) {
 	CObjRectBase::Serialize( ar );
 
   CObjectBase * pcobjTemp;
-  POSITION pos = m_CObjectList.GetHeadPosition();                          
-  INT64 iTemp = m_CObjectList.GetCount();
+  INT64 iTemp;
                               
   if (ar.IsStoring())
   {
     // TODO: add storing code here
     ar << iTemp;
-    for ( int i = 0; i < iTemp; i ++ ) { 
-      pcobjTemp = m_CObjectList.GetNext(pos);
-      ar << pcobjTemp;
+    for (const auto pcObj : m_CObjectList) {
+      ar << pcObj;
     }
   }
   else {
@@ -141,7 +111,7 @@ void CObjectComponentBase::Serialize( CArchive& ar ) {
 		// test whether a Dacview file
 		for (int i = 0; i < iTemp; i++) {
 			ar >> pcobjTemp;
-			m_CObjectList.AddTail(pcobjTemp);
+			m_CObjectList.push_back(pcobjTemp);
 		}
   } 
 } 

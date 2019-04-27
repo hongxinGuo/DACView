@@ -555,7 +555,7 @@ void CUnitComponent::ToShow( CDC * const pdc ) {
     pDynLinkList = pUnit->GetDynLinkList();
     // 下面这行代码，本来使用的是m_listDynLink而不是pDynLinkList。在使用Position寻址时，虽然代码错误，但执行确是正确的，估计是编译器的问题
     // 使用范围循环语句，就检验出了这个错误，故而将m_listDynLink替换成了正确的pDynLinkList
-    // 我去查了以下，发现这个错误一直存在。
+    // 我去查了一下，发现这个错误一直存在。
     for (const auto pUnitDynLink : *pDynLinkList) {
       switch (pUnitDynLink->GetDynLinkClass()) {
       case COMPONENT_TO_UNIT:

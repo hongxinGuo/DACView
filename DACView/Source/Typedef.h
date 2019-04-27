@@ -53,7 +53,7 @@ typedef vector<CUnitBase *> CUnitVector;
 
 class CObjectBase;
 typedef vector<CObjectBase *> CObjectVector;
-typedef CList<CObjectBase *, CObjectBase *> CObjectList;
+typedef list<CObjectBase *> CObjectList;
 
 class CUnitDictionary;
 typedef list<shared_ptr<CUnitDictionary>> CDicList;

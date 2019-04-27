@@ -442,14 +442,12 @@ CRgn * CObjectBase::GetClipRgn( const CPoint&  ) {
 ////////////////////////////////////////////////////////////////////////////////////// 
 bool CObjectBase::CreateUniName( CObjectList& listObject ) {
   bool fFind = FALSE;
-	INT_PTR iTemp = 1, iCount = listObject.GetCount();
-  POSITION po = listObject.GetHeadPosition();
+	INT_PTR iTemp = 1;
   CObjectBase * pcObj;
   char s[20];
 
-  for ( int i = 0; i < iCount; i ++ ) {
-    pcObj = listObject.GetNext( po );
-    if ( m_strName == pcObj->GetName() ) {
+  for (const auto pcobj : listObject) {
+    if ( m_strName == pcobj->GetName() ) {
       fFind = TRUE;
       break;
     }
@@ -460,11 +458,8 @@ bool CObjectBase::CreateUniName( CObjectList& listObject ) {
     while ( !fDone ) {
       _itoa(iTemp++, s, 10);
       m_strName = GetClassNameStr() + s;
-      iCount = listObject.GetCount();
-      po = listObject.GetHeadPosition();
       fDone = TRUE;
-      for ( int i = 0; i < iCount; i ++ ) { 
-        pcObj = listObject.GetNext( po );
+      for (const auto pcobj : listObject) {
         if ( m_strName == pcObj->GetName() ) {
           fDone = FALSE;
           break;
@@ -476,7 +471,7 @@ bool CObjectBase::CreateUniName( CObjectList& listObject ) {
 }
 
 void CObjectBase::AddToList( CObjectList& ObjectList ) {
-  ObjectList.AddTail(this);
+  ObjectList.push_back(this);
 }
 
 CODLList * CObjectBase::GetDynLinkList( void ) {

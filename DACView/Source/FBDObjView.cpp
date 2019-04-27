@@ -179,20 +179,19 @@ void CFBDObjView::OnDraw(CDC* pDC)
   pDC->SetBkColor( RGB(192, 192, 192) );
   
   CObjectBase * pcobjTemp;
-  POSITION pos;                          
-	INT_PTR i, iTemp = m_pCObjectListCurrent->GetCount();
   CRect rectTemp, rectTemp2, rectTemp3;
 
-  pos = m_pCObjectListCurrent->GetTailPosition();
-  for ( i = 0; i < iTemp; i ++ ) {                            
-    pcobjTemp = m_pCObjectListCurrent->GetPrev(pos);
+  auto it = m_pCObjectListCurrent->end();
+  do {       
+    it--;
+    pcobjTemp = *it;
     rectTemp = pcobjTemp->GetSize();
     rectTemp |= pcobjTemp->GetLastSize();
     rectTemp2 = rectTemp & m_crectViewClip;
     if ( !rectTemp2.IsRectEmpty() ) {
       pcobjTemp->SetUpdateFlag( TRUE );
     }
-  }
+  } while (it != m_pCObjectListCurrent->begin());
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -284,18 +283,18 @@ BOOL CFBDObjView::IsInRect( POINT const pt, CObjectBase* & pcobj ) {
   CDC * pdc = GetDC();
 
   CObjectBase* pc;
-  POSITION pos = m_pCObjectListCurrent->GetTailPosition(); // Tail position is the top most
-	INT_PTR iTemp = m_pCObjectListCurrent->GetCount();
+  auto it = m_pCObjectListCurrent->end(); // Tail position is the top most
   
-  for ( int i = 0; i < iTemp; i ++ ) {                            
-    pc = m_pCObjectListCurrent->GetPrev(pos);
+  do {            
+    it--;
+    pc = *it;
     if ( pc->InIt( pdc, pt, -1 ) ) {
       pcobj = pc;
       return ( TRUE );
     }
-  }
+  } while (it != m_pCObjectListCurrent->end());
   ReleaseDC( pdc );
-  pcobj = nullptr;
+  pcobj = nullptr; // ц╩спур╣╫ 
   return ( FALSE );
 }            
                  
@@ -385,7 +384,7 @@ void CFBDObjView::OnTimer(UINT_PTR nIDEvent)
   OnPrepareDC( pdc );
           
   CObjectBase * pcobjTemp;
-	INT_PTR i = 0, iCount = m_pCObjectListCurrent->GetCount();
+	INT_PTR i = 0;
   CRect rectTemp, rectThis;
   POSITION pos;
   ULONGLONG ulTick;
@@ -414,17 +413,13 @@ void CFBDObjView::OnTimer(UINT_PTR nIDEvent)
 
 	// clear old graph
   cbb.CreateSolidBrush( gl_clrBkGrd );
-  pos = m_pCObjectListCurrent->GetHeadPosition();
-  for ( i = 0; i < iCount; i++ ) {
-    pcobjTemp = m_pCObjectListCurrent->GetNext( pos );
+  for (const auto pcobj : *m_pCObjectListCurrent ) {
     rectThis = pcobjTemp->GetLastSize();
     m_MemoryDC.FillRect( rectThis, & cbb );
   }
   
 	// draw current graph
-	pos = m_pCObjectListCurrent->GetHeadPosition();
-  for ( i = 0; i < iCount; i++ ) {
-    pcobjTemp = m_pCObjectListCurrent->GetNext( pos );
+  for (const auto pcobj : *m_pCObjectListCurrent) {
 		if ( !pcobjTemp->IsTransparent() ) {
 			pcobjTemp->ToShowDynamic( &m_MemoryDC );
 		}
@@ -448,15 +443,15 @@ void CFBDObjView::OnLButtonDown(UINT nFlags, CPoint point)
   OnPrepareDC( pdc );
         
   CObjectBase* pc;
-  POSITION pos = m_pCObjectListCurrent->GetTailPosition(); // Tail position is the top most
-	INT_PTR i, iTemp = m_pCObjectListCurrent->GetCount();
+  auto it = m_pCObjectListCurrent->end(); // Tail position is the top most
+	INT_PTR i;
   CPoint ptDevice, ptOffset = GetDeviceScrollPosition();  
   BOOL fFind = FALSE;
   
   ptDevice = ptOffset + point;    // set current mouse address  
   i = 0;
-  while ( (!fFind) && (i++ < iTemp) ) {
-    pc = m_pCObjectListCurrent->GetPrev(pos);
+  while ( (!fFind) && (it != m_pCObjectListCurrent->begin()) ) {
+    pc = *--it;
     if ( pc->InIt( pdc, ptDevice, 1 ) ) {
       m_pCObjectCurrent = pc;
       fFind = TRUE;
@@ -478,8 +473,8 @@ void CFBDObjView::OnMouseMove(UINT nFlags, CPoint point)
 
   CDC * pdc;
   CObjectBase* pc;
-  POSITION pos = m_pCObjectListCurrent->GetTailPosition(); // Tail position is the top most
-	INT_PTR i, iTemp = m_pCObjectListCurrent->GetCount();
+  auto it = m_pCObjectListCurrent->end(); // Tail position is the top most
+	INT_PTR i;
   CPoint ptDevice, ptOffset = GetDeviceScrollPosition();  
   BOOL fFind = FALSE;
   CString str = " ";
@@ -503,8 +498,8 @@ void CFBDObjView::OnMouseMove(UINT nFlags, CPoint point)
     OnPrepareDC( pdc );
         
     i = 0;
-    while ( (!fFind) && (i++ < iTemp) ) {
-      pc = m_pCObjectListCurrent->GetPrev(pos);
+    while ( (!fFind) && (it != m_pCObjectListCurrent->begin()) ) {
+      pc = *--it;
       pc->InIt( pdc, ptDevice, 0 );
     }    
     ReleaseDC( pdc );
@@ -536,8 +531,8 @@ void CFBDObjView::OnLButtonUp(UINT nFlags, CPoint point)
   OnPrepareDC( pdc );
         
   CObjectBase* pc;
-  POSITION pos = m_pCObjectListCurrent->GetTailPosition(); // Tail position is the top most
-	INT_PTR i, iTemp = m_pCObjectListCurrent->GetCount();
+  auto it = m_pCObjectListCurrent->end(); // Tail position is the top most
+	INT_PTR i;
   CPoint ptDevice, ptOffset = GetDeviceScrollPosition();  
   BOOL fFind = FALSE;
   
@@ -547,8 +542,8 @@ void CFBDObjView::OnLButtonUp(UINT nFlags, CPoint point)
     HideCaret();
     m_ulShowCaret--;
   }
-  while ( (!fFind) && (i++ < iTemp) ) {
-    pc = m_pCObjectListCurrent->GetPrev(pos);
+  while ( (!fFind) && (it != m_pCObjectListCurrent->begin()) ) {
+    pc = *--it;
     if ( pc->InIt( pdc, ptDevice, 2 ) ) {
       m_pCObjectCurrent = pc;
       fFind = TRUE;
