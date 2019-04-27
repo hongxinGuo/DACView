@@ -20,7 +20,7 @@ public:
 public:
 	virtual void      ToShowDynamic( CDC * const pdc) override;		// draw myself on memory DC 
 	virtual void      ToShowStatic( CDC * const pdc, CPoint ptScrollPosition) override;		// draw myself on DC 
-	virtual bool      InIt( CDC * const pdc, POINT const pt, int iStatus ) override;
+	virtual bool      InIt(POINT const pt, int iStatus) override;
 	virtual bool      ExectiveDynLink( void ) override;
 	virtual bool      SetProperty( void ) override;					// set object's property 
   

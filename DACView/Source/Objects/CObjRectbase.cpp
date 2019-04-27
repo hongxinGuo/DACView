@@ -348,7 +348,7 @@ bool CObjRectBase::SetColor(ULONG index, DWORD lValue) {
   return( TRUE );
 }
 
-bool CObjRectBase::InIt( CDC * const , POINT const pt, int ) {
+bool CObjRectBase::InIt(POINT const pt, int) {
   CRect rectArea = m_rectArea;
   CPoint ptOffsetBase = GetOffset();
 

@@ -319,7 +319,7 @@ bool CObjectBase::IsDeleteDynLink( void ) {
 	else return( false );
 }
 
-bool CObjectBase::InIt( CDC * const , POINT const , int ) {
+bool CObjectBase::InIt( POINT const , int ) {
   ASSERT(  FALSE );
   return ( FALSE );
 }

@@ -136,7 +136,7 @@ bool CObjectMeter::ExectiveDynLink( void ) {
   return( TRUE );
 }
 
-bool CObjectMeter::InIt( CDC * const , POINT const pt, int  ) {
+bool CObjectMeter::InIt(POINT const pt, int) {
   CRect rectArea = m_rectArea;
   CPoint ptOffsetBase = GetOffset();
 

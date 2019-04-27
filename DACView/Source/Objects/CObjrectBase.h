@@ -35,7 +35,7 @@ public:
   virtual void      SetOriginSize( const CRect& rectOrigin ) override;
 	virtual void 			SetDynamicSize( const CRect& rectArea ) override;
 	
-	virtual bool      InIt( CDC * const pdc, POINT const pt, int iStatus ) override;
+	virtual bool      InIt(POINT const pt, int iStatus) override;
 	virtual void      ToShowDynamic( CDC * const pdc) override;		// draw myself on memory DC 
 	virtual void      ToShowStatic( CDC * const pdc, CPoint ptScrollPosition) override;		// draw myself on DC 
   virtual void 			AdjustInnerSize( void ) override;

@@ -113,7 +113,7 @@ bool CObjectButton::ExectiveDynLink( void ) {
   return( TRUE ); 
 }
         
-bool CObjectButton::InIt( CDC * const, POINT const pt, int iStatus ) {
+bool CObjectButton::InIt(POINT const pt, int iStatus) {
   bool fInIt = FALSE, fDo = FALSE;
   CPoint ptOffsetBase = GetOffset(), pt0(0, 0);
   CRect rectArea = m_rectArea;

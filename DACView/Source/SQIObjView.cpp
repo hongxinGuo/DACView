@@ -362,20 +362,21 @@ BOOL CSQIObjectView::DeleteObject( CObjectBase * pCObjectBase ) {
 //
 ///////////////////////////////////////////////////////////////////////////
 BOOL CSQIObjectView::IsInRect( POINT const pt, CObjectBase* & pcobj ) {
-  CDC * pdc = GetDC();
 
+  if (m_pCObjectListCurrent->size() == 0) {
+    pcobj = nullptr;
+    return(false);
+  }
   CObjectBase* pc;
   auto it = m_pCObjectListCurrent->end(); // Tail position is the top most
   
   do {                            
     pc = *--it;
-    if ( pc->InIt( pdc, pt, -1 ) ) {
+    if ( pc->InIt(pt, -1) ) {
       pcobj = pc;
-      ReleaseDC(pdc);
       return ( true );
     }
   } while (it != m_pCObjectListCurrent->begin());
-  ReleaseDC( pdc );    
   pcobj = nullptr;
   return ( false );
 }            

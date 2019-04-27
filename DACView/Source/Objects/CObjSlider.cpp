@@ -133,7 +133,7 @@ bool CObjectSlider::ExectiveDynLink( ) {
   return( TRUE );
 }
 
-bool CObjectSlider::InIt( CDC * const, POINT const pt, int iStatus ) {
+bool CObjectSlider::InIt(POINT const pt, int iStatus) {
   CRect rectArea = m_rectArea, rectSlider = m_rectSlider;
   CPoint ptOffsetBase = GetOffset(), pt0(0,0);
 

@@ -186,7 +186,7 @@ bool CObjectKnob::ExectiveDynLink( void ) {
   return( TRUE );
 }
 
-bool CObjectKnob::InIt( CDC * const, POINT const pt, int iStatus ) {
+bool CObjectKnob::InIt( POINT const pt, int iStatus ) {
   bool fInIt;
   CRect rectArea = m_rectArea;
   CPoint ptOffsetBase = GetOffset(), pt0(0,0);

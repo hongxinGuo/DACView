@@ -123,7 +123,7 @@ void CObjectLine::Serialize( CArchive& ar ) {
   }
 }
 
-bool CObjectLine::InIt( CDC * const , POINT const pt, int ) { 
+bool CObjectLine::InIt( POINT const pt, int ) { 
   CRect rectTemp;
   double a, b, d;
   CRect rect;

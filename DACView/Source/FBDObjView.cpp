@@ -288,7 +288,7 @@ BOOL CFBDObjView::IsInRect( POINT const pt, CObjectBase* & pcobj ) {
   do {            
     it--;
     pc = *it;
-    if ( pc->InIt( pdc, pt, -1 ) ) {
+    if ( pc->InIt(pt, -1) ) {
       pcobj = pc;
       return ( TRUE );
     }
@@ -449,7 +449,7 @@ void CFBDObjView::OnLButtonDown(UINT nFlags, CPoint point)
   i = 0;
   while ( (!fFind) && (it != m_pCObjectListCurrent->begin()) ) {
     pc = *--it;
-    if ( pc->InIt( pdc, ptDevice, 1 ) ) {
+    if ( pc->InIt(ptDevice, 1) ) {
       m_pCObjectCurrent = pc;
       fFind = TRUE;
       m_nCurrentFunction = TRACE_MOUSE_MOVE;
@@ -497,7 +497,7 @@ void CFBDObjView::OnMouseMove(UINT nFlags, CPoint point)
     i = 0;
     while ( (!fFind) && (it != m_pCObjectListCurrent->begin()) ) {
       pc = *--it;
-      pc->InIt( pdc, ptDevice, 0 );
+      pc->InIt(ptDevice, 0);
     }    
     ReleaseDC( pdc );
   
@@ -541,7 +541,7 @@ void CFBDObjView::OnLButtonUp(UINT nFlags, CPoint point)
   }
   while ( (!fFind) && (it != m_pCObjectListCurrent->begin()) ) {
     pc = *--it;
-    if ( pc->InIt( pdc, ptDevice, 2 ) ) {
+    if ( pc->InIt(ptDevice, 2) ) {
       m_pCObjectCurrent = pc;
       fFind = TRUE;
       m_nCurrentFunction = SELECTED;

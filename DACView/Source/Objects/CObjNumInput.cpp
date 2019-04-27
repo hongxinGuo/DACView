@@ -156,7 +156,7 @@ bool CObjectNumberInput::ExectiveDynLink( void ) {
   return( TRUE ); 
 }
         
-bool CObjectNumberInput::InIt( CDC * const , POINT const pt, int iStatus ) {
+bool CObjectNumberInput::InIt(POINT const pt, int iStatus) {
   CRect rectArea = m_rectArea;
   CPoint ptOffsetBase = GetOffset();
 

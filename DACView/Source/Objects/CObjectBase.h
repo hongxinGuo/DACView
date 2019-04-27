@@ -84,7 +84,7 @@ public:
 
   virtual CPoint    GetOffset( void );
 
-	virtual bool      InIt( CDC * const pdc, POINT const pt, int iStatus );
+	virtual bool      InIt(POINT const pt, int iStatus);
   virtual bool      ProcessChar( UINT nChar, CPoint& pt );
 	virtual void      ToShowDynamic( CDC * const pdc);		// draw myself on memory DC 
 	virtual void      ToShowStatic( CDC * const pdc, CPoint ptScrollPosition);		// draw myself on DC 

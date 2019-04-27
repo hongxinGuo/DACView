@@ -48,13 +48,13 @@ namespace DACViewTest {
     cAnd.SetBool(1, true);
     cButton.ExectiveDynLink();
     EXPECT_FALSE(cAnd.GetBool(1));
-    cButton.InIt(&DC, pt, 1); // begin track
-    cButton.InIt(&DC, pt, 2); // set
+    cButton.InIt(pt, 1); // begin track
+    cButton.InIt(pt, 2); // set
     cButton.ExectiveDynLink();
     EXPECT_TRUE(cAnd.GetBool(1));
     // 再次按下，即状态改变
-    cButton.InIt(&DC, pt, 1); // begin track
-    cButton.InIt(&DC, pt, 2); // set
+    cButton.InIt(pt, 1); // begin track
+    cButton.InIt(pt, 2); // set
     cButton.ExectiveDynLink();
     EXPECT_FALSE(cAnd.GetBool(1));
   }
