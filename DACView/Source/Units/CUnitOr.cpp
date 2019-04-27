@@ -1,5 +1,7 @@
 #include "stdafx.h"    
 
+#include"globedef.h"
+
 #include "..\\resource.h"
 #include "CUnitBase.h"
 #include "cUnitOr.h" 
@@ -7,7 +9,7 @@
 
 #include "typedef.h"
 
-IMPLEMENT_SERIAL(CUnitOr, CUnitBase, 1 | VERSIONABLE_SCHEMA); 
+IMPLEMENT_SERIAL(CUnitOr, CUnitBase, 2 | VERSIONABLE_SCHEMA); 
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,6 +35,8 @@ const ULONG CUnitOr::sm_ulDoubleEnd = 0;
 const ULONG CUnitOr::sm_ulBoolEnd = 5;
 const ULONG CUnitOr::sm_ulWordEnd   = 6;
 const ULONG CUnitOr::sm_ulStringEnd = 6;
+
+int         CUnitOr::sm_iVersion = 2;
 
 ////////////////////////////////////////////////////////////////////////////////                                          
                   
@@ -83,9 +87,22 @@ void CUnitOr::Serialize( CArchive& ar ) {
     ar << (INT64)m_fEnableAlarm << (INT64)m_fAlarmHigh;
   }
   else {
-    ar >> a >> b;
-    m_fEnableAlarm = (bool)a;
-    m_fAlarmHigh = (bool)b;
+    int iVersion = ar.GetObjectSchema();
+    if (iVersion != -1) sm_iVersion = iVersion;
+    switch (sm_iVersion) {
+    case 1:
+      ar >> a >> b;
+      m_fEnableAlarm = (bool)a;
+      m_fAlarmHigh = (bool)b;
+      break;
+    case 2:
+      ar >> a >> b;
+      m_fEnableAlarm = (bool)a;
+      m_fAlarmHigh = (bool)b;
+      break;
+    default:
+      break;
+    }
   }
 } 
 

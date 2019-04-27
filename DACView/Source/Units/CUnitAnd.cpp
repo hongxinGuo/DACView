@@ -1,4 +1,6 @@
-#include "stdafx.h"    
+#include "stdafx.h"   
+
+#include"globedef.h"
 
 #include "..\\resource.h"
 #include "CUnitBase.h"
@@ -35,6 +37,8 @@ const ULONG CUnitAnd::sm_ulDoubleEnd = 0;
 const ULONG CUnitAnd::sm_ulBoolEnd = 5;
 const ULONG CUnitAnd::sm_ulWordEnd   = 6;
 const ULONG CUnitAnd::sm_ulStringEnd = 6;
+
+int         CUnitAnd::sm_iVersion = 1;
 
 ////////////////////////////////////////////////////////////////////////////////                                          
                   
@@ -83,9 +87,22 @@ void CUnitAnd::Serialize( CArchive& ar ) {
     ar << (INT64)m_fEnableAlarm << (INT64)m_fAlarmHigh;
   }
   else {
-    ar >> a >> b;
-    m_fEnableAlarm = (bool)a;
-    m_fAlarmHigh = (bool)b;
+    int iVersion = ar.GetObjectSchema();
+    if (iVersion != -1) sm_iVersion = iVersion;
+    switch (sm_iVersion) {
+    case 1:
+      ar >> a >> b;
+      m_fEnableAlarm = (bool)a;
+      m_fAlarmHigh = (bool)b;
+      break;
+    case 2:
+      ar >> a >> b;
+      m_fEnableAlarm = (bool)a;
+      m_fAlarmHigh = (bool)b;
+      break;
+    default:
+      break;
+    }
   }
 } 
 

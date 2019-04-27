@@ -342,6 +342,7 @@ void CSQIFileDoc::Serialize(CArchive& ar)
       ar << pcUnit;
     } 
 
+    iTotal = m_CObjectList.size();
     ar << strViewFile << m_nCurrentObjNumber << iTotal;
     for (const auto pcobj : m_CObjectList) { 
       ar << pcobj;

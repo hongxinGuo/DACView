@@ -58,6 +58,10 @@ private :
 	static const ULONG    sm_ulStringEnd;
   
 	static INT32 					sm_aulSuitable[7];
+
+  // °æ±¾
+  static int            sm_iVersion;
+
 protected :
 // Serialized Data
 	bool m_fEnableAlarm;
