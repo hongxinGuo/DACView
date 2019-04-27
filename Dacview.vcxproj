@@ -83,7 +83,7 @@
     <IncludePath>$(SolutionDir)\DACView\Source;$(SolutionDir)\DACView\Source\Objects;$(SolutionDir)\DACView\Source\Units;$(SolutionDir)\DACView;$(SolutionDir)\DACView\UnitTest;$(IncludePath)</IncludePath>
     <OutDir>.\x64\Debug\</OutDir>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
     </Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
@@ -160,7 +160,7 @@
       <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
       <OpenMPSupport>false</OpenMPSupport>
       <BrowseInformation>false</BrowseInformation>
       <AdditionalIncludeDirectories>$(GTestDir)/include;%(AdditionalIncludeDirectories);/include</AdditionalIncludeDirectories>
@@ -190,6 +190,7 @@
       <StackReserveSize>1166112</StackReserveSize>
       <SubSystem>Windows</SubSystem>
       <GenerateMapFile>true</GenerateMapFile>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
