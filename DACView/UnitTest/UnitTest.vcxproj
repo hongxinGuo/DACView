@@ -42,6 +42,7 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="TestCObejctBase.cpp" />
     <ClCompile Include="TestCObjButton.cpp" />
     <ClCompile Include="TestCObjComponent.cpp" />

@@ -129,6 +129,9 @@
     <ClCompile Include="TestCObjectRect.cpp">
       <Filter>Test源文件\Object</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Test源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

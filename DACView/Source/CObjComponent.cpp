@@ -197,8 +197,8 @@ void CObjectComponent::ToShowDynamic( CDC * const pdc ) {
 		pdc->SelectObject( pcb );
 		pdc->SelectObject( pcp ); 
 	}
-	m_fDrawAll = FALSE;
-  m_fNeedUpdate = FALSE;
+	m_fDrawAll = false;
+  m_fNeedUpdate = false;
 }
 
 bool CObjectComponent::ExectiveDynLink( ) {
@@ -242,7 +242,7 @@ bool CObjectComponent::SetProperty( void ) {
 	  }
     return(false);
   }
-  return( FALSE );
+  return(false);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -252,5 +252,5 @@ bool CObjectComponent::SetProperty( void ) {
 //
 //////////////////////////////////////////////////////////////////////////
 bool CObjectComponent::CanInSymbol( void ) {
-  return( FALSE );
+  return(false);
 }
