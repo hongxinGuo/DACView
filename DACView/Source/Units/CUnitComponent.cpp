@@ -1818,6 +1818,8 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
 //
 // Encapsulation() 部件封装自身
 //
+// 参数：
+//    CUnitList &listTotalUnit  此次编译的所有单元的总和。
 //
 // 返回值:
 //		bool : 如果成功为真, 否则为假.
@@ -1826,6 +1828,77 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
 //    单独编译自己的单元序列.将链接入和链接出的动态链接提到此部件的参数上来，然后禁止外界看进去。
 //    封装有两种情况：一是编译整体文件时发生封装部件的动作，此时部件内部单元已经被编译过了；
 //                  二是单独执行封装部件动作，此时其内部单元没有编译（此功能目前未实现）。
+//
+// 重要：   
+//    封装部件的动作，必须发生在部件编译之前。
+// 动作：
+// 1.每个单元都调用Encapsulation，先把下层的部件封装起来。
+// 2.找到联入和联出本部件的动态链接，都链接到部件的参数数组上去
+// 3.部件的联出联入方向，与从外部看的方向相同。
+//   即从外部看是输出型，则此参数为输出型参数。这样封装后的部件即视同为一简单单元，其行为与简单单元相类似。
+// 4.检查是否存在参数之间的内部数据链接（即通过内部单元序列的动态链接，导致两个参数有数据链接），如不存在则设置本部件的截断标志。
+//
+////////////////////////////////////////////////////////////////////
+bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
+  if (m_fEncapsulated) { // 已经封装了则返回
+    return(true);
+  }
+  ASSERT(!m_fCompiled); // 部件本身必须没有被编译过。
+
+  if (m_fEncapsulationPermitted) { // 如果是可封装部件
+    // 封装下层部件（如果有的话）	
+    EncapsulateBelowComponent(listTotalUnit);
+
+    // 检查部件状态是否正确
+    CheckComponentSelf();
+
+    // 将部件参数中输出型的在内部源单元处建立一个新的动态链接，目的单元为本部件。
+    // 此步骤要先于处理联入联出的过程执行。
+    CreateNewDynLinkFromInterfaceOutputTypePara();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 处理接口参数，将内部联出的和外部联入的动态链接连接到部件参数中
+
+    // 寻找是否存在联入本部件的动态链接
+    HandleTheDynLinkedInComponent(listTotalUnit);
+
+    // 寻找是否存在联出本部件的动态链接。
+    // 在本部件中生成一个新的动态链接，将联出的动态链接赋予此新的动态链接，其源单元改为本部件，
+    // 并将内部源单元的目的单元设置为本部件，重置部件参数中的目的单元指针和目的参数索引。
+    HandleTheDynLinkedfromComponent();
+
+    // 寻找是否内部两参数之间有数据链接，并相应设置部件本身的截断标志.此时尚未设置封装标志
+    // 这个函数调用必须是最后一步，否则内部动态链接尚未设置好，结果不对。
+    SetInnerDataLinkFlag();
+
+    m_fEncapsulated = true; // 最后设置封装标志
+  }
+  else { // 不可封装部件，则只封装其下层部件。不能生成运行时单元序列，其内部单元序列要加入其上层的部件（或者就是总体文件）的单元序列中。
+    // 封装下层部件（如果有的话）	
+    EncapsulateBelowComponent(listTotalUnit);
+
+    // 检查部件状态是否正确
+    CheckComponentSelf();
+    ASSERT(m_fEncapsulated == false);
+  }
+  return (true);
+}
+
+////////////////////////////////////////////////////////////////////
+//
+// Encapsulation() 部件封装自身
+//
+// 以下动作有错误，封装部件位于编译之后，导致封装后的部件本身的执行优先级需要重新确认，此函数需要重新修改。
+// 将此函数改名为EncapsulutionOld1(),保留之，用于对比。
+//
+// 返回值:
+//		bool : 如果成功为真, 否则为假.
+//
+// 描述:
+//    单独编译自己的单元序列.将链接入和链接出的动态链接提到此部件的参数上来，然后禁止外界看进去。
+//    封装有两种情况：一是编译整体文件时发生封装部件的动作，此时部件内部单元已经被编译过了；
+//                  二是单独执行封装部件动作，此时其内部单元没有编译（此功能目前未实现）。
+//
 // 重要：   
 //    不允许单独编译部件本身，因为此时部件内的单元序列可能存在联入联出的动态链接，结果导致无法确定执行优先级。
 //    今后只允许一种封装情况：编译整个文件，同时封装部件本身。
@@ -1840,10 +1913,10 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
 // 7.检查是否存在参数之间的内部数据链接（即通过内部单元序列的动态链接，导致两个参数有数据链接）。
 //
 ////////////////////////////////////////////////////////////////////
-bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
-	if (m_fEncapsulated) { // 已经封装了则返回
-		return(true);
-	}
+bool CUnitComponent::EncapsulationOld1(CUnitList & listTotalUnit) {
+  if (m_fEncapsulated) { // 已经封装了则返回
+    return(true);
+  }
   ASSERT(m_fCompiled); // 部件本身必须已经被编译过了。
 
   if (m_fEncapsulationPermitted) { // 如果是可封装部件
@@ -1890,7 +1963,7 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
     ASSERT(m_fCompiled);
     ASSERT(m_fEncapsulated == false);
   }
-  return ( true );
+  return (true);
 }
 
 ///////////////////////////////////////////////////////////////////////

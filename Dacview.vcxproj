@@ -473,7 +473,7 @@
     <ClCompile Include="DACView\Source\CObjComponent.cpp" />
     <ClCompile Include="DACView\Source\CObjDynLink.cpp" />
     <ClCompile Include="DACView\Source\CObjectPrimitive.cpp" />
-    <ClCompile Include="DACView\Source\CompileUnitList.cpp" />
+    <ClCompile Include="DACView\Source\ComplieUnitList.cpp" />
     <ClCompile Include="DACView\Source\CUnitDictionary.cpp" />
     <ClCompile Include="DACView\Source\CUnitDynLink.cpp" />
     <ClCompile Include="DACView\Source\Dacview.cpp" />

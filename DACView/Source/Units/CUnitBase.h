@@ -107,8 +107,9 @@ public:
   // 重置编译标志.
 	virtual void			ResetCompileFlag( void );
 
-	// 编译自己, 被部件使用,其他单元为空
-	virtual bool			Encapsulation( CUnitList & listTotalUnit );
+  // 编译自己, 被部件使用,其他单元为空
+  virtual bool			Encapsulation(CUnitList & listTotalUnit);	// 编译自己, 被部件使用,其他单元为空
+  virtual bool			EncapsulationOld1(CUnitList & listTotalUnit); // 此函数不再使用，保留之，作为对比。
 	// 封装与否？
 	virtual bool			IsEncapsulated(void);
 

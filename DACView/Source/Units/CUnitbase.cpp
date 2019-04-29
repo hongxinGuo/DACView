@@ -1033,8 +1033,12 @@ bool CUnitBase::CheckSelf( void ) {
 }
 
 bool CUnitBase::Encapsulation(CUnitList &) {
-	// do nothing, use for CUnitComponent
-	return( true );
+  // do nothing, use for CUnitComponent
+  return(true);
+}
+bool CUnitBase::EncapsulationOld1(CUnitList &) {
+  // do nothing, use for CUnitComponent
+  return(true);
 }
 
 ////////////////////////////////////////////////////////////////////

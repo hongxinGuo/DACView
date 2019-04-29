@@ -493,9 +493,6 @@
     <ClInclude Include="DACView\Source\CObjectPrimitive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\CompileUnitList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\CUnitDictionary.H">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -573,6 +570,9 @@
     </ClInclude>
     <ClInclude Include="DACView\Source\Objects\CObjectRect.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\CompileUnitList.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -834,9 +834,6 @@
     <ClCompile Include="DACView\Source\CObjectPrimitive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\CompileUnitList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\CUnitDictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -914,6 +911,9 @@
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\CObjectRect.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\ComplieUnitList.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

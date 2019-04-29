@@ -167,6 +167,8 @@ public:
   bool							SetParaDestIndex(LONG ulDestIndex, LONG ulValue);
 
   virtual bool			Encapsulation(CUnitList & listTotalUnit) override;
+  virtual bool			EncapsulationOld1(CUnitList & listTotalUnit) override; // 保留之，做为对比
+
   virtual bool			IsEncapsulated(void) override;
   virtual bool			IsEncapsulable(void)  override { return m_fEncapsulationPermitted; }
   

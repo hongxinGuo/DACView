@@ -1,13 +1,14 @@
 #include "stdafx.h"
 
-#include"CompileUnitList.h"
+#include "globeDef.h"
+
+#include"CompileUnitListOld1.h"
 
 #include "cUnitComponent.h"
 
 #include "CUnitDynLink.h"
 
 #include "..\\resource.h"
-#include "globeDef.h"
 
 #include"SQIFileDoc.h"
 
@@ -301,7 +302,7 @@ bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
   return(true);
 }
 
-void ReSetCompileFlag(CUnitList * pUnitList)
+void ReSetCompileFlagOld1(CUnitList * pUnitList)
 {
   // 重置编译标志。这步现在要做，以防止出现可能的误存储。
   for (const auto pcUnit : *pUnitList) {
@@ -314,7 +315,7 @@ void ReSetCompileFlag(CUnitList * pUnitList)
 // 清除单元序列中残存的旧标志，然后设置正确的内部状态以备编译。
 //
 ///////////////////////////////////////////////////////////////////////////////
-void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
+void SetParaLockFlagOld1(CUnitList * pUnitList, CObjectList * pObjectList) {
   // set unit select parameter
   for (const auto pcUnit : *pUnitList) {
     pcUnit->SetParaLockFlag();
@@ -327,7 +328,7 @@ void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
 
 ////////////////////////////////////////////////////////////////////////
 //
-// CompileUnitList()
+// CompileUnitListOld1(). 此函数不再使用，3保留作为对比。
 //
 // Parameter : 
 //				CUnitList * pUnitList;  传入的单元序列
@@ -339,35 +340,42 @@ void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
 //
 // Description :
 //   这个函数是生成运行时态单元序列.在此之前，设置了输入参数个数，清除了编译标志和执行优先级
+// 
+// 采用先编译后封装的办法，发现有时会导致优先级出现错误，具体情况就是当编译可被封装的部件时，
+// 部件的优先级是在编译单元序列的最后才确认的，结果被测试函数发现错误。
+// 办法：
+// 将编译过程修改为先封装后编译。封装动作完成数据隔离的功能，各层之间只通过部件的参数发生数据联系；这样每个部件的编译过程都是一样的，
+// 因为结构相同。不可封装的部件在编译时与上层单元序列一起编译。
+// 
 //    
 ////////////////////////////////////////////////////////////////////////
-bool CompileUnitList( CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
-	CUnitList unitlist, rtUnitList;
+bool CompileUnitListOld1(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
+  CUnitList unitlist, rtUnitList;
 
-	TRACE("Compile unit list\n");
+  TRACE("Compile unit list\n");
 
   // 在此之前，单元已经清除编译标志和执行优先级，设置了输入参数个数
   // 将所有的单元(包括部件本身）组成一个单独的单元序列. 此时部件尚未进行下层部件的封装，故而下层部件内的单元也添加进此单元序列中。这是为了测试是否有循环存在
-  CreateUniUnitList(pUnitList, unitlist);
+  CreateUniUnitListOld1(pUnitList, unitlist);
 
   // 检测是否有循环形成
-	if (UnitListLoopDetect(&unitlist)) return(FALSE); 
+  if (UnitListLoopDetect(&unitlist)) return(FALSE);
 
-	// 设置没有源单元的单元(输入参数连接的单元)的处理优先值为1(最先处理).
-  SetNoSrcUnitExectivePriority(&unitlist);
+  // 设置没有源单元的单元(输入参数连接的单元)的处理优先值为1(最先处理).
+  SetNoSrcUnitExectivePriorityOld1(&unitlist);
 
   // 开始编译
-  ExectiveCompilation(unitlist, &rtUnitList);
-	
+  ExectiveCompilationOld1(unitlist, &rtUnitList);
+
   // 封装本单元序列中的部件.此时部件内的单元序列已经被编译了
-  EncapsulateUnitlist(pUnitList, unitlist);
- 
+  EncapsulateUnitlistOld1(pUnitList, unitlist);
+
   // 以下两个只是检查而已。
   // 简单检测本层的单元序列（不包括部件）都设置了执行优先级
-  CheckUnitListCompiledStatus(pUnitList);
+  CheckUnitListCompiledStatusOld1(pUnitList);
 
   // 简单检测运行时单元序列（除部件外）都设置了执行优先级
-  CheckRunTimeUnitListCompiledStatus(&rtUnitList);
+  CheckRunTimeUnitListCompiledStatusOld1(&rtUnitList);
 
   // 此时单元序列pUnitList已经编译了，故而可封装的部件已经封装，不再将内部单元序列加入运行时单元序列.
   // 不可封装的部件仍然将内部单元序列加入unitlist中。
@@ -387,6 +395,6 @@ bool CompileUnitList( CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 
   unitlist.clear();
   rtUnitList.clear();
-	return (true);
+  return (true);
 }
 
