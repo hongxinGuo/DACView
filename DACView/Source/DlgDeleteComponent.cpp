@@ -115,7 +115,7 @@ void CDlgDeleteComponentPara::OnOK()
       m_pCUCP[i]->SetSrcIndex(-1);
       m_pCUCP[i]->SetDestIndex(-1);
       m_pCUCP[i]->SetLinkedFlag(false);
-      itoa(i, buffer, 10);
+      _itoa_s(i, buffer, 10);
       strName = "Para";
       strName += buffer;
       m_pCUCP[i]->SetName(strName); // ÖØÖÃÃû³Æ
@@ -167,7 +167,7 @@ void CDlgDeleteComponentPara::UpdateListBox( ) {
 	SendDlgItemMessage(IDC_LIST_COMPONENT_DEL, LB_RESETCONTENT, (WPARAM)0L, (LPARAM)0L);
 	for ( i = 0; i < 16; i++ ) {
 		if ( m_pCUCP[i]->GetSrcUnit() != nullptr ) {
-      _itoa(i, buffer, 10);
+      _itoa_s(i, buffer, 10);
 			str = m_pCUCP[i]->GetSrcUnit()->GetName() + '.';
 			str = str + m_pCUCP[i]->GetSrcUnit()->GetParaName( m_pCUCP[i]->GetSrcIndex() ) + " -> " "Para" + buffer;
 			if ( m_fDeleted[i] ) {
@@ -179,7 +179,7 @@ void CDlgDeleteComponentPara::UpdateListBox( ) {
 	}
   for (i = 0; i < 16; i++) {
     if (m_pCUCP[i]->GetDestUnit() != nullptr) {
-      _itoa(i, buffer, 10);
+      _itoa_s(i, buffer, 10);
       str = "Para";
       str += buffer;
       str = str + " -> " + m_pCUCP[i]->GetDestUnit()->GetName() + '.';

@@ -755,7 +755,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 					char s[10];
 
           pDoc->SetObjNumber(pDoc->GetObjNumber() + 1);
-					_itoa(pDoc->GetObjNumber(), s, 10);
+					_itoa_s(pDoc->GetObjNumber(), s, 10);
 					strTemp = "_";
 					strTemp += s;
 					switch (gl_ulDrawTool) {
@@ -1081,7 +1081,7 @@ void CSQIObjectView::OnArrangeMakesymbol()
   pDC = GetDC();
 	pDoc->SetModifiedFlag( TRUE ); // document's content is changed
   strTemp = "CObject_";
-  _itoa(m_nCurrentObjNumber++, s, 10);
+  _itoa_s(m_nCurrentObjNumber++, s, 10);
   strTemp += s;
   m_rectCurrent.SetRectEmpty();
   m_pCObjectCurrent = new CObjectSymbol(strTemp, m_rectCurrent) ;                              

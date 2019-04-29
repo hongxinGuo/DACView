@@ -127,7 +127,7 @@ void CDlgSetNumberInputProperty::OnButtonChooseFont()
 	LOGFONT lf;
   CHOOSEFONT cf;
 
-  strcpy(lf.lfFaceName, (LPCTSTR)m_strFontName);
+  strcpy_s(lf.lfFaceName, (LPCTSTR)m_strFontName);
   lf.lfHeight = m_lHeight;
   lf.lfWidth = 0;
   if ( m_fBold ) lf.lfWeight = 700;

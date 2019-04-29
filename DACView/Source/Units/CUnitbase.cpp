@@ -500,7 +500,7 @@ bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
   bool fDone = false;
   if ( fFind ) {
     while ( !fDone ) {
-      _itoa(iTemp++, s, 10);
+      _itoa_s(iTemp++, s, 10);
       m_strName = GetClassNameStr() + s;
       fDone = true;
       for (const auto pcunit : listUnit) {

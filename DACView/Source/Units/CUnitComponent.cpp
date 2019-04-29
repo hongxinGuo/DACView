@@ -75,7 +75,7 @@ CUnitComponent::CUnitComponent(const CString& Name, CPoint pt, bool fEncapsualti
 	for ( int i = 0; i < 16; i++ ) {
 		m_aulSuitable[i] = false;
 	  m_pInterfacePara[i] = new CUCPara;
-    _itoa(i, buffer, 10);
+    _itoa_s(i, buffer, 10);
     m_pInterfacePara[i]->SetName(strName + buffer);
 	}
 
@@ -98,7 +98,7 @@ CUnitComponent::CUnitComponent(bool fEncapsualtionPermitted) : CUnitBase() {
 	for (int i = 0; i < 16; i++) {
 		m_aulSuitable[i] = false;
 	  m_pInterfacePara[i] = new CUCPara;
-    _itoa(i, buffer, 10);
+    _itoa_s(i, buffer, 10);
     m_pInterfacePara[i]->SetName(strName + buffer);
 	}
   m_lReserved11 = m_lReserved12 = 0;
@@ -121,7 +121,7 @@ CUnitComponent::CUnitComponent( void ) : CUnitBase() {
 	for ( int i = 0; i < 16; i++ ) {
 		m_aulSuitable[i] = false;
 	  m_pInterfacePara[i] = new CUCPara;
-    _itoa(i, buffer, 10);
+    _itoa_s(i, buffer, 10);
     m_pInterfacePara[i]->SetName(strName + buffer);
 	}
   m_lReserved11 = m_lReserved12 = 0;
@@ -804,7 +804,7 @@ bool CUnitComponent::CreateUniName( CUnitList& listTotalUnit ) {
     bool fDone = false;
     if (fFind) {
       while (!fDone) {
-        _itoa(iTemp++, s, 10);
+        _itoa_s(iTemp++, s, 10);
         m_strName += s;
         fDone = true;
         for (const auto pcunit : listTotalUnit) {

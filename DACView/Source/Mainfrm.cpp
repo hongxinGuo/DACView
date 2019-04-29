@@ -436,7 +436,7 @@ void CMainFrame::SetMousePosition(CPoint pt)
   // TODO: Add your message handler code here and/or call default
   char  strTemp[11];                          
   
-  sprintf(strTemp, "%04d, %04d", pt.x, pt.y);
+  sprintf_s(strTemp, "%04d, %04d", pt.x, pt.y);
   m_wndStatusBar.SetPaneText(1, strTemp);
 }                                                        
                                         
@@ -453,15 +453,15 @@ void CMainFrame::ShowDlgMessage( UINT uID, va_list ap ) {
   
   ASSERT( (uID >= 1000) && (uID < 10000) );
   VERIFY(strFormat.LoadString( uID ));
-  vsprintf( strTemp1, (LPCTSTR)strFormat, ap );
+  vsprintf_s( strTemp1, (LPCTSTR)strFormat, ap );
   if ( uID < 5000 ) {
-    sprintf( strTemp2, "Error %d :", uID);
+    sprintf_s( strTemp2, "Error %d :", uID);
   }
   else if ( uID < 8000 ) {
-    sprintf( strTemp2, "Warning %d :", uID);
+    sprintf_s( strTemp2, "Warning %d :", uID);
   }
   else {
-    sprintf( strTemp2, "Message %d :", uID);
+    sprintf_s( strTemp2, "Message %d :", uID);
   }
   str = strTemp2;
   str += strTemp1;
@@ -480,7 +480,7 @@ void CMainFrame::SetObjectRect( CObjectBase * pobj ) {
   static char str[20];
   
   rect = pobj->GetSize();
-  sprintf(str, "%03d,%03d %03dx%03d", rect.left, rect.top, rect.Width(), rect.Height());
+  sprintf_s(str, "%03d,%03d %03dx%03d", rect.left, rect.top, rect.Width(), rect.Height());
   strNumber.Empty();
   strNumber += str;
   m_wndStatusBar.SetPaneText(2, strNumber);
@@ -684,12 +684,12 @@ void CMainFrame::OnUpdateTime(CCmdUI* pCmdUI)
     int iTemp;
     iTemp = gl_ulRealTimeProcessTime / 600;
     iTimeMinute = time.GetMinute();
-    sprintf(str, "%3u%%", iTemp);
+    sprintf_s(str, "%3u%%", iTemp);
     if ( iTemp > 50 ) ShowMessage(ID_WARN_REALTIME_SYSTEM_OVERFLOW);
     m_wndStatusBar.SetPaneText( 3, str );
     
     iTemp = (gl_ulSystemProcessTime + gl_ulRealTimeProcessTime) / 600;
-    sprintf(str, "%3u%%", iTemp);
+    sprintf_s(str, "%3u%%", iTemp);
     if ( iTemp > 100 ) ShowMessage(ID_WARN_SYSTEM_OVERFLOW);
     m_wndStatusBar.SetPaneText( 4, str );
     gl_ulRealTimeProcessTime = 0;

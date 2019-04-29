@@ -1346,7 +1346,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
     __ClipCursor(NULL);
     __ReleaseCapture();
     // strTemp = "_"; // 名字中不再带下划线了
-    _itoa(m_pDoc->GetUnitNumber() + 1, s, 10);
+    _itoa_s(m_pDoc->GetUnitNumber() + 1, s, 10);
     m_pDoc->SetUnitNumber(m_pDoc->GetUnitNumber() + 1);
     strTemp += s;
     switch (gl_ulUnitLibrary) {

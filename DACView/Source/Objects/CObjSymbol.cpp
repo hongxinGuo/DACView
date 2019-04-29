@@ -343,7 +343,7 @@ void CObjectSymbol::AdjustInnerSize( void ) {
 }
 
 bool CObjectSymbol::DumpCurrentStatus( char * pch ) const {
-  sprintf(pch, "%s:  ", m_strName );
+  sprintf_s(pch, 50, "%s:  ", m_strName );
 #ifdef _DEBUG
   Dump( afxDump );
 #endif

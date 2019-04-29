@@ -29,14 +29,14 @@ static char THIS_FILE[] = __FILE__;
 		EXPECT_EQ(rect.right, 100 + 40);
     EXPECT_TRUE(c.IsEncapsulable()) << "可被编译部件";
     for (int i = 0; i < 16; i++) {
-      _itoa(i, buffer, 10);
+      _itoa_s(i, buffer, 10);
       EXPECT_STREQ(str + buffer, c.GetParaName(i));
     }
 
     CUnitComponent c1("UnitComponent", pt, false); // 不可被编译部件
     EXPECT_FALSE(c1.IsEncapsulable()) << "不可被编译部件";
     for (int i = 0; i < 16; i++) {
-      _itoa(i, buffer, 10);
+      _itoa_s(i, buffer, 10);
       EXPECT_STREQ(str + buffer, c.GetParaName(i));
     }
 		CUnitComponent c3; // 默认为可被编译部件
@@ -48,21 +48,21 @@ static char THIS_FILE[] = __FILE__;
 		EXPECT_EQ(rect2.right, 0);
     EXPECT_TRUE(c3.IsEncapsulable()) << "可被编译部件";
     for (int i = 0; i < 16; i++) {
-      _itoa(i, buffer, 10);
+      _itoa_s(i, buffer, 10);
       EXPECT_STREQ(str + buffer, c.GetParaName(i));
     }
 
     CUnitComponent c4(true); //可被编译部件
     EXPECT_TRUE(c4.IsEncapsulable()) << "可被编译部件";
     for (int i = 0; i < 16; i++) {
-      _itoa(i, buffer, 10);
+      _itoa_s(i, buffer, 10);
       EXPECT_STREQ(str + buffer, c.GetParaName(i));
     }
 
     CUnitComponent c5(false); //不可被编译部件
     EXPECT_FALSE(c5.IsEncapsulable()) << "不可被编译部件";
     for (int i = 0; i < 16; i++) {
-      _itoa(i, buffer, 10);
+      _itoa_s(i, buffer, 10);
       EXPECT_STREQ(str + buffer, c.GetParaName(i));
     }
 	}
@@ -85,7 +85,7 @@ static char THIS_FILE[] = __FILE__;
 		str2 = "Para";
 
 		for (int i = 0; i < 16; i++) {
-			_itoa(i, buffer2, 10);
+			_itoa_s(i, buffer2, 10);
 			pc->SetParaName(i, str2 + buffer2);
 			pc->SetParaSrcUnit(i, cp2); //
 			pc->SetParaType(i, tDOUBLE);

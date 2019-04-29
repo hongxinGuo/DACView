@@ -130,7 +130,7 @@ bool CObjRectBase::ExectiveDynLink( void ) {
   			  break;
     //////////////////////////////////////////////////////////////////////////////////////////
   		  case IDD_OUTPUT_STRING :
-  			  gcvt( eTemp, 8, str );
+  			  _gcvt( eTemp, 8, str );
   			  strTemp = str;
   			  fUpdate = SetString( ulObjectIndex, strTemp );
   			  break;
@@ -183,7 +183,7 @@ bool CObjRectBase::ExectiveDynLink( void ) {
     //////////////////////////////////////////////////////////////////////////////////////////
   		  case IDD_OUTPUT_STRING :
   			  lTemp = pcunit->GetInteger(ulUnitIndex);
-  			  _itoa( lTemp, str, 10 );
+  			  _itoa_s( lTemp, str, 10 );
   			  strTemp = str;
   			  fUpdate = SetString( ulObjectIndex, strTemp );
   			  break;
