@@ -48,6 +48,8 @@ using namespace std;
 #include "CUnitDynLink.h"
 #include"DlgComponent.h"
 
+#include"CompileUnitList.h"
+
 IMPLEMENT_SERIAL(CUnitComponent, CUnitBase, 1 | VERSIONABLE_SCHEMA);
 
 #ifdef _DEBUG
@@ -1576,10 +1578,9 @@ bool CUnitComponent::SetParaDestIndex(LONG lIndex, LONG lValue)
 bool CUnitComponent::EncapsulateBelowComponent(CUnitList & listTotalUnit) {
   // 封装下层部件（如果有的话）	
   for (const auto punit : m_CUnitList) {
-    if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-      ((CUnitComponent *)punit)->SetCompiledFlag(true);
-      ((CUnitComponent *)punit)->Encapsulation(listTotalUnit);
-    }
+    ASSERT(punit->IsEncapsulating());     // 
+    punit->Encapsulation(listTotalUnit);
+    punit->SetCompiledFlag(true);
   }
   return(true);
 }
@@ -1589,7 +1590,7 @@ bool CUnitComponent::CheckComponentSelf() {
   bool fGood = true;
   for (const auto punit : m_CUnitList) {
     if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-      ASSERT(((CUnitComponent *)punit)->GetExectivePriority() > 0); // 确保所有单元都被编译过了
+      ASSERT(((CUnitComponent *)punit)->GetExectivePriority() == 0); // 确保所有部件都尚未被编译
     }
     else { // 是下层部件
       if (punit->IsEncapsulable()) {
@@ -1629,8 +1630,8 @@ bool CUnitComponent::CreateRunTimeUnitList() {
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// 当部件参数中存在输出型链接时，在内部相应单元中生成一个新的动态链接。这是封装部件中
-// 的一个过程，
+// 当部件参数中存在输出型链接时，在内部相应单元中生成一个新的动态链接。
+// 这是封装部件中的一个过程，不能单独调用。
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -1666,8 +1667,8 @@ bool CUnitComponent::CreateNewDynLinkFromInterfaceOutputTypePara() {
 // 如果动态链接类型是UNIT_TO_COMPONENT，则源单元位于上层单元序列中；
 // 如果动态链接类型为COMPONENT_TO_COMPONENT,则源单元位于上层单元序列中的部件的内部单元序列中。
 // 
-// COMPONENT_TO_COMPONENT寻找的方法，是从传入的参数unitlist中，找到以本单元为目的单元的源单元，然后确认此源单元不位于本部件的单元序列中，
-// 就可以处理了。
+// COMPONENT_TO_COMPONENT寻找的方法，是从传入的参数unitTotalUist中，找到以本单元为目的单元的源单元，
+// 然后确认此源单元不位于本部件的单元序列中，就可以处理了。此动态链接必然是COMPONENT_TO_COMPONENT。
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////
 bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
@@ -1682,13 +1683,13 @@ bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
   int iPo = 16;
 
   ASSERT(m_lDynLinkToNumber == 0); // 封装前部件自身的联入动态链接为零
-  for (const auto pcunit : listTotalUnit) {
+  for (const auto pcunit : listTotalUnit) { // 在所有需编译的单元序列中寻找
     pDLList = pcunit->GetDynLinkList();
     for (const auto pDL : *pDLList) {
       switch (pDL->GetDynLinkClass()) {
       case COMPONENT_TO_COMPONENT: // 源单元位于上层单元序列中部件的内部单元序列      
       case UNIT_TO_COMPONENT: // 源单元位于上层单元序列中
-        if (find(m_CRunTimeUnitList.begin(), m_CRunTimeUnitList.end(), pDL->GetDestUnit()) != m_CRunTimeUnitList.end()) { // 找到了联入单元
+        if (find(m_CUnitList.begin(), m_CUnitList.end(), pDL->GetDestUnit()) != m_CUnitList.end()) { // 找到了联入单元
           if ((pDL->GetSrcUnit()->GetComponentUpper()) != this) { // 如果源单元不位于本部件内，则找到了
             iPo = FindNextAvailableParaPosition();
             ASSERT((iPo >= 0) && (iPo < 16));
@@ -1698,7 +1699,6 @@ bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
             this->SetParaDestUnit(iPo, pDL->GetDestUnit());
             this->SetParaDestIndex(iPo, pDL->GetDestIndex());
             this->SetParaSrcIndex(iPo, pDL->GetSrcIndex());
-            this->SetParaExectivePriority(iPo, (pDL->GetSrcUnit())->GetExectivePriority());
             this->SetParaType(iPo, pDL->GetDynLinkType() | tINPUT | tMODIFIABLE); // 此参数是输入型参数，链接方向为外部单元联入至部件内部的单元
             ASSERT((this->GetParaType(iPo) & tOUTPUT) == 0); // 不允许同时存在输出型标志
             this->SetParaLinkedFlag(iPo, true);
@@ -1780,7 +1780,6 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
         this->SetParaDestUnit(iPo, nullptr);  // 清除目的单元指针
         this->SetParaDestIndex(iPo, -1);      // 清除目的单元参数索引
         this->SetParaSrcIndex(iPo, pDL->GetSrcIndex());
-        this->SetParaExectivePriority(iPo, (pDL->GetSrcUnit())->GetExectivePriority());
         this->SetParaType(iPo, pDL->GetDynLinkType() | tOUTPUT | tMODIFIABLE); // 此参数是输出型参数，链接方向为从部件内部联出至部件外部
         ASSERT((this->GetParaType(iPo) & tINPUT) == 0); // 不允许同时存在输入型标志
         this->SetParaLinkedFlag(iPo, true);
@@ -1795,7 +1794,7 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
           pDLNew->SetDynLinkClass(UNIT_TO_UNIT); // 更改动态链接类型
         }
         else pDLNew->SetDynLinkClass(UNIT_TO_COMPONENT); // 更改动态链接类型
-        pDLNew->SetLinkPointList(pDL->GetLinkPointList());
+        pDLNew->SetLinkPointList(pDL->GetLinkPointList());  // 将动态链接线序列放到部件处
         this->m_listDynLink.push_back(pDLNew);
         pDL->GetLinkPointList()->clear();   // 不再用内部单元来显示链接线
         // 将原动态链接的目的单元设置为本部件，参数索引也改为相关的参数位置
@@ -1859,10 +1858,10 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     // 处理接口参数，将内部联出的和外部联入的动态链接连接到部件参数中
 
-    // 寻找是否存在联入本部件的动态链接
+    // 处理联入本部件的动态链接
     HandleTheDynLinkedInComponent(listTotalUnit);
 
-    // 寻找是否存在联出本部件的动态链接。
+    // 处理联出本部件的动态链接。
     // 在本部件中生成一个新的动态链接，将联出的动态链接赋予此新的动态链接，其源单元改为本部件，
     // 并将内部源单元的目的单元设置为本部件，重置部件参数中的目的单元指针和目的参数索引。
     HandleTheDynLinkedfromComponent();
@@ -1873,7 +1872,7 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
 
     m_fEncapsulated = true; // 最后设置封装标志
   }
-  else { // 不可封装部件，则只封装其下层部件。不能生成运行时单元序列，其内部单元序列要加入其上层的部件（或者就是总体文件）的单元序列中。
+  else { // 不可封装部件，则只封装其下层部件。其内部单元序列要加入其上层的部件（或者就是总体文件）的单元序列中。
     // 封装下层部件（如果有的话）	
     EncapsulateBelowComponent(listTotalUnit);
 
@@ -1884,86 +1883,33 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
   return (true);
 }
 
-////////////////////////////////////////////////////////////////////
-//
-// Encapsulation() 部件封装自身
-//
-// 以下动作有错误，封装部件位于编译之后，导致封装后的部件本身的执行优先级需要重新确认，此函数需要重新修改。
-// 将此函数改名为EncapsulutionOld1(),保留之，用于对比。
-//
-// 返回值:
-//		bool : 如果成功为真, 否则为假.
-//
-// 描述:
-//    单独编译自己的单元序列.将链接入和链接出的动态链接提到此部件的参数上来，然后禁止外界看进去。
-//    封装有两种情况：一是编译整体文件时发生封装部件的动作，此时部件内部单元已经被编译过了；
-//                  二是单独执行封装部件动作，此时其内部单元没有编译（此功能目前未实现）。
-//
-// 重要：   
-//    不允许单独编译部件本身，因为此时部件内的单元序列可能存在联入联出的动态链接，结果导致无法确定执行优先级。
-//    今后只允许一种封装情况：编译整个文件，同时封装部件本身。
-// 动作：
-// 1.每个单元都调用Encapsulation，先把下层的部件封装起来。
-// 2.将所有的单元组成一个单独的单元序列.部件视同简单单元，部件（无论可否封装）把自己的内部单元序列加入listUnit，然后本身也加入其中。
-// 3.前两个步骤是准备工作，在CompileUnitList函数中完成。
-// 4.找到联入和联出本部件的动态链接，都链接到部件的参数数组上去
-// 5.确定本部件的执行优先级。
-// 6.部件的联出联入方向，与从外部看的方向相同。
-//   即从外部看是输出型，则此参数为输出型参数。这样封装后的部件即视同为一简单单元，其行为与简单单元相类似。
-// 7.检查是否存在参数之间的内部数据链接（即通过内部单元序列的动态链接，导致两个参数有数据链接）。
-//
-////////////////////////////////////////////////////////////////////
-bool CUnitComponent::EncapsulationOld1(CUnitList & listTotalUnit) {
-  if (m_fEncapsulated) { // 已经封装了则返回
-    return(true);
+bool CUnitComponent::Compilation(void)
+{
+  // 编译本部件的内部单元序列。如果是部件，则往下找.不可封装的部件也要往下找。
+  for (const auto punit : m_CUnitList) {
+    if (punit->IsEncapsulating()) { // 排除已封装的部件。
+      ASSERT(!punit->IsCompiled());
+      ASSERT(!punit->IsEncapsulated());
+      punit->Compilation();
+    }
   }
-  ASSERT(m_fCompiled); // 部件本身必须已经被编译过了。
 
-  if (m_fEncapsulationPermitted) { // 如果是可封装部件
-    // 封装下层部件（如果有的话）	
-    EncapsulateBelowComponent(listTotalUnit);
-
-    // 检查部件状态是否正确
-    CheckComponentSelf();
-
-    // 生成内部单元序列的运行时单元序列
-    CreateRunTimeUnitList();
-
-    // 将部件参数中输出型的在内部源单元处建立一个新的动态链接，目的单元为本部件。
-    // 此步骤要先于处理联入联出的过程执行。
-    CreateNewDynLinkFromInterfaceOutputTypePara();
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 处理接口参数，将内部联出的和外部联入的动态链接连接到部件参数中
-
-    // 寻找是否存在联入本部件的动态链接
-    HandleTheDynLinkedInComponent(listTotalUnit);
-
-    // 设置本部件的执行优先级
-    SetMyselfExectivePriority();
-
-    // 寻找是否存在联出本部件的动态链接。
-    // 在本部件中生成一个新的动态链接，将联出的动态链接赋予此新的动态链接，其源单元改为本部件，
-    // 并将内部源单元的目的单元设置为本部件，重置部件参数中的目的单元指针和目的参数索引。
-    HandleTheDynLinkedfromComponent();
-
-    // 寻找是否内部两参数之间有数据链接，并相应设置部件本身的截断标志.此时尚未设置封装标志
-    // 这个函数调用必须是最后一步，否则内部动态链接尚未设置好，结果不对。
-    SetInnerDataLinkFlag();
-
-    m_fCompiled = true;
-    m_fEncapsulated = true; // 最后设置封装标志
+  // 此时下层部件都已被编译了,确认之。
+  for (const auto punit : m_CUnitList) {
+    if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) && punit->IsEncapsulable()) {
+      CUnitList * pUnitList = ((CUnitComponent *)punit)->GetUnitList();
+      for (const auto punitInner : *pUnitList) {
+        ASSERT(punit->IsEncapsulated());
+        ASSERT(!punit->IsEncapsulating());
+        ASSERT(punit->IsCompiled());
+      }
+    }
   }
-  else { // 不可封装部件，则只封装其下层部件。不能生成运行时单元序列，其内部单元序列要加入其上层的部件（或者就是总体文件）的单元序列中。
-    // 封装下层部件（如果有的话）	
-    EncapsulateBelowComponent(listTotalUnit);
+ 
+  // 开始编译
+  CompileUnitList(&m_CUnitList, &m_CRunTimeUnitList); // 编译此单元序列
 
-    // 检查部件状态是否正确
-    CheckComponentSelf();
-    ASSERT(m_fCompiled);
-    ASSERT(m_fEncapsulated == false);
-  }
-  return (true);
+  return true;
 }
 
 ///////////////////////////////////////////////////////////////////////

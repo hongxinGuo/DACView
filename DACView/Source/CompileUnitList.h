@@ -21,4 +21,3 @@ bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList);
 bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit);
 bool SetNoSrcUnitExectivePriority(CUnitList * plistUnit);
 bool ExectiveCompilation(CUnitList & listUnit, CUnitList * pRunTimeUnitList);
-bool EncapsulateUnitlist(CUnitList * pUnitList, CUnitList & listTotalUnit);

@@ -175,21 +175,6 @@ bool SetNoSrcUnitExectivePriority(CUnitList * plistUnit) {
   return(true);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//
-// 封装单元序列中的部件.此时部件内的单元序列已经被编译了
-//
-// 测试封装部件时，只要替换掉这个函数，就能一步一步测试了。
-//
-///////////////////////////////////////////////////////////////////////////////////////////////
-bool EncapsulateUnitlist(CUnitList * pUnitList, CUnitList & listTotalUnit) {
-  for (const auto pcunit : *pUnitList) {
-    if (pcunit->IsEncapsulated()) ASSERT(pcunit->IsCompiled());
-    pcunit->Encapsulation(listTotalUnit);
-  }
-  return(true);
-}
-
 bool CheckUnitListCompiledStatus(CUnitList * pUnitList) {
   // 简单检测本层的单元序列（不包括部件）都设置了执行优先级
   for (const auto pcunit : *pUnitList) {
@@ -349,52 +334,32 @@ void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
 //    
 ////////////////////////////////////////////////////////////////////////
 bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
-  CUnitList unitlist, rtUnitList;
+  CUnitList unitlist;
 
   TRACE("Start Compile unit list\n");
 
-  // 在此之前，单元已经清除编译标志和执行优先级，设置了输入参数个数
-  // 将所有的单元(包括部件本身）组成一个单独的单元序列. 此时部件尚未进行下层部件的封装，故而下层部件内的单元也添加进此单元序列中。
+  // 在此之前，单元序列已经清除编译标志和执行优先级，设置了输入参数个数,单元序列中的可封装部件都已经被封装了。
+  // 将所有的单元(包括部件本身）组成一个单独的单元序列. 此时部件已完成封装，故而其内部单元序列不再加此此单元序列中。不可封装部件的内部单元序列要加入。
   // 这是为了测试是否有循环存在
   CreateUniUnitList(pUnitList, unitlist);
 
   // 检测是否有循环形成
   if (UnitListLoopDetect(&unitlist)) return(false);
 
-  // 封装本单元序列中的部件.此时部件内的单元序列尚未被编译
-  EncapsulateUnitlist(pUnitList, unitlist);
-
   // 设置没有源单元的单元(输入参数连接的单元)的处理优先值为1(最先处理).
   SetNoSrcUnitExectivePriority(&unitlist);
 
   // 开始编译
-  ExectiveCompilation(unitlist, &rtUnitList);
+  ExectiveCompilation(unitlist, pRunTimeUnitList);
 
   // 以下两个只是检查而已。
   // 简单检测本层的单元序列（不包括部件）都设置了执行优先级
   CheckUnitListCompiledStatus(pUnitList);
 
   // 简单检测运行时单元序列（除部件外）都设置了执行优先级
-  CheckRunTimeUnitListCompiledStatus(&rtUnitList);
-
-  // 此时单元序列pUnitList已经编译了，故而可封装的部件已经封装，不再将内部单元序列加入运行时单元序列.
-  // 不可封装的部件仍然将内部单元序列加入unitlist中。
-  unitlist.clear();
-  for (const auto pcunit : *pUnitList) {
-    pcunit->AddToList(unitlist);
-  }
-
-  // 将rtUnitList中存在于unitlist单元序列的单元加入pRunTimeUnitList。
-  ASSERT(pRunTimeUnitList->empty());
-  for (const auto pcunit : rtUnitList) {
-    if (find(unitlist.begin(), unitlist.end(), pcunit) != unitlist.end()) {
-      pRunTimeUnitList->push_back(pcunit);
-    }
-  }
-  ASSERT(pRunTimeUnitList->size() == unitlist.size());
+  CheckRunTimeUnitListCompiledStatus(pRunTimeUnitList);
 
   unitlist.clear();
-  rtUnitList.clear();
   return (true);
 }
 

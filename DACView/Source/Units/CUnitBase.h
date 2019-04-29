@@ -108,13 +108,16 @@ public:
 	virtual void			ResetCompileFlag( void );
 
   // 编译自己, 被部件使用,其他单元为空
-  virtual bool			Encapsulation(CUnitList & listTotalUnit);	// 编译自己, 被部件使用,其他单元为空
-  virtual bool			EncapsulationOld1(CUnitList & listTotalUnit); // 此函数不再使用，保留之，作为对比。
-	// 封装与否？
-	virtual bool			IsEncapsulated(void);
+  virtual bool			Encapsulation(CUnitList & ) { return true; } // 封装自己。 此函数用于封装被部件,其他单元无动作
+  virtual bool      Compilation(void) { return true; } // 编译自己。此函数用于编译部件本身，其他单元无动作。
 
-  // 可否被封装。 简单单元不可被封装；部件允许被封装；复合单元（特殊的部件）不可被封装。
+  // 封装与否？
+	virtual bool			IsEncapsulated(void);
+  // 可否被封装。 简单单元不可被封装；部件允许被封装；复合单元（不可封装的特殊部件）不可被封装。
   virtual bool      IsEncapsulable(void) { return false;  }
+
+  bool              IsEncapsulating(void) { return m_fEncapsulating; }  // 处于封装过程中标志
+  void              SetEncapsulatingFlag(bool fFlag) { m_fEncapsulating = fFlag; } // 设置进入封装过程标志
 
 	// 准备运行时态序列.
 	virtual void			PrepareRunTimeList( void );
@@ -302,11 +305,12 @@ protected:
 	bool			m_fOverFlow;						// 是否溢出, 运行时使用.
 
   bool      m_fCompiled;            // 单元本身已被编译。如果是部件，则部件内部单元序列已被编译。
+  bool      m_fEncapsulating;       // 封装中标志（用于在确定执行优先级时判断是否编译本部件的内部单元序列，编译中的需要编译）
 
-	INT32			m_lCountDLToNumber;		// 输入连接计数器.
+	INT32			m_lCountDLToNumber;		  // 输入连接计数器.
 
-	INT32			m_lLinkToComponent;		// 本单元输出到部件的动态链接数量.仅显示时使用。
-  INT32     m_lLinkFromComponent;  // 本单元从部件联入的动态链接数量，仅显示时使用。
+	INT32			m_lLinkToComponent;		  // 本单元输出到部件的动态链接数量.仅显示时使用。
+  INT32     m_lLinkFromComponent;   // 本单元从部件联入的动态链接数量，仅显示时使用。
 	INT32     m_lLinkFromObject;			// 本单元从Object联入的动态链接数量，仅显示时使用。
 
   // 测试用变量

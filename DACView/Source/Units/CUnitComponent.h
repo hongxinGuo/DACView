@@ -166,11 +166,12 @@ public:
   bool							SetParaSrcIndex(LONG ulSrcIndex, LONG ulValue);
   bool							SetParaDestIndex(LONG ulDestIndex, LONG ulValue);
 
-  virtual bool			Encapsulation(CUnitList & listTotalUnit) override;
-  virtual bool			EncapsulationOld1(CUnitList & listTotalUnit) override; // 保留之，做为对比
+  // 部件的封装与编译
+  virtual bool			Encapsulation(CUnitList & listTotalUnit) final override;
+  virtual bool      Compilation(void) final override;
 
-  virtual bool			IsEncapsulated(void) override;
-  virtual bool			IsEncapsulable(void)  override { return m_fEncapsulationPermitted; }
+  virtual bool			IsEncapsulated(void) final override ;
+  virtual bool			IsEncapsulable(void)  final override { return m_fEncapsulationPermitted; }
   
   void              SetEncapsulateFlag(bool fFlag) { m_fEncapsulated = fFlag; }
   bool              IsPermitEncapsulation(void) { return m_fEncapsulationPermitted; }
@@ -219,14 +220,14 @@ private:
 
 protected :
 // Serialized Data
-  CUnitList			m_CRunTimeUnitList;
+  CUnitList			  m_CRunTimeUnitList;
 	CUnitList       m_CUnitList;
 
 	CUCPara  *      m_pInterfacePara[16];
 
 	bool						m_fCanViewIn;
-	bool						m_fEncapsulated;
-	bool						m_fEncapsulationPermitted; // 是否允许封装此部件。不允许封装的部件其表现形式与复合部件完全一样。此变量在初始化时决定。
+	bool						m_fEncapsulated;    //已被封装标志 
+	bool						m_fEncapsulationPermitted;  // 是否允许封装此部件。不允许封装的部件其表现形式与复合部件完全一样。此变量在初始化时决定。
   INT64           m_lReserved11; // 保留，以备后用
   INT64           m_lReserved12; // 保留，以备后用
 
