@@ -300,7 +300,7 @@ bool CUnitAdd::SetProperty( void ) {
 }
 
 bool CUnitAdd::DumpCurrentStatus( char * pch ) const {
-  sprintf(pch, "%s:  Input1 = %e   Input2 = %e   Output = %e", 
+  sprintf_s(pch, 100, "%s:  Input1 = %e   Input2 = %e   Output = %e", 
                 m_strName, m_eInput1, m_eInput2, m_eOutput );
   return( true );
 }

@@ -29,7 +29,7 @@ public:
 	virtual bool  	SetDouble(ULONG index, double eValue) override;
 	
 	virtual ULONG 	GetUnitType( void ) override;
-	virtual void 		SetExectivePriority( ULONG ulPriority ) override;
+	virtual bool 		SetExectivePriority( ULONG ulPriority ) override;
 	virtual INT32   GetIndex( ULONG ulIndex ) override;
 	virtual void  	Exective( void ) override;
 	virtual ParaName* GetParaNameAddress( void ) override;

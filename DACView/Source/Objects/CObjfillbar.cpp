@@ -308,7 +308,7 @@ void CObjectFillBar::ToShowDynamic( CDC * const pdc ) {
 			if ( m_fShowRange ) {
 				pcf = m_MemoryDC.SelectObject( &gl_fontSmall );
 				for ( i = 0; i < 3; i++ ) {
-					_gcvt(m_eLoLimit + i * (m_eHiLimit - m_eLoLimit)/3, 2, cTemp);
+					_gcvt_s(cTemp, m_eLoLimit + i * (m_eHiLimit - m_eLoLimit)/3, 2);
 					m_MemoryDC.TextOut( rectScroll.left + 4, 
 															rectScroll.top + 15 + i * rectScroll.Height()/3, cTemp, 2);
 				}

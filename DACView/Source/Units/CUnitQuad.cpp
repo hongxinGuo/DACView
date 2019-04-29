@@ -121,9 +121,10 @@ const CString& CUnitQuad::GetClassNameStr( void ) {
   return(s_strClassName);
 }
 
-void CUnitQuad::SetExectivePriority( ULONG  ) {
+bool CUnitQuad::SetExectivePriority( ULONG  ) {
 	m_lExectivePriority = 1;	// this type unit mast calculate first
-} 
+  return true;    // 单向输出型单元永远为真，执行优先级永远为最高的1
+}
 
 CString CUnitQuad::GetParaName( ULONG index ) {
 	return( sm_ptrParaName[index].Name );

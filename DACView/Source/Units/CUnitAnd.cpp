@@ -288,7 +288,7 @@ bool CUnitAnd::DumpCurrentStatus( char * pch ) const {
 	if ( m_fInput1 ) str1 = "true"; else str1 = "false";
 	if ( m_fInput2 ) str2 = "true"; else str2= "false";
 	if ( m_fOutput ) str3 = "true"; else str3 = "false";
-  sprintf(pch, "%s : Input1 = %s, Input2 = %s, Output = %s", 
+  sprintf_s(pch, 100,  "%s : Input1 = %s, Input2 = %s, Output = %s", 
 								m_strName, str1, str2, str3);
   return( true );
 }

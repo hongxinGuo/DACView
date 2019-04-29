@@ -58,11 +58,12 @@ void CDelDynLink::OnButtonDelete()
 	// TODO: Add your control notification handler code here
 	auto it = m_plistUnitDynLink->begin();
 
-	for ( int i = 0; i <= m_ulChoiceIndex; i++ ) {
+	for ( int i = 0; i < m_ulChoiceIndex; i++ ) {
     it++;
 	}
+  ASSERT(it != m_plistUnitDynLink->end());
   auto pDL = *it;
-  pDL->SetDeleteMeFlag(TRUE);
+  pDL->SetDeleteMeFlag(true);
 	UpdateListBox();
 }
 
@@ -72,9 +73,10 @@ void CDelDynLink::OnSelchangeListDynlink()
 	m_ulChoiceIndex = (ULONG)SendDlgItemMessage(IDC_LIST_DYNLINK, LB_GETCURSEL, 0, 0L);
 
   auto it = m_plistUnitDynLink->begin();
-	for ( int i = 0; i <= m_ulChoiceIndex; i++ ) {
+	for ( int i = 0; i < m_ulChoiceIndex; i++ ) {
     it++;
 	}
+  ASSERT(it != m_plistUnitDynLink->end());
   auto pDL = *it;
 	if ( pDL->IsDeleteMe() ) {
 		GetDlgItem(IDC_BUTTON_DELETE)->EnableWindow(FALSE);
@@ -95,15 +97,15 @@ void CDelDynLink::OnDblclkListDynlink()
 void CDelDynLink::OnOK() 
 {
 	// TODO: Add extra validation here
-
-  for (auto it = m_plistUnitDynLink->begin(); it != m_plistUnitDynLink->end(); it++) {
-    shared_ptr<CUnitDynLink> pDL = *it;
+  auto it = m_plistUnitDynLink->begin();
+  do {
+    auto pDL = *it;
 		if ( pDL->IsDeleteMe() ) {
-			auto it1 = find( m_plistUnitDynLink->begin(), m_plistUnitDynLink->end(), pDL );
-			m_plistUnitDynLink->erase( it1 );
-			pDL->GetDestUnit()->SetParameterLock(pDL->GetDestIndex(), FALSE);	// clear selected Flag
+			pDL->GetDestUnit()->SetParameterLock(pDL->GetDestIndex(), false);	// clear selected Flag
+			it = m_plistUnitDynLink->erase(it);
 		}
-	}
+    else it++;
+  } while (it != m_plistUnitDynLink->end());
 
 	CDialog::OnOK();
 }
@@ -112,7 +114,7 @@ void CDelDynLink::OnCancel()
 {
 	// TODO: Add extra cleanup here
 	for ( const auto pDL : *m_plistUnitDynLink ) {
-		pDL->SetDeleteMeFlag( FALSE );
+		pDL->SetDeleteMeFlag(false);
 	}
 	CDialog::OnCancel();
 }
@@ -165,10 +167,10 @@ void CDelDynLink::OnButtonUndelete()
 {
 	// TODO: Add your control notification handler code here
   auto it = m_plistUnitDynLink->begin();
-  for (int i = 0; i <= m_ulChoiceIndex; i++) {
+  for (int i = 0; i < m_ulChoiceIndex; i++) {
     it++;
 	}
   auto pDL = *it;
-  pDL->SetDeleteMeFlag(FALSE);
+  pDL->SetDeleteMeFlag(false);
 	UpdateListBox();
 }

@@ -98,7 +98,7 @@ public:
 	// 直接设置本单元的执行优先值为ulPriority
 	void							SetExectivePriorityDirect( ULONG ulPriority );
 	// 设置本单元的执行优先值.
-	virtual void 			SetExectivePriority( ULONG ulPriority // 要设置的优先值.
+	virtual bool 			SetExectivePriority( ULONG ulPriority // 要设置的优先值.
 																				);
 	
   // 设置本单元的目标单元的运行优先值.

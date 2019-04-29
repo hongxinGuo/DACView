@@ -130,7 +130,7 @@ bool CObjRectBase::ExectiveDynLink( void ) {
   			  break;
     //////////////////////////////////////////////////////////////////////////////////////////
   		  case IDD_OUTPUT_STRING :
-  			  _gcvt( eTemp, 8, str );
+  			  _gcvt_s(str, eTemp, 8);
   			  strTemp = str;
   			  fUpdate = SetString( ulObjectIndex, strTemp );
   			  break;
@@ -312,7 +312,7 @@ bool CObjRectBase::SetDouble(ULONG , double ) {
   ASSERT( FALSE );
   return(FALSE);
 }
-double CObjRectBase::GetDouble(ULONG index)
+double CObjRectBase::GetDouble(ULONG )
 {
 	ASSERT(false);
 	return 0.0;

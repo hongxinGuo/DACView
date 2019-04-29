@@ -258,7 +258,7 @@ void CObjectMeter::ToShowStatic( CDC * const pdc, CPoint  ) {
 					(int)(rectScroll.Height()/2 * cos(3.14*7/4 - i * 3.14*3/2/m_ulNumberStep));
 			pdc->MoveTo(a, b);
 			pdc->LineTo(c, d);
-			_gcvt( m_eLowLimit + i * (m_eHighLimit - m_eLowLimit)/m_ulNumberStep, iDataLength, cTemp );
+			_gcvt_s(cTemp, m_eLowLimit + i * (m_eHighLimit - m_eLowLimit)/m_ulNumberStep, iDataLength);
 			sizeText = pdc->GetTextExtent( cTemp, strlen(cTemp) );
 			pdc->TextOut( e - sizeText.cx/2, f, cTemp, iDataLength + 1 );
 			rectScroll.left -= 15;
@@ -391,7 +391,7 @@ void CObjectMeter::ToShowDynamic( CDC * const pdc ) {
 					(int)(rectScroll.Height()/2 * cos(3.14*7/4 - i * 3.14*3/2/m_ulNumberStep));
 			m_MemoryDC.MoveTo(a, b);
 			m_MemoryDC.LineTo(c, d);
-			_gcvt( m_eLowLimit + i * (m_eHighLimit - m_eLowLimit)/m_ulNumberStep, iDataLength, cTemp );
+			_gcvt_s(cTemp, m_eLowLimit + i * (m_eHighLimit - m_eLowLimit)/m_ulNumberStep, iDataLength);
 			sizeText = m_MemoryDC.GetTextExtent( cTemp, strlen(cTemp) );
 			m_MemoryDC.TextOut( e-sizeText.cx/2, f, cTemp, iDataLength + 1 );
 			rectScroll.left -= 15;

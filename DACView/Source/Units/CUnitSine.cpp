@@ -126,8 +126,9 @@ const CString& CUnitSine::GetClassNameStr( void ) {
   return(str);
 }
 
-void CUnitSine::SetExectivePriority( ULONG  ) {
+bool CUnitSine::SetExectivePriority( ULONG  ) {
   m_lExectivePriority = 1;       // this type unit mast calculate first
+  return true;    // 单向输出型单元永远为真，执行优先级永远为最高的1
 } 
 
 CString CUnitSine::GetParaName( ULONG index ) {
@@ -320,7 +321,7 @@ bool CUnitSine::SetProperty( void ) {
 }
 
 bool CUnitSine::DumpCurrentStatus( char * pch ) const {
-  sprintf(pch, "%s : Output = %e", m_strName, m_eOutput);
+  sprintf_s(pch, 100, "%s : Output = %e", m_strName, m_eOutput);
   return( true );
 }
 

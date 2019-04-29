@@ -45,7 +45,7 @@ public:
   // change an object's position to ObjList's Tail
   bool UnitToFront(CUnitList * pUnitList, CUnitBase * const pCUnit);
 
-  bool DeleteUnit(CUnitBase * pCUnit);
+  bool DeleteUnit(CUnitList * pUnitList, CUnitBase * pCUnit);
   bool IsInRect(CPoint const pt, CUnitBase*& pcunit);
 
   void SetFocus(CDC *pdc);			// object is on focus

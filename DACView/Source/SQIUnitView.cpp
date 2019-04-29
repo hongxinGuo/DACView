@@ -567,16 +567,16 @@ void CSQIUnitView::DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoi
 //    If some unit's dynamic link is link to me, also delete them
 //
 /////////////////////////////////////////////////////////////////////////////
-bool CSQIUnitView::DeleteUnit(CUnitBase * pCUnit) {
-  list<CUnitBase *>::iterator it;
+bool CSQIUnitView::DeleteUnit(CUnitList * pUnitList, CUnitBase * pCUnit) {
+  CUnitList::iterator it;
   ASSERT(pCUnit != nullptr);
-  if ((it = find(m_pCUnitListCurrent->begin(), m_pCUnitListCurrent->end(), pCUnit)) != m_pCUnitListCurrent->end()) { // find unit ?
+  if ((it = find(pUnitList->begin(), pUnitList->end(), pCUnit)) != pUnitList->end()) { // find unit ?
     // 清除所有指向本单元的动态链接
     DeleteDynLinkToMe(m_pCUnitListTop, m_pObjectList, pCUnit);
     // 清除所有本单元指向的动态链接
     DeleteDynLinkFromMe(pCUnit);
     // 删除本单元
-    m_pCUnitListCurrent->erase(it);
+    pUnitList->erase(it);
     delete pCUnit;
     return (true);
   }
@@ -1713,11 +1713,14 @@ void CSQIUnitView::OnEditCut()
     }
   }
 
-  for (const auto pcunit : *m_pCUnitListCurrent) {
-    if (pcunit->IsSelect()) {
-      VERIFY(DeleteUnit(pcunit));      // delete cut units
+  ASSERT(m_pCUnitListCurrent->size() > 0);
+  auto it = m_pCUnitListCurrent->begin();
+  do {
+    CUnitBase * punit = *it++;
+    if (punit->IsSelect()) {
+      VERIFY(DeleteUnit(m_pCUnitListCurrent, punit));      // delete cut units
     }
-  }
+  } while (it != m_pCUnitListCurrent->end());
 
   ResetAll(UNIT_PRE_SELECT);
 
@@ -1738,12 +1741,13 @@ void CSQIUnitView::OnEditCut()
 void CSQIUnitView::OnEditDelete()
 {
   // TODO: Add your command handler code here
-  for (auto it = m_pCUnitListCurrent->begin(); it != m_pCUnitListCurrent->end(); it++) {
-    auto pcunit = *it;
+  auto it = m_pCUnitListCurrent->begin();
+  do {
+    auto pcunit = *it++;
     if (pcunit->IsSelect()) {
-      VERIFY(DeleteUnit(pcunit));      // delete units
+      VERIFY(DeleteUnit(m_pCUnitListCurrent, pcunit));      // delete units
     }
-  }
+  }while (it != m_pCUnitListCurrent->end()); 
 
   ResetAll(UNIT_PRE_SELECT);
 

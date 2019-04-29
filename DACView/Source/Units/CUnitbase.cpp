@@ -426,8 +426,8 @@ void CUnitBase::SetDestUnitPriority( void ) {
   
   for ( auto pcunitDynLink : m_listDynLink ) {
     punit = pcunitDynLink->GetDestUnit();
-    if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 如果时简单单元
-      punit->SetExectivePriority(m_lExectivePriority + 1);
+    if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 如果是简单单元
+      punit->SetExectivePriority(m_lExectivePriority + 1); // 设置此单元的执行优先级至少为m_lExectivePriority+1
     }
     else if ((CUnitComponent *)punit != m_pUnitComponentUpper) { // 如果此目的部件不是包含我的上级部件
       punit->SetExectivePriority(m_lExectivePriority + 1);
@@ -440,24 +440,33 @@ void CUnitBase::SetDestUnitPriority( void ) {
 // SetExectivePriority()
 //
 // Parameter :
-//    ULONG ulPriority : current set priority
+//    ULONG ulPriority : 当前优先级的值
+//
+// 返回值：
+//    bool : 如果设置了本单元的执行优先级则为真，否则为假
 //
 // Description :
-//    如果本单元无输入连接, 则设置本单元的优先值为1.
-//  否则当所有的输入参数连接都找到后,才设置本单元的优先值.
+//   如果本单元无输入连接, 则设置本单元的优先值为1.
+// 否则当所有的输入参数连接都找到后,才设置本单元的优先值.
+// 截断单元不允许使用此函数设置运行优先值.设置截断单元的执行优先级需要调用SetExectivePriorityDirect()函数。
 //
 ///////////////////////////////////////////////////////////////////////////
-void CUnitBase::SetExectivePriority( ULONG ulPriority ) {
+bool CUnitBase::SetExectivePriority( ULONG ulPriority ) {
 	ULONG ulUnitType = GetUnitType();
 	ASSERT( ulUnitType != tOUTPUT );			// 保证本单元为输入输出单元. 
   if ( m_lDynLinkToNumber == 0 ) {  // 如果本单元没有联入单元.
     m_lExectivePriority = 1; // 优先执行本单元.
-    return;
+    return true;
   }
-	if ( m_fCutOff ) return;	// 截断单元不设置运行优先值.
+	if ( m_fCutOff ) return false;	// 截断单元不允许使用此函数设置运行优先值.设置截断单元的执行优先级需要调用SetExectivePriorityDirect()函数。
   // 直到所有联入本单元的单元处理完后,本单元的处理优先值才可以设置.
-  if ( ++m_lCountDLToNumber == m_lDynLinkToNumber ) m_lExectivePriority = ulPriority;
-	ASSERT( m_lCountDLToNumber <= m_lDynLinkToNumber );
+  if (++m_lCountDLToNumber == m_lDynLinkToNumber) {
+    m_lExectivePriority = ulPriority;
+    return true;
+  }
+	ASSERT( m_lCountDLToNumber < m_lDynLinkToNumber );
+  ASSERT(m_lDynLinkToNumber > 0);
+  return false;
 }
 
 void CUnitBase::ResetCompileFlag( void ) {
@@ -721,19 +730,19 @@ bool CUnitBase::ArrangeDynLink( void ) {
 //		
 /////////////////////////////////////////////////////////////////////////
 bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
-  shared_ptr<CUnitDynLink> pcunitDynLink;
-  CUnitBase * pcunit;
   
-  for (auto it = m_listDynLink.begin(); it != m_listDynLink.end(); it++) {
-    pcunitDynLink = *it++;
-    pcunit = pcunitDynLink->GetDestUnit();
+  if (m_listDynLink.size() == 0) return true;
+
+  auto it = m_listDynLink.begin();
+  do {
+    auto pDL = *it;
+    CUnitBase * pcunit = pDL->GetDestUnit();
     if ( pUnit == pcunit ) {
-      auto itFind = find(m_listDynLink.begin(), m_listDynLink.end(), pcunitDynLink);
-      ASSERT( itFind != m_listDynLink.end() );
-      pcunit->SetParameterLock( pcunitDynLink->GetDestIndex(), false );
-      m_listDynLink.erase(itFind);
+      pcunit->SetParameterLock( pDL->GetDestIndex(), false );
+     it = m_listDynLink.erase(it);
     }
-  }
+    else it++;
+  } while (it != m_listDynLink.end());
   return( true );
 }
 

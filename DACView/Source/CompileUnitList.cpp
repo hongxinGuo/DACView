@@ -28,7 +28,7 @@ void ClearLoopDetectFlag(CUnitList * pUnitList) {
 // 单元序列动态链接的循环链接测试。
 //
 // Return :
-//		BOOL : TRUE if find a loop DynLink in m_CUnitList
+//		bool : TRUE if find a loop DynLink in m_CUnitList
 //
 //		参数：
 //			CUnitList * pUnitList; // 被查找的单元序列。
@@ -45,10 +45,10 @@ void ClearLoopDetectFlag(CUnitList * pUnitList) {
 //   为了简化系统维护，循环测试要越早越好，故而应该将此函数用于生成新单元之时，即创建一个新单元后，或者从剪辑版paste过来一组新单元，立即执行循环测试
 //
 ////////////////////////////////////////////////////////////////////////////////////////
-BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
+bool UnitListLoopDetect(CUnitList * pCUnitList) {
 	CUnitBase * pcunit1, *pCUnit;
 	CUnitList unitlist;
-	BOOL fFind = FALSE;
+	BOOL fFind = false;
 
 	// 寻找是否有循环.
 	ClearLoopDetectFlag(pCUnitList);
@@ -100,18 +100,18 @@ BOOL UnitListLoopDetect(CUnitList * pCUnitList) {
 //		CUnitList * pUnitList 被检查的单元序列
 //
 // Return : 
-//		BOOL : 当动态链接循环中已经存在存在了一个截断，返回真；否则返回假
+//		bool : 当动态链接循环中已经存在存在了一个截断，返回真；否则返回假
 //
 // Description :
 //		When you want to set cutoff on a unit, you can't set more than one cutoff on one loop
 //	So this function is to check whether this loop have a cutoff already.
 //
 ///////////////////////////////////////////////////////////////////////////////////////// 
-BOOL AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
+bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
 	CUnitBase * pcCutOff;
 	CUnitList unitlist;
 	CString strName, str;
-	BOOL fFind = FALSE;
+	BOOL fFind = false;
 
 	for (const auto pcunitTemp : *pUnitList) {
 		fFind = pcunitTemp->CheckCutOff(&unitlist);
@@ -228,19 +228,19 @@ bool CheckRunTimeUnitListCompiledStatus(CUnitList * pRunTimeUnitList) {
 bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
   INT64 iRunTimeTemp = 0, iTotal;
 
-  TRACE("Compile unit list\n");
+  TRACE("Start unit list's compilation\n");
 
   // clear runtime unitList
   pRunTimeUnitList->clear();
   // 开始编译
-  ULONG iRunTimeTempOld = 0, iCurrentPriority = 0;
+  INT64 iRunTimeTempOld = 0, iCurrentPriority = 0;
   bool done = false, fFindLoop = false;
   iTotal = unitlist.size();
   while ((!done) && (!fFindLoop)) {
     iCurrentPriority++;
     for (const auto pcunit : unitlist) {
-      if (pcunit->GetExectivePriority() == iCurrentPriority) {
-        pcunit->SetDestUnitPriority();
+      if (pcunit->GetExectivePriority() == iCurrentPriority) { // 找到了执行优先级相等的单元
+        pcunit->SetDestUnitPriority();    // 设置此单元的目的单元执行优先级
         pcunit->SetCompiledFlag(true);
         pRunTimeUnitList->push_back(pcunit); // create runtime list
         TRACE("%s(%u)\n", (LPCTSTR)(pcunit->GetName()), pcunit->GetExectivePriority());
@@ -266,7 +266,7 @@ bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
   if (fFindLoop) {
     for (const auto pcunit : unitlist) {
       if (pcunit->IsSetCutOff()) {
-        pcunit->SetExectivePriorityDirect(iCurrentPriority);
+        pcunit->SetExectivePriorityDirect(iCurrentPriority); // 必须使用此直接设置函数，SetExectivePriority会根据不同的情况分别处理
         pcunit->SetCompiledFlag(true);
       }
     }
