@@ -219,6 +219,12 @@ void CUnitComponent::Serialize( CArchive& ar ) {
       ar >> m_pInterfacePara[i];
     }
 
+    if (m_fEncapsulated) { // 如果是封装了的部件，则设置内部单元序列的编译标志。
+      for (const auto punit : m_CUnitList) {
+        punit->SetCompiledFlag(true);
+      }
+    }
+
   }
 }
 
@@ -1549,7 +1555,6 @@ bool CUnitComponent::SetParaDestIndex(LONG lIndex, LONG lValue)
 bool CUnitComponent::EncapsulateBelowComponent(CUnitList & listTotalUnit) {
   // 封装下层部件（如果有的话）	
   for (const auto punit : m_CUnitList) {
-    ASSERT(punit->IsEncapsulating());     // 
     punit->Encapsulation(listTotalUnit);
   }
   return(true);

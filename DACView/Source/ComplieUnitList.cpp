@@ -332,8 +332,11 @@ bool SetEncapsulatingFlag(CUnitList * pUnitList) {
   // 设置单元序列编译中的标志
   for (auto punit : unitlist) {
     ASSERT(!punit->IsEncapsulating());
-    punit->SetEncapsulatingFlag(true);
-    ASSERT(punit->IsEncapsulating());
+    if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) && !punit->IsEncapsulated()) { // 如果部件尚未被封装
+      if (punit->IsEncapsulable()) { // 如果部件可以被封装
+        punit->SetEncapsulatingFlag(true);
+      }
+    }
   }
 
   return true;
@@ -342,7 +345,7 @@ bool SetEncapsulatingFlag(CUnitList * pUnitList) {
 bool CompileInnerComponent(CUnitList * pUnitList) {
   for (const auto punit : *pUnitList) {
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-      if (!punit->IsEncapsulated() && punit->IsEncapsulable()) { // 排除已封装和不可封装的部件。
+      if (punit->IsEncapsulating()) { //如果部件正处于封装状态
         ASSERT(!punit->IsCompiled());
         punit->Compilation();
         ASSERT(punit->IsCompiled());
