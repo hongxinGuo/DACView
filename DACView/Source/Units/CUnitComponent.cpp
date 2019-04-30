@@ -1835,13 +1835,25 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
   return (true);
 }
 
+/////////////////////////////////////////////////////////////////////////
+//
+// 编译单元序列的顺序，是先编译最上层的，然后逐层往下找，这样能够防止不可编译的部件中的单元序列多次编译。
+//
+//
+////////////////////////////////////////////////////////////////////////
 bool CUnitComponent::Compilation(void)
 {
-  // 编译本部件的内部单元序列。如果是部件，则往下找.不可封装的部件也要往下找。
-  CompileInnerComponent(&m_CUnitList);
+  // 编译本部件的内部单元序列。如果是部件，则往下找。
+  CUnitList unitlist;
+
+  CreateUniUnitList(&m_CUnitList, unitlist); // 将不可编译部件中的单元序列提到上层来。
+  // 开始编译
+  CompileUnitList(&unitlist, &m_CRunTimeUnitList); // 编译此单元序列
+  
+  CompileInnerComponent(&unitlist); // 此时使用汇总后的单元序列
 
   // 此时下层部件都已被编译了,确认之。
-  for (const auto punit : m_CUnitList) {
+  for (const auto punit : unitlist) {
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) && punit->IsEncapsulable()) {
       CUnitList * pUnitList = ((CUnitComponent *)punit)->GetUnitList();
       for (const auto punitInner : *pUnitList) {
@@ -1852,8 +1864,6 @@ bool CUnitComponent::Compilation(void)
     }
   }
  
-  // 开始编译
-  CompileUnitList(&m_CUnitList, &m_CRunTimeUnitList); // 编译此单元序列
   
   m_fEncapsulating = false;
   m_fEncapsulated = true;

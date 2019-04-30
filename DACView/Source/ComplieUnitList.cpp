@@ -145,15 +145,15 @@ bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //
-// 将所有的单元组成单元序列，部件则将其内部单元序列和部件本身加入。
+// 将所有的单元组成单元序列，编译的部件则将其内部单元序列和部件本身加入。
 //
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
 bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit) {
   // 在此之前，单元已经清除编译标志和执行优先级，设置了输入参数个数
-  // 将所有的单元(包括部件本身）组成一个单独的单元序列. 此时部件尚未进行下层部件的封装，故而下层部件内的单元也添加进此单元序列中。这是为了测试是否有循环存在
+  // 将所有的单元(包括未编译部件本身及其内部单元序列）组成一个单独的单元序列. 
   for (const auto pcunit : *pUnitList) {
-    if (!pcunit->IsEncapsulated()) ASSERT(pcunit->GetExectivePriority() == 0);
+    if (!pcunit->IsEncapsulated()) ASSERT((pcunit->GetExectivePriority() == 0) || (pcunit->GetExectivePriority() == 1));
     pcunit->CheckSelf();
     pcunit->AddToList(listUniUnit);
   }
@@ -316,9 +316,11 @@ bool EncapsulateUnitList(CUnitList * pUnitList) {
   CreateUniUnitList(pUnitList, unitlist); // 生成需要编译的单一单元序列
 
   // 封装需封装的部件
-  for (auto punit : *pUnitList) {
-    if (punit->IsEncapsulable() && (!punit->IsEncapsulated())) {
-      punit->Encapsulation(unitlist);
+  for (auto punit : unitlist) {
+    if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+      if (punit->IsEncapsulable() && (!punit->IsEncapsulated())) {
+        punit->Encapsulation(unitlist);
+      }
     }
   }
 
@@ -345,8 +347,8 @@ bool SetEncapsulatingFlag(CUnitList * pUnitList) {
 bool CompileInnerComponent(CUnitList * pUnitList) {
   for (const auto punit : *pUnitList) {
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-      if (punit->IsEncapsulating()) { //如果部件正处于封装状态
-        ASSERT(!punit->IsCompiled());
+      if (punit->IsEncapsulating()) { //如果部件正处于封装状态或者部件不可被封装
+        ASSERT(punit->IsCompiled());
         punit->Compilation();
         ASSERT(punit->IsCompiled());
         ASSERT(!punit->IsEncapsulating());
@@ -387,8 +389,6 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 
   TRACE("Start Compile unit list\n");
 
-  // 首先编译本单元序列中的部件
-  CompileInnerComponent(pUnitList);
 
   // 在此之前，单元序列已经清除编译标志和执行优先级，设置了输入参数个数,单元序列中的可封装部件都已经被封装了。
   // 将所有的单元(包括部件本身）组成一个单独的单元序列. 此时部件已完成封装，故而其内部单元序列不再加此此单元序列中。不可封装部件的内部单元序列要加入。
@@ -403,6 +403,9 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 
   // 开始编译
   ExectiveCompilation(unitlist, pRunTimeUnitList);
+
+  // 然后编译本单元序列中的部件
+  CompileInnerComponent(&unitlist); // 此时使用汇总后的单元序列
 
   // 以下两个只是检查而已。
   // 简单检测本层的单元序列（不包括部件）都设置了执行优先级
