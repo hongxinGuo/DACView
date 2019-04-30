@@ -100,9 +100,6 @@ public:
 
   virtual void              SetDestUnitPriority(void) override;
 
-  virtual void              SetCompiledFlag(bool fFlag) override;
-  virtual bool              IsCompiled(void) override;
-
   virtual bool              SetProperty(void) override;          // 设置部件的参数等
 
   virtual bool 							GetBool(ULONG index) override;
@@ -209,10 +206,9 @@ private:
   // 以下几个函数，是为了测试Encapsulation函数方便而设立的，当在调试状态下编译时外部可见。不允许单独调用，必须按顺序连续。
   bool             EncapsulateBelowComponent(CUnitList & listTotalUnit);
   bool             CheckComponentSelf(void);
-  bool             CreateRunTimeUnitList(void);
   bool             CreateNewDynLinkFromInterfaceOutputTypePara(void);
+  bool             SetMyUnitListExectivePriority(void);
   bool             HandleTheDynLinkedInComponent(CUnitList & listTotalUnit);
-  bool             SetMyselfExectivePriority(void);
   bool             HandleTheDynLinkedfromComponent(void);
 
 private:

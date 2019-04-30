@@ -126,6 +126,7 @@ CUnitBase::CUnitBase(const CString& Name, CPoint pt): CObjectPrimitive(Name) {
 
   m_lExectivePriority = 0;
   m_fCompiled = false;
+  m_fEncapsulating = false;
 
 	m_lLinkToComponent = 0;
   m_lLinkFromComponent = 0;
@@ -153,6 +154,7 @@ CUnitBase::CUnitBase( void ) : CObjectPrimitive() {
 
   m_lExectivePriority = 0;
   m_fCompiled = false;
+  m_fEncapsulating = false;
 
 	m_lLinkToComponent = 0;
   m_lLinkFromComponent = 0;
@@ -1032,6 +1034,19 @@ bool CUnitBase::CheckSelf( void ) {
   return( true );
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+//
+// 编译自己。此函数用于编译部件本身，其他单元只是设置编译标志
+//
+//
+//////////////////////////////////////////////////////////////////////////////////////
+bool CUnitBase::Compilation(void)
+{
+  m_fEncapsulating = false;
+  m_fCompiled = true;
+
+  return false;
+}
 
 ////////////////////////////////////////////////////////////////////
 //

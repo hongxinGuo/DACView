@@ -90,8 +90,8 @@ public:
   bool							IsSetCutOff( void ) const;
 
   //设置单元已被编译标志
-  virtual void      SetCompiledFlag(bool fFlag) { m_fCompiled = fFlag; }
-  virtual bool      IsCompiled(void) { return(m_fCompiled); }
+  void              SetCompiledFlag(bool fFlag) { m_fCompiled = fFlag; }
+  bool              IsCompiled(void) { return(m_fCompiled); }
 	
 	// 得到本单元的执行优先值.
 	INT32 						GetExectivePriority( void ) const;
@@ -109,7 +109,7 @@ public:
 
   // 编译自己, 被部件使用,其他单元为空
   virtual bool			Encapsulation(CUnitList & ) { return true; } // 封装自己。 此函数用于封装被部件,其他单元无动作
-  virtual bool      Compilation(void) { return true; } // 编译自己。此函数用于编译部件本身，其他单元无动作。
+  virtual bool      Compilation(void); // 编译自己。此函数用于编译部件本身，其他单元只是设置编译标志。
 
   // 封装与否？
 	virtual bool			IsEncapsulated(void);

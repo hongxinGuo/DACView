@@ -740,35 +740,6 @@ void CUnitComponent::SetDestUnitPriority(void) {
   }
 }
 
-void CUnitComponent::SetCompiledFlag(bool fFlag) {
-  for (const auto punit : m_CUnitList) {
-    punit->SetCompiledFlag(fFlag);
-  }
-  m_fCompiled = fFlag;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// 检测部件是否被编译了
-//
-// 检测部件的内部单元序列是否都被编译了，然后检测部件本身是否被编译了：不可编译的部件永远为真，
-// 可编译的部件返回其m_fCompiled标志。
-//
-//
-/////////////////////////////////////////////////////////////////////////////////////
-bool CUnitComponent::IsCompiled(void) {
-  
-  if ( m_fEncapsulated ) return(true); // 封装后的部件都视为编译过的
-
-  for (const auto punit : m_CUnitList) {
-    if (!punit->IsCompiled()) return(false);
-    if (punit->IsEncapsulable()) { // 可编译的部件，还需要测试本身是否编译了
-      if (!m_fCompiled) return false;
-    }
-  }
-  return m_fCompiled;
-}
-
 bool CUnitComponent::DeleteDynLink( CUnitBase * pUnit ) {
   if (m_fEncapsulated) { // 如果封装了，则只删除本部件自身与pUnit之间的动态链接（如果有的话）
     return(CUnitBase::DeleteDynLink(pUnit));// 本部件也可能有自己的动态链接，故而也需要删除之（如果pUnit在其中的话）。
@@ -1580,50 +1551,21 @@ bool CUnitComponent::EncapsulateBelowComponent(CUnitList & listTotalUnit) {
   for (const auto punit : m_CUnitList) {
     ASSERT(punit->IsEncapsulating());     // 
     punit->Encapsulation(listTotalUnit);
-    punit->SetCompiledFlag(true);
   }
   return(true);
 }
 
 bool CUnitComponent::CheckComponentSelf() {
   // 检查部件状态是否正确
-  bool fGood = true;
   for (const auto punit : m_CUnitList) {
     if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-      ASSERT(((CUnitComponent *)punit)->GetExectivePriority() == 0); // 确保所有部件都尚未被编译
+      ASSERT(punit->GetExectivePriority() == 0); // 确保所有部件都尚未被编译
     }
     else { // 是下层部件
       if (punit->IsEncapsulable()) {
         ASSERT(punit->IsEncapsulated());
       }
-      fGood = ((CUnitComponent *)punit)->CheckComponentSelf(); // 继续往下查
     }
-  }
-  return(fGood);
-}
-
-/////////////////////////////////////////////////////////////////////////
-//
-// 生成本部件的运行时单元序列
-//
-//
-//
-/////////////////////////////////////////////////////////////////////////
-bool CUnitComponent::CreateRunTimeUnitList() {
-  // 生成内部单元序列的运行时单元序列
-  bool fDone = false;
-  ULONG ulCurrentExectivePriority = 0, iUnitNum = 0;
-  INT64 iTotal = m_CUnitList.size();
-  ASSERT(m_CRunTimeUnitList.size() == 0);
-  while (!fDone) {
-    ulCurrentExectivePriority++;
-    for (const auto punit : m_CUnitList) {
-      if (punit->GetExectivePriority() == ulCurrentExectivePriority) {
-        m_CRunTimeUnitList.push_back(punit);
-        iUnitNum++;
-      }
-    }
-    if (iUnitNum == iTotal) fDone = true;
   }
   return(true);
 }
@@ -1659,6 +1601,27 @@ bool CUnitComponent::CreateNewDynLinkFromInterfaceOutputTypePara() {
   }
   return(true);
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// 设置本部件内部单元中有参数联入的执行优先级
+//
+// 如果内部单元从参数处联入数据，无论此参数是否有源，都将此单元的初始执行优先级设置为2.
+//
+/////////////////////////////////////////////////////////////////////////////////////
+bool CUnitComponent::SetMyUnitListExectivePriority(void) {
+  ASSERT(!m_fCompiled); 
+  for (int i = 0; i < 16; i++) {
+    if (m_pInterfacePara[i]->IsLinked()) {
+      if (((m_pInterfacePara[i]->GetParaType()) & tINPUT)) { // 输入型参数
+        m_pInterfacePara[i]->GetDestUnit()->SetExectivePriorityDirect(1); // 输入性参数所对应的目的单元的执行优先级至少为2.
+      }
+    }
+  }
+  return(true);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -1718,29 +1681,6 @@ bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
       default:
         // do nothing
         break;
-      }
-    }
-  }
-  return(true);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// 设置本部件的执行优先级
-//
-//
-//
-/////////////////////////////////////////////////////////////////////////////////////
-bool CUnitComponent::SetMyselfExectivePriority( void ) {
-  ASSERT(m_fCompiled); // 如果是编译上层部件或者整体文件，则需要决定本部件的执行优先级（永远为真)
-  for (int i = 0; i < 16; i++) {
-    if (m_pInterfacePara[i]->IsLinked()) {
-      if (((m_pInterfacePara[i]->GetParaType()) & tINPUT) && (m_vfSelected[i] == true)) { // 输入型参数且存在源单元：只从上层单元序列中找
-        if ((m_pInterfacePara[i]->GetSrcUnit())->GetExectivePriority() > m_lExectivePriority) {
-          m_lExectivePriority = (m_pInterfacePara[i]->GetSrcUnit())->GetExectivePriority();    
-          m_lExectivePriority++; //本部件的执行优先级要比最大的输入单元的执行优先级多一级(如果部件为没有联入源单元，则执行优先级为2）。
-
-        }
       }
     }
   }
@@ -1845,6 +1785,9 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
   ASSERT(!m_fCompiled); // 部件本身必须没有被编译过。
 
   if (m_fEncapsulationPermitted) { // 如果是可封装部件
+    ASSERT(m_fEncapsulating);
+    ASSERT(m_fCompiled == false);
+    ASSERT(m_fEncapsulated == false);
     // 封装下层部件（如果有的话）	
     EncapsulateBelowComponent(listTotalUnit);
 
@@ -1870,6 +1813,9 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
     // 这个函数调用必须是最后一步，否则内部动态链接尚未设置好，结果不对。
     SetInnerDataLinkFlag();
 
+    // 最后设置参数联入的单元执行优先级为2
+    SetMyUnitListExectivePriority();
+
     m_fEncapsulated = true; // 最后设置封装标志
   }
   else { // 不可封装部件，则只封装其下层部件。其内部单元序列要加入其上层的部件（或者就是总体文件）的单元序列中。
@@ -1880,35 +1826,34 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
     CheckComponentSelf();
     ASSERT(m_fEncapsulated == false);
   }
+  ASSERT(m_fCompiled == false);
   return (true);
 }
 
 bool CUnitComponent::Compilation(void)
 {
   // 编译本部件的内部单元序列。如果是部件，则往下找.不可封装的部件也要往下找。
-  for (const auto punit : m_CUnitList) {
-    if (punit->IsEncapsulating()) { // 排除已封装的部件。
-      ASSERT(!punit->IsCompiled());
-      ASSERT(!punit->IsEncapsulated());
-      punit->Compilation();
-    }
-  }
+  CompileInnerComponent(&m_CUnitList);
 
   // 此时下层部件都已被编译了,确认之。
   for (const auto punit : m_CUnitList) {
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) && punit->IsEncapsulable()) {
       CUnitList * pUnitList = ((CUnitComponent *)punit)->GetUnitList();
       for (const auto punitInner : *pUnitList) {
-        ASSERT(punit->IsEncapsulated());
-        ASSERT(!punit->IsEncapsulating());
-        ASSERT(punit->IsCompiled());
+        ASSERT(punitInner->IsEncapsulated());
+        ASSERT(!punitInner->IsEncapsulating());
+        ASSERT(punitInner->IsCompiled());
       }
     }
   }
  
   // 开始编译
   CompileUnitList(&m_CUnitList, &m_CRunTimeUnitList); // 编译此单元序列
-
+  
+  m_fEncapsulating = false;
+  m_fEncapsulated = true;
+  m_fCompiled = true;
+  
   return true;
 }
 

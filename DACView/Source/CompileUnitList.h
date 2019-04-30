@@ -12,7 +12,13 @@ void ReSetCompileFlag(CUnitList *pUnitList);
 void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList);
 
 //此函数是由外部调用的
+bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList);
+
+// 此函数是编译给定的单元序列
 bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList);
+
+// 编译单元序列pUnitList中的可编译部件
+bool CompileInnerComponent(CUnitList * pUnitList);
 
 // 以下函数用于单元序列的编译，不允许外部调用。列于此处只是为了测试函数的调用方便
 void ClearLoopDetectFlag(CUnitList * pUnitList);
@@ -21,3 +27,5 @@ bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList);
 bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit);
 bool SetNoSrcUnitExectivePriority(CUnitList * plistUnit);
 bool ExectiveCompilation(CUnitList & listUnit, CUnitList * pRunTimeUnitList);
+bool EncapsulateUnitList(CUnitList * pUnitList);
+bool SetEncapsulatingFlag(CUnitList * pUnitList);

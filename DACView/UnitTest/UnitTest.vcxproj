@@ -108,7 +108,7 @@
     <Object Include="..\..\x64\Debug\CObjSlider.obj" />
     <Object Include="..\..\x64\Debug\CObjSymbol.obj" />
     <Object Include="..\..\x64\Debug\CObjText.obj" />
-    <Object Include="..\..\x64\Debug\CompileUnitList.obj" />
+    <Object Include="..\..\x64\Debug\ComplieUnitList.obj" />
     <Object Include="..\..\x64\Debug\CUnitAdd.obj" />
     <Object Include="..\..\x64\Debug\CUnitAnd.obj" />
     <Object Include="..\..\x64\Debug\CUnitbase.obj" />

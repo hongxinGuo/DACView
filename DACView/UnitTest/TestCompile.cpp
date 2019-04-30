@@ -203,44 +203,7 @@ namespace DACViewTest {
     }
   }
 
-  TEST_P(TestCompile, TestEncapsulateUnitList) {
-    CUnitList listUnit, runtimeUnitList;
-    CUnitComponent * pCpt = nullptr;
-    INT64 iCurrentUnit = sizeof(ULONG);
-
-    ReSetCompileFlag(&m_unitlist);
-
-    SetParaLockFlag(&m_unitlist, &m_objectlist);
-
-    CreateUniUnitList(&m_unitlist, listUnit);
-
-    SetNoSrcUnitExectivePriority(&listUnit);
-
-    ExectiveCompilation(listUnit, &runtimeUnitList);
-
-    EncapsulateUnitlist(&listUnit, listUnit);
-
-    EXPECT_EQ(runtimeUnitList.size(), listUnit.size()) << strFileName << "运行时单元序列与所有单元的数量不符";
-
-    for (const auto pcunitTemp : listUnit) {
-      if (pcunitTemp->GetExectivePriority() == 1) {
-        EXPECT_TRUE(!pcunitTemp->IsHaveSourceUnit()) << "执行优先级为1的单元没有数据输入";
-      }
-      if (pcunitTemp->GetExectivePriority() > 1) {
-        EXPECT_TRUE(pcunitTemp->IsHaveSourceUnit());
-      }
-      EXPECT_GT(pcunitTemp->GetExectivePriority(), 0) << "执行优先级大于1的单元有源单元（数据输入）";
-
-      if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        if (((CUnitComponent *)pcunitTemp)->IsEncapsulable()) {
-          EXPECT_TRUE(pcunitTemp->IsEncapsulated()) << "封装部件完成";
-        }
-      }
-    }
-  }
-
   TEST_P(TestCompile, TestCompile) {
-    CUnitBase *pcunitTemp;
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
 
@@ -260,7 +223,7 @@ namespace DACViewTest {
     CUnitList rtUnitList;
 
     if (!UnitListLoopDetect(&m_unitlist)) {   // 如果没有发现动态链接循环
-      CompileUnitList(&m_unitlist, &rtUnitList);
+      Compilation(&m_unitlist, &rtUnitList);
     }
     else ASSERT_TRUE(0); // 有循环出现的话，就退出测试。
 /*
@@ -321,7 +284,7 @@ namespace DACViewTest {
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
     // 所有与编译有关的测试，都需要编译整体文件。由于系统数据关联的原因，无法单独部件本身，故而需要编译整体文件，最后再测试封装。
-    CompileUnitList(&m_unitlist, &unitListRunTime);
+    Compilation(&m_unitlist, &unitListRunTime);
     int i = 0;
     for (const auto pcunitTemp : m_unitlist) {
       i++;
@@ -361,6 +324,8 @@ namespace DACViewTest {
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
     CreateUniUnitList(&m_unitlist, listTotalUnit);
+
+    SetEncapsulatingFlag(&m_unitlist);
 
     // 计算从部件输入和输出的动态链接数据的数量，以备封装部件时测试接口参数的设置是否正确
     for (const auto pcunitTemp : listTotalUnit) {
@@ -410,10 +375,6 @@ namespace DACViewTest {
       }
     }
 
-    SetNoSrcUnitExectivePriority(&listTotalUnit);
-
-    ExectiveCompilation(listTotalUnit, &runtimeUnitList);
-
     // 将Encapsulation展开，分段执行和测试
     CUnitList * pUnitList;
     for (const auto pcunit : m_unitlist) {
@@ -435,21 +396,6 @@ namespace DACViewTest {
           // 检查部件状态是否正确， 此函数本身就是用来验证的，不需要再次检验
           pCUCP->CheckComponentSelf();
 
-          // 生成内部单元序列的运行时单元序列。由于之前下层部件都已经封装了，此时的运行时单元序列的个数就是内部单元的个数。
-          pCUCP->CreateRunTimeUnitList();
-
-          // 测试生成的运行时单元序列与内部单元序列的数量是相同的（封装后既是），且其执行优先级按升序排列（允许相同级别）
-          CUnitList * pRTUnitList = pCUCP->GetRunTimeUnitList();
-          EXPECT_EQ(pUnitList->size(), pRTUnitList->size()) << "下层部件封装后的运行时单元序列，其单元数量与内部单元序列的相等";
-          INT64 kTotal = pRTUnitList->size();
-          CUnitBase *punitTemp2 = pRTUnitList->front();
-          if (kTotal > 1) {
-            for (const auto punitTemp3 : *pRTUnitList) {
-              EXPECT_LE(punitTemp2->GetExectivePriority(), punitTemp3->GetExectivePriority()) << "单元序列封装后其执行优先级升序排列";
-              punitTemp2 = punitTemp3;
-            }
-          }
-
           // 将部件参数中输出型的在内部源单元处建立一个新的动态链接，目的单元为本部件。
           // 此步骤要先于处理联入联出的过程执行。
           pCUCP->CreateNewDynLinkFromInterfaceOutputTypePara();
@@ -460,7 +406,7 @@ namespace DACViewTest {
               if ((pCUCP->GetParaType(l) & (tINPUT | tOUTPUT)) == tOUTPUT) {
                 CUnitBase * punit11 = pCUCP->GetParaSrcUnit(l);
                 CUDLList * pUDLList = punit11->GetDynLinkList();
-                kTotal = pUDLList->size();
+                INT64 kTotal = pUDLList->size();
                 auto itDL1 = pUDLList->begin();
                 shared_ptr<CUnitDynLink> pDL = *itDL1;
                 while (pDL->GetDestUnit() != pCUCP) {
@@ -510,22 +456,6 @@ namespace DACViewTest {
               }
             }
           }
-
-          // 设置本部件的执行优先级
-          pCUCP->SetMyselfExectivePriority();
-
-          // 测试是否设置好了本部件的执行优先级
-          INT32 iComponentExectivePriority = 0;
-          for (int i = 0; i < 16; i++) {
-            if (pCUCP->IsParaLinked(i)) {
-              if (((pCUCP->GetParaType(i)) & tINPUT) && (pCUCP->IsParameterLocked(i))) { // 输入型参数且存在源单元：只从上层单元序列中找
-                if ((pCUCP->GetParaSrcUnit(i))->GetExectivePriority() > iComponentExectivePriority) {
-                  iComponentExectivePriority = (pCUCP->GetParaSrcUnit(i))->GetExectivePriority();
-                }
-              }
-            }
-          }
-          EXPECT_EQ(iComponentExectivePriority + 1, pCUCP->GetExectivePriority());
 
           EXPECT_EQ((pCUCP->GetDynLinkList())->size(), 0); // 处理输出型动态链接前，部件本身的动态链接序列是零
           // 寻找是否存在联出本部件的动态链接。
@@ -607,7 +537,7 @@ namespace DACViewTest {
       }
     }
 
-    EXPECT_EQ(runtimeUnitList.size(), listTotalUnit.size()) << "运行时单元序列与所有单元的数量不符";
+    CompileUnitList(&m_unitlist, &runtimeUnitList);
 
     for (const auto pcunitTemp : listTotalUnit) {
       if (pcunitTemp->GetExectivePriority() == 1) {
@@ -685,8 +615,6 @@ namespace DACViewTest {
     SetNoSrcUnitExectivePriority(&listTotalUnit);
 
     ExectiveCompilation(listTotalUnit, &runtimeUnitList);
-
-    EncapsulateUnitlist(&m_unitlist, listTotalUnit);
 
     for (const auto punit : listTotalUnit) {
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {

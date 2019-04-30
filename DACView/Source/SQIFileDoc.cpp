@@ -314,7 +314,7 @@ void CSQIFileDoc::ClearLoopDetectFlag( void ) {
 //    
 ////////////////////////////////////////////////////////////////////////
 bool CSQIFileDoc::CompileRunTimeUnitList( void ) {
-	return(CompileUnitList(&m_CUnitList, &m_CRunTimeUnitList));
+	return(Compilation(&m_CUnitList, &m_CRunTimeUnitList));
 }
 
 /////////////////////////////////////////////////////////////////////////////

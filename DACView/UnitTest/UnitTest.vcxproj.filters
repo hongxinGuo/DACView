@@ -197,9 +197,6 @@
     <Object Include="..\..\x64\Debug\CObjText.obj">
       <Filter>dependency</Filter>
     </Object>
-    <Object Include="..\..\x64\Debug\CompileUnitList.obj">
-      <Filter>dependency</Filter>
-    </Object>
     <Object Include="..\..\x64\Debug\CUnitAdd.obj">
       <Filter>dependency</Filter>
     </Object>
@@ -474,6 +471,9 @@
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\CObjectRect.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\ComplieUnitList.obj">
       <Filter>dependency</Filter>
     </Object>
   </ItemGroup>

@@ -310,6 +310,52 @@ void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
   }
 }
 
+bool EncapsulateUnitList(CUnitList * pUnitList) {
+  CUnitList unitlist;
+
+  CreateUniUnitList(pUnitList, unitlist); // 生成需要编译的单一单元序列
+
+  // 封装需封装的部件
+  for (auto punit : *pUnitList) {
+    if (punit->IsEncapsulable() && (!punit->IsEncapsulated())) {
+      punit->Encapsulation(unitlist);
+    }
+  }
+
+  return true;
+}
+
+bool SetEncapsulatingFlag(CUnitList * pUnitList) {
+  CUnitList unitlist;
+
+  CreateUniUnitList(pUnitList, unitlist); // 生成需要编译的单一单元序列
+  // 设置单元序列编译中的标志
+  for (auto punit : unitlist) {
+    ASSERT(!punit->IsEncapsulating());
+    punit->SetEncapsulatingFlag(true);
+    ASSERT(punit->IsEncapsulating());
+  }
+
+  return true;
+}
+
+bool CompileInnerComponent(CUnitList * pUnitList) {
+  for (const auto punit : *pUnitList) {
+    if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+      if (!punit->IsEncapsulated() && punit->IsEncapsulable()) { // 排除已封装和不可封装的部件。
+        ASSERT(!punit->IsCompiled());
+        punit->Compilation();
+        ASSERT(punit->IsCompiled());
+        ASSERT(!punit->IsEncapsulating());
+      }
+    }
+    else punit->Compilation();
+  }
+
+  return true;
+}
+
+
 ////////////////////////////////////////////////////////////////////////
 //
 // CompileUnitList()
@@ -323,7 +369,7 @@ void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
 //              : FALSE if not created runtime unit list
 //
 // Description :
-//   这个函数是生成运行时态单元序列.在此之前，设置了输入参数个数，清除了编译标志和执行优先级
+//   这个函数是生成运行时态单元序列.在此之前，设置了输入参数个数，清除了编译标志和执行优先级,部件已经被封装
 // 
 // 采用先编译后封装的办法，发现有时会导致优先级出现错误，具体情况就是当编译可被封装的部件时，
 // 部件的优先级是在编译单元序列的最后才确认的，结果被测试函数发现错误。
@@ -337,6 +383,9 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   CUnitList unitlist;
 
   TRACE("Start Compile unit list\n");
+
+  // 首先编译本单元序列中的部件
+  CompileInnerComponent(pUnitList);
 
   // 在此之前，单元序列已经清除编译标志和执行优先级，设置了输入参数个数,单元序列中的可封装部件都已经被封装了。
   // 将所有的单元(包括部件本身）组成一个单独的单元序列. 此时部件已完成封装，故而其内部单元序列不再加此此单元序列中。不可封装部件的内部单元序列要加入。
@@ -362,4 +411,18 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   unitlist.clear();
   return (true);
 }
+
+bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
+  // 设置封装中标志
+  SetEncapsulatingFlag(pUnitList);
+
+  // 封装单元序列中的可封装部件
+  EncapsulateUnitList(pUnitList);
+
+  // 编译此单元序列
+  CompileUnitList(pUnitList, pRunTimeUnitList);
+
+  return true;
+}
+
 

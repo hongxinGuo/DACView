@@ -582,36 +582,6 @@ static char THIS_FILE[] = __FILE__;
     }
   }
 
-  TEST(TestCUnitComponent, TestIsCompiled) {
-    CUnitComponent c;
-    CUnitList * pUList = c.GetUnitList();
-    CUnitAdd *c2, *c3, *c4;
-    c2 = new CUnitAdd;
-    c3 = new CUnitAdd;
-    c4 = new CUnitAdd;
-    pUList->push_back(c2);
-    pUList->push_back(c3);
-    pUList->push_back(c4);
-    EXPECT_FALSE(c.IsCompiled());
-    c.SetCompiledFlag(true);
-    EXPECT_TRUE(c.IsCompiled());
-    EXPECT_TRUE(c2->IsCompiled());
-    EXPECT_TRUE(c3->IsCompiled());
-    EXPECT_TRUE(c4->IsCompiled());
-    c2->SetCompiledFlag(false);
-    EXPECT_FALSE(c.IsCompiled());
-    c.SetCompiledFlag(false);
-    EXPECT_FALSE(c.IsCompiled());
-    EXPECT_FALSE(c2->IsCompiled());
-    EXPECT_FALSE(c3->IsCompiled());
-    EXPECT_FALSE(c4->IsCompiled());
-    c2->SetCompiledFlag(true);
-    c3->SetCompiledFlag(true);
-    c4->SetCompiledFlag(true);
-    EXPECT_FALSE(c.IsCompiled()); // 即使内部单元序列都编译了，但部件本身的编译标志尚未设置，故部件仍然是未编译的
-    c.SetEncapsulateFlag(true);   
-    EXPECT_TRUE(c.IsCompiled());  // 封装后的部件，都报告已经编译了，无论m_fCompiled变量如何
-  }
 
 }
 

@@ -484,9 +484,6 @@
     <ClInclude Include="DACView\Source\accesory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\CObjComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\CObjDynLink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -573,6 +570,9 @@
     </ClInclude>
     <ClInclude Include="DACView\Source\CompileUnitList.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\CObjComponent.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
