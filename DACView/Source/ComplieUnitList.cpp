@@ -145,7 +145,7 @@ bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //
-// 将所有的单元组成单元序列，编译的部件则将其内部单元序列和部件本身加入。
+// 将所有的单元组成单元序列。未编译的部件则将其内部单元序列和部件本身加入，编译过的部件只将其自身加入单元序列（内部不可见了）。
 //
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +153,10 @@ bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit) {
   // 在此之前，单元已经清除编译标志和执行优先级，设置了输入参数个数
   // 将所有的单元(包括未编译部件本身及其内部单元序列）组成一个单独的单元序列. 
   for (const auto pcunit : *pUnitList) {
-    if (!pcunit->IsEncapsulated()) ASSERT((pcunit->GetExectivePriority() == 0) || (pcunit->GetExectivePriority() == 1));
+    if (!pcunit->IsEncapsulated()) {
+      // 编译前其值为0， 编译后其值为1
+      ASSERT((pcunit->GetExectivePriority() == 0) || (pcunit->GetExectivePriority() == 1));
+    }
     pcunit->CheckSelf();
     pcunit->AddToList(listUniUnit);
   }

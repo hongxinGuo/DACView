@@ -1,12 +1,11 @@
 #include"stdafx.h"
+#include"pch.h"
 
 #include"CUnitBase.h"
 #include"CUnitComponent.h"
 #include"SQIFileDoc.h"
 
 #include"compileUnitList.h"
-
-#include"pch.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -72,11 +71,12 @@ namespace DACViewTest {
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitList UnitList;
 
-    // 测试封装后的部件其编译标志已设置
-    for (const auto pctemp : m_unitlist) {
-      if (pctemp->IsEncapsulable() && pctemp->IsEncapsulated()) {
-        EXPECT_TRUE(pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
-        CUnitList *pUList2 = ((CUnitComponent *)pctemp)->GetUnitList();
+    // 测试封装后的部件其编译标志已设置（在读取部件时，如果是封装了的就设置其编译标志
+    for (const auto punit : m_unitlist) {
+      if (punit->IsEncapsulable() && punit->IsEncapsulated()) {
+        EXPECT_TRUE(punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
+        EXPECT_FALSE(punit->IsCompiled()) << "此部件本身的编译标志尚未设置";
+        CUnitList *pUList2 = ((CUnitComponent *)punit)->GetUnitList();
         for (const auto pcunit2 : *pUList2) {
           EXPECT_TRUE(pcunit2->IsCompiled()); // 只检测了一层，更下面的层没有验证。
         }
@@ -85,14 +85,17 @@ namespace DACViewTest {
 
     ReSetCompileFlag(&m_unitlist);
 
+    CreateUniUnitList(&m_unitlist, UnitList);
+
     // 测试编译标志是否重置
-    for (const auto pcunit : m_unitlist) {
+    for (const auto pcunit : UnitList) {
       if (!pcunit->IsEncapsulated()) {
         EXPECT_FALSE(pcunit->IsCompiled()) << "重置后编译标志为假";
       }
       EXPECT_FALSE(pcunit->IsHaveSourceUnit()) << "重置后有源数量为0";
       EXPECT_EQ(pcunit->GetExectivePriority(), 0) << "重置后执行优先级为0";
     }
+    UnitList.clear();
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
@@ -154,52 +157,6 @@ namespace DACViewTest {
           EXPECT_EQ(punit->GetExectivePriority(), 1) << "在设置无源单元的执行优先级时，部件执行优先级永远设置为1";
         }
       }
-    }
-  }
-
-  // 测试编译单元序列
-  TEST_P(TestCompile, TestExectiveCompilation) {
-    CUnitList listUnit, runtimeUnitList;
-    CUnitComponent * pCpt = nullptr;
-
-    CUnitBase *pcunitTemp;
-
-    ReSetCompileFlag(&m_unitlist);
-
-    SetParaLockFlag(&m_unitlist, &m_objectlist);
-
-    CreateUniUnitList(&m_unitlist, listUnit);
-
-    SetNoSrcUnitExectivePriority(&listUnit);
-
-    for (const auto pcunit : runtimeUnitList) {
-      EXPECT_FALSE(pcunit->IsCompiled()) << "此时单元序列尚未编译" << pcunit->GetName();
-    }
-
-    ExectiveCompilation(listUnit, &runtimeUnitList);
-
-    for (const auto pcunitTemp : listUnit) {
-      if (pcunitTemp->GetExectivePriority() == 1) {
-        EXPECT_TRUE(!pcunitTemp->IsHaveSourceUnit()) << "执行优先级为1的单元没有数据输入";
-      }
-      if (pcunitTemp->GetExectivePriority() > 1) {
-        EXPECT_TRUE(pcunitTemp->IsHaveSourceUnit());
-      }
-      EXPECT_GT(pcunitTemp->GetExectivePriority(), 0) << "执行优先级大于1的单元有源单元（数据输入）";
-      CUDLList * pUDLList = pcunitTemp->GetDynLinkList();
-      for (const auto pDL : *pUDLList) {
-        if (!pDL->GetDestUnit()->IsSetCutOff()) { // 如果目标单元没有设置截断，则其优先级必须小于源单元
-          EXPECT_LT(pcunitTemp->GetExectivePriority(), pDL->GetDestUnit()->GetExectivePriority()) << "动态链接优先级出错："
-            << strFileName << "  " << pcunitTemp->GetName() << "  " << pDL->GetDestUnit()->GetName();
-        }
-      }
-    }
-
-    pcunitTemp = runtimeUnitList.front();
-    for (const auto pcunit : runtimeUnitList) {
-      EXPECT_TRUE(pcunit->IsCompiled()) << "此时单元序列都编译了" << pcunit->GetName();
-      EXPECT_LE(pcunitTemp->GetExectivePriority(), pcunit->GetExectivePriority()) << "运行时单元序列执行优先级排列错误";
-      pcunitTemp = pcunit;
     }
   }
 
@@ -271,7 +228,7 @@ namespace DACViewTest {
   }
 
 
-  TEST_P(TestCompile, TestComponentEncapsulation) {
+  TEST_P(TestCompile, TestCompilation) {
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
     CUnitList unitListRunTime;
