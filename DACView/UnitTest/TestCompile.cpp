@@ -64,6 +64,7 @@ namespace DACViewTest {
 			, "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件.sqi"
       , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件有Object多项输入.sqi"
       , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件有截断有Object多项输入.sqi"
+      , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有100+.sqi"
     ));
 
   // 测试设置单元参数标志
@@ -203,7 +204,7 @@ namespace DACViewTest {
         k = pctemp->GetExectivePriority();
         pDestUnit = pDL->GetDestUnit();
         l = pDestUnit->GetExectivePriority();
-        if ((k >= l) && (!pctemp->IsSetCutOff()) && (!pDestUnit->IsSetCutOff())) { //优先级出现问题？
+        if ((k >= l) && (!pctemp->IsCutoff()) && (!pDestUnit->IsCutoff())) { //优先级出现问题？
           if (pctemp->GetComponentUpper() != pDestUnit) { //封装后，内部单元有数据输出到部件参数处，此时不考虑执行优先级（内部单元的执行总在部件执行之后）
             EXPECT_FALSE(0) << "动态链接执行优先级出现错误" << pctemp->GetName() << "  " << pDestUnit->GetName();
           }
@@ -242,20 +243,18 @@ namespace DACViewTest {
 
     // 所有与编译有关的测试，都需要编译整体文件。由于系统数据关联的原因，无法单独部件本身，故而需要编译整体文件，最后再测试封装。
     Compilation(&m_unitlist, &unitListRunTime);
-    int i = 0;
-    for (const auto pcunitTemp : m_unitlist) {
-      i++;
-      if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCpt = (CUnitComponent *)pcunitTemp;
+    for (const auto punit : m_unitlist) {
+      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+        pCpt = (CUnitComponent *)punit;
         if (pCpt->IsEncapsulable()) {
-          for (int j = 0; j < 16; j++) {
+          for (int i = 0; i < 16; i++) {
             if (pCpt->IsParaLinked(i)) {
               // 顺道测试此函数。
               EXPECT_TRUE((pCpt->GetDynLinkType(i) & pCpt->GetParaType(i)));
             }
           }
           EXPECT_TRUE(pCpt->IsEncapsulated());
-          EXPECT_TRUE(pCpt->HaveParameter());
+          //EXPECT_TRUE(pCpt->HaveParameter());
         }
       }
     }
@@ -497,11 +496,14 @@ namespace DACViewTest {
       }
     }
 
-    CompileUnitList(&m_unitlist, &runtimeUnitList);
+    CUnitList unitlist;
+    CreateUniUnitList(&m_unitlist, unitlist);
+    // 编译此生成的单元序列
+    CompileUnitList(&unitlist, &runtimeUnitList);
 
     for (const auto punit : listTotalUnit) {
       if (punit->GetExectivePriority() == 1) {
-        if ((punit->IsHaveSourceUnit()) && !punit->IsSetCutOff()) {
+        if ((punit->IsHaveSourceUnit()) && !punit->IsCutoff()) {
           CUnitComponent * pCpt = punit->GetComponentUpper();
           bool fFound = false;
           if (pCpt != nullptr) {
@@ -518,7 +520,7 @@ namespace DACViewTest {
         }
       }
       if (punit->GetExectivePriority() > 1) {
-        EXPECT_TRUE(punit->IsHaveSourceUnit());
+        EXPECT_TRUE(punit->IsHaveSourceUnit() || punit->IsCutoff());
       }
       EXPECT_GT(punit->GetExectivePriority(), 0) << "执行优先级大于1的单元有源单元（数据输入）";
 
@@ -576,8 +578,10 @@ namespace DACViewTest {
     // 封装单元序列中的可封装部件
     EncapsulateUnitList(&m_unitlist);
 
+    CUnitList unitlist;
+    CreateUniUnitList(&m_unitlist, unitlist);
     // 编译此单元序列
-    CompileUnitList(&m_unitlist, &runtimeUnitList);
+    CompileUnitList(&unitlist, &runtimeUnitList);
 
     for (const auto punit : listTotalUnit) {
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
@@ -587,16 +591,13 @@ namespace DACViewTest {
       }
     }
 
-    CUnitList unitlist2;
-    CreateUniUnitList(&m_unitlist, unitlist2);
-
-    EXPECT_EQ(runtimeUnitList.size(), unitlist2.size()) << "运行时单元序列与本单元序列的数量不符";
-    unitlist2.clear();
+    EXPECT_EQ(runtimeUnitList.size(), unitlist.size()) << "运行时单元序列与本单元序列的数量不符";
+    unitlist.clear();
 
     // 检查所有的部件内部单元的运行优先级
     for (const auto punit : listTotalUnit) {
       if (punit->GetExectivePriority() == 1) {
-        if ((punit->IsHaveSourceUnit()) && !punit->IsSetCutOff()) {
+        if ((punit->IsHaveSourceUnit()) && !punit->IsCutoff()) {
           CUnitComponent * pCpt = punit->GetComponentUpper();
           bool fFound = false;
           if (pCpt != nullptr) {
@@ -613,7 +614,7 @@ namespace DACViewTest {
         }
       }
       if (punit->GetExectivePriority() > 1) {
-        EXPECT_TRUE(punit->IsHaveSourceUnit());
+        EXPECT_TRUE(punit->IsHaveSourceUnit() || punit->IsCutoff());
       }
       EXPECT_GT(punit->GetExectivePriority(), 0) << "执行优先级大于1的单元有源单元（数据输入）";
 
@@ -639,8 +640,11 @@ namespace DACViewTest {
     // 封装单元序列中的可封装部件
     EncapsulateUnitList(&m_unitlist);
 
+    listTotalUnit.clear();
+    CreateUniUnitList(&m_unitlist, listTotalUnit);
+
     // 编译此单元序列
-    CompileUnitList(&m_unitlist, &runtimeUnitList);
+    CompileUnitList(&listTotalUnit, &runtimeUnitList);
 
 
     for (const auto pctemp : m_unitlist) {
@@ -662,7 +666,7 @@ namespace DACViewTest {
         a = pcunittemp->GetExectivePriority();
         pcunit2 = pUnitDynLink->GetDestUnit();
         b = pcunit2->GetExectivePriority();
-        if (!pcunit2->IsSetCutOff()) { // 没有设置截断的目的单元其执行优先级必须小于源单元
+        if (!pcunit2->IsCutoff()) { // 没有设置截断的目的单元其执行优先级必须小于源单元
           EXPECT_LT(a, b) << "Found Error in File " << strFileName << "'s SetExectivePriority's Unit "
             << pcunittemp->GetName() << " -> " << pUnitDynLink->GetDestUnit()->GetName();
         }

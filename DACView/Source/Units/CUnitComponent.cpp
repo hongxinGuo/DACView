@@ -243,6 +243,14 @@ void CUnitComponent::ClearParaSelectedFlag(void)
   }
 }
 
+bool CUnitComponent::IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit)
+{
+  CUnitComponent * pCptUpper = pUnit->GetComponentUpper();
+  if ( pCptUpper == nullptr) return false;
+  if ( pCptUpper == pCpt ) return true;
+  else return (IsInThisComponent(pCpt, pCptUpper));
+}
+
 
 ////////////////////////////////////////////////////////////////
 //
@@ -278,7 +286,7 @@ bool CUnitComponent::LoopDetect(CUnitList * pCUnitList) {
             for (const auto pDL : *pDLList) {
               if ( pDL->GetSrcIndex() == j) { // 如果动态链接的源参数位置与检查的参数位置相同
                 pcunit = pDL->GetDestUnit(); // 
-                if (!pcunit->IsSetCutOff()) {   // 如果是寻找循环并且没有设置截断标志
+                if (!pcunit->IsCutoff()) {   // 如果是寻找循环并且没有设置截断标志
                   if (find(pCUnitList->begin(), pCUnitList->end(), pcunit) != pCUnitList->end()) {	// 找到了循环？
                     // 将本单元加入单元序列，并且报告发现了循环
                     pCUnitList->push_back(pcunit);
@@ -335,7 +343,7 @@ bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
             for (const auto pDL : *pDLList) {
               if (pDL->GetSrcIndex() == j) { // 如果动态链接的源参数位置与检查的参数位置相同
                 pcunit = pDL->GetDestUnit(); // 
-                if (!pcunit->IsSetCutOff()) {   // 如果是寻找循环并且没有设置截断标志
+                if (!pcunit->IsCutoff()) {   // 如果是寻找循环并且没有设置截断标志
                   if (find(pCUnitList->begin(), pCUnitList->end(), pcunit) != pCUnitList->end()) {	// 找到了循环？
                     // 将本单元加入单元序列，并且报告发现了截断
                     pCUnitList->push_back(pcunit);
@@ -726,7 +734,7 @@ bool CUnitComponent::ExectiveDynLink( void ) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// 未封装时的部件，如果其拥有输入型参数，则此参数所关联的内部单元，其优先级最高为2，且需要部件本身对其进行设置。
+// 未封装时的部件，如果其拥有输入型参数，则此参数所关联的内部单元，其优先级最高为1，且需要部件本身对其进行设置。
 //
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -736,7 +744,7 @@ void CUnitComponent::SetDestUnitPriority(void) {
     for (int i = 0; i < 16; i++) {
       if (m_pInterfacePara[i]->IsLinked()) {
         if ((m_pInterfacePara[i]->GetParaType() & (tINPUT | tOUTPUT)) == tINPUT) {
-          m_pInterfacePara[i]->GetDestUnit()->SetExectivePriority(2); // 从上层部件输入数据的单元，其优先级最高为2.
+          m_pInterfacePara[i]->GetDestUnit()->SetExectivePriority(1); // 从上层部件输入数据的单元，其优先级最高为1.
         }
       }
     }
@@ -1620,7 +1628,7 @@ bool CUnitComponent::SetMyUnitListExectivePriority(void) {
   for (int i = 0; i < 16; i++) {
     if (m_pInterfacePara[i]->IsLinked()) {
       if (((m_pInterfacePara[i]->GetParaType()) & tINPUT)) { // 输入型参数
-        m_pInterfacePara[i]->GetDestUnit()->SetExectivePriorityDirect(1); // 输入性参数所对应的目的单元的执行优先级至少为2.
+        m_pInterfacePara[i]->GetDestUnit()->SetExectivePriorityDirect(1); // 输入性参数所对应的目的单元的执行优先级为1.
       }
     }
   }
@@ -1649,6 +1657,8 @@ bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
   CString strParaName;
   CUDLList *pDLList = nullptr;
   int iPo = 16;
+  CUnitBase * pDestUnit, * pDest;
+  CUnitList::iterator it;
 
   ASSERT(m_lDynLinkToNumber == 0); // 封装前部件自身的联入动态链接为零
   for (const auto pcunit : listTotalUnit) { // 在所有需编译的单元序列中寻找
@@ -1657,8 +1667,10 @@ bool CUnitComponent::HandleTheDynLinkedInComponent(CUnitList & listTotalUnit) {
       switch (pDL->GetDynLinkClass()) {
       case COMPONENT_TO_COMPONENT: // 源单元位于上层单元序列中部件的内部单元序列      
       case UNIT_TO_COMPONENT: // 源单元位于上层单元序列中
-        if (find(m_CUnitList.begin(), m_CUnitList.end(), pDL->GetDestUnit()) != m_CUnitList.end()) { // 找到了联入单元
-          if ((pDL->GetSrcUnit()->GetComponentUpper()) != this) { // 如果源单元不位于本部件内，则找到了
+        pDestUnit = pDL->GetDestUnit();
+        if ((it = find(m_CUnitList.begin(), m_CUnitList.end(), pDL->GetDestUnit())) != m_CUnitList.end()) { // 找到了联入单元
+          pDest = *it;
+          if (!IsInThisComponent(this, pDL->GetSrcUnit())) { // 如果源单元不位于本部件内，则找到了
             iPo = FindNextAvailableParaPosition();
             ASSERT((iPo >= 0) && (iPo < 16));
             strParaName = this->GetParaName(iPo) + "-(" + (pDL->GetSrcUnit())->GetName() + "." + pDL->GetSrcUnit()->GetParaName(pDL->GetSrcIndex()) + ")";
@@ -1793,7 +1805,7 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
     ASSERT(m_fEncapsulating);
     ASSERT(m_fCompiled == false);
     ASSERT(m_fEncapsulated == false);
-    // 封装下层部件（如果有的话）	
+    // 封装下层部件（如果有的话)。在封装本部件之前，本部件的下层部件必须首先被封装，因为SetInnnerDataLinkFlag()不允许其内部没有未封装的部件
     EncapsulateBelowComponent(listTotalUnit);
 
     // 检查部件状态是否正确
@@ -1818,7 +1830,7 @@ bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
     // 这个函数调用必须是最后一步，否则内部动态链接尚未设置好，结果不对。
     SetInnerDataLinkFlag();
 
-    // 最后设置参数联入的单元执行优先级为2
+    // 最后设置参数联入的单元执行优先级为1
     SetMyUnitListExectivePriority();
 
     m_fEncapsulated = true; // 最后设置封装标志
@@ -1850,21 +1862,18 @@ bool CUnitComponent::Compilation(void)
   // 开始编译
   CompileUnitList(&unitlist, &m_CRunTimeUnitList); // 编译此单元序列
   
-  CompileInnerComponent(&unitlist); // 此时使用汇总后的单元序列
-
   // 此时下层部件都已被编译了,确认之。
   for (const auto punit : unitlist) {
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) && punit->IsEncapsulable()) {
       CUnitList * pUnitList = ((CUnitComponent *)punit)->GetUnitList();
       for (const auto punitInner : *pUnitList) {
-        ASSERT(punitInner->IsEncapsulated());
+        if ( punitInner->IsEncapsulable() ) ASSERT(punitInner->IsEncapsulated());
         ASSERT(!punitInner->IsEncapsulating());
         ASSERT(punitInner->IsCompiled());
       }
     }
   }
  
-  
   m_fEncapsulating = false;
   m_fEncapsulated = true;
   m_fCompiled = true;

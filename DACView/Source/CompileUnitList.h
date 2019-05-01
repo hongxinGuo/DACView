@@ -8,8 +8,10 @@
 
 // 重置编译标志
 void ReSetCompileFlag(CUnitList *pUnitList);
+
 // 设置单元序列中的内部状态
-void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList);
+void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList); // 这个是正常编译时用的
+void SetParaLockFlag(CUnitList * pUnitList);                            // 这个用于Edit Paste中。
 
 //此函数是由外部调用的
 bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList);
@@ -26,6 +28,6 @@ bool UnitListLoopDetect(CUnitList * pUnitList);
 bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList);
 bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit);
 bool SetNoSrcUnitExectivePriority(CUnitList * plistUnit);
-bool ExectiveCompilation(CUnitList & listUnit, CUnitList * pRunTimeUnitList);
+bool ExectiveCompilation(CUnitList * pUUnitList, CUnitList * pRunTimeUnitList);
 bool EncapsulateUnitList(CUnitList * pUnitList);
 bool SetEncapsulatingFlag(CUnitList * pUnitList);

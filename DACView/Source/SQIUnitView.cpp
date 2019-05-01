@@ -626,6 +626,10 @@ CSize CSQIUnitView::GetUnitDocSize(void) {
 //
 ////////////////////////////////////////////////////////////////////////////
 bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBase*& pcunit) {
+  if (m_pCUnitListCurrent->size() == 0) {
+    pcunit = nullptr;
+    return false;
+  }
   auto it = m_pCUnitListCurrent->end(); // Tail position is the top most
 
   do {
@@ -1797,11 +1801,12 @@ void CSQIUnitView::OnEditPaste()
   // 重置编译标志
   ReSetCompileFlag(&unitlistTemp);
   // 设置内部状态
-  SetParaLockFlag(&unitlistTemp, m_pObjectList);
+  SetParaLockFlag(&unitlistTemp);
 
-  // 将设置好的单元加入当前层的单元序列中
-  for (const auto pcunit : unitlistTemp) {
-    m_pCUnitListCurrent->push_back(pcunit); 
+  // 将设置好的单元加入当前层的单元序列中,并设置其上层部件
+  for (const auto punit : unitlistTemp) {
+    punit->SetComponentUpper(m_pCUnitComponentCurrent);
+    m_pCUnitListCurrent->push_back(punit); 
   }
 
   GetDocument()->m_trackerUnit.m_rect = m_pCUnitCurrent->GetSize() - GetScrollPosition();
@@ -2532,7 +2537,7 @@ void CSQIUnitView::OnUpdateArrangeTogglecutoff(CCmdUI* pCmdUI)
 void CSQIUnitView::OnArrangeTogglecutoff()
 {
   // TODO: Add your command handler code here
-  if (m_pCUnitCurrent->IsSetCutOff()) {	// 如已经设置了截断,则清除之.
+  if (m_pCUnitCurrent->IsCutoff()) {	// 如已经设置了截断,则清除之.
     m_pCUnitCurrent->SetCutOff(false);
     UnitListLoopDetect(m_pCUnitListCurrent);  // 回路检查
     __Invalidate();

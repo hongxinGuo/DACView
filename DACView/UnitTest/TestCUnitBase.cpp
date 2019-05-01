@@ -36,7 +36,7 @@ namespace DACViewTest {
 		EXPECT_TRUE(c.IsEncapsulated());
 		EXPECT_FALSE(c.IsLinkToComponent());
 		EXPECT_FALSE(c.IsHaveSourceUnit());
-		EXPECT_FALSE(c.IsSetCutOff());
+		EXPECT_FALSE(c.IsCutoff());
 		EXPECT_FALSE(c.CanLinkIn());
 		EXPECT_FALSE(c.CanViewIn());
     EXPECT_FALSE(c.IsOverFlow());
@@ -58,7 +58,7 @@ namespace DACViewTest {
     EXPECT_TRUE(c2.IsEncapsulated());
     EXPECT_FALSE(c2.IsLinkToComponent());
     EXPECT_FALSE(c2.IsHaveSourceUnit());
-    EXPECT_FALSE(c2.IsSetCutOff());
+    EXPECT_FALSE(c2.IsCutoff());
     EXPECT_FALSE(c2.CanLinkIn());
     EXPECT_FALSE(c2.CanViewIn());
     EXPECT_FALSE(c2.IsOverFlow());
@@ -269,13 +269,13 @@ namespace DACViewTest {
 		CPoint pt(100, 100);
 		CUnitBase c("CUnitBase", pt);
 		c.SetCutOff(true);
-		EXPECT_TRUE(c.IsSetCutOff());
+		EXPECT_TRUE(c.IsCutoff());
 		c.SetCutOff(true);
-		EXPECT_TRUE(c.IsSetCutOff());
+		EXPECT_TRUE(c.IsCutoff());
 		c.SetCutOff(false);
-		EXPECT_FALSE(c.IsSetCutOff());
+		EXPECT_FALSE(c.IsCutoff());
 		c.SetCutOff(false);
-		EXPECT_FALSE(c.IsSetCutOff());
+		EXPECT_FALSE(c.IsCutoff());
 	}
 
 	TEST(TestCUnitBase, TestSetExectivePriorityDirect) {

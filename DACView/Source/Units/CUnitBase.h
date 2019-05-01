@@ -87,7 +87,7 @@ public:
 	// 设置截断标志.
 	void 							SetCutOff( bool fFlag // 是否截断标志.
 															);
-  bool							IsSetCutOff( void ) const;
+  bool							IsCutoff( void ) const;
 
   //设置单元已被编译标志
   void              SetCompiledFlag(bool fFlag) { m_fCompiled = fFlag; }

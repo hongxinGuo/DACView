@@ -335,7 +335,7 @@ void CUnitBase::SetCutOff(bool fFlag) {
 	m_fCutOff = fFlag;
 }
 
-bool CUnitBase::IsSetCutOff(void) const {
+bool CUnitBase::IsCutoff(void) const {
 	return(m_fCutOff);
 }
 
@@ -1398,7 +1398,7 @@ bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
   for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
     if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
-      if (!pcunit->IsSetCutOff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
+      if (!pcunit->IsCutoff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
         if (find(pCUnitList->begin(), pCUnitList->end(), pcunit) != pCUnitList->end()) {	// 找到了循环？
           // 将本单元加入单元序列，并且报告发现了循环
           pCUnitList->push_back(pcunit);
@@ -1434,7 +1434,7 @@ bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
     if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
       if (find(pCUnitList->begin(), pCUnitList->end(), pcunit) != pCUnitList->end()) { // 找到了动态链接循环？
         for (const auto pcUnit3 : *pCUnitList) {
-          if (pcUnit3->IsSetCutOff()) { //如果此循环中存在截断，
+          if (pcUnit3->IsCutoff()) { //如果此循环中存在截断，
             // 将本单元加入单元序列，并且报告发现了截断
             pCUnitList->push_back(pcunit);
             return(true);
@@ -1475,7 +1475,7 @@ bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
 //		这是一个递归过程。
 //		封装后的部件虚拟继承此函数比较简单明了（已实现）。
 //
-//    本函数只在封装部件时被调用,单独调用本函数会导致错误。调用本函数时，部件封装已经到达最后一步，故而联入联出的动态链接已经被打断了存入部件本身的参数中，
+//    本函数只在封装部件时被调用,单独调用本函数会导致错误。调用本函数时，部件封装已经到达最后一步，故而联入联出的动态链接已经被打断了并且存入部件本身的参数中，
 //    故而本部件中的单元序列已经不存在跳出本部件的动态链接。
 //
 ////////////////////////////////////////////////////////////////////////////
@@ -1483,17 +1483,17 @@ void CUnitBase::CheckInnerDataLink(INT64 lSrcParaPos, INT64 , CUnitList * pCUnit
   CUnitBase * pcunit;
   CUnitBase *pFirstUnit = pCUnitList->front();
 
-	ASSERT(pCUnitList->size() > 0); // 不允许直接调用本函数，必须由部件类发起检查。
+	ASSERT(pCUnitList->size() >> 0); // 不允许直接调用本函数，必须由部件类发起检查。
   ASSERT(pFirstUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))); // 这个函数最初是由被查的部件调用的，第一个单元就是被查的部件本身。
   for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
-    if ((CUnitComponent *)pcunit == pFirstUnit) { // 找到了
+    if (pcunit == pFirstUnit) { // 找到了
       ((CUnitComponent *)pcunit)->SetInnerDataLinked(lSrcParaPos, pcunitDL->GetDestIndex(), true); // 设置内部链接标志
     }
     else {
       ASSERT((CUnitComponent *)pFirstUnit == pcunit->GetComponentUpper()); // 下层部件已经封装，不允许跳出本层
       if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
-        if (!pcunit->IsSetCutOff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
+        if (!pcunit->IsCutoff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
           //接着往下找
           pCUnitList->push_back(pcunit);
           pcunit->CheckInnerDataLink(lSrcParaPos, pcunitDL->GetDestIndex(), pCUnitList); // 继续寻找

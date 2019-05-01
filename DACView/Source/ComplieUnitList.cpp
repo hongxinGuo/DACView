@@ -123,7 +123,7 @@ bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
         unitlist.pop_front();
       }
       for (const auto pcunit : unitlist) {
-        if (pcunit->IsSetCutOff()) {
+        if (pcunit->IsCutoff()) {
           pcCutOff = pcunit;
           for (const auto pcunit2 : unitlist) {
             str += pcunit2->GetName();
@@ -213,7 +213,7 @@ bool CheckRunTimeUnitListCompiledStatus(CUnitList * pRunTimeUnitList) {
 //
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////
-bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
+bool ExectiveCompilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   INT64 iRunTimeTemp = 0, iTotal;
 
   TRACE("Start unit list's compilation\n");
@@ -223,15 +223,15 @@ bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
   // 开始编译
   INT64 iRunTimeTempOld = 0, iCurrentPriority = 0;
   bool done = false, fFindLoop = false;
-  iTotal = unitlist.size();
+  iTotal = pUnitList->size();
   while ((!done) && (!fFindLoop)) {
     iCurrentPriority++;
-    for (const auto pcunit : unitlist) {
-      if (pcunit->GetExectivePriority() == iCurrentPriority) { // 找到了执行优先级相等的单元
-        pcunit->SetDestUnitPriority();    // 设置此单元的目的单元执行优先级
-        pcunit->SetCompiledFlag(true);
-        pRunTimeUnitList->push_back(pcunit); // create runtime list
-        TRACE("%s(%u)\n", (LPCTSTR)(pcunit->GetName()), pcunit->GetExectivePriority());
+    for (const auto punit : *pUnitList) {
+      if (punit->GetExectivePriority() == iCurrentPriority) { // 找到了执行优先级相等的单元
+        TRACE("%s(%u)\n", (LPCTSTR)(punit->GetName()), punit->GetExectivePriority());
+        punit->SetDestUnitPriority();    // 设置此单元的目的单元执行优先级
+        punit->SetCompiledFlag(true);
+        pRunTimeUnitList->push_back(punit); // create runtime list
       }
     }
     iRunTimeTemp = pRunTimeUnitList->size();
@@ -252,23 +252,23 @@ bool ExectiveCompilation(CUnitList &unitlist, CUnitList * pRunTimeUnitList) {
 
   // 如有循环剩下,则将循环开始单元(cut_off unit)的优先值设为iCurrentPriority.
   if (fFindLoop) {
-    for (const auto pcunit : unitlist) {
-      if (pcunit->IsSetCutOff()) {
-        pcunit->SetExectivePriorityDirect(iCurrentPriority); // 必须使用此直接设置函数，SetExectivePriority会根据不同的情况分别处理
-        pcunit->SetCompiledFlag(true);
+    for (const auto punit : *pUnitList) {
+      if (punit->IsCutoff()) {
+        punit->SetExectivePriorityDirect(iCurrentPriority); // 必须使用此直接设置函数，SetExectivePriority会根据不同的情况分别处理
+        punit->SetCompiledFlag(true);
       }
     }
 
     // 处理与循环有关的单元.
     iRunTimeTempOld = 0;
     while (!done) {
-      for (const auto pcunit : unitlist) {
-        if (pcunit->GetExectivePriority() == iCurrentPriority) {
-          pcunit->SetDestUnitPriority();
-          pcunit->SetCompiledFlag(true);
-          pRunTimeUnitList->push_back(pcunit);     // create runtime list
-          TRACE("%s(%u)\n", (LPCTSTR)(pcunit->GetName()),
-            pcunit->GetExectivePriority());
+      for (const auto punit : *pUnitList) {
+        if (punit->GetExectivePriority() == iCurrentPriority) {
+          punit->SetDestUnitPriority();
+          punit->SetCompiledFlag(true);
+          pRunTimeUnitList->push_back(punit);     // create runtime list
+          TRACE("%s(%u)\n", (LPCTSTR)(punit->GetName()),
+            punit->GetExectivePriority());
         }
       }
       iRunTimeTemp = pRunTimeUnitList->size();
@@ -310,6 +310,21 @@ void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
 
   for (const auto pcObj : *pObjectList) {
     pcObj->SetParameterSelected();
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// 清除单元序列中残存的旧标志，然后设置正确的内部状态以备编译。
+//
+// 此函数只设置单元序列中的动态链接，Object序列中的输入型参数置之不理。
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+void SetParaLockFlag(CUnitList * pUnitList) {
+  // set unit select parameter
+  for (const auto pcUnit : *pUnitList) {
+    pcUnit->SetParaLockFlag();
   }
 }
 
@@ -388,27 +403,25 @@ bool CompileInnerComponent(CUnitList * pUnitList) {
 //    
 ////////////////////////////////////////////////////////////////////////
 bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
-  CUnitList unitlist;
 
   TRACE("Start Compile unit list\n");
 
 
   // 在此之前，单元序列已经清除编译标志和执行优先级，设置了输入参数个数,单元序列中的可封装部件都已经被封装了。
-  // 将所有的单元(包括部件本身）组成一个单独的单元序列. 此时部件已完成封装，故而其内部单元序列不再加此此单元序列中。不可封装部件的内部单元序列要加入。
-  // 这是为了测试是否有循环存在
-  CreateUniUnitList(pUnitList, unitlist);
+  // 此单元序列已经通过CreateUnitList函数加入了不可编译部件中的单元序列
+  // 此时部件已完成封装，故而其内部单元序列不再加此此单元序列中。不可封装部件的内部单元序列要加入。
 
   // 检测是否有循环形成
-  if (UnitListLoopDetect(&unitlist)) return(false);
+  if (UnitListLoopDetect(pUnitList)) return(false);
 
   // 设置没有源单元的单元(输入参数连接的单元)的处理优先值为1(最先处理).
-  SetNoSrcUnitExectivePriority(&unitlist);
+  SetNoSrcUnitExectivePriority(pUnitList);
 
   // 开始编译
-  ExectiveCompilation(unitlist, pRunTimeUnitList);
+  ExectiveCompilation(pUnitList, pRunTimeUnitList);
 
   // 然后编译本单元序列中的部件
-  CompileInnerComponent(&unitlist); // 此时使用汇总后的单元序列
+  CompileInnerComponent(pUnitList); // 此时使用汇总后的单元序列
 
   // 以下两个只是检查而已。
   // 简单检测本层的单元序列（不包括部件）都设置了执行优先级
@@ -417,20 +430,24 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   // 简单检测运行时单元序列（除部件外）都设置了执行优先级
   CheckRunTimeUnitListCompiledStatus(pRunTimeUnitList);
 
-  unitlist.clear();
   return (true);
 }
 
 bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
+  CUnitList unitlist;
+
   // 设置封装中标志
   SetEncapsulatingFlag(pUnitList);
 
   // 封装单元序列中的可封装部件
   EncapsulateUnitList(pUnitList);
 
-  // 编译此单元序列
-  CompileUnitList(pUnitList, pRunTimeUnitList);
+  CreateUniUnitList(pUnitList, unitlist);
 
+  // 编译此单元序列
+  CompileUnitList(&unitlist, pRunTimeUnitList);
+
+  unitlist.clear();
   return true;
 }
 

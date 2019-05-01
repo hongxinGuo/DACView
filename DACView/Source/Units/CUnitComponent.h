@@ -192,6 +192,8 @@ public:
   // 清除参数被选择索引
   virtual void      ClearParaSelectedFlag(  void ) override;
 
+  bool              IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit);
+
 
 #ifdef _DEBUG
   virtual void AssertValid() const;
