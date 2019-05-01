@@ -243,14 +243,6 @@ void CUnitComponent::ClearParaSelectedFlag(void)
   }
 }
 
-bool CUnitComponent::IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit)
-{
-  CUnitComponent * pCptUpper = pUnit->GetComponentUpper();
-  if ( pCptUpper == nullptr) return false;
-  if ( pCptUpper == pCpt ) return true;
-  else return (IsInThisComponent(pCpt, pCptUpper));
-}
-
 
 ////////////////////////////////////////////////////////////////
 //

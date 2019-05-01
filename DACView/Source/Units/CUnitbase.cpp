@@ -940,6 +940,13 @@ bool CUnitBase::IsParameterLocked(ULONG )
   return false;
 }
 
+bool CUnitBase::IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit) {
+  CUnitComponent * pCptUpper = pUnit->GetComponentUpper();
+  if (pCptUpper == nullptr) return false;
+  if (pCptUpper == pCpt) return true;
+  else return (IsInThisComponent(pCpt, pCptUpper));
+}
+
 
 ULONG CUnitBase::GetDynLinkType(ULONG ) {
 	ASSERT( 0 );
@@ -1480,23 +1487,23 @@ bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
 //
 ////////////////////////////////////////////////////////////////////////////
 void CUnitBase::CheckInnerDataLink(INT64 lSrcParaPos, INT64 , CUnitList * pCUnitList) {
-  CUnitBase * pcunit;
+  CUnitBase * punit;
   CUnitBase *pFirstUnit = pCUnitList->front();
 
 	ASSERT(pCUnitList->size() >> 0); // 不允许直接调用本函数，必须由部件类发起检查。
   ASSERT(pFirstUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))); // 这个函数最初是由被查的部件调用的，第一个单元就是被查的部件本身。
-  for ( const auto pcunitDL : m_listDynLink ) {
-    pcunit = pcunitDL->GetDestUnit();    // get destination unit
-    if (pcunit == pFirstUnit) { // 找到了
-      ((CUnitComponent *)pcunit)->SetInnerDataLinked(lSrcParaPos, pcunitDL->GetDestIndex(), true); // 设置内部链接标志
+  for ( const auto pDL : m_listDynLink ) {
+    punit = pDL->GetDestUnit();    // get destination unit
+    if (punit == pFirstUnit) { // 找到了
+      ((CUnitComponent *)punit)->SetInnerDataLinked(lSrcParaPos, pDL->GetDestIndex(), true); // 设置内部链接标志
     }
     else {
-      ASSERT((CUnitComponent *)pFirstUnit == pcunit->GetComponentUpper()); // 下层部件已经封装，不允许跳出本层
-      if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
-        if (!pcunit->IsCutoff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
+      ASSERT(IsInThisComponent((CUnitComponent *)pFirstUnit,punit)); // 下层部件已经封装，不允许跳出本部件（由于可能存在不可封装部件，故而允许嵌套）
+      if (punit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
+        if (!punit->IsCutoff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
           //接着往下找
-          pCUnitList->push_back(pcunit);
-          pcunit->CheckInnerDataLink(lSrcParaPos, pcunitDL->GetDestIndex(), pCUnitList); // 继续寻找
+          pCUnitList->push_back(punit);
+          punit->CheckInnerDataLink(lSrcParaPos, pDL->GetDestIndex(), pCUnitList); // 继续寻找
         }
       }
     }

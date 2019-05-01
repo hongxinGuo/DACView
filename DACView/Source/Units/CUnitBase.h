@@ -4,7 +4,7 @@
 //	Author 											: guo
 //	Create Time									: 1999, 2, 27
 //
-// 基本Unit类，除了部件和复合单元，其他所有的Unit类都叫做“简单单元”。
+// 基本Unit类，除了部件，其他所有的Unit类都叫做“简单单元”。
 //
 //
 ///////////////////////////////////////////////////////////////////////////
@@ -272,6 +272,10 @@ public:
 	virtual INT32*		GetArrayIndex( void );
 
   virtual bool      IsParameterLocked(ULONG ulIndex) override;
+
+  // 测试是否pUnit单元包含于pCpt部件中（允许嵌套包含）
+  bool              IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit);
+
 
 public : 
 	// assist function
