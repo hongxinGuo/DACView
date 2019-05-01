@@ -184,6 +184,15 @@ namespace DACViewTest {
       Compilation(&m_unitlist, &rtUnitList);
     }
     else ASSERT_TRUE(0); // 有循环出现的话，就退出测试。
+
+    CUnitList unitlist;
+    CreateUniUnitList(&m_unitlist, unitlist);
+    EXPECT_EQ(unitlist.size(), rtUnitList.size());
+    // 待编译的单元序列与编译后的单元序列完全相同
+    for (auto punit : unitlist) {
+      EXPECT_TRUE(find(rtUnitList.begin(), rtUnitList.end(), punit) != rtUnitList.end());
+    }
+
 /*
     pcunitTemp = rtUnitList.front();
     for (const auto pcunit : rtUnitList) {
@@ -235,7 +244,6 @@ namespace DACViewTest {
     CUnitList unitListRunTime;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
-
 
     ReSetCompileFlag(&m_unitlist);
 
