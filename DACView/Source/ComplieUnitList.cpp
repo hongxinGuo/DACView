@@ -159,6 +159,7 @@ bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit) {
     }
     pcunit->CheckSelf();
     pcunit->AddToList(listUniUnit);
+
   }
   return(true);
 }
@@ -253,7 +254,7 @@ bool ExectiveCompilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   // 如有循环剩下,则将循环开始单元(cut_off unit)的优先值设为iCurrentPriority.
   if (fFindLoop) {
     for (const auto punit : *pUnitList) {
-      if (punit->IsCutoff()) {
+      if (punit->IsCutoff() && !punit->IsCompiled()) { // 只设置没有编译过的截断单元（没有动态链接的单元已经被编译过了，哪怕也设置了截断）
         punit->SetExectivePriorityDirect(iCurrentPriority); // 必须使用此直接设置函数，SetExectivePriority会根据不同的情况分别处理
         punit->SetCompiledFlag(true);
       }
@@ -278,6 +279,7 @@ bool ExectiveCompilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
       }
       if (iRunTimeTemp == iTotal) done = TRUE;
       if (iRunTimeTemp > iTotal) {    // something was wrong 
+        TRACE("生成的运行时单元序列有误，其数量多于了被编译单元序列的数量\n");
         pRunTimeUnitList->clear();
         return(false);
       }
@@ -419,6 +421,12 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 
   // 开始编译
   ExectiveCompilation(pUnitList, pRunTimeUnitList);
+  ASSERT(pUnitList->size() == pRunTimeUnitList->size());
+#ifdef _DEBUG
+  for (auto punit : *pUnitList) {
+    ASSERT(find(pRunTimeUnitList->begin(), pRunTimeUnitList->end(), punit) != pRunTimeUnitList->end());
+  }
+#endif
 
   // 然后编译本单元序列中的部件
   CompileInnerComponent(pUnitList); // 此时使用汇总后的单元序列
