@@ -1504,12 +1504,13 @@ void CUnitBase::CheckInnerDataLink(INT64 lSrcParaPos, INT64 , CUnitList * pCUnit
           //接着往下找
           pCUnitList->push_back(punit);
           punit->CheckInnerDataLink(lSrcParaPos, pDL->GetDestIndex(), pCUnitList); // 继续寻找
+          ASSERT(pCUnitList->back() == punit);
+          pCUnitList->pop_back();
         }
       }
     }
   }
   // 运行到这里，则表明遍历完本单元及本单元以下所有的动态链接了
-  pCUnitList->pop_back(); // remove me from tail
 }
   
 ////////////////////////////////////////////////////////////////////////
