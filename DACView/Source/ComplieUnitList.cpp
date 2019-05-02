@@ -359,6 +359,7 @@ bool SetEncapsulatingFlag(CUnitList * pUnitList) {
         punit->SetEncapsulatingFlag(true);  // 则设置此部件处于封装中的标志
       }
     }
+    punit->mtest_fEncapsulating = true;
   }
 
   return true;

@@ -136,6 +136,8 @@ CUnitBase::CUnitBase(const CString& Name, CPoint pt): CObjectPrimitive(Name) {
 
   m_lReserved3 = 0;
 
+  mtest_fEncapsulating = false;
+
 }      
 
 CUnitBase::CUnitBase( void ) : CObjectPrimitive() { 
@@ -163,6 +165,8 @@ CUnitBase::CUnitBase( void ) : CObjectPrimitive() {
   m_fOverFlow = false;
 
   m_lReserved3 = 0;
+
+  mtest_fEncapsulating = false;
 }
 
 CUnitBase::~CUnitBase() {

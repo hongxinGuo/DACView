@@ -156,7 +156,7 @@ void CObjectKnob::Serialize( CArchive& ar ) {
   }
   else {
     ar >> m_eLowLimit >> m_eHighLimit >> m_eNormalLimit >> m_eWarningLimit >> m_eErrorLimit;
-		ar >> m_clrNormal >> m_clrWarn >> m_clrError << m_clrNoddle;
+		ar >> m_clrNormal >> m_clrWarn >> m_clrError >> m_clrNoddle;
   }
 }
 

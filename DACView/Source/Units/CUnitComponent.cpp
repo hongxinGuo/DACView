@@ -2014,12 +2014,10 @@ void CUnitComponent::PrepareParaDictionary(CDicList &CListDic, ULONG ulType) {
   case tMODIFIABLE + tOUTPUT: 
     for (int i = 0; i < 16; i++) {		// 共16个参数
       if (m_pInterfacePara[i]->IsLinked()) {
-        if ((m_pInterfacePara[i]->GetParaType() | ulType) == m_pInterfacePara[i]->GetParaType()) {
-          if (m_pInterfacePara[i]->GetParaType() & tOUTPUT) {
-            m_aulSuitable[j++] = i;
-            pDic = make_shared<CUnitDictionary>(this, i, ulType);
-            CListDic.push_back(pDic);
-          }
+        if (m_pInterfacePara[i]->GetParaType() & tOUTPUT) {
+          m_aulSuitable[j++] = i;
+          pDic = make_shared<CUnitDictionary>(this, i, ulType);
+          CListDic.push_back(pDic);
         }
       }
     }

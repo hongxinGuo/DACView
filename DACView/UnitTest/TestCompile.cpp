@@ -100,6 +100,7 @@ namespace DACViewTest {
       , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件有Object多项输入.sqi"
       , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件有截断有Object多项输入.sqi"
       , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有100+.sqi"
+      , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有200+.sqi"
     ));
 
   // 测试设置单元参数标志
@@ -307,6 +308,7 @@ namespace DACViewTest {
       }
     }
 
+    // 测试所有的单元都编译了
     for (const auto punit : unitlistTotal) {
       EXPECT_GT(punit->GetExectivePriority(), 0);
       if (!punit->IsHaveSourceUnit()) EXPECT_EQ(punit->GetExectivePriority(), 1);
