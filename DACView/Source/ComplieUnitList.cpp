@@ -356,7 +356,7 @@ bool SetEncapsulatingFlag(CUnitList * pUnitList) {
     ASSERT(!punit->IsEncapsulating());
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) && !punit->IsEncapsulated()) { // 如果部件尚未被封装
       if (punit->IsEncapsulable()) { // 如果部件可以被封装
-        punit->SetEncapsulatingFlag(true);
+        punit->SetEncapsulatingFlag(true);  // 则设置此部件处于封装中的标志
       }
     }
   }

@@ -337,15 +337,15 @@ void CSQIFileDoc::Serialize(CArchive& ar)
 		VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
 		
 		ar << strStrategyFile << m_nCurrentUnitNumber << iTotal;
-    for (const auto pcUnit : m_CUnitList) { 
-      pcUnit->CheckSelf();
-      ar << pcUnit;
+    for (const auto punit : m_CUnitList) { 
+      punit->CheckSelf();
+      ar << punit;
     } 
 
     iTotal = m_CObjectList.size();
     ar << strViewFile << m_nCurrentObjNumber << iTotal;
-    for (const auto pcobj : m_CObjectList) { 
-      ar << pcobj;
+    for (const auto pobj : m_CObjectList) { 
+      ar << pobj;
     }
   }
   else

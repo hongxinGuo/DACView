@@ -1871,7 +1871,7 @@ bool CUnitComponent::Compilation(void)
     }
   }
  
-  m_fEncapsulating = false;
+  m_fEncapsulating = false;   // 本部件编译完成后才将封装中的标志重置。
   m_fEncapsulated = true;
   m_fCompiled = true;
   

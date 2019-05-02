@@ -13,7 +13,42 @@
 static char THIS_FILE[] = __FILE__;
 #endif 
 
+
 namespace DACViewTest {
+
+  // 检验punit是否位于unitlist中，返回值为punit中的单元数量（等于AddToList的数量）
+  int TestIsInUnitList(CUnitBase * punit, CUnitList & unitlist) {
+    if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+      if (find(unitlist.begin(), unitlist.end(), punit) != unitlist.end()) return 1;
+      else {
+        ASSERT(0);
+        return 0;
+      }
+    }
+    else {
+      CUnitComponent * pCpt = (CUnitComponent *)punit;
+      if (pCpt->IsEncapsulated()) {
+        if (find(unitlist.begin(), unitlist.end(), punit) != unitlist.end()) return 1;
+        else {
+          ASSERT(0);
+          return 0;
+        }
+      }
+      else {
+        CUnitList * pUnitList = pCpt->GetUnitList();
+        int iTotal = 0;
+        if (find(unitlist.begin(), unitlist.end(), punit) != unitlist.end()) iTotal = 1;
+        else {
+          ASSERT(0);
+          return 0;
+        }
+        for (const auto punit2 : *pUnitList) {
+          iTotal += TestIsInUnitList(punit2, unitlist);
+        }
+        return iTotal;
+      }
+    }
+  }
 
   class TestCompile : public::testing::TestWithParam<CString>
   {
@@ -89,25 +124,28 @@ namespace DACViewTest {
     CreateUniUnitList(&m_unitlist, UnitList);
 
     // 测试编译标志是否重置
-    for (const auto pcunit : UnitList) {
-      if (!pcunit->IsEncapsulated()) {
-        EXPECT_FALSE(pcunit->IsCompiled()) << "重置后编译标志为假";
-      }
-      EXPECT_FALSE(pcunit->IsHaveSourceUnit()) << "重置后有源数量为0";
-      EXPECT_EQ(pcunit->GetExectivePriority(), 0) << "重置后执行优先级为0";
+    for (const auto punit : UnitList) {
+      EXPECT_FALSE(punit->IsCompiled()) << "重置后编译标志为假";
+      EXPECT_FALSE(punit->IsHaveSourceUnit()) << "重置后有源数量为0";
+      EXPECT_EQ(punit->GetExectivePriority(), 0) << "重置后执行优先级为0";
     }
     UnitList.clear();
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
     CreateUniUnitList(&m_unitlist, UnitList);
-    // 没有什么好的测试函数，暂时什么也不做了。
+    // 检验m_unitlsit中的可编译单元是否位于UnitList中，且数量相同
+    int iTotal = 0;
+    for (const auto punit : m_unitlist) {
+      iTotal += TestIsInUnitList(punit, UnitList);
+    }
+    EXPECT_EQ(iTotal, UnitList.size()) << "生成单一单元序列的数量不符";
 
     // 测试设置参数选择标志是否正确，使用生成的UnitList做为对照
     int iDynLinkToNumber, iDynLinkToNumber2;
-    for (const auto pcunit : UnitList) {
-      EXPECT_EQ(pcunit->GetExectivePriority(), 0) << "编译前执行优先级为0";
-      iDynLinkToNumber = pcunit->GetInputParameterNumber(); 
+    for (const auto punit : UnitList) {
+      EXPECT_EQ(punit->GetExectivePriority(), 0) << "编译前执行优先级为0";
+      iDynLinkToNumber = punit->GetInputParameterNumber(); 
       iDynLinkToNumber2 = 0;
       for (const auto pctemp : UnitList) {
         if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
@@ -117,7 +155,7 @@ namespace DACViewTest {
               if (pCpt->IsParaLinked(l)) {
                 if (pCpt->GetParaDestUnit(l) != nullptr) { // 从部件参数输入至内部单元
                   EXPECT_EQ(pCpt->GetParaSrcUnit(l), nullptr) << "部件参数数据输入至内部单元时，源单元即部件本身，设置为nullptr" << pCpt->GetName();
-                  if (pCpt->GetParaDestUnit(l) == pcunit) iDynLinkToNumber2++;
+                  if (pCpt->GetParaDestUnit(l) == punit) iDynLinkToNumber2++;
                 }
               }
             }
@@ -125,10 +163,10 @@ namespace DACViewTest {
         }
         CUDLList * pDLList = pctemp->GetDynLinkList();
         for (const auto pDL : *pDLList) {
-          if (pDL->GetDestUnit() == pcunit) iDynLinkToNumber2++;
+          if (pDL->GetDestUnit() == punit) iDynLinkToNumber2++;
         }
       }
-      EXPECT_EQ(iDynLinkToNumber, iDynLinkToNumber2) << "联入动态链接数量设置有误 " << strFileName << "  " << pcunit->GetName();
+      EXPECT_EQ(iDynLinkToNumber, iDynLinkToNumber2) << "联入动态链接数量设置有误 " << strFileName << "  " << punit->GetName();
     }
   }
 
@@ -290,6 +328,21 @@ namespace DACViewTest {
     CreateUniUnitList(&m_unitlist, listTotalUnit);
 
     SetEncapsulatingFlag(&m_unitlist);
+
+    // 测试部件是否正确设置了封装中标志
+    for (const auto punit : listTotalUnit) {
+      EXPECT_FALSE(punit->IsCompiled()) << "重置后编译标志为假";
+      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+        CUnitComponent * pCpt;
+        pCpt = (CUnitComponent *)punit;
+        if (pCpt->IsEncapsulated() || !(pCpt->IsEncapsulable())) {
+          EXPECT_FALSE(pCpt->IsEncapsulating()) << "封装过或不可封装的部件不允许再次封装";
+        }
+        else {
+          EXPECT_TRUE(pCpt->IsEncapsulating()) << "未封装的部件此时处于封装中";
+        }
+      }
+    }
 
     // 计算从部件输入和输出的动态链接数据的数量，以备封装部件时测试接口参数的设置是否正确
     for (const auto pcunitTemp : listTotalUnit) {
@@ -681,10 +734,6 @@ namespace DACViewTest {
       }
     }
   }
-
-}
-
-namespace DACViewTest {
 
   class TestCUnitComponentCheckInnerDataLink : public::testing::TestWithParam<CString>
   {
