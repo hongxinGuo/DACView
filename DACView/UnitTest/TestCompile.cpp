@@ -279,11 +279,13 @@ namespace DACViewTest {
   TEST_P(TestCompile, TestCompilation) {
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
-    CUnitList unitListRunTime;
+    CUnitList unitListRunTime, unitlistTotal;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
 
     ReSetCompileFlag(&m_unitlist);
+
+    CreateUniUnitList(&m_unitlist, unitlistTotal); // 生成所有需测试单元序列，以备后边使用
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
@@ -303,6 +305,13 @@ namespace DACViewTest {
           //EXPECT_TRUE(pCpt->HaveParameter());
         }
       }
+    }
+
+    for (const auto punit : unitlistTotal) {
+      EXPECT_GT(punit->GetExectivePriority(), 0);
+      if (!punit->IsHaveSourceUnit()) EXPECT_EQ(punit->GetExectivePriority(), 1);
+      EXPECT_TRUE(punit->IsCompiled());
+      EXPECT_FALSE(punit->IsEncapsulating());
     }
   }
 
