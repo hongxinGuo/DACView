@@ -1857,6 +1857,10 @@ bool CUnitComponent::Compilation(void)
 {
   // 编译本部件的内部单元序列。如果是部件，则往下找。
   CUnitList unitlist;
+ 
+  ASSERT(m_fEncapsulated == true);  // 部件应该已经被封装了
+  ASSERT(m_fEncapsulating == true); // 此部件的封装进行中尚未重置
+  ASSERT(m_fCompiled == true);     // 编译部件内部的单元序列时，部件本身已经编译过了。因为编译是从顶层开始的，最后编译的是最内部的部件
 
   CreateUniUnitList(&m_CUnitList, unitlist); // 将不可编译部件中的单元序列提到上层来。
   // 开始编译
@@ -1876,7 +1880,6 @@ bool CUnitComponent::Compilation(void)
  
   m_fEncapsulating = false;   // 本部件编译完成后才将封装中的标志重置。
   m_fEncapsulated = true;
-  m_fCompiled = true;
   
   return true;
 }

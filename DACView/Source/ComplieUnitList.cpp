@@ -343,6 +343,7 @@ bool EncapsulateUnitList(CUnitList & unitlist) {
         ASSERT(punit->IsEncapsulating());
         punit->Encapsulation(unitlist);
       }
+      ASSERT(!punit->IsCompiled());
     }
   }
 
@@ -369,9 +370,8 @@ bool CompileInnerComponent(CUnitList * pUnitList) {
   for (const auto punit : *pUnitList) {
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
       if (punit->IsEncapsulating()) { //如果部件正处于封装状态或者部件不可被封装
-        ASSERT(punit->IsCompiled());
+        ASSERT(punit->IsCompiled()); //编译部件内部的单元序列时，部件本身已经编译过了。因为编译是从顶层开始的，最后编译的是最内部的部件
         punit->Compilation();
-        ASSERT(punit->IsCompiled());
         ASSERT(!punit->IsEncapsulating());
       }
     }
@@ -445,6 +445,7 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   CUnitList unitlist;
 
+  // 生成单一单元序列
   CreateUniUnitList(pUnitList, unitlist);
 
   // 设置封装中标志
@@ -454,6 +455,8 @@ bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   EncapsulateUnitList(unitlist);
 
   unitlist.clear();
+
+  //此时生成的单一单元序列，由于部件已经封装过了，故而可封装部件内的单元序列不再加入，只有最上层的单元和不可封装部件内的单元序列加入此序列
   CreateUniUnitList(pUnitList, unitlist);
 
   // 编译封装后新生成的单元序列
