@@ -150,13 +150,15 @@ namespace DACViewTest {
 		CPoint pt(100, 100);
 		CUnitBase c("CUnitBase", pt);
 		
-		EXPECT_FALSE(c.IsLinkToComponent()); // 初始状态时没有链接到部件
+    EXPECT_FALSE(c.IsLinkToComponent()) << "初始状态时没有链接到部件";
 		c.LinkToComponent(true);						//设置标志为真
 		EXPECT_TRUE(c.IsLinkToComponent());	
 		c.LinkToComponent(false);						// 
-		EXPECT_FALSE(c.IsLinkToComponent());// 此时没有链接到部件
+    EXPECT_FALSE(c.IsLinkToComponent()) << "此时没有链接到部件";
+    EXPECT_EQ(c.HowManyLinkToComponent(), 0) << "其值为零";
 		c.LinkToComponent(false);						// 再次设置标志为假
-		EXPECT_FALSE(c.IsLinkToComponent());	// 此时没有链接到部件
+    EXPECT_FALSE(c.IsLinkToComponent()) << "此时没有链接到部件";
+    EXPECT_EQ(c.HowManyLinkToComponent(), 0) << "为零时再次设置为零无动作，不会是-1";
 	}
 
   TEST(TestCUnitBase, TestLinkFromComponent) {
@@ -175,7 +177,7 @@ namespace DACViewTest {
     EXPECT_FALSE(c.IsLinkFromComponent());
     EXPECT_EQ(0, c.HowManyLinkFromComponent());
     c.LinkFromComponent(false); // 当没有数据联入部件时，再次设置为假无动作（似乎应该认为是错误？）
-    EXPECT_EQ(0, c.HowManyLinkFromComponent());
+    EXPECT_EQ(0, c.HowManyLinkFromComponent()) << "当没有数据联入部件时，再次设置为假无动作";
   }
 
 	TEST(TestCUnitBase, TestIsLinkToComponent) {
@@ -204,7 +206,7 @@ namespace DACViewTest {
 		c.LinkToComponent(false);
 		EXPECT_EQ(0, c.HowManyLinkToComponent());
 		c.LinkToComponent(false);
-		EXPECT_EQ(0, c.HowManyLinkToComponent()); // 当没有动态链接至部件时（为0），再次取消状态标志不起作用
+    EXPECT_EQ(0, c.HowManyLinkToComponent()) << "当没有动态链接至部件时（为0），再次取消状态标志不起作用";
 	}
 
 	TEST(TestCUnitBase, TestSetComponentThatHaveMe) {
@@ -256,11 +258,6 @@ namespace DACViewTest {
 		plist->clear();
 	}
 	
-
-	TEST(TestCUnitBase, TestSetDeleteDynamicLinkFlag) {
-
-	}
-
 	TEST(TestCUnitBase, TestSetDeleteDynLinkFlag) {
 
 	}
@@ -294,6 +291,15 @@ namespace DACViewTest {
 		CUnitBase c("CUnitBase", pt);
 		EXPECT_TRUE(c.IsEncapsulated()); // 永远是真，不需要测试
 	}
+
+  TEST(TestCUnitBase, TestIsEncapsulating) {
+    CUnitBase c;
+    EXPECT_FALSE(c.IsEncapsulating());
+    c.SetEncapsulatingFlag(true);
+    EXPECT_TRUE(c.IsEncapsulating());
+    c.SetEncapsulatingFlag(false);
+    EXPECT_FALSE(c.IsEncapsulating());
+  }
 
 	TEST(TestCUnitBase, TestPrepareRunTimeList) {
 		// no nothing

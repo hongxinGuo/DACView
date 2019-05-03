@@ -555,6 +555,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
 			if ((pDL->GetDynLinkClass() == COMPONENT_TO_UNIT) || (pDL->GetDynLinkClass() == COMPONENT_TO_COMPONENT))
 				break; //当联出本单元所在的复合单元时，不需要调整动态链接线的位置（调整了就出错了）
       plist = pDL->GetLinkPointList();
+      ASSERT(plist->size() >= 3); // 动态链接线最少三个点
       auto itPoint = plist->begin();
       ppt1 = *itPoint++;
       ppt2 = *itPoint++;
@@ -614,27 +615,29 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
     }
   }
 
-  // if my link to unit was been moved
+  // 如果本单元链接至的单元或者包含这个单元的部件移动了，则处理本单元的动态链接线
   bool fDo;
   CUnitBase * pcunit;
   CRect rect, rectSrc;
   for ( auto pDL : m_listDynLink ) {
-    if ( (pcunit = pDL->GetDestUnit()->GetComponentUpper()) == pcSrc ) {
+    if ( (pcunit = pDL->GetDestUnit()->GetComponentUpper()) == pcSrc ) { // 如果包含本单元链接至的目的单元的部件移动了
+      ASSERT((pDL->GetDynLinkClass() == COMPONENT_TO_COMPONENT) || (pDL->GetDynLinkClass() == UNIT_TO_COMPONENT));
       fDo = true;
     }
-    else if ( (pcunit = pDL->GetDestUnit()) == pcSrc ) {
+    else if ( (pcunit = pDL->GetDestUnit()) == pcSrc ) { // 如果本单元链接至的目的单元移动了
+      ASSERT((pDL->GetDynLinkClass() == COMPONENT_TO_UNIT) || (pDL->GetDynLinkClass() == UNIT_TO_UNIT));
       fDo = true;
     }
     else {
       fDo = false;
     }
     if ( fDo ) {
-      rect = pcunit->GetSize();
+      rect = pcunit->GetSize();   // pcunit此时指向目标单元或包含目标单元的部件
       plist = pDL->GetLinkPointList();
+      ASSERT(plist->size() >= 3);
       auto it = plist->end();
-      it--;
-      ppt1 = *it--;
-      ppt2 = *it--;
+      ppt1 = *--it;
+      ppt2 = *--it;
 			rectSrc = pcSrc->GetSize();
       if ( ppt1->x == ppt2->x ) {
         if ( (ppt1->y < ppt2->y) && (rect.top > ppt2->y) ) {
@@ -689,7 +692,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
 					ppt1->x = rectSrc.left;
 				}
 			}
-			else ASSERT( 0 );
+			else ASSERT( 0 );   // 动态链接线的最后两个点不是横平就是竖直，不允许出现斜线
     }
   }
 }
@@ -1363,14 +1366,14 @@ void CUnitBase::ClearLoopDetectFlag( void ) {
 //    bool        : true if seccess set. else some thing was wrong.
 //
 // Description :
-//   如果我动态链接的目的单元就是被测试的单元，就设置目的单元的发现循环标志
+//   如果我动态链接的目的单元就是被测试的单元，就设置链接至此目的单元的动态链接的发现循环标志
 //   如果本单元属于封装后的部件，则无视是否存在动态链接，永远返回成功。
 //
 /////////////////////////////////////////////////////////////////////////
 bool CUnitBase::SetLoopDetectFlag( CUnitBase * pcunit ) {
   for ( const auto pcunitDL : m_listDynLink ) {
-    if ( pcunitDL->GetDestUnit() == pcunit ) {
-      pcunitDL->SetLoopDetectFlag( true );
+    if ( pcunitDL->GetDestUnit() == pcunit ) {  // 如果此动态链接指向被检查的单元
+      pcunitDL->SetLoopDetectFlag( true );      // 则设置此动态链接的发现循环标志（用于显示此动态链接线为红色） 
       return( true );
     }
   }

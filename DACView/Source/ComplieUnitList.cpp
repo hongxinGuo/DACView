@@ -52,8 +52,8 @@ bool UnitListLoopDetect(CUnitList * pCUnitList) {
 
   // 寻找是否有循环.
   ClearLoopDetectFlag(pCUnitList);
-  for (const auto pcunit : *pCUnitList) {
-    fFind = pcunit->LoopDetect(&unitlist);
+  for (const auto punit : *pCUnitList) {
+    fFind = punit->LoopDetect(&unitlist);
     if (fFind) {
       pCUnit = unitlist.back();
       auto it = unitlist.begin();
@@ -67,13 +67,13 @@ bool UnitListLoopDetect(CUnitList * pCUnitList) {
       CString str;
 
       // make loop string from loop units
-      for (const auto pcunit2 : unitlist) {
-        str += pcunit2->GetName();
+      for (const auto punit2 : unitlist) {
+        str += punit2->GetName();
         str += "->";
       }
       ShowMessageIndirect(ID_ERROR_STRATEGY_LOOP_DETECT, (LPCTSTR)str);
 
-      // set loop detect flag
+      // 将此循环涉及的动态链接都设置标志（用于将动态链接线显示为红色）
       CUnitBase * pcunitPrev = unitlist.front();
       auto it1 = unitlist.begin();
       for (++it1; it1 != unitlist.end(); it1++) {
