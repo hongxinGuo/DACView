@@ -17,7 +17,7 @@
 class CObjectSymbol : public CObjectComponentBase {
 	public :
 	CObjectSymbol(CString s, CRect r);
-	CObjectSymbol( void );
+	CObjectSymbol();
 	
 	DECLARE_SERIAL(CObjectSymbol);
 	

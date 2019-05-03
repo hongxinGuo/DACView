@@ -11,7 +11,7 @@ class CObjRectBase : public CObjectBase {
 public :
   CObjRectBase(const CString& Name, const CRect& Area, 
   						 COLORREF BkGrd = RGB(0, 0, 0), COLORREF ForeGrd = RGB(255, 255, 255)); 
-  CObjRectBase( void );
+  CObjRectBase();
   
   DECLARE_SERIAL(CObjRectBase);
   

@@ -5,7 +5,7 @@
 class CObjectNumberInput : public CObjRectBase {
 	public :
 	CObjectNumberInput(const CString& s, CRect r);
-	CObjectNumberInput( void );
+	CObjectNumberInput();
 
 	DECLARE_SERIAL(CObjectNumberInput);
 	

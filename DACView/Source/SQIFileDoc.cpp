@@ -16,15 +16,15 @@
 // GetUnitNumber()				: Get current unit counter number
 // GetUnitNumberUpdated() :	Increase current unit counter by 1, and return this number.
 //
-// ClearLoopDetectFlag()  : Clear all loop detect flag in m_CUnitList
-// LoopDetect()           : Check weither have a loop dynamic links in m_CUnitList
+// ClearLoopDetectFlag()  : Clear all loop detect flag in m_pUnitList
+// LoopDetect()           : Check weither have a loop dynamic links in m_pUnitList
 // AlreadyHaveCutOff()    : Check weither loop have a CutOff
 //
 // CreateRunTimeUnitList(): Create runtime unit list.
 //
 // Serialize()						:
 //
-// GetUnitList()					: return &m_CUnitList
+// GetUnitList()					: return &m_pUnitList
 // GetRunTimeUnitList()		: return &m_CRunTimeUnitList
 // GetObjectList()				: return &m_CObjectList
 // GetDictionaryList()		: return &m_CDicList
@@ -78,7 +78,9 @@ CSQIFileDoc::CSQIFileDoc()
   // TODO: add one-time construction code here
   m_nCurrentObjNumber = 0;
   m_nCurrentUnitNumber = 0;
-  m_pCurrentUnitList = &m_CUnitList;
+  m_pUnitList = m_ComponentTop.GetUnitList();
+  m_pRunTimeUnitList = m_ComponentTop.GetRunTimeUnitList();
+  m_pCurrentUnitList = m_pUnitList;
 
 	m_trackerUnit.m_nStyle &= ~CRectTracker::dottedLine;
 	m_trackerUnit.m_nStyle ^= CRectTracker::solidLine;
@@ -104,9 +106,9 @@ CSQIFileDoc::CSQIFileDoc()
 
 CSQIFileDoc::~CSQIFileDoc() {
 
-  ReleaseSQIFile(&m_CUnitList, &m_CObjectList);
+  ReleaseSQIFile(m_pUnitList, &m_CObjectList);
 
-  m_CRunTimeUnitList.clear(); // 运行时单元序列也需要删除
+  m_pRunTimeUnitList->clear(); // 运行时单元序列也需要删除
 
   // 删除字典序列
   shared_ptr<CUnitDictionary> pDic;
@@ -198,23 +200,23 @@ bool LoadSQIFile(CArchive & ar, CUnitList * pUnitList, CObjectList * pObjectList
 // return : no return
 //
 // Description :
-//		Save m_CUnitList and m_CRunTimeUnitList
+//		Save m_pUnitList and m_CRunTimeUnitList
 //	
 ////////////////////////////////////////////////////////////////////////////////////////////
 void CSQIFileDoc::SaveUnitList( CArchive& ar ) {
   CString strStrategyFile;
-  INT64 iTemp = m_CUnitList.size();
+  INT64 iTemp = m_pUnitList->size();
 	//存储UnitList
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
   ar << strStrategyFile << iTemp;
-  for (const auto punit : m_CUnitList) { 
+  for (const auto punit : *m_pUnitList) { 
     ar << punit;
   } 
 
 	//存储RunTimeUnitList
-  iTemp = m_CRunTimeUnitList.size();
+  iTemp = m_pRunTimeUnitList->size();
   ar << iTemp;
-  for (const auto punit : m_CRunTimeUnitList) { 
+  for (const auto punit : *m_pRunTimeUnitList) { 
     ar << punit;
   } 
 }
@@ -234,9 +236,9 @@ void CSQIFileDoc::SaveUnitList( CArchive& ar ) {
 ////////////////////////////////////////////////////////////////////////////////////////////
 void CSQIFileDoc::SaveRunTimeUnitList(CArchive& ar) {
   //存储RunTimeUnitList
-  INT64 iTemp = m_CRunTimeUnitList.size();
+  INT64 iTemp = m_pRunTimeUnitList->size();
   ar << iTemp;
-  for (const auto punit : m_CRunTimeUnitList) {
+  for (const auto punit : *m_pRunTimeUnitList) {
     ar << punit;
   }
 }
@@ -294,7 +296,7 @@ BOOL CSQIFileDoc::OnNewDocument()
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 void CSQIFileDoc::ClearLoopDetectFlag( void ) {
-  for (const auto punit : m_CUnitList) {
+  for (const auto punit : *m_pUnitList) {
     punit->ClearLoopDetectFlag();
   }
 }
@@ -314,7 +316,7 @@ void CSQIFileDoc::ClearLoopDetectFlag( void ) {
 //    
 ////////////////////////////////////////////////////////////////////////
 bool CSQIFileDoc::CompileRunTimeUnitList( void ) {
-	return(Compilation(&m_CUnitList, &m_CRunTimeUnitList));
+	return(Compilation(m_pUnitList, m_pRunTimeUnitList));
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -333,11 +335,11 @@ void CSQIFileDoc::Serialize(CArchive& ar)
   if (ar.IsStoring())
   {
     // TODO: add storing code here
-		iTotal = m_CUnitList.size();
+		iTotal = m_pUnitList->size();
 		VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
 		
 		ar << strStrategyFile << m_nCurrentUnitNumber << iTotal;
-    for (const auto punit : m_CUnitList) { 
+    for (const auto punit : *m_pUnitList) { 
       punit->CheckSelf();
       ar << punit;
     } 
@@ -351,14 +353,14 @@ void CSQIFileDoc::Serialize(CArchive& ar)
   else
   {
     // TODO: add loading code here
-    LoadSQIFile(ar, &m_CUnitList, &m_CObjectList, &m_nCurrentUnitNumber, &m_nCurrentObjNumber);
+    LoadSQIFile(ar, m_pUnitList, &m_CObjectList, &m_nCurrentUnitNumber, &m_nCurrentObjNumber);
 
     // 重置编译标志
-    ReSetCompileFlag(&m_CUnitList);
+    ReSetCompileFlag(m_pUnitList);
     // 设置编译标志。
-    SetParaLockFlag(&m_CUnitList, &m_CObjectList);
+    SetParaLockFlag(m_pUnitList, &m_CObjectList);
  
-		UnitListLoopDetect(&m_CUnitList);     // check loop	
+		UnitListLoopDetect(m_pUnitList);     // check loop	
   } 
 }
 
@@ -443,9 +445,9 @@ void CSQIFileDoc::OnProjectCompile()
   strPathName.SetAt(iFilePoint+3, 'd');
 
   // 重置编译标志
-  ReSetCompileFlag(&m_CUnitList);
+  ReSetCompileFlag(m_pUnitList);
   // 设置各单元的输入动态链接数
-  SetParaLockFlag(&m_CUnitList, &m_CObjectList);
+  SetParaLockFlag(m_pUnitList, &m_CObjectList);
   
   // 编译整体文件
   if ( !CompileRunTimeUnitList() ) {

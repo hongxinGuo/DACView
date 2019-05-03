@@ -6,7 +6,7 @@
 class CObjectPicture : public CRectVirtual {
 	public :
 	CObjectPicture(const CString& s, CRect r);
-	CObjectPicture( void );
+	CObjectPicture();
 
 	DECLARE_SERIAL(CObjectPicture);
 	

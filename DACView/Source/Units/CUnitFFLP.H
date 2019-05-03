@@ -5,7 +5,7 @@
 class CUnitFFLP : public CUnitBase {
 public :
   CUnitFFLP(const CString& Name, CPoint pt); 
-  CUnitFFLP( void );
+  CUnitFFLP();
   
   DECLARE_SERIAL(CUnitFFLP);
   

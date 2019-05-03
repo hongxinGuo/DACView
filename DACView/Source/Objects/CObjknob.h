@@ -5,7 +5,7 @@
 class CObjectKnob : public CObjRectBase {
 	public :
 	CObjectKnob(const CString& s, CRect r);
-	CObjectKnob( void );
+	CObjectKnob();
 
 	DECLARE_SERIAL(CObjectKnob);
 	

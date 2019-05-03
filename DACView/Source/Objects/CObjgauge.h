@@ -11,7 +11,7 @@ enum {	TY_GAUGE              = 0,    // gauge type
 class CObjectGauge : public CObjRectBase {
 	public :
 	CObjectGauge(const CString& s, CRect r);
-	CObjectGauge( void );
+	CObjectGauge();
 
 	DECLARE_SERIAL(CObjectGauge);
 	

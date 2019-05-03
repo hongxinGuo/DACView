@@ -33,10 +33,10 @@ public:
   // Operations
 public:
 	// operate an object of ObjList         
-  CUnitList *       GetUnitList(void) { return &m_CUnitList; }
+  CUnitList *       GetUnitList(void) { return m_pUnitList; }
   CUnitList *       GetCurrentUnitList(void) { return m_pCurrentUnitList; }
   void              SetCurrentUnitList(CUnitList * pCurrentUnitList) { m_pCurrentUnitList = pCurrentUnitList; }
-  CUnitList *       GetRunTimeUnitList(void) { return &m_CRunTimeUnitList; }
+  CUnitList *       GetRunTimeUnitList(void) { return m_pRunTimeUnitList; }
   CObjectList *     GetObjectList(void) { return &m_CObjectList; }
 	CDicList *        GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj );
   
@@ -68,12 +68,12 @@ protected:
 	CObjectList     m_CObjectList;				// 存储对象的链表.
 	INT32						m_nCurrentObjNumber;	// 当前对象的数量.
   
- 	CUnitList				m_CUnitList;					// 存储单元的链表.
+ 	CUnitList	*			m_pUnitList;					// 存储单元的链表.
 	INT64						m_nCurrentUnitNumber; // 当前单元的数量. 
 
 // No Serialized Data
   CUnitComponent  m_ComponentTop;       // 将单元序列文件看作为在一个虚拟的部件中，简化了存储、封装和编译（尚未实现，研究几日再说05/04/2019)
-	CUnitList       m_CRunTimeUnitList;
+	CUnitList *     m_pRunTimeUnitList;
   CUnitList *     m_pCurrentUnitList;
   CDicList        m_CDicList;
 

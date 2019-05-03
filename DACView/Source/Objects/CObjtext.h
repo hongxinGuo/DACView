@@ -5,7 +5,7 @@
 class CObjectText : public CObjRectBase {
 public: 
 	CObjectText( CString s, CRect r);
-	CObjectText( void );
+	CObjectText();
 	
 	DECLARE_SERIAL(CObjectText);
 	

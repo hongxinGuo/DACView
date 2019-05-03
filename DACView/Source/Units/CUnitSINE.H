@@ -5,7 +5,7 @@
 class CUnitSine : public CUnitBase {
 public :
   CUnitSine(const CString& Name, CPoint pt); 
-  CUnitSine( void );
+  CUnitSine();
   
   DECLARE_SERIAL(CUnitSine);
   

@@ -62,7 +62,7 @@ class CUnitComponent : public CUnitBase {
 public:
   CUnitComponent(const CString& Name, CPoint pt, bool fEncapsulationPermitted);
   CUnitComponent(bool fEncapsulationPermitted);
-  CUnitComponent(void);// 生成可封装的部件
+  CUnitComponent();// 生成可封装的部件
 
   DECLARE_SERIAL(CUnitComponent);
 

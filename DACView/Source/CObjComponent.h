@@ -21,7 +21,7 @@ using namespace std;
 class CObjectComponent : public CObjectComponentBase {
 public: 
 	CObjectComponent( CString s, CRect r);
-	CObjectComponent( void );
+	CObjectComponent();
 	
 	DECLARE_SERIAL(CObjectComponent);
 	

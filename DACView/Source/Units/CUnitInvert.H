@@ -5,7 +5,7 @@
 class CUnitInvert : public CUnitBase {
 public :
   CUnitInvert(const CString& Name, CPoint pt); 
-  CUnitInvert( void );
+  CUnitInvert();
   
   DECLARE_SERIAL(CUnitInvert);
   

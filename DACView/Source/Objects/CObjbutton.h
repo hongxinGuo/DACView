@@ -5,7 +5,7 @@
 class CObjectButton : public CObjRectBase {
 	public :
 	CObjectButton(const CString& s, CRect r);
-	CObjectButton( void );
+	CObjectButton();
 
 	DECLARE_SERIAL(CObjectButton);
 	

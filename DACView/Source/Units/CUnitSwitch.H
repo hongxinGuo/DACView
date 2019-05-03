@@ -5,7 +5,7 @@
 class CUnitSwitch : public CUnitBase {
 public :
   CUnitSwitch(const CString& Name, CPoint pt); 
-  CUnitSwitch( void );
+  CUnitSwitch();
   
   DECLARE_SERIAL(CUnitSwitch);
   

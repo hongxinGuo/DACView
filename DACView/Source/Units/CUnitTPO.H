@@ -5,7 +5,7 @@
 class CUnitTPO : public CUnitBase {
 public :
   CUnitTPO(const CString& Name, CPoint pt); 
-  CUnitTPO( void );
+  CUnitTPO();
   
   DECLARE_SERIAL(CUnitTPO);
   

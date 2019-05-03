@@ -5,7 +5,7 @@
 class CObjectMeter : public CObjRectBase {
 	public :
 	CObjectMeter(const CString& s, CRect r);
-	CObjectMeter( void );
+	CObjectMeter();
 
 	DECLARE_SERIAL(CObjectMeter);
 	

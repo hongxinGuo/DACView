@@ -61,7 +61,7 @@ CUnitAdd::CUnitAdd(const CString& Name, CPoint pt): CUnitBase(Name, pt) {
 	}
 }
 
-CUnitAdd::CUnitAdd( void ) : CUnitBase() { 
+CUnitAdd::CUnitAdd() : CUnitBase() { 
   CRect rectTemp(0, 0, 0, 0);
   
   m_strName.Empty();

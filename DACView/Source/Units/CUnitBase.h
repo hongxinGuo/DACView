@@ -21,7 +21,7 @@ class CUnitComponent;
 class CUnitBase : public CObjectPrimitive {
 public :
   CUnitBase(const CString& Name, CPoint pt); 
-  CUnitBase( void );
+  CUnitBase();
   
   DECLARE_SERIAL(CUnitBase);
   

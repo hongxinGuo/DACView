@@ -5,7 +5,7 @@
 class CUnitMultiple : public CUnitBase {
 public :
   CUnitMultiple(const CString& Name, CPoint pt); 
-  CUnitMultiple( void );
+  CUnitMultiple();
   
   DECLARE_SERIAL(CUnitMultiple);
   

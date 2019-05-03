@@ -5,7 +5,7 @@
 class CUnitQuadFilt : public CUnitBase {
 public :
   CUnitQuadFilt(const CString& Name, CPoint pt); 
-  CUnitQuadFilt( void );
+  CUnitQuadFilt();
   
   DECLARE_SERIAL(CUnitQuadFilt);
   

@@ -5,7 +5,7 @@
 class CUnitDivide : public CUnitBase {
 public :
   CUnitDivide(const CString& Name, CPoint pt); 
-  CUnitDivide( void );
+  CUnitDivide();
   
   DECLARE_SERIAL(CUnitDivide);
   

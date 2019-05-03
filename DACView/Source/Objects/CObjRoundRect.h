@@ -6,7 +6,7 @@
 class CObjectRoundRect : public CObjRectBase {
 	public :
 	CObjectRoundRect(CString s, CRect r);
-	CObjectRoundRect( void );
+	CObjectRoundRect();
 	
 	DECLARE_SERIAL(CObjectRoundRect);
 	

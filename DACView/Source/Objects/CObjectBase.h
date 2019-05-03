@@ -19,7 +19,7 @@ class CObjectSymbol;
 class CObjectBase : public CObjectPrimitive {
 public :
   CObjectBase(const CString& Name, COLORREF BkGrd = RGB(0, 0, 0), COLORREF ForeGrd = RGB(255, 255, 255)); 
-  CObjectBase( void );
+  CObjectBase();
   
   DECLARE_SERIAL(CObjectBase);
   

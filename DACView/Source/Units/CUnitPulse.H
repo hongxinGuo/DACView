@@ -5,7 +5,7 @@
 class CUnitPulse : public CUnitBase {
 public :
   CUnitPulse(const CString& Name, CPoint pt); 
-  CUnitPulse( void );
+  CUnitPulse();
   
   DECLARE_SERIAL(CUnitPulse);
   

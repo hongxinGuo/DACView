@@ -152,7 +152,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level4</WarningLevel>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessorDefinitions>NO_WARN_MBCS_MFC_DEPRECATION;_WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\X64\Debug\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\X64\stdafx.pch</PrecompiledHeaderOutputFile>

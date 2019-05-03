@@ -5,7 +5,7 @@
 class CUnitDelay : public CUnitBase {
 public :
   CUnitDelay(const CString& Name, CPoint pt); 
-  CUnitDelay( void );
+  CUnitDelay();
   
   DECLARE_SERIAL(CUnitDelay);
   

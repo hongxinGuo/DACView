@@ -5,7 +5,7 @@
 class CUnitXor : public CUnitBase {
 public :
   CUnitXor(const CString& Name, CPoint pt); 
-  CUnitXor( void );
+  CUnitXor();
   
   DECLARE_SERIAL(CUnitXor);
   

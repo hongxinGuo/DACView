@@ -5,7 +5,7 @@
 class CUnitLowSelect : public CUnitBase {
 public :
   CUnitLowSelect(const CString& Name, CPoint pt); 
-  CUnitLowSelect( void );
+  CUnitLowSelect();
   
   DECLARE_SERIAL(CUnitLowSelect);
   

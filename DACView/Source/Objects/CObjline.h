@@ -5,7 +5,7 @@
 class CObjectLine : public CObjectBase {
 public :
   CObjectLine(const CString& s, const CPoint& ptStart, const CPoint& ptEnd);
-  CObjectLine( void );
+  CObjectLine();
         
   DECLARE_SERIAL(CObjectLine);
        

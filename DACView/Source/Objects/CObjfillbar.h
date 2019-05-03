@@ -5,7 +5,7 @@
 class CObjectFillBar : public CObjRectBase {
 	public :
 	CObjectFillBar(const CString& s, CRect r);
-	CObjectFillBar( void );
+	CObjectFillBar();
 
 	DECLARE_SERIAL(CObjectFillBar);
 	

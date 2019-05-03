@@ -4,7 +4,7 @@
 class CUnitMiddleSelect : public CUnitBase {
 public :
   CUnitMiddleSelect(const CString& Name, CPoint pt); 
-  CUnitMiddleSelect( void );
+  CUnitMiddleSelect();
   
   DECLARE_SERIAL(CUnitMiddleSelect);
   

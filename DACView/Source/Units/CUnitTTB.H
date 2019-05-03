@@ -10,7 +10,7 @@
 class CUnitTTB : public CUnitBase {
 public :
   CUnitTTB(const CString& Name, CPoint pt); 
-  CUnitTTB( void );
+  CUnitTTB();
   
   DECLARE_SERIAL(CUnitTTB);
   

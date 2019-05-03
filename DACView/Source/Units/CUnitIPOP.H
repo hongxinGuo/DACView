@@ -5,7 +5,7 @@
 class CUnitInputOutput : public CUnitBase {
 public :
   CUnitInputOutput(const CString& Name, CPoint pt); 
-  CUnitInputOutput( void );
+  CUnitInputOutput();
   
   DECLARE_SERIAL(CUnitInputOutput);
   

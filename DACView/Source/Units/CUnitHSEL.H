@@ -5,7 +5,7 @@
 class CUnitHighSelect : public CUnitBase {
 public :
   CUnitHighSelect(const CString& Name, CPoint pt); 
-  CUnitHighSelect( void );
+  CUnitHighSelect();
   
   DECLARE_SERIAL(CUnitHighSelect);
   

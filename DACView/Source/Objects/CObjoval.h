@@ -6,7 +6,7 @@
 class CObjectOval : public CObjRectBase {
 	public :
 	CObjectOval(CString s, CRect r);
-	CObjectOval( void );
+	CObjectOval();
 	
 	DECLARE_SERIAL(CObjectOval);
 	

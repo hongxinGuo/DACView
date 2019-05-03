@@ -5,7 +5,7 @@
 class CObjectComponentBase : public CObjRectBase {
 public: 
 	CObjectComponentBase( const CString& s, CRect r);
-	CObjectComponentBase( void );
+	CObjectComponentBase();
 	
 	DECLARE_SERIAL(CObjectComponentBase);
 	

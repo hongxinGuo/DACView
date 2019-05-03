@@ -7,7 +7,7 @@
 class CObjectRect : public CObjRectBase {
 	public :
 	CObjectRect(CString s, CRect r);
-	CObjectRect( void );
+	CObjectRect();
 	
 	DECLARE_SERIAL(CObjectRect);
 	

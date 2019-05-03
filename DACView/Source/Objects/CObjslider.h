@@ -5,7 +5,7 @@
 class CObjectSlider : public CObjRectBase {
 	public :
 	CObjectSlider(const CString& s, CRect r);
-	CObjectSlider( void );
+	CObjectSlider();
 
 	DECLARE_SERIAL(CObjectSlider);
 	

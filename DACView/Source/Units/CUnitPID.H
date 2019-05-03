@@ -5,7 +5,7 @@
 class CUnitPID : public CUnitBase {
 public :
   CUnitPID(const CString& Name, CPoint pt); 
-  CUnitPID( void );
+  CUnitPID();
   
   DECLARE_SERIAL(CUnitPID);
   

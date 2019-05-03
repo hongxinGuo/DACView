@@ -5,7 +5,7 @@
 class CObjectGraph : public CObjRectBase {
 	public :
 	CObjectGraph(const CString& s, CRect r);
-	CObjectGraph( void );
+	CObjectGraph();
 
 	DECLARE_SERIAL(CObjectGraph);
 	

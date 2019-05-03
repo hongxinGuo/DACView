@@ -10,7 +10,7 @@
 class CUnitHighPassBargin : public CUnitBase {
 public :
   CUnitHighPassBargin(const CString& Name, CPoint pt);
-  CUnitHighPassBargin( void );
+  CUnitHighPassBargin();
   
   DECLARE_SERIAL(CUnitHighPassBargin);
   
