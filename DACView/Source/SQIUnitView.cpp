@@ -1103,8 +1103,9 @@ void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
       m_nCurrentFunction = UNIT_SELECTED;
     }
     else { // 选中了一个单元.
-      ASSERT(m_pCUnitCurrent != NULL);
-      m_pCUnitCurrent->SetSelect(true);
+      ClearAllSelect();         // 清除以前的选中标志 
+      ASSERT(m_pCUnitCurrent != nullptr);
+      m_pCUnitCurrent->SetSelect(true); // 设置新的选中标志
       TRACE("Current function is UNIT_SELECTED\n");
       m_nCurrentFunction = UNIT_SELECTED;
     }
