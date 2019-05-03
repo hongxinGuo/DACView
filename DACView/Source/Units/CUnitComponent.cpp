@@ -1560,7 +1560,9 @@ bool CUnitComponent::SetParaDestIndex(LONG lIndex, LONG lValue)
 bool CUnitComponent::EncapsulateBelowComponent(CUnitList & listTotalUnit) {
   // 封装下层部件（如果有的话）	
   for (const auto punit : m_CUnitList) {
-    punit->Encapsulation(listTotalUnit);
+    if (punit->IsEncapsulable() && (!punit->IsEncapsulated())) {
+      punit->Encapsulation(listTotalUnit);
+    }
   }
   return(true);
 }
@@ -1793,6 +1795,7 @@ bool CUnitComponent::HandleTheDynLinkedfromComponent( void ) {
 //
 ////////////////////////////////////////////////////////////////////
 bool CUnitComponent::Encapsulation(CUnitList & listTotalUnit) {
+  ASSERT(!m_fEncapsulated);   // 需封装的部件，不能已经封装了。
   if (m_fEncapsulated) { // 已经封装了则返回
     return(true);
   }

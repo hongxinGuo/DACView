@@ -130,11 +130,9 @@ namespace DACViewTest {
       EXPECT_FALSE(punit->IsHaveSourceUnit()) << "重置后有源数量为0";
       EXPECT_EQ(punit->GetExectivePriority(), 0) << "重置后执行优先级为0";
     }
-    UnitList.clear();
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
-    CreateUniUnitList(&m_unitlist, UnitList);
     // 检验m_unitlsit中的可编译单元是否位于UnitList中，且数量相同
     int iTotal = 0;
     for (const auto punit : m_unitlist) {
@@ -178,11 +176,11 @@ namespace DACViewTest {
     INT64 iCurrentUnit = 0;
 
     ReSetCompileFlag(&m_unitlist);
-
-    SetParaLockFlag(&m_unitlist, &m_objectlist);
-
+ 
     CreateUniUnitList(&m_unitlist, rtUnitList);
 
+    SetParaLockFlag(&m_unitlist, &m_objectlist);
+ 
     SetNoSrcUnitExectivePriority(&rtUnitList);
 
     for (const auto punit : rtUnitList) {
@@ -338,7 +336,7 @@ namespace DACViewTest {
 
     CreateUniUnitList(&m_unitlist, listTotalUnit);
 
-    SetEncapsulatingFlag(&m_unitlist);
+    SetEncapsulatingFlag(listTotalUnit);
 
     // 测试部件是否正确设置了封装中标志
     for (const auto punit : listTotalUnit) {
@@ -405,7 +403,7 @@ namespace DACViewTest {
 
     // 将Encapsulation展开，分段执行和测试
     CUnitList * pUnitList;
-    for (const auto pcunit : m_unitlist) {
+    for (const auto pcunit : listTotalUnit) {
       if (pcunit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCUCP = (CUnitComponent *)pcunit;
         if (pCUCP->IsEncapsulable()) { // 可封装部件的动作
@@ -470,11 +468,15 @@ namespace DACViewTest {
                     if (pSrcUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
                       EXPECT_EQ(pDL11->GetDynLinkClass(), UNIT_TO_UNIT) << "源单元为部件的其动态链接类型为COMPONENT_TO_COMPONENT";
                     }
-                    else if (find(m_unitlist.begin(), m_unitlist.end(), pSrcUnit->GetComponentUpper()) != m_unitlist.end()) { // 包含单元的部件位于本单元序列中
-                      EXPECT_EQ(pDL11->GetDynLinkClass(), COMPONENT_TO_UNIT) << "包含源单元的部件位于最上层单元序列中";
-                      if (pSrcUnit->GetComponentUpper()->IsEncapsulable()) {
-                        EXPECT_FALSE(pSrcUnit->GetComponentUpper()->IsEncapsulated()) << "部件尚未封装";
+                    else if (pSrcUnit->GetComponentUpper() != nullptr) {
+                      CUnitList * pUnitList = pSrcUnit->GetComponentUpper()->GetUnitList();
+                      if (find(pUnitList->begin(), pUnitList->end(), pSrcUnit->GetComponentUpper()) != pUnitList->end()) { // 包含单元的部件位于本单元序列中
+                        EXPECT_EQ(pDL11->GetDynLinkClass(), COMPONENT_TO_UNIT) << "包含源单元的部件位于最上层单元序列中";
+                        if (pSrcUnit->GetComponentUpper()->IsEncapsulable()) {
+                          EXPECT_FALSE(pSrcUnit->GetComponentUpper()->IsEncapsulated()) << "部件尚未封装";
+                        }
                       }
+                      EXPECT_EQ(pDL11->GetDynLinkClass(), UNIT_TO_UNIT) << "源单元为简单单元";
                     }
                     else {
                       EXPECT_EQ(pDL11->GetDynLinkClass(), UNIT_TO_UNIT) << "源单元为简单单元";
@@ -640,15 +642,14 @@ namespace DACViewTest {
 
     // 设置编译所需之前置数据
     ReSetCompileFlag(&m_unitlist);
+    CreateUniUnitList(&m_unitlist, listTotalUnit);
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
-    CreateUniUnitList(&m_unitlist, listTotalUnit);
-
-    SetEncapsulatingFlag(&m_unitlist);
+    SetEncapsulatingFlag(listTotalUnit);
     
     // 封装单元序列中的可封装部件
-    EncapsulateUnitList(&m_unitlist);
+    EncapsulateUnitList(listTotalUnit);
 
     CUnitList unitlist;
     CreateUniUnitList(&m_unitlist, unitlist);
@@ -702,18 +703,17 @@ namespace DACViewTest {
     CUnitList listTotalUnit, runtimeUnitList;
 
     ReSetCompileFlag(&m_unitlist);
+    CreateUniUnitList(&m_unitlist, listTotalUnit);
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
 
-    CreateUniUnitList(&m_unitlist, listTotalUnit);
-
-    SetEncapsulatingFlag(&m_unitlist);
+    SetEncapsulatingFlag(listTotalUnit);
 
     // 封装单元序列中的可封装部件
-    EncapsulateUnitList(&m_unitlist);
-
+    EncapsulateUnitList(listTotalUnit);
     listTotalUnit.clear();
-    CreateUniUnitList(&m_unitlist, listTotalUnit);
+
+    CreateUniUnitList(&m_unitlist, listTotalUnit); // c此时部件已经封装，故而生成的listTotalUnit要少于之前生成的单元序列
 
     // 编译此单元序列
     CompileUnitList(&listTotalUnit, &runtimeUnitList);

@@ -231,6 +231,7 @@ bool ExectiveCompilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
       if (punit->GetExectivePriority() == iCurrentPriority) { // 找到了执行优先级相等的单元
         TRACE("%s(%u)\n", (LPCTSTR)(punit->GetName()), punit->GetExectivePriority());
         punit->SetDestUnitPriority();    // 设置此单元的目的单元执行优先级
+        ASSERT(!punit->IsCompiled());    // 设置编译标志之前，确保此单元尚未被编译
         punit->SetCompiledFlag(true);
         pRunTimeUnitList->push_back(punit); // create runtime list
       }
@@ -330,15 +331,16 @@ void SetParaLockFlag(CUnitList * pUnitList) {
   }
 }
 
-bool EncapsulateUnitList(CUnitList * pUnitList) {
-  CUnitList unitlist;
 
-  CreateUniUnitList(pUnitList, unitlist); // 生成需要编译的单一单元序列
+bool EncapsulateUnitList(CUnitList & unitlist) {
 
   // 封装需封装的部件
+  // 此处的pUnitList要保证是生成的UniUnitlist,否则就可能有部件没有封装
   for (auto punit : unitlist) {
     if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+      ASSERT(!punit->IsCompiled());
       if (punit->IsEncapsulable() && (!punit->IsEncapsulated())) {
+        ASSERT(punit->IsEncapsulating());
         punit->Encapsulation(unitlist);
       }
     }
@@ -347,10 +349,8 @@ bool EncapsulateUnitList(CUnitList * pUnitList) {
   return true;
 }
 
-bool SetEncapsulatingFlag(CUnitList * pUnitList) {
-  CUnitList unitlist;
+bool SetEncapsulatingFlag(CUnitList & unitlist) {
 
-  CreateUniUnitList(pUnitList, unitlist); // 生成需要编译的单一单元序列
   // 设置单元序列编译中的标志
   for (auto punit : unitlist) {
     ASSERT(!punit->IsEncapsulating());
@@ -445,15 +445,18 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   CUnitList unitlist;
 
-  // 设置封装中标志
-  SetEncapsulatingFlag(pUnitList);
-
-  // 封装单元序列中的可封装部件
-  EncapsulateUnitList(pUnitList);
-
   CreateUniUnitList(pUnitList, unitlist);
 
-  // 编译此单元序列
+  // 设置封装中标志
+  SetEncapsulatingFlag(unitlist);
+
+  // 封装单元序列中的可封装部件
+  EncapsulateUnitList(unitlist);
+
+  unitlist.clear();
+  CreateUniUnitList(pUnitList, unitlist);
+
+  // 编译封装后新生成的单元序列
   CompileUnitList(&unitlist, pRunTimeUnitList);
 
   unitlist.clear();
