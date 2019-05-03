@@ -115,14 +115,14 @@ CSQIFileDoc::~CSQIFileDoc() {
 
 bool ReleaseSQIFile(CUnitList * pUnitList, CObjectList * pObjectList) {
   // release Object's memory
-  for (auto pcobj : *pObjectList) {
-    delete pcobj;
+  for (auto pobj : *pObjectList) {
+    delete pobj;
   }
   // release list's memory
   pObjectList->clear();
 
-  for (const auto pcunit : *pUnitList) {
-    delete pcunit;
+  for (const auto punit : *pUnitList) {
+    delete punit;
   }
   // release list's memory
   pUnitList->clear();
@@ -145,7 +145,7 @@ bool LoadUnitList( CArchive & ar, CUnitList * pUnitList, INT64 * pUnitNumber ) {
   // Load strategy file
   CString strTemp;
   static CString strStrategyFile = "DACVIEW_STRATEGY_VERSION_001_002";
-  CUnitBase * pcunit;
+  CUnitBase * punit;
   INT64 iTemp, iUnitNumber;
 
   ar >> strTemp >> iUnitNumber >> iTemp;
@@ -158,9 +158,9 @@ bool LoadUnitList( CArchive & ar, CUnitList * pUnitList, INT64 * pUnitNumber ) {
   }
   // load origin cUnitList
   for ( int i = 0; i < iTemp; i ++ ) {
-    ar >> pcunit;
-    pUnitList->push_back( pcunit );
-    pcunit->SetUpperUnitList(pUnitList);
+    ar >> punit;
+    pUnitList->push_back( punit );
+    punit->SetUpperUnitList(pUnitList);
   }  
   return( true );
 }  
@@ -168,7 +168,7 @@ bool LoadUnitList( CArchive & ar, CUnitList * pUnitList, INT64 * pUnitNumber ) {
 bool LoadObjectList(CArchive & ar, CObjectList * pObjectList, INT32 * pObjectNumber) {
   INT32 nCurrentObjNumber;
   INT64 iTotal;
-  CObjectBase * pcobj = nullptr;
+  CObjectBase * pobj = nullptr;
   CString strTemp;
   static CString strViewFile = "DACVIEW_VIEW_VERSION_001_002";
 
@@ -176,8 +176,8 @@ bool LoadObjectList(CArchive & ar, CObjectList * pObjectList, INT32 * pObjectNum
   *pObjectNumber = nCurrentObjNumber;
   // test whether a Dacview file
   for (int i = 0; i < iTotal; i++) {
-    ar >> pcobj;
-    pObjectList->push_back(pcobj);
+    ar >> pobj;
+    pObjectList->push_back(pobj);
   }
   return(true);
 }
@@ -207,15 +207,15 @@ void CSQIFileDoc::SaveUnitList( CArchive& ar ) {
 	//存储UnitList
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
   ar << strStrategyFile << iTemp;
-  for (const auto pcunit : m_CUnitList) { 
-    ar << pcunit;
+  for (const auto punit : m_CUnitList) { 
+    ar << punit;
   } 
 
 	//存储RunTimeUnitList
   iTemp = m_CRunTimeUnitList.size();
   ar << iTemp;
-  for (const auto pcunit : m_CRunTimeUnitList) { 
-    ar << pcunit;
+  for (const auto punit : m_CRunTimeUnitList) { 
+    ar << punit;
   } 
 }
 
@@ -236,8 +236,8 @@ void CSQIFileDoc::SaveRunTimeUnitList(CArchive& ar) {
   //存储RunTimeUnitList
   INT64 iTemp = m_CRunTimeUnitList.size();
   ar << iTemp;
-  for (const auto pcunit : m_CRunTimeUnitList) {
-    ar << pcunit;
+  for (const auto punit : m_CRunTimeUnitList) {
+    ar << punit;
   }
 }
 
@@ -294,8 +294,8 @@ BOOL CSQIFileDoc::OnNewDocument()
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 void CSQIFileDoc::ClearLoopDetectFlag( void ) {
-  for (const auto pcunit : m_CUnitList) {
-    pcunit->ClearLoopDetectFlag();
+  for (const auto punit : m_CUnitList) {
+    punit->ClearLoopDetectFlag();
   }
 }
 
@@ -395,27 +395,27 @@ void CSQIFileDoc::Dump(CDumpContext& dc) const
 //    此单元词典，只从当前层的单元序列中选择合适的变量，这样能够在众多单元中轻松选择，否则太多的单元会导致无法寻找恰当的参数。
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj ) {
+CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pObj ) {
 	shared_ptr<CUnitDictionary> pDic;
 	
 	// 清除以前的词典.
 	m_CDicList.clear();
 	
 	// 得到合适的词典.
-	for (const auto pcunit : *m_pCurrentUnitList) {
-    if (pcunit->IsEncapsulated()) { // 简单单元或者已封装的部件
-      pcunit->PrepareParaDictionary(m_CDicList, ulType);
+	for (const auto punit : *m_pCurrentUnitList) {
+    if (punit->IsEncapsulated()) { // 简单单元或者已封装的部件
+      punit->PrepareParaDictionary(m_CDicList, ulType);
     }
 	}
 
-	CODLList * pODLList = pcObj->GetDynLinkList();
+	CODLList * pODLList = pObj->GetDynLinkList();
 	ULONG ulIndex;
 
 	// 将已有的动态连接置入词典中
 	for ( const auto pODL : *pODLList ) {
 		ulIndex = pODL->GetUnitIndex();
-		CUnitBase * pcunit = pODL->GetUnit();
-		pDic = make_shared<CUnitDictionary>( pcunit, ulIndex, pcunit->GetParaType( ulIndex ) );
+		CUnitBase * punit = pODL->GetUnit();
+		pDic = make_shared<CUnitDictionary>( punit, ulIndex, punit->GetParaType( ulIndex ) );
 		m_CDicList.push_back( pDic );
 		}
 
@@ -464,8 +464,8 @@ void CSQIFileDoc::OnProjectCompile()
   // 存储运行时文件
   SaveUnitList(ar);
   ar << strViewFile << iTemp;
-  for (const auto pcobj : m_CObjectList) { 
-    ar << pcobj;
+  for (const auto pobj : m_CObjectList) { 
+    ar << pobj;
   }
 
   SetModifiedFlag(true);

@@ -154,8 +154,8 @@ CFBDFileDoc::~CFBDFileDoc() {
 void CFBDFileDoc::ClearUnitList( void ) {
   // delete m_CUnitList and m_CRunTimeUnitList
   INT64 iTemp = m_CUnitList.size();
-  for (auto pcunit : m_CUnitList) {
-    delete pcunit;
+  for (auto punit : m_CUnitList) {
+    delete punit;
   } 
   TRACE("%d Units deleted\n", iTemp);                  
   // release list's memory
@@ -167,7 +167,7 @@ void CFBDFileDoc::ClearUnitList( void ) {
 BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
   // Load strategy file
   CString strTemp, strStrategyFile;
-  CUnitBase * pcunit;
+  CUnitBase * punit;
   INT64 iTotal;
 
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
@@ -180,15 +180,15 @@ BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
   }
 
 	for ( int i = 0; i < iTotal; i ++ ) {
-    ar >> pcunit;
-    m_CUnitList.push_back( pcunit );
+    ar >> punit;
+    m_CUnitList.push_back( punit );
   }
 
 	// load CRunTimeUnitList
   ar >> iTotal;
   for ( int i = 0; i < iTotal; i ++ ) {
-    ar >> pcunit;
-    m_CRunTimeUnitList.push_back( pcunit );
+    ar >> punit;
+    m_CRunTimeUnitList.push_back(punit);
   }
 
   return( TRUE );
@@ -200,36 +200,36 @@ void CFBDFileDoc::SaveUnitList( CArchive& ar ) {
   
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
   ar << strStrategyFile << iCount;
-  for (const auto pcunit : m_CUnitList) { 
-    ar << pcunit;
+  for (const auto punit : m_CUnitList) { 
+    ar << punit;
   } 
 
   iCount = m_CRunTimeUnitList.size();
   ar << iCount;
-  for (const auto pcunit : m_CRunTimeUnitList) { 
-    ar << pcunit;
+  for (const auto punit : m_CRunTimeUnitList) { 
+    ar << punit;
   } 
 }
 
 BOOL CFBDFileDoc::MakeRunTimeUnitList( void ) {
   
   // create exective list 10ms, 100ms, 1Second, 1Minute
-  for (const auto pcunit : m_CRunTimeUnitList) {
-		pcunit->PrepareRunTimeList();	// 生成部件的运行时态序列.
-    if ( ((pcunit->GetScanRate()/60000)*60000) == pcunit->GetScanRate() ) {
-      m_vCUnit1Minute.push_back(pcunit);
+  for (const auto punit : m_CRunTimeUnitList) {
+		punit->PrepareRunTimeList();	// 生成部件的运行时态序列.
+    if ( ((punit->GetScanRate()/60000)*60000) == punit->GetScanRate() ) {
+      m_vCUnit1Minute.push_back(punit);
     }
-    else if ( ((pcunit->GetScanRate()/1000)*1000) == pcunit->GetScanRate() ) {
-      m_vCUnit1Second.push_back(pcunit);
+    else if ( ((punit->GetScanRate()/1000)*1000) == punit->GetScanRate() ) {
+      m_vCUnit1Second.push_back(punit);
     }
-    else if ( ((pcunit->GetScanRate()/100)*100) == pcunit->GetScanRate() ) {
-      m_vCUnit100MS.push_back(pcunit);
+    else if ( ((punit->GetScanRate()/100)*100) == punit->GetScanRate() ) {
+      m_vCUnit100MS.push_back(punit);
     }
-    else if ( ((pcunit->GetScanRate()/10)*10) == pcunit->GetScanRate() ) {
-			m_vCUnit10MS.push_back(pcunit);
+    else if ( ((punit->GetScanRate()/10)*10) == punit->GetScanRate() ) {
+			m_vCUnit10MS.push_back(punit);
 		}
 		else {
-      m_vCUnit1MS.push_back(pcunit);
+      m_vCUnit1MS.push_back(punit);
     }
   }
   ASSERT( m_CRunTimeUnitList.size() == (  m_vCUnit1Minute.size() + 
@@ -245,16 +245,16 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
   CObjectList listObject;
 
   // create temperary list listObject  
-  for (const auto pcObject : m_CObjectList) {
-    pcObject->AddToList( listObject );
+  for (const auto pObject : m_CObjectList) {
+    pObject->AddToList( listObject );
   }
 
   // create RunTimeObjctList from temperary list listObject
   bool done = false;
   int iCount = listObject.size();
   while ( ! done ) {
-    for (const auto pcObject : listObject) {
-      m_CRunTimeObjectList.push_back(pcObject);
+    for (const auto pObject : listObject) {
+      m_CRunTimeObjectList.push_back(pObject);
     }   
     int iRunTime = m_CRunTimeObjectList.size();
     if ( iRunTime == iCount ) done = true;
@@ -264,21 +264,21 @@ BOOL CFBDFileDoc::CreateRunTimeObjectList( void ) {
   listObject.clear();
 
   // create seperate list from RunTimeObjectList
-  for (const auto pcobj : m_CRunTimeObjectList) {
-    if ( ((pcobj->GetScanRate()/60000)*60000) == pcobj->GetScanRate() ) {
-      m_vCObject1Minute.push_back(pcobj);
+  for (const auto pobj : m_CRunTimeObjectList) {
+    if ( ((pobj->GetScanRate()/60000)*60000) == pobj->GetScanRate() ) {
+      m_vCObject1Minute.push_back(pobj);
     }
-    else if ( ((pcobj->GetScanRate()/1000)*1000) == pcobj->GetScanRate() ) {
-      m_vCObject1Second.push_back( pcobj );
+    else if ( ((pobj->GetScanRate()/1000)*1000) == pobj->GetScanRate() ) {
+      m_vCObject1Second.push_back(pobj);
     }
-    else if ( ((pcobj->GetScanRate()/100)*100) == pcobj->GetScanRate() ) {
-      m_vCObject100MS.push_back( pcobj );
+    else if ( ((pobj->GetScanRate()/100)*100) == pobj->GetScanRate() ) {
+      m_vCObject100MS.push_back(pobj);
     }
-    else if ( ((pcobj->GetScanRate()/10)*10) == pcobj->GetScanRate() ) {
-      m_vCObject10MS.push_back( pcobj );
+    else if ( ((pobj->GetScanRate()/10)*10) == pobj->GetScanRate() ) {
+      m_vCObject10MS.push_back(pobj);
     }
     else {
-      m_vCObject1MS.push_back( pcobj );
+      m_vCObject1MS.push_back(pobj);
     }
   }
   ASSERT( m_CRunTimeObjectList.size() ==

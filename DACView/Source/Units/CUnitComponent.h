@@ -202,6 +202,8 @@ public:
 #else 
 private:
 #endif 
+  // 以下几个函数，是为了测试Compilation函数方便而设立的，当在调试状态下编译时外部可见。不允许单独调用，必须按顺序连续。
+
   // 以下几个函数，是为了测试Encapsulation函数方便而设立的，当在调试状态下编译时外部可见。不允许单独调用，必须按顺序连续。
   bool             EncapsulateBelowComponent(CUnitList & listTotalUnit);
   bool             CheckComponentSelf(void);
