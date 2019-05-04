@@ -217,12 +217,29 @@ namespace DACViewTest {
       EXPECT_TRUE(find(rtUnitList.begin(), rtUnitList.end(), punit) != rtUnitList.end());
     }
 
-/*
-    pcunitTemp = rtUnitList.front();
-    for (const auto pcunit : rtUnitList) {
-      EXPECT_LE(pcunitTemp->GetExectivePriority(), pcunit->GetExectivePriority()) << "运行时单元序列执行优先级排列错误"
-        << pcunitTemp->GetName() << "  " << pcunit->GetName();
-    }*/
+    CUnitBase * pcunitTemp = rtUnitList.front();
+    auto it = rtUnitList.begin();
+    it++;
+    for (; it != rtUnitList.end(); it++) {
+      auto punit = *it;
+      EXPECT_LE(pcunitTemp->GetExectivePriority(), punit->GetExectivePriority()) << "运行时单元序列执行优先级排列错误"
+        << pcunitTemp->GetName() << "  " << punit->GetName();
+      pcunitTemp = punit;
+      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+        CUnitComponent * pCpt = (CUnitComponent *)punit;
+        if (pCpt->IsEncapsulated() && pCpt->mtest_fEncapsulating && pCpt->IsEncapsulating()) { //可封装部件且在此次编译中封装中
+          CUnitList * prtUnitList = pCpt->GetRunTimeUnitList(); // 检测此部件的内部运行时单元序列
+          auto it2 = prtUnitList->begin();
+          auto punitTemp2 = *it2++;
+          for (; it2 != prtUnitList->end(); it2++) {
+            auto punit2 = *it2;
+            EXPECT_LE(punitTemp2->GetExectivePriority(), punit2->GetExectivePriority()) << "运行时单元序列执行优先级排列错误"
+              << punitTemp2->GetName() << "  " << punit2->GetName();
+            punitTemp2 = punit2;
+          }
+        }
+      }
+    }
 
     // 测试执行优先级。所有的单元序列（包括部件内部的单元序列）皆测试。
     CUDLList * pUDLList;
@@ -246,9 +263,9 @@ namespace DACViewTest {
     }
 
     // 
-    for (const auto pctemp : m_unitlist) {
-      if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCpt = (CUnitComponent *)pctemp;
+    for (const auto punit : m_unitlist) {
+      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+        pCpt = (CUnitComponent *)punit;
         if (pCpt->IsEncapsulable()) {
           EXPECT_TRUE(pCpt->IsEncapsulated()) << "after compile component"; // 测试部件封装标志
         }
@@ -261,7 +278,6 @@ namespace DACViewTest {
     }
   }
 
-
   TEST_P(TestCompile, TestCompilation) {
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
@@ -271,6 +287,7 @@ namespace DACViewTest {
 
     // 所有与编译有关的测试，都需要编译整体文件。由于系统数据关联的原因，无法单独部件本身，故而需要编译整体文件，最后再测试封装。
     Compilation(&m_unitlist, m_objectlist, &unitListRunTime);
+
     for (const auto punit : m_unitlist) {
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCpt = (CUnitComponent *)punit;
@@ -293,6 +310,7 @@ namespace DACViewTest {
       if (!punit->IsHaveSourceUnit()) EXPECT_EQ(punit->GetExectivePriority(), 1);
       EXPECT_TRUE(punit->IsCompiled());
       EXPECT_FALSE(punit->IsEncapsulating());
+      EXPECT_TRUE(punit->mtest_fEncapsulating);
     }
   }
 
@@ -384,9 +402,9 @@ namespace DACViewTest {
 
     // 将Encapsulation展开，分段执行和测试
     CUnitList * pUnitList;
-    for (const auto pcunit : listTotalUnit) {
-      if (pcunit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCUCP = (CUnitComponent *)pcunit;
+    for (const auto pcunit1 : listTotalUnit) {
+      if (pcunit1->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+        pCUCP = (CUnitComponent *)pcunit1;
         if (pCUCP->IsEncapsulable()) { // 可封装部件的动作
           if (pCUCP->IsEncapsulated()) continue;
           
@@ -412,8 +430,8 @@ namespace DACViewTest {
           for (int l = 0; l < 16; l++) {
             if (pCUCP->IsParaLinked(l)) {
               if ((pCUCP->GetParaType(l) & (tINPUT | tOUTPUT)) == tOUTPUT) {
-                CUnitBase * punit11 = pCUCP->GetParaSrcUnit(l);
-                CUDLList * pUDLList = punit11->GetDynLinkList();
+                CUnitBase * punit5 = pCUCP->GetParaSrcUnit(l);
+                CUDLList * pUDLList = punit5->GetDynLinkList();
                 INT64 kTotal = pUDLList->size();
                 auto itDL1 = pUDLList->begin();
                 shared_ptr<CUnitDynLink> pDL = *itDL1;
@@ -421,7 +439,7 @@ namespace DACViewTest {
                   pDL = *++itDL1;
                 }
                 EXPECT_EQ(pDL->GetDestUnit(), pCUCP) << "输出型参数生成新动态链接时其目的单元就是本部件";
-                EXPECT_EQ(pDL->GetSrcUnit(), punit11);
+                EXPECT_EQ(pDL->GetSrcUnit(), punit5);
                 EXPECT_EQ(pDL->GetDestIndex(), l);
                 EXPECT_EQ(pDL->GetSrcIndex(), pCUCP->GetParaSrcIndex(l));
                 EXPECT_EQ(pDL->GetDynLinkType(), pCUCP->GetDynLinkType(l));
@@ -623,9 +641,10 @@ namespace DACViewTest {
 
     // 设置编译所需之前置数据
     ReSetCompileFlag(&m_unitlist);
-    CreateUniUnitList(&m_unitlist, listTotalUnit);
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
+
+    CreateUniUnitList(&m_unitlist, listTotalUnit);
 
     SetEncapsulatingFlag(listTotalUnit);
     
@@ -650,6 +669,7 @@ namespace DACViewTest {
 
     // 检查所有的部件内部单元的运行优先级
     for (const auto punit : listTotalUnit) {
+      EXPECT_TRUE(punit->mtest_fEncapsulating) << "此测试变量应该为真，否则SetEncapsulatingFlag()函数出现问题";
       if (punit->GetExectivePriority() == 1) {
         if ((punit->IsHaveSourceUnit()) && !punit->IsCutoff()) {
           CUnitComponent * pCpt = punit->GetComponentUpper();
@@ -694,7 +714,7 @@ namespace DACViewTest {
     EncapsulateUnitList(listTotalUnit);
     listTotalUnit.clear();
 
-    CreateUniUnitList(&m_unitlist, listTotalUnit); // c此时部件已经封装，故而生成的listTotalUnit要少于之前生成的单元序列
+    CreateUniUnitList(&m_unitlist, listTotalUnit); // 此时部件已经封装，故而生成的listTotalUnit要少于之前生成的单元序列
 
     // 编译此单元序列
     CompileUnitList(&listTotalUnit, &runtimeUnitList);
@@ -715,13 +735,13 @@ namespace DACViewTest {
     INT32 a, b;
     for (const auto pcunittemp : m_unitlist) {
       pDLList = pcunittemp->GetDynLinkList();
-      for (const auto pUnitDynLink : *pDLList) {
+      for (const auto pDL : *pDLList) {
         a = pcunittemp->GetExectivePriority();
-        pcunit2 = pUnitDynLink->GetDestUnit();
+        pcunit2 = pDL->GetDestUnit();
         b = pcunit2->GetExectivePriority();
         if (!pcunit2->IsCutoff()) { // 没有设置截断的目的单元其执行优先级必须小于源单元
           EXPECT_LT(a, b) << "Found Error in File " << strFileName << "'s SetExectivePriority's Unit "
-            << pcunittemp->GetName() << " -> " << pUnitDynLink->GetDestUnit()->GetName();
+            << pcunittemp->GetName() << " -> " << pDL->GetDestUnit()->GetName();
         }
       }
     }

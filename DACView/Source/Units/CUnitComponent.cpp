@@ -871,7 +871,7 @@ bool CUnitComponent::SetParameterSelected(ULONG ulIndex, bool fSelected) {
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
-//  部件封装前，需要处理其内部单元序列的标志设置，和部件本身联入参数的标志设置
+//  部件封装前，需要处理其内部单元序列的标志设置，和部件本身联入参数的标志设置(不可封装部件也执行此操作，只是无动作而已）
 //  部件封装后，其内部单元不再需要处理
 //
 //
@@ -880,6 +880,7 @@ void CUnitComponent::SetParaLockFlag( void ) {
 
 	// 如果连入部件的参数中有输入参数,则不允许再连入此参数.
   if (!m_fEncapsulated) { // 如果没有封装，则执行内部单元序列的设置工作
+    // 处理部件参数的动态链接（不可封装部件也执行此操作，只是无动作而已
     for (int i = 0; i < 16; i++) {
       if (m_pInterfacePara[i]->IsLinked()) {
         if ((m_pInterfacePara[i]->GetParaType() & (tINPUT | tOUTPUT)) == tINPUT) { // 输入型参数，需要设置参数锁
@@ -899,9 +900,9 @@ void CUnitComponent::SetParaLockFlag( void ) {
         }
       }
     }
-    // 设置内部单元序列的标志
-    for (const auto pUnit : m_CUnitList) {
-      pUnit->SetParaLockFlag();
+    // 设置内部单元序列的标志（可封装、不可封装部件都执行）
+    for (const auto punit : m_CUnitList) {
+      punit->SetParaLockFlag();
     }
   }
 
@@ -1943,8 +1944,8 @@ void CUnitComponent::PrepareRunTimeList(void) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::ResetCompileFlag( void ) {
   if (!m_fEncapsulated) { // 如果没有封装，则重置内部单元序列
-    for (const auto pcunit : m_CUnitList) {
-      pcunit->ResetCompileFlag();
+    for (const auto punit : m_CUnitList) {
+      punit->ResetCompileFlag();
     }
   }
   // 重置本部件自身

@@ -248,6 +248,7 @@ bool ExectiveCompilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 
     if (iRunTimeTemp > iTotal) {    // something was wrong 
       pRunTimeUnitList->clear();
+      TRACE("编译过程出现错误\n");
       return(false);
     }
   }
@@ -295,8 +296,8 @@ bool ExectiveCompilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
 void ReSetCompileFlag(CUnitList * pUnitList)
 {
   // 重置编译标志。这步现在要做，以防止出现可能的误存储。
-  for (const auto pcUnit : *pUnitList) {
-    pcUnit->ResetCompileFlag();
+  for (const auto punit : *pUnitList) {
+    punit->ResetCompileFlag();
   }
 }
 
@@ -307,12 +308,12 @@ void ReSetCompileFlag(CUnitList * pUnitList)
 ///////////////////////////////////////////////////////////////////////////////
 void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList) {
   // set unit select parameter
-  for (const auto pcUnit : *pUnitList) {
-    pcUnit->SetParaLockFlag();
+  for (const auto punit : *pUnitList) {
+    punit->SetParaLockFlag();
   }
 
-  for (const auto pcObj : *pObjectList) {
-    pcObj->SetParameterSelected();
+  for (const auto pobj : *pObjectList) {
+    pobj->SetParameterSelected();
   }
 }
 
