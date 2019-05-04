@@ -14,7 +14,7 @@ void SetParaLockFlag(CUnitList * pUnitList, CObjectList * pObjectList); // Õâ¸öÊ
 void SetParaLockFlag(CUnitList * pUnitList);                            // Õâ¸öÓÃÓÚEdit PasteÖĞ¡£
 
 //´Ëº¯ÊıÊÇÓÉÍâ²¿µ÷ÓÃµÄ
-bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList);
+bool Compilation(CUnitList * pUnitList, CObjectList & objectlist, CUnitList * pRunTimeUnitList);
 
 // ´Ëº¯ÊıÊÇ±àÒë¸ø¶¨µÄµ¥ÔªĞòÁĞ
 bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList);

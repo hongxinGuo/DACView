@@ -301,24 +301,6 @@ void CSQIFileDoc::ClearLoopDetectFlag( void ) {
   }
 }
 
-////////////////////////////////////////////////////////////////////////
-//
-// CompileRunTimeUnitList()
-//
-// Parameter : No
-//
-// Return :
-//    bool      : TRUE if secuess created.
-//              : FALSE if not created runtime unit list
-//
-// Description :
-//   这个函数是先编译下层部件，然后生成运行时态单元序列,
-//    
-////////////////////////////////////////////////////////////////////////
-bool CSQIFileDoc::CompileRunTimeUnitList( void ) {
-	return(Compilation(m_pUnitList, m_pRunTimeUnitList));
-}
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // CSQIFileDoc serialization
@@ -444,13 +426,9 @@ void CSQIFileDoc::OnProjectCompile()
   strPathName.SetAt(iFilePoint+2, 'b');
   strPathName.SetAt(iFilePoint+3, 'd');
 
-  // 重置编译标志
-  ReSetCompileFlag(m_pUnitList);
-  // 设置各单元的输入动态链接数
-  SetParaLockFlag(m_pUnitList, &m_CObjectList);
   
   // 编译整体文件
-  if ( !CompileRunTimeUnitList() ) {
+  if (!Compilation(m_pUnitList, m_CObjectList, m_pRunTimeUnitList)) {
 	  ShowMessage(ID_MSG_FAIL_COMPILE);
 		return;
 	}

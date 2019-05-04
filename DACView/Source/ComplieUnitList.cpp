@@ -442,8 +442,14 @@ bool CompileUnitList(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
   return (true);
 }
 
-bool Compilation(CUnitList * pUnitList, CUnitList * pRunTimeUnitList) {
+bool Compilation(CUnitList * pUnitList, CObjectList & objectlist, CUnitList * pRunTimeUnitList) {
   CUnitList unitlist;
+
+  // 重置编译标志
+  ReSetCompileFlag(pUnitList);
+  // 设置各单元的输入动态链接数
+  SetParaLockFlag(pUnitList, &objectlist);
+
 
   // 生成单一单元序列
   CreateUniUnitList(pUnitList, unitlist);

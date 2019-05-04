@@ -202,23 +202,10 @@ namespace DACViewTest {
     INT64 iCurrentUnit = sizeof(ULONG);
     CUnitComponent * pCpt = nullptr;
 
-    ReSetCompileFlag(&m_unitlist);
-
-    SetParaLockFlag(&m_unitlist, &m_objectlist);
-
-    for (const auto pctemp : m_unitlist) {
-      if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCpt = (CUnitComponent *)pctemp;
-        if (!pCpt->IsPermitEncapsulation()) {
-          EXPECT_EQ(pCpt->GetRunTimeUnitList()->size(), 0); // 不可封装部件的执行单元序列是空的
-        }
-      }
-    }
-
     CUnitList rtUnitList;
 
     if (!UnitListLoopDetect(&m_unitlist)) {   // 如果没有发现动态链接循环
-      Compilation(&m_unitlist, &rtUnitList);
+      Compilation(&m_unitlist, m_objectlist, &rtUnitList);
     }
     else ASSERT_TRUE(0); // 有循环出现的话，就退出测试。
 
@@ -282,14 +269,8 @@ namespace DACViewTest {
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
 
-    ReSetCompileFlag(&m_unitlist);
-
-    CreateUniUnitList(&m_unitlist, unitlistTotal); // 生成所有需测试单元序列，以备后边使用
-
-    SetParaLockFlag(&m_unitlist, &m_objectlist);
-
     // 所有与编译有关的测试，都需要编译整体文件。由于系统数据关联的原因，无法单独部件本身，故而需要编译整体文件，最后再测试封装。
-    Compilation(&m_unitlist, &unitListRunTime);
+    Compilation(&m_unitlist, m_objectlist, &unitListRunTime);
     for (const auto punit : m_unitlist) {
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCpt = (CUnitComponent *)punit;
@@ -781,14 +762,8 @@ namespace DACViewTest {
     CObjectList m_objectlist;
     LoadSQIFile(ar, &m_unitlist, &m_objectlist, &iUnitNumber, &iObjectNumber);
 
-    // 在编译单元序列前，必须重置编译标志及其他相关数据
-    ReSetCompileFlag(&m_unitlist);
 
-    SetParaLockFlag(&m_unitlist, &m_objectlist);
-
-    //CreateUniUnitList(&m_unitlist, listTotalUnit);
-
-    Compilation(&m_unitlist, &unitListRunTime);
+    Compilation(&m_unitlist, m_objectlist, &unitListRunTime);
 
     int l = 0;
     for (const auto pcunitTemp : m_unitlist) {

@@ -41,7 +41,6 @@ public:
 	CDicList *        GetUnitDictionaryList( ULONG ulType, CObjectBase * pcObj );
   
   void              ClearLoopDetectFlag( void );
-	bool 							CompileRunTimeUnitList( void ); 
   INT32							GetObjNumber( void );
 	void							SetObjNumber( ULONG iNumber );
 	INT64							GetUnitNumber( void );
