@@ -26,15 +26,13 @@ public :
   ~CObjectBase();
 // Attributes
 	// 能否被符号包含，有些能（如长方形等），有些不能（如按钮，滚动条等）
-  virtual bool            CanInSymbol( void );
-
+  virtual bool            CanInSymbol(void) { return true; }
 	// 是否是长方形 
-	virtual bool            IsRectShape( void );
+	virtual bool            IsRectShape( void )  { ASSERT(false); return(true); }
 	// 是否透明  
-	virtual bool            IsTransparent( void );
+	virtual bool            IsTransparent( void ) { return(m_fTransparent); }
 	// 设置透明标志 
-	virtual void            SetTransparentFlag( bool fFlag );	
-
+  virtual void            SetTransparentFlag(bool fFlag) { m_fTransparent = fFlag; }
 
 // Operations
 public:          
@@ -47,29 +45,29 @@ public:
 
 	//得到剪辑区
 	virtual CRgn *					GetClipRgn( const CPoint& ptScrollPosition);
-	CODLList*  							GetDynLinkList( void ); 
-	COLORREF 								GetBkGrdColor( void ) const ;
-	COLORREF 								GetForeGrdColor( void ) const ; 
+  CODLList*  							GetDynLinkList(void) { return &m_listDynLink; }
+  COLORREF 								GetBkGrdColor(void) const { return m_clrBkGrd; }
+  COLORREF 								GetForeGrdColor(void) const { return m_clrForeGrd; }
 	
 	// 设置所有的区域
-	virtual void 			SetAllSize( const CRect& rectArea );
-  virtual void      SetOriginSize( const CRect& rectOrigin );
+	virtual void 			SetAllSize( const CRect& ) { ASSERT(false); }
+  virtual void      SetOriginSize( const CRect& ) { ASSERT(false); }
 	// 设置动态区域大小
-	virtual void			SetDynamicSize( const CRect& rectArea );
+	virtual void			SetDynamicSize( const CRect&  ) { ASSERT(false); }
 
-	void							SetBkGrdColor( COLORREF color );
-	void							SetForeGrdColor( COLORREF color );
+  void							SetBkGrdColor(COLORREF color) { m_clrBkGrd = color; }
+  void							SetForeGrdColor(COLORREF color) { m_clrForeGrd = color; }
 	
 	// 设置包含本对象的符号指针
-  void              SetSymbolThatHaveMe( CObjectSymbol * pcSymbol );
-  CObjectSymbol *   GetSymbolThatHaveMe( void );
+  void              SetSymbolThatHaveMe( CObjectSymbol * pSymbol ) { m_pSymbolHaveMe = pSymbol; }
+  CObjectSymbol *   GetSymbolThatHaveMe(void) { return m_pSymbolHaveMe; }
 
   virtual bool      SetParameterSelected(void);
 
 	virtual bool			CheckSelf( void ) override;
 
   virtual bool      CreateUniName( CObjectList& listObject );
-  virtual void      AddToList( CObjectList& listObject );
+  virtual void      AddToList( CObjectList& listObject ) { listObject.push_back(this); }
 
 	// 调用对话窗处理动态连接
 	bool 				 			IsDeleteDynLink( void );
@@ -86,43 +84,43 @@ public:
 
 	virtual bool      InIt(POINT const pt, int iStatus);
   virtual bool      ProcessChar( UINT nChar, CPoint& pt );
-	virtual void      ToShowDynamic( CDC * const pdc);		// draw myself on memory DC 
-	virtual void      ToShowStatic( CDC * const pdc, CPoint ptScrollPosition);		// draw myself on DC 
-  virtual bool 			SetProperty( void );					// set object's property 
+	virtual void      ToShowDynamic( CDC * const ) { ASSERT(false); }			// draw myself on memory DC 
+  virtual void      ToShowStatic(CDC * const , CPoint ) { ASSERT(false); }		// draw myself on DC 
+  virtual bool 			SetProperty(void) { ASSERT(false); return false; }					// set object's property 
 
   
 // dynamic link virtual function 
 // below function should difinition virtually in CObjectBase
-	virtual bool 			SetRectPosition(ULONG index, LONG lValue);
-  virtual bool      SetBool(ULONG index, bool fValue);
-	virtual bool 			SetInteger(ULONG index, LONG lValue);
-	virtual bool  		SetDouble(ULONG index, double eValue);
-	virtual double		GetDouble(ULONG index);
-	virtual bool	 		SetString(ULONG index, const CString& strValue); 
-	virtual bool 			SetColor( ULONG index, LONG lValue);
+	virtual bool 			SetRectPosition(ULONG , LONG ) { ASSERT(false); return false; }
+  virtual bool      SetBool(ULONG , bool ) { ASSERT(false); return false; }
+  virtual bool 			SetInteger(ULONG , LONG ) { ASSERT(false); return false; }
+  virtual bool  		SetDouble(ULONG , double ) { ASSERT(false); return false; }
+  virtual double		GetDouble(ULONG ) { ASSERT(false); return 0.0; }
+  virtual bool	 		SetString(ULONG , const CString& ) { ASSERT(false); return false; }
+	virtual bool 			SetColor( ULONG , LONG ) { ASSERT(false); return false; }
 
-	virtual bool  		ExectiveDynLink( void );		// 执行动态连接
+	virtual bool  		ExectiveDynLink( void ) { ASSERT(false); return false; }		// 执行动态连接
 	
 	// 处理动态连接的函数
-	virtual ParaName* GetParaNameAddress( void );
-	virtual CString		GetParaName( ULONG index );
-	virtual INT32			GetIndex( ULONG ulIndex );
-	virtual ULONG 		GetDynLinkType( ULONG Index );
-	virtual bool 			SetParameterLock( ULONG ulIndex, bool fSelected );
-  virtual bool      SetParameterSelected(ULONG ulIndex, bool fSelected);
-	virtual void     	SelectParameter( ULONG ulType ); 
+  virtual ParaName* GetParaNameAddress(void) { return nullptr; }
+  virtual CString		GetParaName(ULONG ) { return(""); }
+  virtual INT32			GetIndex(ULONG ) { ASSERT(false); return 0; }
+	virtual ULONG 		GetDynLinkType( ULONG  ) { ASSERT(false); return 0; }
+	virtual bool 			SetParameterLock(ULONG , bool ) { ASSERT(false); return false; }
+  virtual bool      SetParameterSelected(ULONG , bool );
+  virtual void     	SelectParameter(ULONG ) { ASSERT(false); }
 
 // implememtation 
  	virtual void Serialize( CArchive& ar );
   
-	virtual void 			AdjustInnerSize( void );				//调整内部Objects大小，CObjSymbol使用
-	virtual void 			AdjustDynamicInnerSize( void );	// 动态调整内部Objects大小，CObjSymbol执行时使用。
+	virtual void 			AdjustInnerSize( void ) { ASSERT(false); }					//调整内部Objects大小，CObjSymbol使用
+	virtual void 			AdjustDynamicInnerSize( void ) { ASSERT(false); }		// 动态调整内部Objects大小，CObjSymbol执行时使用。
 
 protected:
-  virtual void 			SetFocus(CDC *pdc);	 // this object is on focus
+  virtual void 			SetFocus(CDC * ) { ASSERT(false); }	 // this object is on focus
 
 private :
-	virtual void			ToShow( CDC * const pdc );
+	virtual void			ToShow(CDC * const ) { ASSERT(false); }
   
 public: 
 	// assist function

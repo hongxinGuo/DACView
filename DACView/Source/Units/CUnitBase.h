@@ -36,8 +36,8 @@ public:
   // 得到本单元的名称
   virtual CString		GetName(void) override;
 
-	void            SetUpperUnitList(CUnitList * pUnitList);
-	CUnitList *     GetUpperUnitList(void);
+  void            SetUpperUnitList(CUnitList * pUnitList) { m_pUnitListUpper = pUnitList; }
+  CUnitList *     GetUpperUnitList(void) { return m_pUnitListUpper; }
 
 	// 得到本单元的位置大小.
 	const CRect&			GetSize( void ) const;
@@ -52,7 +52,7 @@ public:
 
 
 	// 得到本单元的动态连接序列的指针.
-	CUDLList * 				GetDynLinkList( void );
+  CUDLList * 				GetDynLinkList(void) { return &m_listDynLink; }
 
 	// 是否本单元的参数被包含本单元的部件使用.
   bool							IsLinkToComponent( void );
@@ -66,7 +66,7 @@ public:
 	void							SetLinkFromObjectFlag(bool fFlag  // 联入为真，取消联入为假
 																					);
 	// 有多少参数连入部件.
-	ULONG							HowManyLinkToComponent( void );
+  INT32							HowManyLinkToComponent(void) { return m_lLinkToComponent; }
 
   void              LinkFromComponent(bool fFlag); 
  // 是否本单元的参数被包含本单元的部件使用.
@@ -74,9 +74,8 @@ public:
  // 有多少参数连入部件.
   INT32							HowManyLinkFromComponent(void) { return(m_lLinkFromComponent); }
 
-	void 							SetComponentUpper(CUnitComponent * pUnitComponent // 指向包含本单元的复合部件.
-																					);
-	CUnitComponent *	  GetComponentUpper( void ) const;
+  void 							SetComponentUpper(CUnitComponent * pUnitComponent) { m_pUnitComponentUpper = pUnitComponent; } 
+  CUnitComponent *	GetComponentUpper(void) const { return m_pUnitComponentUpper; }
 
 	// 设置本单元的动态连接删除标志.如本单元的动态连接连入listUnit, 则设置标志.
 	virtual void			SetDeleteDynLinkFlag( CUnitList& listUnit // 被删除的单元序列,
@@ -85,18 +84,17 @@ public:
 	virtual void			ClearDeleteDynLinkFlag( void );
 	
 	// 设置截断标志.
-	void 							SetCutOff( bool fFlag // 是否截断标志.
-															);
-  bool							IsCutoff( void ) const;
+  void 							SetCutOff(bool fFlag) { m_fCutOff = fFlag; }
+  bool							IsCutoff(void) const { return m_fCutOff; }
 
   //设置单元已被编译标志
   void              SetCompiledFlag(bool fFlag) { m_fCompiled = fFlag; }
   bool              IsCompiled(void) { return(m_fCompiled); }
 	
 	// 得到本单元的执行优先值.
-	INT32 						GetExectivePriority( void ) const;
+  INT32 						GetExectivePriority(void) const { return m_lExectivePriority; }
 	// 直接设置本单元的执行优先值为ulPriority
-	void							SetExectivePriorityDirect( ULONG ulPriority );
+  void							SetExectivePriorityDirect(INT32 lPriority) { m_lExectivePriority = lPriority; }
 	// 设置本单元的执行优先值.
 	virtual bool 			SetExectivePriority( ULONG ulPriority // 要设置的优先值.
 																				);
@@ -123,9 +121,8 @@ public:
 	virtual void			PrepareRunTimeList( void );
 
 	// 将一个动态连接加入本单元的动态连接序列.
-	void 							AddDynLink( shared_ptr<CUnitDynLink> punitDynLink // 指向动态连接的指针.
-															 ) ;
-	
+  void 							AddDynLink(shared_ptr<CUnitDynLink> punitDynLink) { m_listDynLink.push_back(punitDynLink); }
+
 	// 观察并处理本单元的动态连接.
 	virtual bool 			ArrangeDynLink( void );
 	// 删除本单元的指向pUnit的动态连接.
@@ -144,10 +141,9 @@ public:
 	virtual void 			SetParaLockFlag( void );
 
 	// 得到本单元的输入参数个数.
-	ULONG							GetInputParameterNumber( void );
+  ULONG							GetInputParameterNumber(void) { return m_lDynLinkToNumber; }
 	// 设置本单元输入的参数个数
-	void							SetInputParameterNumber(LONG lNumber // 输入参数的个数
-																						);
+  void							SetInputParameterNumber(INT32 lNumber) { ASSERT(lNumber >= 0); m_lDynLinkToNumber = lNumber; }
 
 	// 本单元是否存在从上层联入的参数
 	virtual bool			IsDynLinkFromUpper(void);
@@ -178,21 +174,23 @@ public:
 	virtual bool			CheckSelf( void );
 	
 	virtual const CString&		GetClassNameStr( void ) override;				// 得到本类的类名
-	virtual CString						GetParaName( ULONG index );			// 得到本类的参数名称
-	virtual ULONG							GetParaType( ULONG ulIndex );		// 得到本类的参数类型。此函数是得到参数所有的类型，而GetDynLinkType只得到四种数据类型中的一种
+  virtual CString						GetParaName(ULONG ) { ASSERT(false); return(""); }		// 得到本类的参数名称
+  virtual ULONG							GetParaType(ULONG ) { ASSERT(false); return 0; }		// 得到本类的参数类型。此函数是得到参数所有的类型，而GetDynLinkType只得到四种数据类型中的一种
 
-	// 是否可被连入.
-	virtual bool							CanLinkIn( void );
+	// 是否可被连入. UnitBase类不允许
+  virtual bool							CanLinkIn(void) { return false; }
 
 	// 是否是我.
 	virtual bool 							IsMe( const CString& strName // 被检查的单元名称.
 																);
 
 	// 得到本单元的输入输出类型,输出型或输入输出型.有些单元只有输出型参数，如计数器、图形发生器等。
-	virtual ULONG			GetUnitType( void );
+  // CUnitBase类及其大部分衍生类允许联入联出动态链接，输入参数和输出参数皆存在。
+  // 有少数衍生类（目前只有CUnitSine、CUnitInputOutput、CUnitQuad这三个类）只存在输出参数，而不存在输入参数，即不允许链接至这三个函数。
+	virtual ULONG			GetUnitType( void ) { return(tINPUT | tOUTPUT); }
 	
 	// 执行本单元.
-	virtual void  		Exective( void );
+  virtual void  		Exective(void) { ASSERT(false); }
 	// 执行本单元的动态连接.
 	virtual bool 			ExectiveDynLink( void );
 

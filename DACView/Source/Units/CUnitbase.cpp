@@ -247,41 +247,6 @@ CString CUnitBase::GetName(void)
   return(str);
 }
 
-void CUnitBase::SetUpperUnitList(CUnitList * pUnitList) {
-	m_pUnitListUpper = pUnitList;
-}
-
-CUnitList * CUnitBase::GetUpperUnitList(void) {
-	return (m_pUnitListUpper);
-}
-
-///////////////////////////////////////////////////////////////////////////
-//
-// SetComponentUpper()
-//
-// Parameter :
-//    CUnitComponent * pCUnitComponent : component that have me,
-// Return : No return
-//
-// Decription :
-//    Set up pointer point to the component that have me.
-//
-////////////////////////////////////////////////////////////////////////////
-void  CUnitBase::SetComponentUpper(CUnitComponent * pCUnitComponent) {
-	m_pUnitComponentUpper = pCUnitComponent;
-}
-
-CUnitComponent * CUnitBase::GetComponentUpper(void) const {
-	return(m_pUnitComponentUpper);
-}
-
-INT32  CUnitBase::GetExectivePriority(void) const {
-	return (m_lExectivePriority);
-}
-
-void CUnitBase::SetExectivePriorityDirect(ULONG ulPriority) {
-	m_lExectivePriority = ulPriority;
-}
 
 bool CUnitBase::IsHaveSourceUnit(void) const {
   if (m_lDynLinkToNumber > 0) return (true);
@@ -329,50 +294,6 @@ void CUnitBase::SetLinkFromObjectFlag(bool fFlag) {
 			m_lLinkFromObject--;
 		}
 	}
-}
-
-ULONG	CUnitBase::HowManyLinkToComponent(void) {
-	return(m_lLinkToComponent);
-}
-
-void CUnitBase::SetCutOff(bool fFlag) {
-	m_fCutOff = fFlag;
-}
-
-bool CUnitBase::IsCutoff(void) const {
-	return(m_fCutOff);
-}
-
-//////////////////////////////////////////////////////////////////
-//
-// GetInputParameterNumber()
-//
-// return : 
-//		ULONG	: 输入参数连接的个数.
-//
-// 描述:
-//		得到输入参数连接的个数,输入参数连接是指连入本单元的输入参数上的连接.
-//
-/////////////////////////////////////////////////////////////////////
-ULONG	CUnitBase::GetInputParameterNumber(void) {
-	return(m_lDynLinkToNumber);
-}
-
-//////////////////////////////////////////////////////////////////
-//
-// SetInputParameterNumber()
-//	
-// 参数 	: 输入参数连接的个数.
-// return : 无
-//		
-//
-// 描述:
-//		得到输入参数连接的个数,输入参数连接是指连入本单元的输入参数上的连接.
-//
-/////////////////////////////////////////////////////////////////////
-void	CUnitBase::SetInputParameterNumber(LONG lNumber) {
-	ASSERT(lNumber >= 0);
-	m_lDynLinkToNumber = lNumber;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -481,10 +402,6 @@ void CUnitBase::ResetCompileFlag( void ) {
 	m_lExectivePriority = 0;
   m_fCompiled = false;
   ClearParaSelectedFlag();
-}
-
-CUDLList * CUnitBase::GetDynLinkList( void ) {
-  return( &m_listDynLink );
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -697,10 +614,6 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
   }
 }
 
-void CUnitBase::AddDynLink( shared_ptr<CUnitDynLink> punitDynLink ) {
-  m_listDynLink.push_back(punitDynLink); 
-}  
-
 /////////////////////////////////////////////////////////////////////////
 //
 // BreakDynLink()
@@ -778,16 +691,6 @@ const CString& CUnitBase::GetClassNameStr( void ) {
   return( str );
 }
 
-CString CUnitBase::GetParaName( ULONG ) {
-	ASSERT( 0 );
-  return("");
-}
-
-ULONG CUnitBase::GetParaType( ULONG ) {
-	ASSERT( 0 );
-  return(0);
-}
-
 bool CUnitBase::IsMe( const CString& strName ) {
   if ( strName == m_strName ) {
     return( true );
@@ -802,10 +705,6 @@ bool CUnitBase::IsOverFlow(void) {
 		return(true);
 	}
 	else return(false);
-}
-  
-void CUnitBase::Exective( void ) {
-	ASSERT( 0 );
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -914,17 +813,6 @@ bool CUnitBase::ExectiveDynLink( void ) {
 
   return(true);
 }
-
-//////////////////////////////////////////////////////////////////////////////////
-//
-// CUnitBase类及其大部分衍生类允许联入联出动态链接，输入参数和输出参数皆存在。
-// 有少数衍生类（目前只有CUnitSine、CUnitInputOutput、CUnitQuad这三个类）只存在输出参数，而不存在输入参数，即不允许链接至这三个函数。
-// 
-//
-/////////////////////////////////////////////////////////////////////////////////
-ULONG CUnitBase::GetUnitType( void ) {
-  return( tINPUT | tOUTPUT );
-}     
 
 INT32 CUnitBase::GetIndex( ULONG ) {
 	ASSERT( 0 );
@@ -1681,8 +1569,5 @@ void CUnitBase::SelectParameter(ULONG ulType) {
 	}
 }
 
-bool CUnitBase::CanLinkIn( void ) {
-	return( false );
-}
 
 

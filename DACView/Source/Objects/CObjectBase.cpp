@@ -192,52 +192,17 @@ void CObjectBase::Serialize( CArchive& ar ) {
 		}
   }
 }
-
-bool CObjectBase::ExectiveDynLink( ) {
-  ASSERT( FALSE );
-  return(FALSE);
-}
-
-ParaName* CObjectBase::GetParaNameAddress( void ) {
-  return( nullptr );
-}
-     
-ULONG CObjectBase::GetDynLinkType(ULONG ) {
-  ASSERT( FALSE );
-  return(0);
-}
-
+    
 bool CObjectBase::SetParameterSelected(ULONG ulIndex, bool fSelected)
 {
   m_vfSelected[ulIndex] = fSelected;
   return true;
 }
 
-void CObjectBase::SelectParameter(ULONG ) {
-  ASSERT( FALSE );
-}
-
-CString CObjectBase::GetParaName( ULONG  ) {
-  ASSERT( FALSE );
-  return("");
-}
-
-bool CObjectBase::SetParameterLock( ULONG , bool  ) {
-  ASSERT( FALSE );
-  return(false);
-}
 
 bool CObjectBase::CheckSelf( void ) {
   TRACE("CObjectBase's CheckSelf been called, error!\n");
   return( TRUE );
-}
-
-void CObjectBase::SetSymbolThatHaveMe(CObjectSymbol * pCSymbol) {
-  m_pSymbolHaveMe = pCSymbol;
-}
-
-CObjectSymbol * CObjectBase::GetSymbolThatHaveMe( void ) {
-  return( m_pSymbolHaveMe );
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -261,42 +226,6 @@ bool CObjectBase::SetParameterSelected(void) {
     }
   }
   return(true);
-}
-
-INT32 CObjectBase::GetIndex( ULONG  ) {
-  ASSERT( false );
-  return((ULONG)0);
-}
-
-bool CObjectBase::SetBool(ULONG , bool ) {
-  ASSERT(  FALSE );
-  return(FALSE);
-}
-
-bool CObjectBase::SetInteger(ULONG , LONG ) {
-  ASSERT(  false );
-  return(false);
-}
-
-bool CObjectBase::SetDouble(ULONG , double ) {
-  ASSERT(  false );
-  return(false);
-}
-double CObjectBase::GetDouble(ULONG )
-{
-	ASSERT(false);
-	return 0.0;
-}
-
-
-bool CObjectBase::SetString(ULONG , const CString& ) {
-  ASSERT(  FALSE );
-  return(FALSE);
-}   
-
-bool CObjectBase::SetColor(ULONG , LONG ) {
-  ASSERT(  FALSE );
-  return(FALSE);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -329,39 +258,6 @@ bool CObjectBase::ProcessChar( UINT, CPoint&  ) {
 }
 
 bool CObjectBase::AdjustCaretPos( CDC * , CPoint&  ) {
-  return( FALSE );
-}
-
-void CObjectBase::ToShowStatic( CDC * const, CPoint  ) {
-  ASSERT(  FALSE );
-}            
-
-void CObjectBase::ToShowDynamic( CDC * const ) {
-  ASSERT(  FALSE );
-}
-
-void CObjectBase::ToShow( CDC * const  ) {
-	ASSERT( FALSE );
-}
-
-void CObjectBase::AdjustInnerSize( void ) {
-  // do nothing , use by CObjectSymbol
-  ASSERT(FALSE);
-
-}
-
-void CObjectBase::AdjustDynamicInnerSize( void ) {
-  // do nothing, use by CObjectSymbol
-  ASSERT(FALSE);
-
-}
-
-void CObjectBase::SetFocus( CDC * ) {
-  ASSERT(  FALSE );
-}
- 
-bool CObjectBase::SetProperty( void ) {
-  ASSERT(  FALSE );
   return( FALSE );
 }
 
@@ -466,65 +362,6 @@ bool CObjectBase::CreateUniName( CObjectList& listObject ) {
       }
     }
   }
-  return( TRUE );
-}
-
-void CObjectBase::AddToList( CObjectList& ObjectList ) {
-  ObjectList.push_back(this);
-}
-
-CODLList * CObjectBase::GetDynLinkList( void ) {
-  return ( &m_listDynLink );
-}
-
-COLORREF CObjectBase::GetBkGrdColor( void ) const {
-  return( m_clrBkGrd );
-}
-
-COLORREF CObjectBase::GetForeGrdColor( void ) const {
-  return( m_clrForeGrd );
-}
-
-void CObjectBase::SetAllSize( const CRect& ) {
-  ASSERT(  FALSE );
-}
-
-void CObjectBase::SetOriginSize( const CRect& ) {
-  ASSERT(  FALSE );
-}
-
-void CObjectBase::SetDynamicSize( const CRect& ) {
-  ASSERT(  FALSE );
-}
-
-bool CObjectBase::SetRectPosition(ULONG , LONG ) {
-  ASSERT(  FALSE );
-  return(FALSE);
-}
-  
-
-void CObjectBase::SetBkGrdColor( COLORREF color ) {
-  m_clrBkGrd = color;
-}
-
-void CObjectBase::SetForeGrdColor( COLORREF color ) {
-  m_clrForeGrd = color;
-}
-
-bool CObjectBase::IsTransparent( void ) {
-  return( m_fTransparent );
-}
-
-void CObjectBase::SetTransparentFlag( bool fFlag ) {
-  m_fTransparent = fFlag;
-}
-
-bool CObjectBase::CanInSymbol( void ) {
-  return( TRUE );
-}
-
-bool CObjectBase::IsRectShape( void ) {
-  ASSERT( FALSE );
   return( TRUE );
 }
 
