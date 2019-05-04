@@ -268,9 +268,9 @@ void CUnitHighPassBargin::ToShow( CDC * const pdc ) {
 bool CUnitHighPassBargin::SetProperty( void ) {
   CDlgHighPassBargin CDlg;
   
-  CDlg.SetData(m_strName, m_eBargin, m_fEnableAlarm, m_fAlarmHigh, m_fHighPass, m_lScanRate, m_cstrComment);
+  CDlg.SetData(m_strName, m_eBargin, m_fEnableAlarm, m_fAlarmHigh, m_fHighPass, m_lScanRate, m_strComment);
   if ( CDlg.DoModal() == IDOK ) {
-    CDlg.GetData(m_strName, m_eBargin, m_fEnableAlarm, m_fAlarmHigh, m_fHighPass, m_lScanRate, m_cstrComment);
+    CDlg.GetData(m_strName, m_eBargin, m_fEnableAlarm, m_fAlarmHigh, m_fHighPass, m_lScanRate, m_strComment);
     return( true );
   }
   return( false );

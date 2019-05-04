@@ -262,9 +262,9 @@ void CUnitFFLP::ToShow( CDC * const pdc ) {
 bool CUnitFFLP::SetProperty( void ) {
   CDlgFFLP CDlg;
   
-  CDlg.SetData(m_strName, m_fEnableAlarm, m_fAlarmHigh, m_lScanRate, m_cstrComment);
+  CDlg.SetData(m_strName, m_fEnableAlarm, m_fAlarmHigh, m_lScanRate, m_strComment);
   if ( CDlg.DoModal() == IDOK ) {
-    CDlg.GetData(m_strName, m_fEnableAlarm, m_fAlarmHigh, m_lScanRate, m_cstrComment);
+    CDlg.GetData(m_strName, m_fEnableAlarm, m_fAlarmHigh, m_lScanRate, m_strComment);
     return( true );
   }
   return( false );

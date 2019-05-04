@@ -277,10 +277,10 @@ bool CUnitSwitch::SetProperty( void ) {
   CDlgSwch CDlg;
   
   CDlg.SetData(m_strName, m_eHiRange, m_eLoRange, 
-               m_eHiLimit, m_eLoLimit, m_lScanRate, m_cstrComment);
+               m_eHiLimit, m_eLoLimit, m_lScanRate, m_strComment);
   if ( CDlg.DoModal() == IDOK ) {
     CDlg.GetData(m_strName, m_eHiRange, m_eLoRange, 
-                 m_eHiLimit, m_eLoLimit, m_lScanRate, m_cstrComment);
+                 m_eHiLimit, m_eLoLimit, m_lScanRate, m_strComment);
     return( true );
   }
   return( false );

@@ -114,7 +114,7 @@ CUnitBase::CUnitBase(const CString& Name, CPoint pt): CObjectPrimitive(Name) {
   m_rectArea.right  = pt.x + 20;
   m_rectArea.top    = pt.y - 20;
   m_rectArea.bottom = pt.y + 20;
-  m_cstrComment.Empty();
+  m_strComment.Empty();
 
   m_fCutOff = false;
 
@@ -143,7 +143,7 @@ CUnitBase::CUnitBase(const CString& Name, CPoint pt): CObjectPrimitive(Name) {
 CUnitBase::CUnitBase( void ) : CObjectPrimitive() { 
   
   m_strName.Empty();   
-  m_cstrComment.Empty();
+  m_strComment.Empty();
   m_rectArea.SetRectEmpty();
   m_pUnitComponentUpper = nullptr;
 	m_pUnitListUpper = nullptr;
@@ -180,11 +180,11 @@ void CUnitBase::Serialize( CArchive& ar ) {
   INT64 a, b;
 
   if( ar.IsStoring() ) {
-    ar << m_cstrComment << m_rectArea 
+    ar << m_strComment << m_rectArea 
        << (INT64)m_fCutOff << (INT64)m_fAutoExective << m_lReserved3 << m_lDynLinkToNumber << m_lExectivePriority;
   }
   else {
-    ar >> m_cstrComment >> m_rectArea 
+    ar >> m_strComment >> m_rectArea 
        >> a >> b >> m_lReserved3 >> m_lDynLinkToNumber >> m_lExectivePriority;
     m_fCutOff = (bool)a;
     m_fAutoExective = (bool)b;
@@ -700,13 +700,6 @@ bool CUnitBase::IsMe( const CString& strName ) {
   }
 }
 
-bool CUnitBase::IsOverFlow(void) {
-	if (m_fOverFlow) {
-		return(true);
-	}
-	else return(false);
-}
-
 ////////////////////////////////////////////////////////////////////////
 //
 // ExectiveDynLink() Ö´ÐÐ¶¯Ì¬Á´½ÓÐòÁÐ
@@ -812,27 +805,6 @@ bool CUnitBase::ExectiveDynLink( void ) {
   SetUpdateFlag(true);
 
   return(true);
-}
-
-INT32 CUnitBase::GetIndex( ULONG ) {
-	ASSERT( 0 );
-  return( 0 );
-}                  
-
-ParaName* CUnitBase::GetParaNameAddress( void ) {
-	ASSERT( 0 );
-  return( nullptr );
-}     
-
-INT32* CUnitBase::GetArrayIndex( void ) {
-	ASSERT( 0 );
-  return( nullptr );
-}
-
-bool CUnitBase::IsParameterLocked(ULONG )
-{
-  ASSERT(0);
-  return false;
 }
 
 bool CUnitBase::IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit) {
@@ -1004,10 +976,6 @@ bool CUnitBase::SetString(ULONG , const CString& ) {
   ASSERT( false );
   return(false);
 }   
-   
-bool CUnitBase::InIt( POINT const pt) {
-	return ( m_rectArea.PtInRect(pt) );
-}
 
 void CUnitBase::ToShow( CDC * const pdc ) {
   // show status 
@@ -1210,25 +1178,7 @@ void CUnitBase::Dump(CDumpContext& dc) const
          
 //////////////////////////////////////////////////////////////////////////////
 // COjbectbase member function
-
-const CRect& CUnitBase::GetSize( void ) const {
-  return( m_rectArea );
-}  
-
-void CUnitBase::SetSize( const CRect& rectArea ) {
-  m_rectArea = rectArea;
-}
-
-// ÉèÖÃ×¢ÊÍ
-void CUnitBase::SetComment(const CString& strComment) {
-	m_cstrComment = strComment;
-}
-
-//µÃµ½×¢ÊÍ×Ö·û´®
-CString	CUnitBase::GetComment(void) {
-	return(m_cstrComment);
-}
-
+ 
 /////////////////////////////////////////////////////////////////////////
 //
 // ClearLoopDetectFlag()

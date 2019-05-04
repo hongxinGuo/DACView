@@ -44,7 +44,7 @@ public:
 	virtual const CRect&		GetLastSize( void );
 
 	//µÃµ½¼ô¼­Çø
-	virtual CRgn *					GetClipRgn( const CPoint& ptScrollPosition);
+	virtual CRgn *					GetClipRgn( const CPoint& ) { ASSERT(false); return(&m_rgnClip); }
   CODLList*  							GetDynLinkList(void) { return &m_listDynLink; }
   COLORREF 								GetBkGrdColor(void) const { return m_clrBkGrd; }
   COLORREF 								GetForeGrdColor(void) const { return m_clrForeGrd; }
@@ -78,12 +78,12 @@ public:
   virtual void      SetDrawAll( bool fFlag ) { m_fDrawAll = fFlag; }
 
   virtual bool      NeedShowCaret( void ) { return( m_fNeedShowCaret ); }
-  virtual bool      AdjustCaretPos( CDC *pdc, CPoint& pt );
+  virtual bool      AdjustCaretPos( CDC * , CPoint& ) { ASSERT(false); return false; }
 
   virtual CPoint    GetOffset( void );
 
-	virtual bool      InIt(POINT const pt, int iStatus);
-  virtual bool      ProcessChar( UINT nChar, CPoint& pt );
+  virtual bool      InIt(POINT const , int ) { ASSERT(false); return false; }
+  virtual bool      ProcessChar( UINT , CPoint& ) { ASSERT(false); return false; }
 	virtual void      ToShowDynamic( CDC * const ) { ASSERT(false); }			// draw myself on memory DC 
   virtual void      ToShowStatic(CDC * const , CPoint ) { ASSERT(false); }		// draw myself on DC 
   virtual bool 			SetProperty(void) { ASSERT(false); return false; }					// set object's property 
@@ -107,7 +107,8 @@ public:
   virtual INT32			GetIndex(ULONG ) { ASSERT(false); return 0; }
 	virtual ULONG 		GetDynLinkType( ULONG  ) { ASSERT(false); return 0; }
 	virtual bool 			SetParameterLock(ULONG , bool ) { ASSERT(false); return false; }
-  virtual bool      SetParameterSelected(ULONG , bool );
+  virtual bool      SetParameterSelected(ULONG ulIndex, bool fSelected) { m_vfSelected[ulIndex] = fSelected; return true; }
+
   virtual void     	SelectParameter(ULONG ) { ASSERT(false); }
 
 // implememtation 

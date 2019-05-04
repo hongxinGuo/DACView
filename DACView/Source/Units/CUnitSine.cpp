@@ -310,10 +310,10 @@ bool CUnitSine::SetProperty( void ) {
   CDlgSine CDlg;
   
   CDlg.SetData(m_strName, m_eK0, m_eK1, m_eK2, m_eK3, m_eHiRange, m_eLoRange, 
-               m_eHiLimit, m_eLoLimit, m_lScanRate, m_cstrComment);
+               m_eHiLimit, m_eLoLimit, m_lScanRate, m_strComment);
   if ( CDlg.DoModal() == IDOK ) {
     CDlg.GetData(m_strName, m_eK0, m_eK1, m_eK2, m_eK3, m_eHiRange, m_eLoRange, 
-                 m_eHiLimit, m_eLoLimit, m_lScanRate, m_cstrComment);
+                 m_eHiLimit, m_eLoLimit, m_lScanRate, m_strComment);
     return( true );
   }
   return( false );

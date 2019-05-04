@@ -192,13 +192,6 @@ void CObjectBase::Serialize( CArchive& ar ) {
 		}
   }
 }
-    
-bool CObjectBase::SetParameterSelected(ULONG ulIndex, bool fSelected)
-{
-  m_vfSelected[ulIndex] = fSelected;
-  return true;
-}
-
 
 bool CObjectBase::CheckSelf( void ) {
   TRACE("CObjectBase's CheckSelf been called, error!\n");
@@ -246,19 +239,6 @@ bool CObjectBase::IsDeleteDynLink( void ) {
 		return( true );
 		}
 	else return( false );
-}
-
-bool CObjectBase::InIt( POINT const , int ) {
-  ASSERT(  FALSE );
-  return ( FALSE );
-}
-
-bool CObjectBase::ProcessChar( UINT, CPoint&  ) {
-  return( FALSE );
-}
-
-bool CObjectBase::AdjustCaretPos( CDC * , CPoint&  ) {
-  return( FALSE );
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -323,11 +303,6 @@ const CRect& CObjectBase::GetLastSize( void ) {
   static CRect r(0, 0, 0, 0);
   return ( r );
 } 
-
-CRgn * CObjectBase::GetClipRgn( const CPoint&  ) {
-  ASSERT(  FALSE );
-  return( &m_rgnClip );
-}
 
 //////////////////////////////////////////////////////////////////////////////////////
 //

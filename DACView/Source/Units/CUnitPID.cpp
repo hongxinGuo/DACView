@@ -335,10 +335,10 @@ bool CUnitPID::SetProperty( void ) {
   CDlgPID CDlg;
   
   CDlg.SetData(m_strName, m_ePB, m_eIntegralTime, m_eDeriveTime, m_eHiRange, m_eLoRange, 
-               m_eHiLimit, m_eLoLimit, m_lScanRate, m_cstrComment);
+               m_eHiLimit, m_eLoLimit, m_lScanRate, m_strComment);
   if ( CDlg.DoModal() == IDOK ) {
     CDlg.GetData(m_strName, m_ePB, m_eIntegralTime, m_eDeriveTime, m_eHiRange, m_eLoRange, 
-                 m_eHiLimit, m_eLoLimit, m_lScanRate, m_cstrComment);
+                 m_eHiLimit, m_eLoLimit, m_lScanRate, m_strComment);
     return( true );
   }
   return( false );

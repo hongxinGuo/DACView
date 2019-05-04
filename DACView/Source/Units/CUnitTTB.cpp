@@ -508,13 +508,13 @@ bool CUnitTTB::SetProperty( void ) {
                m_bInitCoil, m_wInitOutput, m_bCoilPattern, m_bCoilPatternMask,
                m_wInputPattern, m_wInputPatternMask, m_bCoilOutput, m_bCoilOutputMask,
                m_wDigitalOutput, m_wDigitalOutputMask, m_fMatchingCriteria, 
-               m_lScanRate, m_cstrComment);
+               m_lScanRate, m_strComment);
   if ( CDlg.DoModal() == IDOK ) {
     CDlg.GetData(m_strName, m_ulNumberInput, m_ulNumberStep, 
 	               m_bInitCoil, m_wInitOutput, m_bCoilPattern, m_bCoilPatternMask,
 	               m_wInputPattern, m_wInputPatternMask, m_bCoilOutput, m_bCoilOutputMask,
 	               m_wDigitalOutput, m_wDigitalOutputMask, m_fMatchingCriteria, 
-	               m_lScanRate, m_cstrComment);
+	               m_lScanRate, m_strComment);
     return( true );
   }
   return( false );

@@ -40,15 +40,14 @@ public:
   CUnitList *     GetUpperUnitList(void) { return m_pUnitListUpper; }
 
 	// 得到本单元的位置大小.
-	const CRect&			GetSize( void ) const;
+  const CRect&			GetSize(void) const { return m_rectArea; }
 	// 设置本单元的位置大小.
-	void 							SetSize( const CRect& RectSize );
+  void 							SetSize(const CRect& RectSize) { m_rectArea = RectSize; }
 
 	// 设置注释
-	void							SetComment(const CString& strComment // 注释
-																);
+  void							SetComment(const CString& strComment) { m_strComment = strComment; }
 	//得到注释字符串
-	CString						GetComment(void);
+  CString						GetComment(void) { return m_strComment; }
 
 
 	// 得到本单元的动态连接序列的指针.
@@ -148,7 +147,7 @@ public:
 	// 本单元是否存在从上层联入的参数
 	virtual bool			IsDynLinkFromUpper(void);
 
-	virtual bool			IsOverFlow(void);
+  virtual bool			IsOverFlow(void) { return m_fOverFlow; }
 	
 	bool							IsHaveSourceUnit( void ) const;
 	void							SetDynLinkToNumber(long lValue) { m_lDynLinkToNumber = lValue; }
@@ -241,19 +240,17 @@ public:
 	virtual void     	SelectParameter( ULONG ulType  // 被选择的参数类型
                                     );  
 	// 得到合适类型参数的索引.
-	virtual INT32			GetIndex( ULONG ulIndex				// 合适参数的索引
-															);
+  virtual INT32			GetIndex(ULONG ) { ASSERT(false); return 0; }
 
 	// 得到本单元类的参数队列地址.
-	virtual ParaName* GetParaNameAddress( void );
+	virtual ParaName* GetParaNameAddress( void ) { ASSERT(false); return nullptr; }
 	// 生成参数词典,内部使用.
 	virtual void			CreateParaDictionary( CDicList &m_CDicList, // 处理后的辞典.
 																					ULONG ulType // 要匹配的参数类型.
 																					);
 	
 	// 是否处于本单元显示范围内.
-	virtual bool 			InIt( POINT const pt // 当前点. 
-												);
+	virtual bool 			InIt(POINT const pt) { return (m_rectArea.PtInRect(pt)); }
 	// 显示本单元.
   virtual void 			ToShow(CDC * const pdc);
 	// 设置焦点.
@@ -267,9 +264,9 @@ public:
 	virtual void 			AddToList(CUnitList& UnitList);
 
 	// 得到本单元类的参数选择队列的地址, 内部使用.
-	virtual INT32*		GetArrayIndex( void );
+  virtual INT32*		GetArrayIndex(void) { ASSERT(false); return nullptr; }
 
-  virtual bool      IsParameterLocked(ULONG ulIndex) override;
+  virtual bool      IsParameterLocked(ULONG ) override { ASSERT(false); return false; }
 
   // 测试是否pUnit单元包含于pCpt部件中（允许嵌套包含）
   bool              IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit);
@@ -288,7 +285,7 @@ public:
     
 protected :
 // Serialized Data
-  CString  		m_cstrComment;				// 本单元的描述.
+  CString  		m_strComment;				// 本单元的描述.
   CRect    		m_rectArea;  					// 单元的坐标位置.
   CUDLList		m_listDynLink;				// 单元的动态连接序列.
 

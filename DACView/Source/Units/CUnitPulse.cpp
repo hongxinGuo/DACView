@@ -235,9 +235,9 @@ void CUnitPulse::ToShow( CDC * const pdc ) {
 bool CUnitPulse::SetProperty( void ) {
   CDlgPulse CDlg;
   
-  CDlg.SetData(m_strName, m_ulWidth, m_lScanRate, m_cstrComment);
+  CDlg.SetData(m_strName, m_ulWidth, m_lScanRate, m_strComment);
   if ( CDlg.DoModal() == IDOK ) {
-    CDlg.GetData(m_strName, m_ulWidth, m_lScanRate, m_cstrComment);
+    CDlg.GetData(m_strName, m_ulWidth, m_lScanRate, m_strComment);
     return( true );
   }
   return( false );

@@ -287,10 +287,10 @@ bool CUnitQuadFilt::SetProperty( void ) {
   CDlgQFLT CDlg;
   
   CDlg.SetData(m_strName, m_eHiRange, m_eLoRange, m_eHiLimit, m_eLoLimit, 
-               m_eFiltFactor, m_eDeadBand, m_lScanRate, m_cstrComment);
+               m_eFiltFactor, m_eDeadBand, m_lScanRate, m_strComment);
   if ( CDlg.DoModal() == IDOK ) {
     CDlg.GetData(m_strName, m_eHiRange, m_eLoRange, m_eHiLimit, m_eLoLimit, 
-                 m_eFiltFactor, m_eDeadBand, m_lScanRate, m_cstrComment);
+                 m_eFiltFactor, m_eDeadBand, m_lScanRate, m_strComment);
     return( true );
   }
   return( false );
