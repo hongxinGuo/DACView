@@ -184,6 +184,7 @@ void CUnitBase::Serialize( CArchive& ar ) {
        << (INT64)m_fCutOff << (INT64)m_fAutoExective << m_lReserved3 << m_lDynLinkToNumber << m_lExectivePriority;
   }
   else {
+    int iVersion = ar.GetObjectSchema();
     ar >> m_strComment >> m_rectArea 
        >> a >> b >> m_lReserved3 >> m_lDynLinkToNumber >> m_lExectivePriority;
     m_fCutOff = (bool)a;

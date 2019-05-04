@@ -9,7 +9,7 @@
 
 #include "typedef.h"
 
-IMPLEMENT_SERIAL(CUnitOr, CUnitBase, 2 | VERSIONABLE_SCHEMA); 
+IMPLEMENT_SERIAL(CUnitOr, CUnitBase, 1 | VERSIONABLE_SCHEMA); 
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
