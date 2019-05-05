@@ -36,12 +36,12 @@ public:
 public:
   BOOL AddObject(CObjectBase * const pCObjectBase);
 	INT_PTR  GetObjectsNumber( void ); 
-	BOOL DeleteDynLinkObject( CObjectDynLink * pCObjectDynLink ) ;
-	BOOL DeleteObject( CObjectBase * pCObjectBase );
-	BOOL IsInRect( POINT const pt, CObjectBase* & pcobj );   
+	bool DeleteDynLinkObject( CObjectDynLink * pCObjectDynLink ) ;
+	bool DeleteObject( CObjectBase * pCObjectBase );
+	bool IsInRect( POINT const pt, CObjectBase* & pcobj );   
 	
-	BOOL ObjectToBack( CObjectBase * const pCObjectBase );		// change an object's position to ObjList's head	
-	BOOL ObjectToFront( CObjectBase * const pCObjectBase );		// change an object's position to ObjList's Tail
+	bool ObjectToBack( CObjectBase * const pCObjectBase );		// change an object's position to ObjList's head	
+	bool ObjectToFront( CObjectBase * const pCObjectBase );		// change an object's position to ObjList's Tail
 	int  MakeSymbol( CObjectSymbol * pcobjSymbol );						// 将一组Objects组成一个Symbol
 	int  BreakSymbol( CObjectSymbol * pcobjSymbol );					// 将一个Symbol拆分
     

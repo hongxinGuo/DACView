@@ -17,7 +17,7 @@
 
 #include "SQIFileDoc.h"
 #include "SQIFileFrame.h"
-#include "SQIObjView.h" 
+#include "SQIObjectView.h" 
 #include "SQIUnitView.h"
 
 #include "FBDFileFrame.h"

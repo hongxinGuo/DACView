@@ -414,7 +414,7 @@
     <ClInclude Include="DACView\Source\Objects\DlgObjText.h" />
     <ClInclude Include="DACView\Source\SQIFileDoc.h" />
     <ClInclude Include="DACView\Source\SQIFileFrame.h" />
-    <ClInclude Include="DACView\Source\SQIObjView.h" />
+    <ClInclude Include="DACView\Source\SQIObjectView.h" />
     <ClInclude Include="DACView\Source\SQIUnitView.h" />
     <ClInclude Include="DACView\Source\STDAFX.H" />
     <ClInclude Include="DACView\Source\Typedef.h" />
@@ -530,7 +530,7 @@
     <ClCompile Include="DACView\Source\Objects\Dlgtext.cpp" />
     <ClCompile Include="DACView\Source\SQIFileDoc.cpp" />
     <ClCompile Include="DACView\Source\SQIFileFrame.cpp" />
-    <ClCompile Include="DACView\Source\SQIObjView.cpp" />
+    <ClCompile Include="DACView\Source\SQIObjectView.cpp" />
     <ClCompile Include="DACView\Source\SQIUnitView.cpp" />
     <ClCompile Include="DACView\Source\STDAFX.CPP" />
     <ClCompile Include="DACView\Source\Units\CUnitAdd.cpp" />

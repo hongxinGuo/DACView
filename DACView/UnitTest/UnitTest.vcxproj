@@ -196,7 +196,7 @@
     <Object Include="..\..\x64\Debug\Mainfrm.obj" />
     <Object Include="..\..\x64\Debug\SQIFileDoc.obj" />
     <Object Include="..\..\x64\Debug\SQIFileFrame.obj" />
-    <Object Include="..\..\x64\Debug\SQIObjView.obj" />
+    <Object Include="..\..\x64\Debug\SQIObjectView.obj" />
     <Object Include="..\..\x64\Debug\SQIUnitView.obj" />
     <Object Include="..\..\x64\Debug\SQIUnitViewTest.obj" />
     <Object Include="..\..\x64\Debug\STDAFX.obj" />

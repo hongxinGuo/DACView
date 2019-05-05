@@ -28,7 +28,7 @@
 #include "MainFrm.h"
 
 #include "SQIFileDoc.h"
-#include "SQIObjView.h"
+#include "SQIObjectView.h"
 
 #include "cObjText.h"
 
@@ -341,7 +341,7 @@ INT_PTR CSQIObjectView::GetObjectsNumber( void ) {
 // return TRUE if filfull, FALSE if not filfull.
 //
 ///////////////////////////////////////////////////////////////////////////////////
-BOOL CSQIObjectView::DeleteObject( CObjectBase * pCObjectBase ) {
+bool CSQIObjectView::DeleteObject( CObjectBase * pCObjectBase ) {
   list<CObjectBase*>::iterator it;
   
   ASSERT( pCObjectBase != nullptr );
@@ -350,7 +350,7 @@ BOOL CSQIObjectView::DeleteObject( CObjectBase * pCObjectBase ) {
 		pCObjectBase = nullptr;
     m_pCObjectListCurrent->erase(it);
   }
-  return ( TRUE );
+  return (true);
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -361,7 +361,7 @@ BOOL CSQIObjectView::DeleteObject( CObjectBase * pCObjectBase ) {
 //    FALSE if point is blank area, pcobj point to nullptr.
 //
 ///////////////////////////////////////////////////////////////////////////
-BOOL CSQIObjectView::IsInRect( POINT const pt, CObjectBase* & pcobj ) {
+bool CSQIObjectView::IsInRect( POINT const pt, CObjectBase* & pcobj ) {
 
   if (m_pCObjectListCurrent->size() == 0) {
     pcobj = nullptr;
@@ -387,7 +387,7 @@ BOOL CSQIObjectView::IsInRect( POINT const pt, CObjectBase* & pcobj ) {
 // m_cObjectList是倒序存储，最前面的位于显示的最后面。
 //
 ///////////////////////////////////////////////////////////////////////////////////////////
-BOOL CSQIObjectView::ObjectToBack( CObjectBase * const pCObjectBase ) {
+bool CSQIObjectView::ObjectToBack( CObjectBase * const pCObjectBase ) {
   ASSERT( pCObjectBase != nullptr );
   CObjectBase * pcobj = pCObjectBase;
   list<CObjectBase *>::iterator it;
@@ -395,7 +395,7 @@ BOOL CSQIObjectView::ObjectToBack( CObjectBase * const pCObjectBase ) {
   it = find(m_pCObjectListCurrent->begin(), m_pCObjectListCurrent->end(), pCObjectBase);
   m_pCObjectListCurrent->erase(it);           // remove from current position.
   m_pCObjectListCurrent->push_front( pcobj );        // head position is the back.
-  return ( true );
+  return (true);
 }
   
 //////////////////////////////////////////////////////////////////////////////////
@@ -403,7 +403,7 @@ BOOL CSQIObjectView::ObjectToBack( CObjectBase * const pCObjectBase ) {
 //  change an object's position to m_CObjectList's tail, and redraw all objects.
 //
 ////////////////////////////////////////////////////////////////////////////////////
-BOOL CSQIObjectView::ObjectToFront( CObjectBase * const pCObjectBase ) {   
+bool CSQIObjectView::ObjectToFront( CObjectBase * const pCObjectBase ) {   
   ASSERT( pCObjectBase != nullptr );
   CObjectBase * pcobj = pCObjectBase;
   list<CObjectBase *>::iterator it;
@@ -411,7 +411,7 @@ BOOL CSQIObjectView::ObjectToFront( CObjectBase * const pCObjectBase ) {
   it = find(m_pCObjectListCurrent->begin(), m_pCObjectListCurrent->end(), pCObjectBase);
   m_pCObjectListCurrent->erase(it);           // remove from current position.
   m_pCObjectListCurrent->push_back(pcobj);        // head position is the back.
-  return ( TRUE );
+  return (true);
 } 
 
 /////////////////////////////////////////////////////////////////////////////////////////
