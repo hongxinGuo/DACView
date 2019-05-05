@@ -15,11 +15,6 @@
 // GetDocSize()							: Get 
 //
 //
-//
-//
-//
-//
-//
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -118,12 +113,12 @@ UINT CSQIObjectView::m_uObjectFormat = 0;
 
 CSQIObjectView::CSQIObjectView() {
   // TODO: add construction code here 
-  static BOOL fRegistered = FALSE;
+  static bool fRegistered = false;
   
   // register clipboard format, only once
   if ( !fRegistered ) {  // register my clipboard format
     m_uObjectFormat = RegisterClipboardFormat((LPCSTR)"CF_DACVIEW_VIEW_FORMAT");
-    fRegistered = TRUE;
+    fRegistered = true;
   }                        
   // reset variables
   m_nCurrentFunction = OBJECT_PRE_SELECT; 
@@ -194,7 +189,7 @@ BOOL CSQIObjectView::PreCreateWindow(CREATESTRUCT& cs)
 //
 /////////////////////////////////////////////////////////////////
 void CSQIObjectView::OnInitialUpdate() {
-  SetScrollSizes( MM_TEXT, GetDocSize( ) );
+  SetScrollSizes(MM_TEXT, GetDocSize( ));
   OnUpdate();
 } 
   
@@ -248,9 +243,9 @@ void CSQIObjectView::OnDraw(CDC* pDC)
   m_crectObjectClip = crectClip;
 	pp = pDC->SelectObject( &p );
 	// draw background grid
-	for ( int i = 10; i <= crectClip.right; i += 10 ) {
+	for ( int i = 20; i <= crectClip.right; i += 20 ) {
 		if ( (i <= crectClip.right) && (i >= crectClip.left) ) { 
-      for ( int j = 10; j <= crectClip.bottom; j += 10 ) {
+      for ( int j = 20; j <= crectClip.bottom; j += 20 ) {
     		if ( (j <= crectClip.bottom) && (j >= crectClip.top) ) { 
   		  	pDC->SetPixel( i, j, RGB(0, 0, 0) );
     		}
@@ -261,11 +256,11 @@ void CSQIObjectView::OnDraw(CDC* pDC)
   // display all objects
   CRect rect;
   
-  for (const auto pcobj : *m_pCObjectListCurrent) {
+  for (const auto pobj : *m_pCObjectListCurrent) {
     rect = m_crectObjectClip;
-    rect &= pcobj->GetSize() + pcobj->GetOffset();
+    rect &= pobj->GetSize() + pobj->GetOffset();
     if ( !rect.IsRectEmpty() ) {
-      pcobj->ToShowStatic( pDC, m_ptCurrentScrollPosition );
+      pobj->ToShowStatic( pDC, m_ptCurrentScrollPosition );
     }
   }
 }
@@ -326,9 +321,9 @@ CSize CSQIObjectView::GetDocSize( void ) {
 //  RETURN : TRUE if sucess, FALSE if memory overflow
 //
 //////////////////////////////////////////////////////////////////////////////////
-BOOL CSQIObjectView::AddObject(CObjectBase * const pCObjectBase) { 
+bool CSQIObjectView::AddObject(CObjectBase * const pCObjectBase) { 
   m_pCObjectListCurrent->push_back(pCObjectBase); 
-  return(TRUE);
+  return(true);
 }
 
 INT_PTR CSQIObjectView::GetObjectsNumber( void ) {
@@ -346,6 +341,13 @@ bool CSQIObjectView::DeleteObject( CObjectBase * pCObjectBase ) {
   
   ASSERT( pCObjectBase != nullptr );
   if ((it = find(m_pCObjectListCurrent->begin(), m_pCObjectListCurrent->end(), pCObjectBase)) != m_pCObjectListCurrent->end() ) {
+    // 在删除对象之前，需要解除其输出数据至单元的动态链接，此种链接设置了单元的联入数据个数。
+    CODLList * pODLList = pCObjectBase->GetDynLinkList();
+    for (auto pODL : *pODLList) {
+      if (!pODL->IsUnitToObject()) { // 数据输出方向为Object-->Unit?
+        pODL->GetUnit()->SetParameterSelected(pODL->GetUnitIndex(), false); // 清除参数选中标志
+      }
+    }
     delete pCObjectBase;
 		pCObjectBase = nullptr;
     m_pCObjectListCurrent->erase(it);
@@ -389,12 +391,12 @@ bool CSQIObjectView::IsInRect( POINT const pt, CObjectBase* & pcobj ) {
 ///////////////////////////////////////////////////////////////////////////////////////////
 bool CSQIObjectView::ObjectToBack( CObjectBase * const pCObjectBase ) {
   ASSERT( pCObjectBase != nullptr );
-  CObjectBase * pcobj = pCObjectBase;
+  CObjectBase * pobj = pCObjectBase;
   list<CObjectBase *>::iterator it;
 
   it = find(m_pCObjectListCurrent->begin(), m_pCObjectListCurrent->end(), pCObjectBase);
   m_pCObjectListCurrent->erase(it);           // remove from current position.
-  m_pCObjectListCurrent->push_front( pcobj );        // head position is the back.
+  m_pCObjectListCurrent->push_front( pobj );        // head position is the back.
   return (true);
 }
   
@@ -405,12 +407,12 @@ bool CSQIObjectView::ObjectToBack( CObjectBase * const pCObjectBase ) {
 ////////////////////////////////////////////////////////////////////////////////////
 bool CSQIObjectView::ObjectToFront( CObjectBase * const pCObjectBase ) {   
   ASSERT( pCObjectBase != nullptr );
-  CObjectBase * pcobj = pCObjectBase;
+  CObjectBase * pobj = pCObjectBase;
   list<CObjectBase *>::iterator it;
 
   it = find(m_pCObjectListCurrent->begin(), m_pCObjectListCurrent->end(), pCObjectBase);
   m_pCObjectListCurrent->erase(it);           // remove from current position.
-  m_pCObjectListCurrent->push_back(pcobj);        // head position is the back.
+  m_pCObjectListCurrent->push_back(pobj);        // head position is the back.
   return (true);
 } 
 
@@ -429,21 +431,21 @@ int CSQIObjectView::MakeSymbol( CObjectSymbol * pcObjSymbol ) {
   
   // add all selected objects into symbol              
   rectTemp.SetRectEmpty();                
-  for (const auto pcobj : *m_pCObjectListCurrent) {
-    if ( pcobj->IsSelect() ) {    // if selected
-      pcObjSymbol->InsertObject( pcobj ); // 将此Object加入Symbol中
-      pcobj->SetSymbolThatHaveMe( pcObjSymbol ); // 
-      rectTemp |= pcobj->GetSize();			// 显示区域是所有区域的总和
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if ( pobj->IsSelect() ) {    // if selected
+      pcObjSymbol->InsertObject( pobj ); // 将此Object加入Symbol中
+      pobj->SetSymbolThatHaveMe( pcObjSymbol ); // 
+      rectTemp |= pobj->GetSize();			// 显示区域是所有区域的总和
     }
   }
   // remove all selected objects
-  for (const auto pcobj : *m_pCObjectListCurrent) {
-    if ( pcobj->IsSelect() ) {    // if selected 
-      pcobj->SetSelect( FALSE );
-      rect = pcobj->GetSize();
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if ( pobj->IsSelect() ) {    // if selected 
+      pobj->SetSelect( FALSE );
+      rect = pobj->GetSize();
       rect -= rectTemp.TopLeft();
-      pcobj->SetAllSize( rect );
-      m_pCObjectListCurrent->erase(find(m_pCObjectListCurrent->begin(), m_pCObjectListCurrent->end(), pcobj) ); // 从当前list中删除此Object
+      pobj->SetAllSize( rect );
+      m_pCObjectListCurrent->erase(find(m_pCObjectListCurrent->begin(), m_pCObjectListCurrent->end(), pobj) ); // 从当前list中删除此Object
     }
   }                                         
   pcObjSymbol->SetAllSize(rectTemp); // symbol's area is union of all its children
@@ -478,9 +480,9 @@ int CSQIObjectView::BreakSymbol( CObjectSymbol * pcobjSymbol ) {
 //
 /////////////////////////////////////////////////////////////////////
 void CSQIObjectView::ClearAllSelect( void ) {
-  for (const auto pcobjTemp : *m_pCObjectListCurrent) {                            
-    if ( pcobjTemp->IsSelect() ) {    // if selected
-      pcobjTemp->SetSelect( FALSE );
+  for (const auto pobj : *m_pCObjectListCurrent) {                            
+    if ( pobj->IsSelect() ) {    // if selected
+      pobj->SetSelect(false);
     }
   }
 }
@@ -491,10 +493,10 @@ void CSQIObjectView::ClearAllSelect( void ) {
 //
 ////////////////////////////////////////////////////////////////
 void CSQIObjectView::ClearAllFocus( void ) {
-  for (const auto pcobjTemp : *m_pCObjectListCurrent) {
-    if ( pcobjTemp->IsSelect() ) {    // if selected
-      pcobjTemp->SetSelect( FALSE );
-      InvalidateRect( pcobjTemp->GetSize() - GetScrollPosition() );
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if ( pobj->IsSelect() ) {    // if selected
+      pobj->SetSelect(false);
+      InvalidateRect(pobj->GetSize() - GetScrollPosition());
     }
   }
 }
@@ -507,11 +509,10 @@ void CSQIObjectView::ClearAllFocus( void ) {
 void CSQIObjectView::CreateUniName( CObjectBase * pCObject ) {
   CObjectList listObject, * plistTop = GetDocument()->GetObjectList();
   // make a single list from graph ObjectList
-  for (const auto pcObj : *plistTop) {
-    pcObj->AddToList( listObject );
+  for (const auto pobj : *plistTop) {
+    pobj->AddToList(listObject);
   }
-
-	pCObject->CreateUniName( listObject );
+	pCObject->CreateUniName(listObject);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -540,13 +541,13 @@ void CSQIObjectView::CenterAlign()
   // calculate the center of the object             
   w = rectTemp.left + (rectTemp.right - rectTemp.left) / 2;
   // center the selected objects
-  for (const auto pcobjTemp1 : *m_pCObjectListCurrent) {
-    if ( pcobjTemp1->IsSelect() ) {    // if selected
-      rectTemp = pcobjTemp1->GetSize();
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if ( pobj->IsSelect() ) {    // if selected
+      rectTemp = pobj->GetSize();
       i1  = w - ((rectTemp.right - rectTemp.left) / 2);
       rectTemp.right = w + (rectTemp.right - rectTemp.left) - ((rectTemp.right - rectTemp.left)/2);
       rectTemp.left  = i1;
-      pcobjTemp1->SetAllSize(rectTemp);
+      pobj->SetAllSize(rectTemp);
     }
   }
 }
@@ -573,13 +574,13 @@ void CSQIObjectView::LeftAlign()
   } while ( !pcobjTemp->IsSelect() );
   w = rectTemp.left;
   // left align selected objects
-  for (const auto pcobjTemp1 : *m_pCObjectListCurrent) {
-    if ( pcobjTemp1->IsSelect() ) {    // if selected
-      rectTemp = pcobjTemp1->GetSize();
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if ( pobj->IsSelect() ) {    // if selected
+      rectTemp = pobj->GetSize();
       h = rectTemp.right - rectTemp.left;
       rectTemp.left = w;
       rectTemp.right = h + w;
-      pcobjTemp1->SetAllSize(rectTemp);
+      pobj->SetAllSize(rectTemp);
     }
   }
 }
@@ -604,13 +605,13 @@ void CSQIObjectView::RightAlign() {
     }
   } while ( !pcobjTemp->IsSelect() );             
   w = rectTemp.right;
-  for (const auto pcobjTemp1 : *m_pCObjectListCurrent) {
-    if ( pcobjTemp1->IsSelect() ) {    // if selected
-      rectTemp = pcobjTemp1->GetSize();
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if ( pobj->IsSelect() ) {    // if selected
+      rectTemp = pobj->GetSize();
       h = rectTemp.right - rectTemp.left;
       rectTemp.right = w;
       rectTemp.left = w - h;
-      pcobjTemp1->SetAllSize(rectTemp);
+      pobj->SetAllSize(rectTemp);
     }
   }
 }
@@ -1011,7 +1012,7 @@ void CSQIObjectView::OnLButtonDblClk(UINT nFlags, CPoint point)
     // change object's property 
     ASSERT( m_pCObjectCurrent != nullptr );
     if ( m_pCObjectCurrent->SetProperty() ) { // 设置此Object的内部参数
-      pDoc->SetModifiedFlag( TRUE ); // document's content is changed
+      pDoc->SetModifiedFlag(true); // document's content is changed
     }
     InvalidateRect(nullptr);
   }
@@ -1025,7 +1026,7 @@ void CSQIObjectView::OnEditDelete()
 {
   // TODO: Add your command handler code here
   
-  GetDocument()->SetModifiedFlag( TRUE ); // document's content is changed
+  GetDocument()->SetModifiedFlag(true); // document's content is changed
   DeleteObject( m_pCObjectCurrent );
   m_pCObjectCurrent = nullptr;
   m_nCurrentFunction = OBJECT_PRE_SELECT;
@@ -1037,7 +1038,7 @@ void CSQIObjectView::OnEditDelete()
 void CSQIObjectView::OnArrangeTofront()
 {
   // TODO: Add your command handler code here
-  GetDocument()->SetModifiedFlag( TRUE ); // document's content is changed
+  GetDocument()->SetModifiedFlag(true); // document's content is changed
   ASSERT( m_pCObjectCurrent != nullptr );                                          
   ObjectToFront( m_pCObjectCurrent );
   InvalidateRect( nullptr );
@@ -1062,13 +1063,13 @@ void CSQIObjectView::OnArrangeMakesymbol()
   char s[10];
   CPoint ptOffset = GetDeviceScrollPosition();
 
-  BOOL fCanMakeSymbol = TRUE;
+  bool fCanMakeSymbol = true;
   
   // 复合对象和输出类对象(按钮,滚动条等)不能组成符号, 检查被选对象中是否有.
-  for (const auto pcobjTemp : *m_pCObjectListCurrent) {
-    if ( pcobjTemp->IsSelect() ) {
-      if ( !pcobjTemp->CanInSymbol() ) {
-        fCanMakeSymbol = FALSE; // 不能生成符号.
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if ( pobj->IsSelect() ) {
+      if ( !pobj->CanInSymbol() ) {
+        fCanMakeSymbol = false; // 不能生成符号.
 			}
     }
   }
@@ -1103,7 +1104,7 @@ void CSQIObjectView::OnArrangeBreaksymbol()
   CRect rectTemp;
   CPoint ptOffset = GetDeviceScrollPosition();
   
-  GetDocument()->SetModifiedFlag( TRUE ); // document's content is changed
+  GetDocument()->SetModifiedFlag(true); // document's content is changed
   rectTemp = m_pCObjectCurrent->GetSize();
   rectTemp -= ptOffset;       // change to screen position
   
@@ -1117,7 +1118,7 @@ void CSQIObjectView::OnArrangeBreaksymbol()
 void CSQIObjectView::OnStyleCentered()
 {
   // TODO: Add your command handler code here
-  GetDocument()->SetModifiedFlag( TRUE ); // document's content is changed
+  GetDocument()->SetModifiedFlag(true); // document's content is changed
   CenterAlign();
   Invalidate();
 }
@@ -1125,7 +1126,7 @@ void CSQIObjectView::OnStyleCentered()
 void CSQIObjectView::OnStyleLeft()
 {
   // TODO: Add your command handler code here
-  GetDocument()->SetModifiedFlag( TRUE ); // document's content is changed
+  GetDocument()->SetModifiedFlag(true); // document's content is changed
   LeftAlign();
   Invalidate();
 }
@@ -1133,7 +1134,7 @@ void CSQIObjectView::OnStyleLeft()
 void CSQIObjectView::OnStyleRight()
 {
   // TODO: Add your command handler code here
-  GetDocument()->SetModifiedFlag( TRUE ); // document's content is changed
+  GetDocument()->SetModifiedFlag(true); // document's content is changed
   RightAlign();
   Invalidate();
 }

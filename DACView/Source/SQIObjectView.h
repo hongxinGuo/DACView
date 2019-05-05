@@ -34,7 +34,7 @@ public:
      
 // Operations
 public:
-  BOOL AddObject(CObjectBase * const pCObjectBase);
+  bool AddObject(CObjectBase * const pCObjectBase);
 	INT_PTR  GetObjectsNumber( void ); 
 	bool DeleteDynLinkObject( CObjectDynLink * pCObjectDynLink ) ;
 	bool DeleteObject( CObjectBase * pCObjectBase );

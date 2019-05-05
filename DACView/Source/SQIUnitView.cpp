@@ -449,15 +449,16 @@ void CSQIUnitView::OnDraw(CDC* pDC)
   pDC->GetClipBox(&crectClip);
   pp = pDC->SelectObject(&p);
   // draw background grid
-  for (int i = 10; i <= crectClip.right; i += 10) {
+  for (int i = 20; i <= crectClip.right; i += 20) {
     if ((i <= crectClip.right) && (i >= crectClip.left)) {
-      for (int j = 10; j <= crectClip.bottom; j += 10) {
+      for (int j = 20; j <= crectClip.bottom; j += 20) {
         if ((j <= crectClip.bottom) && (j >= crectClip.top)) {
           pDC->SetPixel(i, j, RGB(0, 0, 0));
         }
       }
     }
   }
+ 
   pDC->SelectObject(pp);
   // pfontTemp = pDC->SelectObject(&m_fontStrategyView);
   pDC->GetClipBox(&m_crectClip);
