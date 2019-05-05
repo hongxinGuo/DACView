@@ -88,8 +88,8 @@ public:
   virtual bool      CheckCutOff(CUnitList * pCUnitList) override;
   // 设置本单元是否有动态链接至包含本单元的部件参数处.
   virtual void			CheckInnerDataLink(INT64 lSrcIndex,         // 部件数据源参数的位置
-                                           INT64 lDestParaPos,      // 联入本部件动态链接的目的参数位置 
-                                           CUnitList * pCUnitList) override; // 存储当前寻找到的单元序列.
+                                       INT64 lDestParaPos,      // 联入本部件动态链接的目的参数位置 
+                                       CUnitList * pCUnitList) override; // 存储当前寻找到的单元序列.
 
   virtual const CString&    GetClassNameStr(void) override;
   virtual bool              IsMe(const CString& strName) override;

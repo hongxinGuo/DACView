@@ -356,14 +356,13 @@ bool SetEncapsulatingFlag(CUnitList & unitlist) {
   // 设置单元序列编译中的标志
   for (auto punit : unitlist) {
     ASSERT(!punit->IsEncapsulating());
-    if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) && !punit->IsEncapsulated()) { // 如果部件尚未被封装
-      if (punit->IsEncapsulable()) { // 如果部件可以被封装
+    if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+      if (punit->IsEncapsulable() && !punit->IsEncapsulated()) { // 如果部件可封装且尚未被封装
         punit->SetEncapsulatingFlag(true);  // 则设置此部件处于封装中的标志
+        punit->mtest_fEncapsulating = true;
       }
     }
-    punit->mtest_fEncapsulating = true;
   }
-
   return true;
 }
 

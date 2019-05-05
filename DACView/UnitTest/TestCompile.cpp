@@ -284,11 +284,14 @@ namespace DACViewTest {
     CUnitList unitListRunTime, unitlistTotal;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
+    CUnitList unitlist;
+
+    CreateUniUnitList(&m_unitlist, unitlist);  // 准备所有被编译单元序列
 
     // 所有与编译有关的测试，都需要编译整体文件。由于系统数据关联的原因，无法单独部件本身，故而需要编译整体文件，最后再测试封装。
     Compilation(&m_unitlist, m_objectlist, &unitListRunTime);
 
-    for (const auto punit : m_unitlist) {
+    for (const auto punit : unitlist) {
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         pCpt = (CUnitComponent *)punit;
         if (pCpt->IsEncapsulable()) {
@@ -305,12 +308,16 @@ namespace DACViewTest {
     }
 
     // 测试所有的单元都编译了
-    for (const auto punit : unitlistTotal) {
+    for (const auto punit : unitlist) {
       EXPECT_GT(punit->GetExectivePriority(), 0);
-      if (!punit->IsHaveSourceUnit()) EXPECT_EQ(punit->GetExectivePriority(), 1);
       EXPECT_TRUE(punit->IsCompiled());
-      EXPECT_FALSE(punit->IsEncapsulating());
-      EXPECT_TRUE(punit->mtest_fEncapsulating);
+      if (!punit->IsHaveSourceUnit()) EXPECT_EQ(punit->GetExectivePriority(), 1);
+      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { 
+        if (punit->mtest_fEncapsulating) {// 封装中的部件都应该封装了
+          EXPECT_TRUE(punit->IsEncapsulated());
+          EXPECT_TRUE(punit->IsEncapsulable());  
+        }
+      }
     }
   }
 
@@ -345,9 +352,11 @@ namespace DACViewTest {
         pCpt = (CUnitComponent *)punit;
         if (pCpt->IsEncapsulated() || !(pCpt->IsEncapsulable())) {
           EXPECT_FALSE(pCpt->IsEncapsulating()) << "封装过或不可封装的部件不允许再次封装";
+          EXPECT_FALSE(pCpt->mtest_fEncapsulating);
         }
         else {
           EXPECT_TRUE(pCpt->IsEncapsulating()) << "未封装的部件此时处于封装中";
+          EXPECT_TRUE(pCpt->mtest_fEncapsulating);
         }
       }
     }
@@ -669,7 +678,6 @@ namespace DACViewTest {
 
     // 检查所有的部件内部单元的运行优先级
     for (const auto punit : listTotalUnit) {
-      EXPECT_TRUE(punit->mtest_fEncapsulating) << "此测试变量应该为真，否则SetEncapsulatingFlag()函数出现问题";
       if (punit->GetExectivePriority() == 1) {
         if ((punit->IsHaveSourceUnit()) && !punit->IsCutoff()) {
           CUnitComponent * pCpt = punit->GetComponentUpper();

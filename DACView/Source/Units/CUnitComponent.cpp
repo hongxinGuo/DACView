@@ -1860,7 +1860,7 @@ bool CUnitComponent::Compilation(void)
   CUnitList unitlist;
  
   ASSERT(m_fEncapsulated == true);  // 部件应该已经被封装了
-  ASSERT(m_fEncapsulating == true); // 此部件的封装进行中尚未重置
+  ASSERT(m_fEncapsulating == true); // 此部件的封装进行中标志尚未重置
   ASSERT(m_fCompiled == true);     // 编译部件内部的单元序列时，部件本身已经编译过了。因为编译是从顶层开始的，最后编译的是最内部的部件
 
   CreateUniUnitList(&m_CUnitList, unitlist); // 将不可编译部件中的单元序列提到上层来。
