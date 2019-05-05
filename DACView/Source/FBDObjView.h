@@ -27,7 +27,7 @@ public:
 	
 	void 				    ViewIn( CObjectBase * pcObject );
 	void 				    ViewOut( void );
-	BOOL				    IsInRect( POINT const pt, CObjectBase *& pcobj );
+	bool				    IsInRect( POINT const pt, CObjectBase *& pobj );
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;

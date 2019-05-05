@@ -279,23 +279,26 @@ void CFBDObjView::ViewOut( void ) {
 //   return TRUE if found, pcobj is the object. 
 //
 //////////////////////////////////////////////////////////////////////  
-BOOL CFBDObjView::IsInRect( POINT const pt, CObjectBase* & pcobj ) {
-  CDC * pdc = GetDC();
-
+bool CFBDObjView::IsInRect( POINT const pt, CObjectBase* & pobj ) {
   CObjectBase* pc;
+  
+  if (m_pCObjectListCurrent->size() == 0) {
+    pobj = nullptr;
+    return false;
+  }
+
   auto it = m_pCObjectListCurrent->end(); // Tail position is the top most
   
   do {            
     it--;
     pc = *it;
     if ( pc->InIt(pt, -1) ) {
-      pcobj = pc;
-      return ( TRUE );
+      pobj = pc;
+      return(true);
     }
-  } while (it != m_pCObjectListCurrent->end());
-  ReleaseDC( pdc );
-  pcobj = nullptr; // 没有找到 
-  return ( FALSE );
+  } while (it != m_pCObjectListCurrent->begin());
+  pobj = nullptr; // 没有找到 
+  return(false);
 }            
                  
 /////////////////////////////////////////////////////////////////////////////

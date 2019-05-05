@@ -183,7 +183,7 @@ public:
   bool              IsInnerDataLinked(ULONG ulIndex, ULONG ulDestIndex);
 
 	bool							HaveParameter( void );
-	void							SetViewInFlag(bool fFlag);
+  void							SetViewInFlag(bool fFlag);
 	CUCPara **        GetParaInterface(void);
 
 	virtual INT32*		GetArrayIndex(void) override;
