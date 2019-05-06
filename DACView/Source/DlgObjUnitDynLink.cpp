@@ -91,10 +91,6 @@ CDynamicLinkDlg::CDynamicLinkDlg(CWnd* pParent /*=nullptr*/)
 //
 // Return : no return
 //
-// Description :
-//		When you want to create an object's dynamic link, you must use this function to 
-//  tell the dialog current process information.
-//		this is an internal function. Called when want to build dynamic link.
 //
 //////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::SetLink( CDicList * pDicList, CObjectBase * pCObject, 
@@ -195,7 +191,7 @@ void CDynamicLinkDlg::ChangeLinkName( ULONG ulLinkType ) {
     pDic = *it;
 		ulAttr = pDic->GetType();
 		pcunit = pDic->GetUnit();
-		ulUnitIndex = pDic->GetIndex();
+		ulUnitIndex = pDic->GetUnitIndex();
     // if ulLinkType is an Input type, skip the no_match pair
     if ( ulLinkType & tINPUT ) {          // Input type ?
       if ( !(ulAttr & tINPUT) ) continue; // skip output type unit parameter
@@ -293,7 +289,7 @@ void CDynamicLinkDlg::UpdateDlg( CObjectDynLink * pcDyn ) {
   do {
  		ASSERT(it != m_pDicList->end());	// 不能越界,出错.
  	  pDic = *it++;
-  } while ( (pDic->GetUnit() != pcDyn->GetUnit()) || (pDic->GetIndex() != m_lUnitIndex) );
+  } while ( (pDic->GetUnit() != pcDyn->GetUnit()) || (pDic->GetUnitIndex() != m_lUnitIndex) );
   SendDlgItemMessage(IDC_LINK_NAME, CB_SETCURSEL, (WPARAM)pDic->GetIndexNumber(), (LPARAM)0L);
   SendDlgItemMessage(IDC_LINK_METHOD, CB_SETCURSEL,(WPARAM)GetLinkMethodIndex(pcDyn->GetLinkMethod()));
   // update comment
@@ -375,7 +371,7 @@ BOOL CDynamicLinkDlg::OnInitDialog()
   SendDlgItemMessage(IDC_TAG_NAME, WM_SETTEXT, (WPARAM)0L, (LPARAM)((LPSTR)(m_strName.GetBuffer(m_strName.GetLength()))));
 
   i = 0;
-  m_pCObjectCurrent->SelectParameter( tMODIFIABLE );
+  m_pCObjectCurrent->SelectParameter( tMODIFIABLE ); // 选择当前对象中所有的变量
   while ( m_ptParaName[i].ulType != 0 ) {
     j = SendDlgItemMessage(IDC_VARIABLE_PARAMETER, CB_INSERTSTRING, (WPARAM)-1,                    
                           (LPARAM)((LPSTR)m_ptParaName[i].Name.GetBuffer()));
@@ -392,7 +388,6 @@ BOOL CDynamicLinkDlg::OnInitDialog()
     GetDlgItem(IDC_LINK_METHOD)->EnableWindow(FALSE);
     GetDlgItem(IDC_LINK_NAME)->EnableWindow(FALSE);
     GetDlgItem(IDC_COMMENT)->EnableWindow(FALSE);
-
     break;
   case 1 :  // only one dynamic link
     m_pCTag = m_plistDynLink->front();
@@ -447,26 +442,26 @@ void CDynamicLinkDlg::OnOK()
 		pNewUnit = pNewDynLink->GetUnit();
 		ulNewUnitIndex = pNewDynLink->GetUnitIndex();
 		if ( !pNewDynLink->IsUnitToObject() ) {
-			// clear flag
-			pNewUnit->SetParameterLock( ulNewUnitIndex, FALSE );
-		}
-	}
+// clear flag
+pNewUnit->SetParameterLock(ulNewUnitIndex, FALSE);
+    }
+  }
 
-	// 设置新的输入连接标志.
-	for (const auto pDynLink : *m_plistDynLink) {
-		ulObjIndex = pDynLink->GetObjectIndex();
-		pUnit = pDynLink->GetUnit();
-		ulUnitIndex = pDynLink->GetUnitIndex();
-		if ( !pDynLink->IsUnitToObject() ) {
-			pUnit->SetParameterSelected( ulUnitIndex, TRUE );
-		}
-	}
+  // 设置新的输入连接标志.
+  for (const auto pDynLink : *m_plistDynLink) {
+    ulObjIndex = pDynLink->GetObjectIndex();
+    pUnit = pDynLink->GetUnit();
+    ulUnitIndex = pDynLink->GetUnitIndex();
+    if (!pDynLink->IsUnitToObject()) {
+      pUnit->SetParameterSelected(ulUnitIndex, TRUE);
+    }
+  }
 
-	for (auto pNewDynLink : *m_plistNewDynLink) {
-		delete pNewDynLink;
-	}
-	m_plistNewDynLink->clear();
-	delete m_plistNewDynLink;		
+  for (auto pNewDynLink : *m_plistNewDynLink) {
+    delete pNewDynLink;
+  }
+  m_plistNewDynLink->clear();
+  delete m_plistNewDynLink;
   CDialog::OnOK();
 }
 
@@ -480,24 +475,24 @@ void CDynamicLinkDlg::OnOK()
 //////////////////////////////////////////////////////////////////////////////////////
 void CDynamicLinkDlg::OnCancel()
 {
-	// delete modified dynamic link list
+  // delete modified dynamic link list
   for (auto pDynLink : *m_plistDynLink) {
     delete pDynLink;
   }
   m_plistDynLink->clear();
 
-	// set dynamic link list to original
-	for (const auto pDynLink : *m_plistNewDynLink) {
-		m_plistDynLink->push_back( pDynLink );
-	}
-	// delete temporary dynamic link list
-	for (auto pDynLink : *m_plistNewDynLink) {
-		delete pDynLink;
-	}
-	m_plistNewDynLink->clear();
-	delete m_plistNewDynLink;
+  // set dynamic link list to original
+  for (const auto pDynLink : *m_plistNewDynLink) {
+    m_plistDynLink->push_back(pDynLink);
+  }
+  // delete temporary dynamic link list
+  for (auto pDynLink : *m_plistNewDynLink) {
+    delete pDynLink;
+  }
+  m_plistNewDynLink->clear();
+  delete m_plistNewDynLink;
 
-	CDialog::OnCancel();
+  CDialog::OnCancel();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -511,35 +506,66 @@ void CDynamicLinkDlg::OnCancel()
 void CDynamicLinkDlg::OnClickedButtonNew()
 {
   // TODO: Add your control notification handler code here         
-  
-  if ( m_pCTag != nullptr ) { // have dynamic link ?
-    UpdateDynLink( m_pCTag );
-    GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE);  
+
+  if (m_pCTag != nullptr) { // have dynamic link ?
+    UpdateDynLink(m_pCTag);
+    GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(TRUE);
   }
   else {                   // no dynamic link 
-    GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE);  
+    GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE);
     GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(FALSE);
   }
   GetDlgItem(IDC_BUTTON_DELETE)->EnableWindow(TRUE);
-    
+
   GetDlgItem(IDC_VARIABLE_PARAMETER)->EnableWindow(TRUE);
   GetDlgItem(IDC_LINK_METHOD)->EnableWindow(TRUE);
   GetDlgItem(IDC_LINK_NAME)->EnableWindow(TRUE);
   GetDlgItem(IDC_COMMENT)->EnableWindow(TRUE);
-  
+
   // create new dynamic link 
   m_pCTag = new CObjectDynLink;
-  m_pCTag->SetName("Untitled"); 
+  m_pCTag->SetName("Untitled");
   m_pCTag->SetObjectIndex(0);
-  m_pCUnitCurrent = m_pDicList->front()->GetUnit();
-  m_pCTag->SetUnit( m_pCUnitCurrent );
-  m_pCTag->SetObject( m_pCObjectCurrent );
-  m_pCObjectCurrent->SelectParameter( tMODIFIABLE );
+  m_pCTag->SetObject(m_pCObjectCurrent);
+  m_pCObjectCurrent->SelectParameter(tMODIFIABLE);
   m_pCTag->SetObjectIndex(m_pCObjectCurrent->GetIndex(0));
   ParaName * para = m_pCObjectCurrent->GetParaNameAddress();
   ULONG ulAttr = para[0].ulType;
   m_fInputType = ulAttr & tINPUT;
+  ULONG ulTypeLowPart = ulAttr & (tDOUBLE | tWORD | tBOOL | tSTRING);
+  auto it = m_pDicList->begin();
+  bool found = false;
+  do {
+    auto pDic = *it++;
+    ULONG lType = pDic->GetType();
+    ULONG lLowPart = lType & (tDOUBLE | tWORD | tBOOL | tSTRING);
+    ULONG lHighPart = lType & (tINPUT | tOUTPUT);
+    if (m_fInputType) { // 输入型参数
+      if (lHighPart == tOUTPUT) { // 则选择单元的输出型参数
+        if ((lLowPart & ulTypeLowPart) == lLowPart) { // 找到了，单元的输出参数类型包含于对象的参数类型中
+          m_pCUnitCurrent = pDic->GetUnit();
+          m_lUnitIndex = pDic->GetUnitIndex();
+          m_pCTag->SetUnit(m_pCUnitCurrent);
+          m_pCTag->SetUnitIndex(m_lUnitIndex);
+          found = true;
+        }
+      }
+    }
+    else { // 输出型参数
+      if (lHighPart == tINPUT) { //则选择单元的输入型参数
+        if ((lLowPart & ulTypeLowPart) == ulTypeLowPart) { // 找到了，对象的参数类型包含于单元的参数类型中
+          m_pCUnitCurrent = pDic->GetUnit();
+          m_lUnitIndex = pDic->GetUnitIndex();
+          m_pCTag->SetUnit(m_pCUnitCurrent);
+          m_pCTag->SetUnitIndex(m_lUnitIndex);
+          found = true;
+        }
+      }
+    }
+  } while (!found && (it != m_pDicList->end()));
+  ASSERT(found);
+
   m_pCTag->SetDataFlowUnitToObject( m_fInputType );
   if (m_fInputType == false) {   // 向单元的参数写入.
     m_pCUnitCurrent->SelectParameter( (ulAttr | tINPUT) & (tINPUT |tDOUBLE |tWORD |tBOOL |tSTRING |tMODIFIABLE) );
@@ -630,7 +656,7 @@ void CDynamicLinkDlg::OnSelchangeLinkName()
     pDic = *it++;
   } while ( pDic->GetIndexNumber() != i );
   m_pCUnitCurrent = pDic->GetUnit();
-	m_lUnitIndex = pDic->GetIndex();
+	m_lUnitIndex = pDic->GetUnitIndex();
 }
 
 void CDynamicLinkDlg::OnClickedButtonNext()

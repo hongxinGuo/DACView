@@ -21,13 +21,13 @@ public :
 // Attributes
   
 // Operations
-	CUnitBase * GetUnit( void );
-	CString GetUnitName( void );
-	INT64 GetIndex( void );
-	INT64 GetType( void );
-	INT64 	GetIndexNumber( void ) { return m_iIndexNumber; }
-	void  SetIndexNumber( INT64 index ) { m_iIndexNumber = index; }
-	CString GetParaName( void );
+	CUnitBase *   GetUnit( void );
+	CString       GetUnitName( void );
+	INT64         GetUnitIndex( void );
+	INT64         GetType( void );
+	INT64 	      GetIndexNumber( void ) { return m_lIndexNumber; }
+	void          SetIndexNumber( INT64 index ) { m_lIndexNumber = index; }
+	CString       GetParaName( void );
 
 // implememtation 
  	virtual void Serialize( CArchive& ar );
@@ -44,10 +44,10 @@ protected :
 // Serialized Data
 	INT64					m_lNumber;       // index of dictionary
 	CUnitBase *		m_pCUnit;         // point to unit
-	INT64 				m_lIndex;        // unit's index
+	INT64 				m_lUnitIndex;        // unit's index
 	INT64					m_lType;					// tMODIFIALBE, tINPUT or tOUTPUT, tDOUBLE tWORD etc.
 // Not Serialized Data
-	INT64						m_iIndexNumber;   // index of SelectChange
+	INT64					m_lIndexNumber;   // index of SelectChange
 
 };                        
 

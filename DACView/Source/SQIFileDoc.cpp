@@ -372,11 +372,12 @@ void CSQIFileDoc::Dump(CDumpContext& dc) const
 //
 // 参数:
 //    ULONG ulType					: 适合的单元类型(tMODIFIABLE, tINPUT, tOUTPUT).
-//		CObjectBase * pcObj		: 当前处理动态连接的对象.
+//		CObjectBase * pcObj		: 当前处理动态连接的对象，用于加入现有的动态链接
 //
 // 描述:
-//    清除老的单元词典,生成新的单元词典, called by MAKE_DYN_LINK in CSQIObjectView.
-//    此单元词典，只从当前层的单元序列中选择合适的变量，这样能够在众多单元中轻松选择，否则太多的单元会导致无法寻找恰当的参数。
+//  清除老的单元词典,生成新的单元词典, called by MAKE_DYN_LINK in CSQIObjectView.
+//  此单元词典，只从当前层的单元序列中选择合适的变量，这样能够在众多单元中轻松选择，否则太多的单元会导致无法寻找恰当的参数。
+//  此函数只被生成对象的动态链接函数调用。
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pObj ) {
@@ -385,7 +386,7 @@ CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pObj 
 	// 清除以前的词典.
 	m_CDicList.clear();
 	
-	// 得到合适的词典.
+	// 得到当前单元序列的的词典.
 	for (const auto punit : *m_pCurrentUnitList) {
     if (punit->IsEncapsulated()) { // 简单单元或者已封装的部件
       punit->PrepareParaDictionary(m_CDicList, ulType);
@@ -395,7 +396,7 @@ CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pObj 
 	CODLList * pODLList = pObj->GetDynLinkList();
 	ULONG ulIndex;
 
-	// 将已有的动态连接置入词典中
+	// 将已有的动态连接置入词典中（用于观察、改变和删除之）。
 	for ( const auto pODL : *pODLList ) {
 		ulIndex = pODL->GetUnitIndex();
 		CUnitBase * punit = pODL->GetUnit();

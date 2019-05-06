@@ -28,21 +28,21 @@ static char THIS_FILE[] = __FILE__;
 CUnitDictionary::CUnitDictionary( CUnitBase * pcunit, INT64 ulIndex, INT64 ulType ) 
 	: CObject() {
 	m_pCUnit		= pcunit;
-	m_lIndex		= ulIndex;
+	m_lUnitIndex		= ulIndex;
 	m_lType		= ulType;
 	m_lNumber = 0;  
   
-  m_iIndexNumber = 0;
+  m_lIndexNumber = 0;
 
 }
 
 CUnitDictionary::CUnitDictionary( void ) : CObject() {
   m_pCUnit = nullptr;
-  m_lIndex = -1;
+  m_lUnitIndex = -1;
   m_lType = 0;
 	m_lNumber = 0;
 
-  m_iIndexNumber = 0;
+  m_lIndexNumber = 0;
 
 }
 
@@ -73,8 +73,8 @@ CString CUnitDictionary::GetUnitName( void ) {
 // GetIndex()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-INT64 CUnitDictionary::GetIndex( void ) {
-	return( m_lIndex );
+INT64 CUnitDictionary::GetUnitIndex( void ) {
+	return( m_lUnitIndex );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ INT64 CUnitDictionary::GetType( void ) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 CString CUnitDictionary::GetParaName( void ) {
-	return( m_pCUnit->GetParaName( m_lIndex ) );
+	return( m_pCUnit->GetParaName( m_lUnitIndex ) );
 }
 
 void CUnitDictionary::Serialize( CArchive&  ) {
