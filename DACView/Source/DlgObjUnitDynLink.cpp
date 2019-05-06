@@ -253,10 +253,12 @@ void CDynamicLinkDlg::UpdateDlg( CObjectDynLink * pcDyn ) {
     return;
   }
   // update variables
-  m_lUnitIndex						= pcDyn->GetUnitIndex();
-  m_lObjectIndex					= pcDyn->GetObjectIndex();
-  m_lLinkMethod					= pcDyn->GetLinkMethod();
-  m_pCUnitCurrent					= pcDyn->GetUnit();
+  m_lUnitIndex = pcDyn->GetUnitIndex();
+  ASSERT(m_lUnitIndex == -1);
+  m_lUnitIndex = 0;
+  m_lObjectIndex = pcDyn->GetObjectIndex();
+  m_lLinkMethod = pcDyn->GetLinkMethod();
+  m_pCUnitCurrent = pcDyn->GetUnit();
   
   m_pCObjectCurrent->SelectParameter( tMODIFIABLE );
   SendDlgItemMessage(IDC_VARIABLE_PARAMETER, CB_SETCURSEL, m_lObjectIndex, 0L);
@@ -285,8 +287,8 @@ void CDynamicLinkDlg::UpdateDlg( CObjectDynLink * pcDyn ) {
   auto it = m_pDicList->begin();
 	int i = 0;
   do {
-  	pDic = *it++;
-		ASSERT( i++ < m_pDicList->size() );	// 不能越界,出错.
+ 		ASSERT(it != m_pDicList->end());	// 不能越界,出错.
+ 	  pDic = *it++;
   } while ( (pDic->GetUnit() != pcDyn->GetUnit()) || (pDic->GetIndex() != m_lUnitIndex) );
   SendDlgItemMessage(IDC_LINK_NAME, CB_SETCURSEL, (WPARAM)pDic->GetIndexNumber(), (LPARAM)0L);
   SendDlgItemMessage(IDC_LINK_METHOD, CB_SETCURSEL,(WPARAM)GetLinkMethodIndex(pcDyn->GetLinkMethod()));
@@ -535,7 +537,7 @@ void CDynamicLinkDlg::OnClickedButtonNew()
   ULONG ulAttr = para[0].ulType;
   m_fInputType = ulAttr & tINPUT;
   m_pCTag->SetDataFlowUnitToObject( m_fInputType );
-  if ( m_fInputType == FALSE ) {   // 向单元的参数写入.
+  if (m_fInputType == false) {   // 向单元的参数写入.
     m_pCUnitCurrent->SelectParameter( (ulAttr | tINPUT) & (tINPUT |tDOUBLE |tWORD |tBOOL |tSTRING |tMODIFIABLE) );
     SetLinkMethodIndex( (ulAttr | tINPUT) & (tINPUT | tDOUBLE | tWORD | tBOOL | tSTRING) ); 
   }
@@ -632,10 +634,10 @@ void CDynamicLinkDlg::OnClickedButtonNext()
   // TODO: Add your control notification handler code here
   UpdateDynLink( m_pCTag );
   m_it = find(m_plistDynLink->begin(), m_plistDynLink->end(), m_pCTag);
-  m_it++;
-  m_pCTag = *m_it++;
+  m_pCTag = *++m_it;
   UpdateDlg( m_pCTag );
-  if ( m_it == m_plistDynLink->end() ) {
+  auto it = m_it;
+  if ( ++it == m_plistDynLink->end() ) {
     GetDlgItem(IDC_BUTTON_NEXT)->EnableWindow(FALSE);  
   }
   GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(TRUE);
@@ -646,8 +648,7 @@ void CDynamicLinkDlg::OnClickedButtonPrev()
   // TODO: Add your control notification handler code here
   UpdateDynLink( m_pCTag );
   m_it = find(m_plistDynLink->begin(), m_plistDynLink->end(), m_pCTag);
-  m_it--;
-  m_pCTag = *m_it--;
+  m_pCTag = *--m_it;
   UpdateDlg( m_pCTag ); 
   if ( m_it == m_plistDynLink->begin() ) {
     GetDlgItem(IDC_BUTTON_PREV)->EnableWindow(FALSE);  
