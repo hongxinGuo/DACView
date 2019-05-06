@@ -39,9 +39,15 @@
 static char THIS_FILE[] = __FILE__;
 #endif  
 
-// 连接方法的最大值
+// 连接方法的最大值，目前为14种
 #define MAX_LINK_METHOD_NUMBER 14
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// 此处的输入输出方向是已单元为源的，即tINPUT对单元来说是（从对象处）输入数据。
+//
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 static struct { ULONG LinkMethod;
                 char * StringName;
                 ULONG ulType; } sm_LinkMethod[MAX_LINK_METHOD_NUMBER] =
@@ -254,8 +260,6 @@ void CDynamicLinkDlg::UpdateDlg( CObjectDynLink * pcDyn ) {
   }
   // update variables
   m_lUnitIndex = pcDyn->GetUnitIndex();
-  ASSERT(m_lUnitIndex == -1);
-  m_lUnitIndex = 0;
   m_lObjectIndex = pcDyn->GetObjectIndex();
   m_lLinkMethod = pcDyn->GetLinkMethod();
   m_pCUnitCurrent = pcDyn->GetUnit();
