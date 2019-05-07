@@ -109,7 +109,7 @@ void CObjectMeter::Serialize( CArchive& ar ) {
   }
 }
 
-const CString& CObjectMeter::GetClassNameStr( void ) {
+const CString& CObjectMeter::GetClassName( void ) {
   static CString s_strClassName = "Meter";
 
   return(s_strClassName);

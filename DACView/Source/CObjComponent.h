@@ -30,9 +30,9 @@ public:
 // Attributes
 public:
   virtual void Serialize( CArchive& ar ) override; 
-  virtual const CString& GetClassNameStr( void ) override;
+  virtual const CString& GetClassName( void ) override;
   
-  virtual bool IsNeedUpdate( void );
+  virtual bool      IsNeedUpdate( void ) override;
   virtual bool      CanInSymbol( void ) override;
 	
 

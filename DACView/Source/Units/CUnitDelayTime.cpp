@@ -123,7 +123,7 @@ void CUnitDelayTime::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitDelayTime::GetClassNameStr( void ) {
+const CString& CUnitDelayTime::GetClassName( void ) {
   static CString str = "DelayTime";
   return(str);
 }

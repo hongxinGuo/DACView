@@ -20,7 +20,7 @@ public:
   virtual bool SetParameterSelected(void) override;
 
 
-  virtual bool CanViewIn( void ) const override;
+  virtual bool CanViewIn(void) const override { return true; }
   virtual void ViewOut( void );
 
 	virtual bool ExectiveDynLink( void ) override;

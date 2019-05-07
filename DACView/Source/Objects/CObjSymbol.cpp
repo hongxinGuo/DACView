@@ -43,13 +43,13 @@ CObjectSymbol::~CObjectSymbol() {
 
 bool CObjectSymbol::IsNeedUpdate( void ) {
 
-  if ( m_fNeedUpdate ) return( TRUE );
-  for (auto pcObj : m_CObjectList) {
-		if ( pcObj->IsNeedUpdate() ) {
-			return( TRUE );
+  if ( m_fNeedUpdate ) return(true);
+  for (auto pobj : m_CObjectList) {
+		if ( pobj->IsNeedUpdate() ) {
+			return(true);
 		}
 	}  
-	return(FALSE);
+	return(false);
 }
 
 bool CObjectSymbol::IsDrawAll( void ) {
@@ -177,7 +177,7 @@ bool CObjectSymbol::SetRectPosition(ULONG index, LONG lValue) {
   return( FALSE );
 }
 
-const CString& CObjectSymbol::GetClassNameStr( void ) {
+const CString& CObjectSymbol::GetClassName( void ) {
   static CString s_strClassName = "Symbol";
 
   return(s_strClassName);

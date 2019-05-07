@@ -23,7 +23,7 @@ namespace DACViewTest {
     EXPECT_STREQ("ScanRate", c.GetParaName(4));
     EXPECT_STREQ("", c.GetParaName(5));
 
-    EXPECT_STREQ("Pulse", c.GetClassNameStr());
+    EXPECT_STREQ("Pulse", c.GetClassName());
 
     CUnitPulse c2;
     rect = c2.GetSize();

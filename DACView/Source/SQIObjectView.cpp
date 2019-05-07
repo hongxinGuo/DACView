@@ -723,16 +723,16 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 	case OBJECT_PRE_SELECT:
 		if (pDoc->m_trackerObject.HitTest(point) < 0) { // is some object been selected ?
 			if (pDoc->m_trackerObject.TrackRubberBand(this, point, FALSE)) { // create new object
-				if (gl_ulDrawTool == ID_OBJECT_SELECT) { // group select
+				if (gl_ulDrawTool == ID_OBJECT_SELECT) { // 圈选？
 					ClearAllFocus();
 					rectScreen = pDoc->m_trackerObject.m_rect;
 					rectScreen += ptScrollPosition;
 					CObjectBase * pcobjTemp = nullptr;
 					CRect rect;
-          for (const auto pcobjTemp1 : *m_pCObjectListCurrent) {
-						rect = pcobjTemp1->GetSize() + pcobjTemp1->GetOffset();
+          for (const auto pobj : *m_pCObjectListCurrent) { // 设置所有选中对象的选中标志
+						rect = pobj->GetSize() + pobj->GetOffset();
 						if ((rectScreen & rect) == rect) {
-							pcobjTemp1->SetSelect(TRUE);
+							pobj->SetSelect(TRUE);
 						}
 					}
 					pDoc->m_trackerObject.m_rect.SetRectEmpty();
@@ -824,7 +824,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 						ASSERT(0);
 					} // switch gl_ulDrawTool
 					pDoc->SetModifiedFlag(TRUE); // document's content is changed
-					strTemp = m_pCObjectCurrent->GetClassNameStr() + strTemp;
+					strTemp = m_pCObjectCurrent->GetClassName() + strTemp;
 					m_pCObjectCurrent->SetName(strTemp);
 					m_pCObjectCurrent->SetSelect(TRUE);
 					if (m_pCObjectComponentUpper != nullptr) {
@@ -924,7 +924,7 @@ void CSQIObjectView::OnMouseMove(UINT nFlags, CPoint point)
 	case OBJECT_PRE_SELECT :
 		if ( IsInRect( ptDevice, m_pCObjectMouseMove) ) {  // current mouse position is in object ?
       // show current object's name
-      str = m_pCObjectMouseMove->GetClassNameStr();
+      str = m_pCObjectMouseMove->GetClassName();
       str += "->";
       str += m_pCObjectMouseMove->GetName();
     }

@@ -74,7 +74,7 @@ void CObjectText::Serialize( CArchive& ar ) {
   }
 }
 
-const CString& CObjectText::GetClassNameStr( void ) {
+const CString& CObjectText::GetClassName( void ) {
   static CString s_strClassName = "Text";
 
   return(s_strClassName);

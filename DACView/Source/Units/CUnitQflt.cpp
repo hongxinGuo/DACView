@@ -113,7 +113,7 @@ void CUnitQuadFilt::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitQuadFilt::GetClassNameStr( void ) {
+const CString& CUnitQuadFilt::GetClassName( void ) {
   static CString s_strClassName = "QFilt";
   return(s_strClassName);
 }

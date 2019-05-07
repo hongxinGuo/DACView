@@ -179,7 +179,7 @@ void CUnitTTB::ClearParaSelectedFlag(void)
   }
 }
 
-const CString& CUnitTTB::GetClassNameStr( void ) {
+const CString& CUnitTTB::GetClassName( void ) {
   static CString str = "TTB";
   return(str);
 }

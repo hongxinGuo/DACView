@@ -32,7 +32,7 @@ namespace DACViewTest {
   TEST(TestCObjectComponent, TestGetClassNameStr) {
     CObjectComponent c;
 
-    EXPECT_STREQ("Cpt", c.GetClassNameStr());
+    EXPECT_STREQ("Cpt", c.GetClassName());
   }
 
   TEST(TestCObjectComponent, TestCanViewIn) {

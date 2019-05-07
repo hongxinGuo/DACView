@@ -88,7 +88,7 @@ void CObjectButton::Serialize( CArchive& ar ) {
   }
 } 
 
-const CString& CObjectButton::GetClassNameStr( void ) {
+const CString& CObjectButton::GetClassName( void ) {
   static CString s_strClassName = "Button";
   return(s_strClassName);
 }

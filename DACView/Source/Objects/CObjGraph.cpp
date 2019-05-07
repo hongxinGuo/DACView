@@ -159,7 +159,7 @@ void CObjectGraph::Serialize( CArchive& ar ) {
   }
 } 
 
-const CString& CObjectGraph::GetClassNameStr( void ) {
+const CString& CObjectGraph::GetClassName( void ) {
   static CString s_strClassName = "Graph";
 
   return(s_strClassName);

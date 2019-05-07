@@ -281,24 +281,24 @@ void CFBDUnitView::OnTimer(UINT_PTR nIDEvent)
   CDC * pdc;
 	INT_PTR iCount = m_pCUnitListCurrent->size();
   CRect rectTemp;
-	bool fEnd = FALSE;
+	bool fEnd = false;
 
 	ULONGLONG ulTick;
 	ulTick = GetTickCount64();
   
   auto it = m_pCUnitListCurrent->begin();
-	for ( ULONG i = 0; i < m_ulUnitListCurrentCount; i++ ) {
+	for ( int i = 0; i < m_ulUnitListCurrentCount; i++ ) {
 		it++;
 	}
   while ( (!fEnd) && (m_ulUnitListCurrentCount++ < iCount) ) {
-    auto pcunit = *it;
-    if ( pcunit->IsNeedUpdate() ) {
+    auto punit = *it;
+    if ( punit->IsNeedUpdate() ) {
 			pdc = GetDC();
 			OnPrepareDC( pdc );
-			pcunit->ToShow( pdc );
+			punit->ToShow( pdc );
 			ReleaseDC( pdc );
-			pcunit->SetUpdateFlag(FALSE);
-			fEnd = TRUE;
+			punit->SetUpdateFlag(false);
+			fEnd = true;
     }
   } 
   
@@ -472,7 +472,7 @@ void CFBDUnitView::OnMouseMove(UINT nFlags, CPoint point)
   if ( m_pCUnitCurrent == nullptr ) {
     if ( IsInRect( ptDevice, pUnit ) ) {
       // show current unit's name on status bar
-      str = pUnit->GetClassNameStr();
+      str = pUnit->GetClassName();
       str += "->";
       str += pUnit->GetName();
 	  }

@@ -16,7 +16,7 @@ namespace DACViewTest {
     EXPECT_STREQ(punit->GetName(), "abcde");
     strName = c.GetUnitName();
     EXPECT_STREQ("abcde", strName);
-    ulIndex = c.GetIndex();
+    ulIndex = c.GetUnitIndex();
     EXPECT_EQ(2, ulIndex);
     ulType = c.GetType();
     EXPECT_EQ(tOUTPUT | tDOUBLE, ulType);

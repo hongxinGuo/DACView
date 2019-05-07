@@ -116,7 +116,7 @@ void CUnitQuad::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitQuad::GetClassNameStr( void ) {
+const CString& CUnitQuad::GetClassName( void ) {
   static CString s_strClassName = "Quad";
   return(s_strClassName);
 }

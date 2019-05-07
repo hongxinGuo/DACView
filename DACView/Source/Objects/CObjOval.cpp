@@ -78,7 +78,7 @@ void CObjectOval::Serialize( CArchive& ar ) {
   }
 } 
 
-const CString& CObjectOval::GetClassNameStr( void ) {
+const CString& CObjectOval::GetClassName( void ) {
   static CString s_strClassName = "Oval";
 
   return(s_strClassName);

@@ -327,7 +327,7 @@ bool CObjectBase::CreateUniName( CObjectList& listObject ) {
   if ( fFind ) {
     while ( !fDone ) {
       _itoa_s(iTemp++, s, 10);
-      m_strName = GetClassNameStr() + s;
+      m_strName = GetClassName() + s;
       fDone = TRUE;
       for (const auto pcobj : listObject) {
         if ( m_strName == pcobj->GetName() ) {

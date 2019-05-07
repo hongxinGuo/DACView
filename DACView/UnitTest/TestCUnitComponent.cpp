@@ -123,7 +123,7 @@ static char THIS_FILE[] = __FILE__;
 
 	TEST(TestCUnitComponent, TestGetClassNameStr) {
 		CUnitComponent c;
-		EXPECT_STREQ("Cpt", c.GetClassNameStr());
+		EXPECT_STREQ("Cpt", c.GetClassName());
 	}
 
 	TEST(TestCUnitComponent, TestIsMe) {

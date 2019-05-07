@@ -23,7 +23,7 @@ namespace DACViewTest {
     EXPECT_EQ(100 + 15, rect.bottom);
 
 
-    EXPECT_STREQ("MiddleSelect", c.GetClassNameStr());
+    EXPECT_STREQ("MiddleSelect", c.GetClassName());
 
     CUnitMiddleSelect c2;
     rect = c2.GetSize();
@@ -67,7 +67,7 @@ namespace DACViewTest {
   }
   TEST(TestCUnitMiddleSelect, TestGetClassname) {
     CUnitMiddleSelect c;
-    EXPECT_STREQ("MiddleSelect", c.GetClassNameStr());
+    EXPECT_STREQ("MiddleSelect", c.GetClassName());
   }
 
   TEST(TestCUnitMiddleSelect, TestGetParaName) {

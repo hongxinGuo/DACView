@@ -105,7 +105,7 @@ void CUnitInputOutput::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitInputOutput::GetClassNameStr( void ) {
+const CString& CUnitInputOutput::GetClassName( void ) {
   static CString str = "IPOP";
   return(str);
 }

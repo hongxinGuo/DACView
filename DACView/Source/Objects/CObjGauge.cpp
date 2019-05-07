@@ -99,7 +99,7 @@ void CObjectGauge::Serialize( CArchive& ar ) {
   }
 } 
 
-const CString& CObjectGauge::GetClassNameStr( void ) {
+const CString& CObjectGauge::GetClassName( void ) {
   static CString s_strClassName = "Gauge";
 
   return(s_strClassName);

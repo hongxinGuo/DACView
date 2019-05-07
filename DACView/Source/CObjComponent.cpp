@@ -39,9 +39,9 @@ CObjectComponent::~CObjectComponent() {
 }
 
 bool CObjectComponent::IsNeedUpdate( void ) {
-	for (const auto pcobj : m_CObjectList) {
-		if ( pcobj->IsNeedUpdate() ) {
-			pcobj->SetUpdateFlag( FALSE );
+	for (const auto pobj : m_CObjectList) {
+		if ( pobj->IsNeedUpdate() ) {
+			pobj->SetUpdateFlag(false);
 		}
 	}  
 	return( m_fNeedUpdate );
@@ -129,7 +129,7 @@ void CObjectComponent::Serialize( CArchive& ar ) {
   } 
 } 
 
-const CString& CObjectComponent::GetClassNameStr( void ) {
+const CString& CObjectComponent::GetClassName( void ) {
   static CString s_strClassName = "Cpt";
 
   return(s_strClassName);

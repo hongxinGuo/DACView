@@ -122,7 +122,7 @@ void CUnitAnd::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitAnd::GetClassNameStr( void ) {
+const CString& CUnitAnd::GetClassName( void ) {
   static CString str = "And";
   return(str);
 }

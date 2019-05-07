@@ -36,7 +36,7 @@ public:
 	virtual void 			SetName(const CString& strName ) { m_strName = strName; }
 	
 	// 得到本类的类名
-	virtual const CString&	GetClassNameStr( void );
+	virtual const CString&	GetClassName( void );
 	
 	virtual void 			FormatSave( CArchive& ar );
 	virtual void 			FormatRead( CArchive& ar );
@@ -51,10 +51,9 @@ public:
 										);
 
 	// 设置选定标志，（用于显示）
-	void 							SetSelect( bool flags	// 显示标志
-										);
+  void 							SetSelect(bool flags) { m_fSelected = flags; }
 	// 是否被选择
-	bool  						IsSelect( void ) const;
+  bool  						IsSelect(void) const { return m_fSelected; }
 
   // 清除参数被选择索引
   virtual void      ClearParaSelectedFlag(  void );
@@ -68,16 +67,15 @@ public:
 
 
 	// 设置更新标志
-	virtual void 			SetUpdateFlag( bool fUpdate		// 新的更新标志
-																	);
+  virtual void 			SetUpdateFlag(bool fUpdate) { m_fNeedUpdate = fUpdate; }
 	// 是否需要更新
-	virtual	bool 			IsNeedUpdate( void ) const;
+	virtual	bool 			IsNeedUpdate( void ) { return(m_fNeedUpdate); }
 
 	// 自我完整性检查
 	virtual bool			CheckSelf( void );
 
 	// 是否可被看进去.
-  virtual bool      CanViewIn( void ) const;
+  virtual bool      CanViewIn(void) const { return false; }
 
 	// 转储当前状态
   virtual bool      DumpCurrentStatus( char * pch		// 前缀字符串

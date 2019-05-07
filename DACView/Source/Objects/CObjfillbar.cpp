@@ -141,7 +141,7 @@ void CObjectFillBar::Serialize( CArchive& ar ) {
   }
 } 
 
-const CString& CObjectFillBar::GetClassNameStr( void ) {
+const CString& CObjectFillBar::GetClassName( void ) {
   static CString s_strClassName = "FillBar";
 
   return(s_strClassName);

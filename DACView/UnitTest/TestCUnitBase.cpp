@@ -398,7 +398,7 @@ namespace DACViewTest {
 		CPoint pt(100, 100);
 		CUnitBase c("CUnitBase", pt);
 		CString str = "UnitBase";
-		EXPECT_STREQ(str, c.GetClassNameStr());
+		EXPECT_STREQ(str, c.GetClassName());
 	}
 
 

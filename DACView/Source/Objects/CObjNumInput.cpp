@@ -130,7 +130,7 @@ void CObjectNumberInput::Serialize( CArchive& ar ) {
   }
 } 
 
-const CString& CObjectNumberInput::GetClassNameStr( void ) {
+const CString& CObjectNumberInput::GetClassName( void ) {
   static CString s_strClassName = "NumberInput";
 
   return(s_strClassName);

@@ -51,7 +51,7 @@ namespace DACViewTest {
   }
   TEST(TestCUnitMultiple, TestGetClassname) {
     CUnitMultiple c;
-    EXPECT_STREQ("Multiple", c.GetClassNameStr());
+    EXPECT_STREQ("Multiple", c.GetClassName());
   }
 
   TEST(TestCUnitMultiple, TestGetParaName) {

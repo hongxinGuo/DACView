@@ -51,7 +51,7 @@ namespace DACViewTest {
 	}
 	TEST(TestCUnitAdd, GetClassnameTest) {
 		CUnitAdd c;
-		EXPECT_STREQ("Add", c.GetClassNameStr());
+		EXPECT_STREQ("Add", c.GetClassName());
 	}
 
 	TEST(TestCUnitAdd, GetParaNameTest) {

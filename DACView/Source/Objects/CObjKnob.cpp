@@ -160,7 +160,7 @@ void CObjectKnob::Serialize( CArchive& ar ) {
   }
 }
 
-const CString& CObjectKnob::GetClassNameStr( void ) {
+const CString& CObjectKnob::GetClassName( void ) {
   static CString s_strClassName = "Knob";
 
   return(s_strClassName);

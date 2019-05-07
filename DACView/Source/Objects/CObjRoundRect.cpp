@@ -89,7 +89,7 @@ void CObjectRoundRect::Serialize( CArchive& ar ) {
   }
 }   
 
-const CString& CObjectRoundRect::GetClassNameStr( void ) {
+const CString& CObjectRoundRect::GetClassName( void ) {
   static CString s_strClassName = "RoundRect";
 
   return(s_strClassName);

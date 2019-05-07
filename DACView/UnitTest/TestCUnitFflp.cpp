@@ -30,7 +30,7 @@ namespace DACViewTest {
     EXPECT_STREQ("ScanRate", c.GetParaName(6));
     EXPECT_STREQ("", c.GetParaName(7));
 
-    EXPECT_STREQ("FFLP", c.GetClassNameStr());
+    EXPECT_STREQ("FFLP", c.GetClassName());
 
     CUnitFFLP c2;
     rect = c2.GetSize();
@@ -70,7 +70,7 @@ namespace DACViewTest {
   }
   TEST(TestCUnitFFLP, TestGetClassname) {
     CUnitFFLP c;
-    EXPECT_STREQ("FFLP", c.GetClassNameStr());
+    EXPECT_STREQ("FFLP", c.GetClassName());
   }
 
   TEST(TestCUnitFFLP, TestGetParaName) {

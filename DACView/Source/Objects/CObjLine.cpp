@@ -189,7 +189,7 @@ bool CObjectLine::InIt( POINT const pt, int ) {
   return(FALSE);
 }
 
-const CString& CObjectLine::GetClassNameStr( void ) {
+const CString& CObjectLine::GetClassName( void ) {
   static CString s_strClassName = "Line";
 
   return(s_strClassName);

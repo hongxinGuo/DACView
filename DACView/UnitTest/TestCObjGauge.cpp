@@ -27,7 +27,7 @@ namespace DACViewTest {
   TEST(TestCObjectGauge, TestGetClassNameStr) {
     CObjectGauge c;
 
-    EXPECT_STREQ("Gauge", c.GetClassNameStr());
+    EXPECT_STREQ("Gauge", c.GetClassName());
   }
 
   TEST(TestCObjectGauge, TestExectiveDynLink) {

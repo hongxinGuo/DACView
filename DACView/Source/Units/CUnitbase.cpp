@@ -184,7 +184,6 @@ void CUnitBase::Serialize( CArchive& ar ) {
        << (INT64)m_fCutOff << (INT64)m_fAutoExective << m_lReserved3 << m_lDynLinkToNumber << m_lExectivePriority;
   }
   else {
-    int iVersion = ar.GetObjectSchema();
     ar >> m_strComment >> m_rectArea 
        >> a >> b >> m_lReserved3 >> m_lDynLinkToNumber >> m_lExectivePriority;
     m_fCutOff = (bool)a;
@@ -207,10 +206,10 @@ void CUnitBase::Serialize( CArchive& ar ) {
 		ar << iTemp;
     for ( auto pcDynLink : m_listDynLink ) { 
       // when cut or copy me to clipboard, some dynamic links that I have
-      // can't copy to clipboard, for its link to other unit. so if its 
+      // can't copy to clipboard, for its link to other units that don't copied. so if its 
       // delete flag is set, I didn't store it.
       if (!pcDynLink->IsDeleteMe()) {
-        pcDynLinkTag = pcDynLink.get();
+        pcDynLinkTag = pcDynLink.get(); // 目前MFC无法存储智能指针，故而需要取出其原始指针，以用于存储。
         ar << pcDynLinkTag;
       }
     }
@@ -222,7 +221,7 @@ void CUnitBase::Serialize( CArchive& ar ) {
 		for (int i = 0; i < iTemp; i++) {
       shared_ptr<CUnitDynLink> pcDynLink;
 			ar >> pcDynLinkTag;
-      pcDynLink.reset(pcDynLinkTag);
+      pcDynLink.reset(pcDynLinkTag);   // 由于存储的是原始指针，故而需要用之重置智能指针。
 			m_listDynLink.push_back(pcDynLink);
 		}
 	}
@@ -434,7 +433,7 @@ bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
   if ( fFind ) {
     while ( !fDone ) {
       _itoa_s(iTemp++, s, 10);
-      m_strName = GetClassNameStr() + s;
+      m_strName = GetClassName() + s;
       fDone = true;
       for (const auto pcunit : listUnit) {
         if ( m_strName == pcunit->GetName() ) {
@@ -687,7 +686,7 @@ void CUnitBase::SetParaLockFlag( void ) {
 } 
 
 // virtual function declaretion
-const CString& CUnitBase::GetClassNameStr( void ) {
+const CString& CUnitBase::GetClassName( void ) {
   static CString str = "UnitBase";      
   return( str );
 }

@@ -16,7 +16,7 @@ class CObjectRect : public CObjRectBase {
 // Attributes
 public:
   virtual void  Serialize( CArchive& ar ) override; 
-  virtual const CString& GetClassNameStr( void ) override;
+  virtual const CString& GetClassName( void ) override;
   
 // Operations
 public:

@@ -106,7 +106,7 @@ void CUnitHighSelect::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitHighSelect::GetClassNameStr( void ) {
+const CString& CUnitHighSelect::GetClassName( void ) {
   static CString str = "HighSelect";
   return(str);
 }

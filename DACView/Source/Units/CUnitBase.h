@@ -172,7 +172,7 @@ public:
   // 检查本单元的内部是否有错误.
 	virtual bool			CheckSelf( void );
 	
-	virtual const CString&		GetClassNameStr( void ) override;				// 得到本类的类名
+	virtual const CString&		GetClassName( void ) override;				// 得到本类的类名
   virtual CString						GetParaName(ULONG ) { ASSERT(false); return(""); }		// 得到本类的参数名称
   virtual ULONG							GetParaType(ULONG ) { ASSERT(false); return 0; }		// 得到本类的参数类型。此函数是得到参数所有的类型，而GetDynLinkType只得到四种数据类型中的一种
 

@@ -79,7 +79,7 @@ void CObjectRect::Serialize( CArchive& ar ) {
   }
 } 
 
-const CString& CObjectRect::GetClassNameStr( void ) {
+const CString& CObjectRect::GetClassName( void ) {
   static CString s_strClassName = "Rect";
 
   return(s_strClassName);

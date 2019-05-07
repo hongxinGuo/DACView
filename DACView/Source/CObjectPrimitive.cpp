@@ -125,26 +125,10 @@ void CObjectPrimitive::FormatSave( CArchive&  ) {
 void CObjectPrimitive::FormatRead( CArchive&  ) {
 }
 
-const CString& CObjectPrimitive::GetClassNameStr( void ) {
+const CString& CObjectPrimitive::GetClassName( void ) {
   static CString str= "CObjectPrimitive";
-  TRACE("Call CObjectPrimitive's GetClassNameStr, problely error\n");
+  TRACE("Call CObjectPrimitive's GetClassName, problely error\n");
   return( str );
-}
-
-void CObjectPrimitive::SetUpdateFlag( bool fUpdate ) {
-  m_fNeedUpdate = fUpdate;
-}
-
-bool CObjectPrimitive::IsNeedUpdate( void ) const {
-  return( m_fNeedUpdate );
-}                         
-
-void CObjectPrimitive::SetSelect( bool flags ) {
-  m_fSelected = flags;
-}   
-
-bool CObjectPrimitive::IsSelect( void ) const {
-  return ( m_fSelected );
 }
 
 void CObjectPrimitive::ClearParaSelectedFlag(void) {
@@ -198,10 +182,6 @@ bool CObjectPrimitive::CheckSelf( void ) {
   TRACE("CObjectPrimitive's CheckSelf been called!\n");
   return( TRUE );
 }
-
-bool CObjectPrimitive::CanViewIn( void ) const {
-  return( FALSE );
-} 
 
 bool CObjectPrimitive::DumpCurrentStatus( char * pch ) const {
   TRACE( "Call CObjectPrimitive's GetStatus\n" );

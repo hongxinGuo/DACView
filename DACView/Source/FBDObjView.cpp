@@ -486,7 +486,7 @@ void CFBDObjView::OnMouseMove(UINT nFlags, CPoint point)
     ASSERT( m_pCObjectCurrent == nullptr );
     if ( IsInRect( ptDevice, pObj ) ) {
       // show current object's name on status bar
-      str = pObj->GetClassNameStr();
+      str = pObj->GetClassName();
       str += "->";
       str += pObj->GetName();
 		}

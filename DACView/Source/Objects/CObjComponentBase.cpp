@@ -167,10 +167,6 @@ CPoint CObjectComponentBase::GetUpperScrollPosition(void) {
   return (m_ptScrollPositionUpper);
 }
 
-bool CObjectComponentBase::CanViewIn( void ) const {
-  return( TRUE );
-}
-
 void CObjectComponentBase::ViewOut( void ) {
   return;
 }

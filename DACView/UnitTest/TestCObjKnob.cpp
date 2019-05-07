@@ -27,7 +27,7 @@ namespace DACViewTest {
   TEST(TestCObjectKnob, TestGetClassNameStr) {
     CObjectKnob c;
 
-    EXPECT_STREQ("Knob", c.GetClassNameStr());
+    EXPECT_STREQ("Knob", c.GetClassName());
   }
 
   TEST(TestCObjectKnob, TestExectiveDynLink) {
