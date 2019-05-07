@@ -24,7 +24,7 @@
     <SccLocalPath>.</SccLocalPath>
     <Keyword>MFCProj</Keyword>
     <ProjectGuid>{4EE2A70C-63CE-47A8-A6F1-1F9AEBE4D571}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -80,13 +80,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)\DACView\Source;$(SolutionDir)\DACView\Source\Objects;$(SolutionDir)\DACView\Source\Units;$(SolutionDir)\DACView;$(SolutionDir)\DACView\UnitTest;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\hxguo\source\Repos\jpeg-9c;$(SolutionDir)\DACView\Source;$(SolutionDir)\DACView\Source\Objects;$(SolutionDir)\DACView\Source\Units;$(SolutionDir)\DACView;$(SolutionDir)\DACView\UnitTest;$(IncludePath)</IncludePath>
     <OutDir>.\x64\Debug\</OutDir>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
     </Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
+    <LibraryPath>C:\Users\hxguo\source\Repos\jpeg-9c\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>.\Win32_Re\</OutDir>
@@ -186,7 +187,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <OutputFile>.\X64\Debug\Dacview.exe</OutputFile>
-      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jpeg64.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /SUBSYSTEM:windows</AdditionalOptions>
       <StackReserveSize>1166112</StackReserveSize>
       <SubSystem>Windows</SubSystem>
@@ -355,8 +356,8 @@
     <Image Include="Res\Viewdoc.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DACView\resource.h" />
     <ClInclude Include="DACView\Source\accesory.h" />
-    <ClInclude Include="DACView\Source\CObjComponent.h" />
     <ClInclude Include="DACView\Source\CObjDynLink.h" />
     <ClInclude Include="DACView\Source\CObjectPrimitive.h" />
     <ClInclude Include="DACView\Source\CompileUnitList.h" />
@@ -380,6 +381,7 @@
     <ClInclude Include="DACView\Source\Globedef.h" />
     <ClInclude Include="DACView\Source\MAINFRM.H" />
     <ClInclude Include="DACView\Source\Objects\CObjbutton.h" />
+    <ClInclude Include="DACView\Source\Objects\CObjComponent.h" />
     <ClInclude Include="DACView\Source\Objects\CObjComponentBase.h" />
     <ClInclude Include="DACView\Source\Objects\CObjectBase.h" />
     <ClInclude Include="DACView\Source\Objects\CObjfillbar.h" />
@@ -399,7 +401,7 @@
     <ClInclude Include="DACView\Source\Objects\Cpicture.h" />
     <ClInclude Include="DACView\Source\Objects\DlgObjbar.h" />
     <ClInclude Include="DACView\Source\Objects\DlgObjButton.h" />
-    <ClInclude Include="DACView\Source\Objects\DlgObjCompd.h" />
+    <ClInclude Include="DACView\Source\Objects\DlgObjComponent.h" />
     <ClInclude Include="DACView\Source\Objects\DLGOBJECT.H" />
     <ClInclude Include="DACView\Source\Objects\DlgObjGauge.h" />
     <ClInclude Include="DACView\Source\Objects\DlgObjGraph.h" />
@@ -473,7 +475,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DACView\Source\Accesory.cpp" />
-    <ClCompile Include="DACView\Source\CObjComponent.cpp" />
     <ClCompile Include="DACView\Source\CObjDynLink.cpp" />
     <ClCompile Include="DACView\Source\CObjectPrimitive.cpp" />
     <ClCompile Include="DACView\Source\ComplieUnitList.cpp" />
@@ -497,6 +498,7 @@
     <ClCompile Include="DACView\Source\globedef.cpp" />
     <ClCompile Include="DACView\Source\Mainfrm.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjbutton.cpp" />
+    <ClCompile Include="DACView\Source\Objects\CObjComponent.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjComponentBase.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjectBase.cpp" />
     <ClCompile Include="DACView\Source\Objects\CObjfillbar.cpp" />
@@ -515,7 +517,7 @@
     <ClCompile Include="DACView\Source\Objects\CObjText.cpp" />
     <ClCompile Include="DACView\Source\Objects\DlgObjbar.cpp" />
     <ClCompile Include="DACView\Source\Objects\DlgObjButton.cpp" />
-    <ClCompile Include="DACView\Source\Objects\DlgObjCompd.cpp" />
+    <ClCompile Include="DACView\Source\Objects\DlgObjComponent.cpp" />
     <ClCompile Include="DACView\Source\Objects\DlgObject.cpp" />
     <ClCompile Include="DACView\Source\Objects\DlgObjGauge.cpp" />
     <ClCompile Include="DACView\Source\Objects\DlgObjGraph.cpp" />
@@ -601,48 +603,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets" Condition="Exists('packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets')" />
-    <Import Project="packages\boost.1.70.0.0\build\boost.targets" Condition="Exists('packages\boost.1.70.0.0\build\boost.targets')" />
-    <Import Project="packages\boost_atomic-vc141.1.70.0.0\build\boost_atomic-vc141.targets" Condition="Exists('packages\boost_atomic-vc141.1.70.0.0\build\boost_atomic-vc141.targets')" />
-    <Import Project="packages\boost_bzip2-vc141.1.70.0.0\build\boost_bzip2-vc141.targets" Condition="Exists('packages\boost_bzip2-vc141.1.70.0.0\build\boost_bzip2-vc141.targets')" />
-    <Import Project="packages\boost_chrono-vc141.1.70.0.0\build\boost_chrono-vc141.targets" Condition="Exists('packages\boost_chrono-vc141.1.70.0.0\build\boost_chrono-vc141.targets')" />
-    <Import Project="packages\boost_container-vc141.1.70.0.0\build\boost_container-vc141.targets" Condition="Exists('packages\boost_container-vc141.1.70.0.0\build\boost_container-vc141.targets')" />
-    <Import Project="packages\boost_context-vc141.1.70.0.0\build\boost_context-vc141.targets" Condition="Exists('packages\boost_context-vc141.1.70.0.0\build\boost_context-vc141.targets')" />
-    <Import Project="packages\boost_contract-vc141.1.70.0.0\build\boost_contract-vc141.targets" Condition="Exists('packages\boost_contract-vc141.1.70.0.0\build\boost_contract-vc141.targets')" />
-    <Import Project="packages\boost_coroutine-vc141.1.70.0.0\build\boost_coroutine-vc141.targets" Condition="Exists('packages\boost_coroutine-vc141.1.70.0.0\build\boost_coroutine-vc141.targets')" />
-    <Import Project="packages\boost_date_time-vc141.1.70.0.0\build\boost_date_time-vc141.targets" Condition="Exists('packages\boost_date_time-vc141.1.70.0.0\build\boost_date_time-vc141.targets')" />
-    <Import Project="packages\boost_exception-vc141.1.70.0.0\build\boost_exception-vc141.targets" Condition="Exists('packages\boost_exception-vc141.1.70.0.0\build\boost_exception-vc141.targets')" />
-    <Import Project="packages\boost_fiber-vc141.1.70.0.0\build\boost_fiber-vc141.targets" Condition="Exists('packages\boost_fiber-vc141.1.70.0.0\build\boost_fiber-vc141.targets')" />
-    <Import Project="packages\boost_filesystem-vc141.1.70.0.0\build\boost_filesystem-vc141.targets" Condition="Exists('packages\boost_filesystem-vc141.1.70.0.0\build\boost_filesystem-vc141.targets')" />
-    <Import Project="packages\boost_graph-vc141.1.70.0.0\build\boost_graph-vc141.targets" Condition="Exists('packages\boost_graph-vc141.1.70.0.0\build\boost_graph-vc141.targets')" />
-    <Import Project="packages\boost_iostreams-vc141.1.70.0.0\build\boost_iostreams-vc141.targets" Condition="Exists('packages\boost_iostreams-vc141.1.70.0.0\build\boost_iostreams-vc141.targets')" />
-    <Import Project="packages\boost_locale-vc141.1.70.0.0\build\boost_locale-vc141.targets" Condition="Exists('packages\boost_locale-vc141.1.70.0.0\build\boost_locale-vc141.targets')" />
-    <Import Project="packages\boost_log-vc141.1.70.0.0\build\boost_log-vc141.targets" Condition="Exists('packages\boost_log-vc141.1.70.0.0\build\boost_log-vc141.targets')" />
-    <Import Project="packages\boost_log_setup-vc141.1.70.0.0\build\boost_log_setup-vc141.targets" Condition="Exists('packages\boost_log_setup-vc141.1.70.0.0\build\boost_log_setup-vc141.targets')" />
-    <Import Project="packages\boost_math_c99-vc141.1.70.0.0\build\boost_math_c99-vc141.targets" Condition="Exists('packages\boost_math_c99-vc141.1.70.0.0\build\boost_math_c99-vc141.targets')" />
-    <Import Project="packages\boost_math_c99f-vc141.1.70.0.0\build\boost_math_c99f-vc141.targets" Condition="Exists('packages\boost_math_c99f-vc141.1.70.0.0\build\boost_math_c99f-vc141.targets')" />
-    <Import Project="packages\boost_math_c99l-vc141.1.70.0.0\build\boost_math_c99l-vc141.targets" Condition="Exists('packages\boost_math_c99l-vc141.1.70.0.0\build\boost_math_c99l-vc141.targets')" />
-    <Import Project="packages\boost_math_tr1-vc141.1.70.0.0\build\boost_math_tr1-vc141.targets" Condition="Exists('packages\boost_math_tr1-vc141.1.70.0.0\build\boost_math_tr1-vc141.targets')" />
-    <Import Project="packages\boost_math_tr1f-vc141.1.70.0.0\build\boost_math_tr1f-vc141.targets" Condition="Exists('packages\boost_math_tr1f-vc141.1.70.0.0\build\boost_math_tr1f-vc141.targets')" />
-    <Import Project="packages\boost_math_tr1l-vc141.1.70.0.0\build\boost_math_tr1l-vc141.targets" Condition="Exists('packages\boost_math_tr1l-vc141.1.70.0.0\build\boost_math_tr1l-vc141.targets')" />
-    <Import Project="packages\boost_prg_exec_monitor-vc141.1.70.0.0\build\boost_prg_exec_monitor-vc141.targets" Condition="Exists('packages\boost_prg_exec_monitor-vc141.1.70.0.0\build\boost_prg_exec_monitor-vc141.targets')" />
-    <Import Project="packages\boost_program_options-vc141.1.70.0.0\build\boost_program_options-vc141.targets" Condition="Exists('packages\boost_program_options-vc141.1.70.0.0\build\boost_program_options-vc141.targets')" />
-    <Import Project="packages\boost_python37-vc141.1.70.0.0\build\boost_python37-vc141.targets" Condition="Exists('packages\boost_python37-vc141.1.70.0.0\build\boost_python37-vc141.targets')" />
-    <Import Project="packages\boost_random-vc141.1.70.0.0\build\boost_random-vc141.targets" Condition="Exists('packages\boost_random-vc141.1.70.0.0\build\boost_random-vc141.targets')" />
-    <Import Project="packages\boost_regex-vc141.1.70.0.0\build\boost_regex-vc141.targets" Condition="Exists('packages\boost_regex-vc141.1.70.0.0\build\boost_regex-vc141.targets')" />
-    <Import Project="packages\boost_serialization-vc141.1.70.0.0\build\boost_serialization-vc141.targets" Condition="Exists('packages\boost_serialization-vc141.1.70.0.0\build\boost_serialization-vc141.targets')" />
-    <Import Project="packages\boost_stacktrace_noop-vc141.1.70.0.0\build\boost_stacktrace_noop-vc141.targets" Condition="Exists('packages\boost_stacktrace_noop-vc141.1.70.0.0\build\boost_stacktrace_noop-vc141.targets')" />
-    <Import Project="packages\boost_stacktrace_windbg-vc141.1.70.0.0\build\boost_stacktrace_windbg-vc141.targets" Condition="Exists('packages\boost_stacktrace_windbg-vc141.1.70.0.0\build\boost_stacktrace_windbg-vc141.targets')" />
-    <Import Project="packages\boost_stacktrace_windbg_cached-vc141.1.70.0.0\build\boost_stacktrace_windbg_cached-vc141.targets" Condition="Exists('packages\boost_stacktrace_windbg_cached-vc141.1.70.0.0\build\boost_stacktrace_windbg_cached-vc141.targets')" />
-    <Import Project="packages\boost_system-vc141.1.70.0.0\build\boost_system-vc141.targets" Condition="Exists('packages\boost_system-vc141.1.70.0.0\build\boost_system-vc141.targets')" />
-    <Import Project="packages\boost_test_exec_monitor-vc141.1.70.0.0\build\boost_test_exec_monitor-vc141.targets" Condition="Exists('packages\boost_test_exec_monitor-vc141.1.70.0.0\build\boost_test_exec_monitor-vc141.targets')" />
-    <Import Project="packages\boost_thread-vc141.1.70.0.0\build\boost_thread-vc141.targets" Condition="Exists('packages\boost_thread-vc141.1.70.0.0\build\boost_thread-vc141.targets')" />
-    <Import Project="packages\boost_timer-vc141.1.70.0.0\build\boost_timer-vc141.targets" Condition="Exists('packages\boost_timer-vc141.1.70.0.0\build\boost_timer-vc141.targets')" />
-    <Import Project="packages\boost_type_erasure-vc141.1.70.0.0\build\boost_type_erasure-vc141.targets" Condition="Exists('packages\boost_type_erasure-vc141.1.70.0.0\build\boost_type_erasure-vc141.targets')" />
-    <Import Project="packages\boost_unit_test_framework-vc141.1.70.0.0\build\boost_unit_test_framework-vc141.targets" Condition="Exists('packages\boost_unit_test_framework-vc141.1.70.0.0\build\boost_unit_test_framework-vc141.targets')" />
-    <Import Project="packages\boost_wave-vc141.1.70.0.0\build\boost_wave-vc141.targets" Condition="Exists('packages\boost_wave-vc141.1.70.0.0\build\boost_wave-vc141.targets')" />
-    <Import Project="packages\boost_wserialization-vc141.1.70.0.0\build\boost_wserialization-vc141.targets" Condition="Exists('packages\boost_wserialization-vc141.1.70.0.0\build\boost_wserialization-vc141.targets')" />
-    <Import Project="packages\boost_zlib-vc141.1.70.0.0\build\boost_zlib-vc141.targets" Condition="Exists('packages\boost_zlib-vc141.1.70.0.0\build\boost_zlib-vc141.targets')" />
-    <Import Project="packages\boost-vc141.1.70.0.0\build\boost-vc141.targets" Condition="Exists('packages\boost-vc141.1.70.0.0\build\boost-vc141.targets')" />
+    <Import Project="packages\boost.1.67.0.0\build\boost.targets" Condition="Exists('packages\boost.1.67.0.0\build\boost.targets')" />
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
@@ -654,47 +615,6 @@
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets'))" />
-    <Error Condition="!Exists('packages\boost.1.70.0.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.70.0.0\build\boost.targets'))" />
-    <Error Condition="!Exists('packages\boost_atomic-vc141.1.70.0.0\build\boost_atomic-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_atomic-vc141.1.70.0.0\build\boost_atomic-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_bzip2-vc141.1.70.0.0\build\boost_bzip2-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_bzip2-vc141.1.70.0.0\build\boost_bzip2-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_chrono-vc141.1.70.0.0\build\boost_chrono-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_chrono-vc141.1.70.0.0\build\boost_chrono-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_container-vc141.1.70.0.0\build\boost_container-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_container-vc141.1.70.0.0\build\boost_container-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_context-vc141.1.70.0.0\build\boost_context-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_context-vc141.1.70.0.0\build\boost_context-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_contract-vc141.1.70.0.0\build\boost_contract-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_contract-vc141.1.70.0.0\build\boost_contract-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_coroutine-vc141.1.70.0.0\build\boost_coroutine-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_coroutine-vc141.1.70.0.0\build\boost_coroutine-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_date_time-vc141.1.70.0.0\build\boost_date_time-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_date_time-vc141.1.70.0.0\build\boost_date_time-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_exception-vc141.1.70.0.0\build\boost_exception-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_exception-vc141.1.70.0.0\build\boost_exception-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_fiber-vc141.1.70.0.0\build\boost_fiber-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_fiber-vc141.1.70.0.0\build\boost_fiber-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_filesystem-vc141.1.70.0.0\build\boost_filesystem-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_filesystem-vc141.1.70.0.0\build\boost_filesystem-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_graph-vc141.1.70.0.0\build\boost_graph-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_graph-vc141.1.70.0.0\build\boost_graph-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_iostreams-vc141.1.70.0.0\build\boost_iostreams-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_iostreams-vc141.1.70.0.0\build\boost_iostreams-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_locale-vc141.1.70.0.0\build\boost_locale-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_locale-vc141.1.70.0.0\build\boost_locale-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_log-vc141.1.70.0.0\build\boost_log-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_log-vc141.1.70.0.0\build\boost_log-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_log_setup-vc141.1.70.0.0\build\boost_log_setup-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_log_setup-vc141.1.70.0.0\build\boost_log_setup-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_math_c99-vc141.1.70.0.0\build\boost_math_c99-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_math_c99-vc141.1.70.0.0\build\boost_math_c99-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_math_c99f-vc141.1.70.0.0\build\boost_math_c99f-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_math_c99f-vc141.1.70.0.0\build\boost_math_c99f-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_math_c99l-vc141.1.70.0.0\build\boost_math_c99l-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_math_c99l-vc141.1.70.0.0\build\boost_math_c99l-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_math_tr1-vc141.1.70.0.0\build\boost_math_tr1-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_math_tr1-vc141.1.70.0.0\build\boost_math_tr1-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_math_tr1f-vc141.1.70.0.0\build\boost_math_tr1f-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_math_tr1f-vc141.1.70.0.0\build\boost_math_tr1f-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_math_tr1l-vc141.1.70.0.0\build\boost_math_tr1l-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_math_tr1l-vc141.1.70.0.0\build\boost_math_tr1l-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_prg_exec_monitor-vc141.1.70.0.0\build\boost_prg_exec_monitor-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_prg_exec_monitor-vc141.1.70.0.0\build\boost_prg_exec_monitor-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_program_options-vc141.1.70.0.0\build\boost_program_options-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_program_options-vc141.1.70.0.0\build\boost_program_options-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_python37-vc141.1.70.0.0\build\boost_python37-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_python37-vc141.1.70.0.0\build\boost_python37-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_random-vc141.1.70.0.0\build\boost_random-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_random-vc141.1.70.0.0\build\boost_random-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_regex-vc141.1.70.0.0\build\boost_regex-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_regex-vc141.1.70.0.0\build\boost_regex-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_serialization-vc141.1.70.0.0\build\boost_serialization-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_serialization-vc141.1.70.0.0\build\boost_serialization-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_stacktrace_noop-vc141.1.70.0.0\build\boost_stacktrace_noop-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_stacktrace_noop-vc141.1.70.0.0\build\boost_stacktrace_noop-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_stacktrace_windbg-vc141.1.70.0.0\build\boost_stacktrace_windbg-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_stacktrace_windbg-vc141.1.70.0.0\build\boost_stacktrace_windbg-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_stacktrace_windbg_cached-vc141.1.70.0.0\build\boost_stacktrace_windbg_cached-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_stacktrace_windbg_cached-vc141.1.70.0.0\build\boost_stacktrace_windbg_cached-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_system-vc141.1.70.0.0\build\boost_system-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_system-vc141.1.70.0.0\build\boost_system-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_test_exec_monitor-vc141.1.70.0.0\build\boost_test_exec_monitor-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_test_exec_monitor-vc141.1.70.0.0\build\boost_test_exec_monitor-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_thread-vc141.1.70.0.0\build\boost_thread-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_thread-vc141.1.70.0.0\build\boost_thread-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_timer-vc141.1.70.0.0\build\boost_timer-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_timer-vc141.1.70.0.0\build\boost_timer-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_type_erasure-vc141.1.70.0.0\build\boost_type_erasure-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_type_erasure-vc141.1.70.0.0\build\boost_type_erasure-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_unit_test_framework-vc141.1.70.0.0\build\boost_unit_test_framework-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_unit_test_framework-vc141.1.70.0.0\build\boost_unit_test_framework-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_wave-vc141.1.70.0.0\build\boost_wave-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_wave-vc141.1.70.0.0\build\boost_wave-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_wserialization-vc141.1.70.0.0\build\boost_wserialization-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_wserialization-vc141.1.70.0.0\build\boost_wserialization-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost_zlib-vc141.1.70.0.0\build\boost_zlib-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_zlib-vc141.1.70.0.0\build\boost_zlib-vc141.targets'))" />
-    <Error Condition="!Exists('packages\boost-vc141.1.70.0.0\build\boost-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost-vc141.1.70.0.0\build\boost-vc141.targets'))" />
+    <Error Condition="!Exists('packages\boost.1.67.0.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.67.0.0\build\boost.targets'))" />
   </Target>
 </Project>

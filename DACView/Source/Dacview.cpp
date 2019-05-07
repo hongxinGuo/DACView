@@ -6,6 +6,8 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include"afxvisualmanager.h"
+
 #include <afxpriv.h>    // for idle-update windows message
 
 #include "omp.h"
@@ -178,6 +180,8 @@ BOOL CDacviewApp::InitInstance() {
 }
 
 int CDacviewApp::ExitInstance( void ) {
+
+  CMFCVisualManager::DestroyInstance(TRUE); // 使用可视化控件后，需要手动释放内存。
 
   return( CWinApp::ExitInstance() );
 }

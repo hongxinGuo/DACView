@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "..\\resource.h"
-#include "DlgObjCompd.h"
+#include "DlgObjComponent.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -44,7 +44,6 @@ void CDlgSetComponentProperty::DoDataExchange(CDataExchange* pDX)
   CDialog::DoDataExchange(pDX);
   //{{AFX_DATA_MAP(CDlgSetComponentProperty)
   DDX_Text(pDX, IDC_ObjectName, m_ObjectName);
-  DDX_Text(pDX, IDC_BITMAP, m_strBitmap);
 	DDX_Text(pDX, IDC_EDIT_SCANRATE, m_eScanRate);
 	DDV_MinMaxDouble(pDX, m_eScanRate, 1.e-003, 100000000000.);
 	//}}AFX_DATA_MAP
@@ -56,6 +55,8 @@ BEGIN_MESSAGE_MAP(CDlgSetComponentProperty, CDlgObject)
   ON_BN_CLICKED(IDC_BUTTONBACKCOLOR, OnClickedButtonbackcolor)
   ON_BN_CLICKED(IDC_BUTTONFORECOLOR, OnClickedButtonforecolor)
   //}}AFX_MSG_MAP
+//  ON_EN_CHANGE(IDC_MFCEDITBROWSE1, &CDlgSetComponentProperty::OnEnChangeMfceditbrowse1)
+//  ON_BN_CLICKED(IDOK, &CDlgSetComponentProperty::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -65,7 +66,9 @@ BOOL CDlgSetComponentProperty::OnInitDialog()
 {
   CDialog::OnInitDialog();
 
-  return( TRUE );
+  SetDlgItemText(IDC_MFCEDITBROWSE1, m_strBitmap);
+
+  return(true);
 }
 
 void CDlgSetComponentProperty::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDraw)
@@ -105,3 +108,12 @@ void CDlgSetComponentProperty::OnClickedButtonforecolor()
   Invalidate();
 }
 
+
+void CDlgSetComponentProperty::OnOK()
+{
+  // TODO: 在此添加专用代码和/或调用基类
+
+  GetDlgItemText(IDC_MFCEDITBROWSE1, m_strBitmap);
+
+  CDlgObject::OnOK();
+}

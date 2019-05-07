@@ -251,6 +251,7 @@
 #define IDC_LIST_COMPONENT_DEL          288
 #define IDC_COMBO_CHOICE_CUCPARAMETER   289
 #define IDC_LIST_UNITCOMPONENT          292
+#define IDC_MFCEDITBROWSE1              294
 #define IDC_COMBO4                      323
 #define IDC_ORDER1                      323
 #define IDC_COMBO5                      324
@@ -501,6 +502,8 @@
 #define ID_ARRANGE_ENCAPSULATION        32941
 #define ID_ARRANGE_LinkFromComponent    32943
 #define ID_OPTION_SYSTEM                32944
+#define ID_OBJECTS_SYMBOL               32945
+#define ID_OBJECT_SYMBOL                32946
 #define ID_STYLE_LEFT                   33000
 #define ID_STYLE_CENTERED               33001
 #define ID_STYLE_RIGHT                  33002
@@ -510,9 +513,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        167
-#define _APS_NEXT_COMMAND_VALUE         32945
-#define _APS_NEXT_CONTROL_VALUE         294
+#define _APS_NEXT_RESOURCE_VALUE        169
+#define _APS_NEXT_COMMAND_VALUE         32947
+#define _APS_NEXT_CONTROL_VALUE         295
 #define _APS_NEXT_SYMED_VALUE           163
 #endif
 #endif

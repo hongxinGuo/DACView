@@ -350,9 +350,6 @@
     <Object Include="..\..\x64\Debug\DlgObjButton.obj">
       <Filter>dependency</Filter>
     </Object>
-    <Object Include="..\..\x64\Debug\DlgObjCompd.obj">
-      <Filter>dependency</Filter>
-    </Object>
     <Object Include="..\..\x64\Debug\DlgObjDeleteDynLink.obj">
       <Filter>dependency</Filter>
     </Object>
@@ -474,6 +471,9 @@
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\SQIObjectView.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\DlgObjComponent.obj">
       <Filter>dependency</Filter>
     </Object>
   </ItemGroup>

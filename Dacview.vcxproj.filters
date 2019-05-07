@@ -289,9 +289,6 @@
     <ClInclude Include="DACView\Source\Objects\DlgObjButton.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\DlgObjCompd.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Objects\DLGOBJECT.H">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -568,11 +565,17 @@
     <ClInclude Include="DACView\Source\CompileUnitList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\CObjComponent.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\SQIObjectView.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjComponent.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjComponent.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -628,9 +631,6 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\DlgObjButton.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Objects\DlgObjCompd.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\DlgObject.cpp">
@@ -825,9 +825,6 @@
     <ClCompile Include="DACView\Source\Accesory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\CObjComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\CObjDynLink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -914,6 +911,12 @@
     </ClCompile>
     <ClCompile Include="DACView\Source\SQIObjectView.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\CObjComponent.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\DlgObjComponent.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

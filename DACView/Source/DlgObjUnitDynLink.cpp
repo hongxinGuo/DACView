@@ -442,8 +442,8 @@ void CDynamicLinkDlg::OnOK()
 		pNewUnit = pNewDynLink->GetUnit();
 		ulNewUnitIndex = pNewDynLink->GetUnitIndex();
 		if ( !pNewDynLink->IsUnitToObject() ) {
-// clear flag
-pNewUnit->SetParameterLock(ulNewUnitIndex, FALSE);
+      // clear flag
+      pNewUnit->SetParameterLock(ulNewUnitIndex, FALSE);
     }
   }
 
@@ -462,6 +462,7 @@ pNewUnit->SetParameterLock(ulNewUnitIndex, FALSE);
   }
   m_plistNewDynLink->clear();
   delete m_plistNewDynLink;
+
   CDialog::OnOK();
 }
 

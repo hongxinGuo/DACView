@@ -10,11 +10,17 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include<boost/gil/gil_all.hpp>
+#include <boost/gil/image.hpp>
+#include <boost/gil/typedefs.hpp>
+#include <boost/gil/extension/io/jpeg_io.hpp>
+using namespace boost::gil;
+
 using namespace std;
 #include<memory>
 
 #include "cObjComponentBase.h"
-#include "DlgObjCompd.h"
+#include "DlgObjComponent.h"
 
 #include "dibapi.h"
 
@@ -56,6 +62,7 @@ protected:
 	CString						m_strBitmap;
 	
 	// noserialize data          
-	HDIB 							    m_hDIB;
-	shared_ptr<CPalette>	m_palDIB;
+  rgb8_image_t      m_img;
+  bool              m_fLoadBitmap;
+
 };

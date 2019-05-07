@@ -19,23 +19,17 @@ static char THIS_FILE[] = __FILE__;
 CObjectComponent::CObjectComponent(CString s, CRect r) 
   : CObjectComponentBase(s, r) {
 	m_strBitmap = "";
-	m_hDIB = nullptr;
-	m_palDIB = nullptr;
-  m_fCreateMemoryDC = FALSE;
+  m_fCreateMemoryDC = false;
+  m_fLoadBitmap = false;
 
 }
 
 CObjectComponent::CObjectComponent( void ) : CObjectComponentBase( ) {
-	m_hDIB = nullptr;
-	m_palDIB = nullptr;
-  m_fCreateMemoryDC = FALSE;
+  m_fCreateMemoryDC = false;
+  m_fLoadBitmap = false;
 }
 	
 CObjectComponent::~CObjectComponent() {
-	if (m_hDIB != nullptr)
-	{
-		::GlobalFree((HGLOBAL) m_hDIB);
-	}
 }
 
 bool CObjectComponent::IsNeedUpdate( void ) {
@@ -77,56 +71,23 @@ void CObjectComponent::Serialize( CArchive& ar ) {
   }
   else {
     // TODO: add loading code here
-    switch ( ar.GetObjectSchema() ) {
-    case 1 :
-    case -1 :
-		  ar >> m_strBitmap;
+    switch (ar.GetObjectSchema()) {
+    case 1:
+    case -1:
+      ar >> m_strBitmap;
       break;
-    default :
+    default:
       ShowMessage(IDS_WARN_LOAD_OBJECT_VERSION, "Cpt");
       break;
     }
-    
-		if ( m_strBitmap.IsEmpty() ) return;
 
-		CFile file;
-		CFileException fe;
-		if (!file.Open(m_strBitmap, CFile::modeRead | CFile::shareDenyWrite, &fe))
-		{
-			ShowMessage(ID_ERROR_FIND_FILE, (LPCTSTR)m_strName, (LPCTSTR)m_strBitmap);
-			return;
-		}
-    TRY
-		{
-			m_hDIB = ReadDIBFile(file);
-		}
-		CATCH (CFileException, eLoad)
-		{
-			file.Abort(); // will not throw an exception
-			m_hDIB = nullptr;
-			ShowMessage(ID_ERROR_READ_FILE, (LPCTSTR)m_strBitmap);
-			return;
-		}
-		END_CATCH
-		if (m_hDIB == nullptr)
-		{
-			return;
-		}
-		// Create copy of palette
-		m_palDIB = make_shared<CPalette>();
-		if (m_palDIB == nullptr)
-		{
-			// we must be really low on memory
-			::GlobalFree((HGLOBAL) m_hDIB);
-			m_hDIB = nullptr;
-			ShowMessage(ID_ERROR_OUT_OF_MEMORY, "");
-			return;
-		}
-		if (::CreateDIBPalette(m_hDIB, m_palDIB.get()) == NULL)
-		{
-			// DIB may not have a palette
-		}   
-  } 
+    if (m_strBitmap.IsEmpty()) return;
+
+    string str;
+    str = m_strBitmap;
+    jpeg_read_image(str, m_img);
+    m_fLoadBitmap = true;
+  }
 } 
 
 const CString& CObjectComponent::GetClassNameStr( void ) {
@@ -141,18 +102,8 @@ void CObjectComponent::ToShowStatic( CDC * const pdc, CPoint  ) {
 
   rectArea += pt;
   if ( pdc->RectVisible(rectArea) ) {  	// if I need to redraw ?
-		if (m_hDIB != nullptr) {
-			LPSTR lpDIB = (LPSTR) ::GlobalLock((HGLOBAL) m_hDIB);
-			int cxDIB = (int) DIBWidth(lpDIB);         // Size of DIB - x
-			int cyDIB = (int) DIBHeight(lpDIB);        // Size of DIB - y
-			::GlobalUnlock((HGLOBAL) m_hDIB);
-			CRect rcDIB;
-			rcDIB.top = 0;
-			rcDIB.left = 0;
-			rcDIB.right = cxDIB;
-			rcDIB.bottom = cyDIB;
-			PaintDIB(pdc->GetSafeHdc(), &rectArea, m_hDIB,
-				&rcDIB, m_palDIB.get());
+		if (m_fLoadBitmap) {
+      
 		}
 		else {
   		CBrush cbb, *pcb;
@@ -173,18 +124,7 @@ void CObjectComponent::ToShowDynamic( CDC * const pdc ) {
   CRect rectArea = m_rectArea;
 
   m_rectLastTime = m_rectArea;
-	if (m_hDIB != nullptr) {
-		LPSTR lpDIB = (LPSTR) ::GlobalLock((HGLOBAL) m_hDIB);
-		int cxDIB = (int) DIBWidth(lpDIB);         // Size of DIB - x
-		int cyDIB = (int) DIBHeight(lpDIB);        // Size of DIB - y
-		::GlobalUnlock((HGLOBAL) m_hDIB);
-		CRect rcDIB;
-		rcDIB.top = 0;
-		rcDIB.left = 0;
-		rcDIB.right = cxDIB;
-		rcDIB.bottom = cyDIB;
-		PaintDIB(pdc->GetSafeHdc(), &rectArea, m_hDIB,
-			&rcDIB, m_palDIB.get());
+	if (m_fLoadBitmap) {
 	}
 	else {
   	CBrush cbb, *pcb;
@@ -211,35 +151,11 @@ bool CObjectComponent::SetProperty( void ) {
   if ( CDlg.DoModal() == IDOK ) {
     CDlg.GetData( m_clrForeGrd, m_clrBkGrd, m_strName, m_strBitmap, m_lScanRate );
 
-	  CFile file;
-	  CFileException fe;
-	  if (!file.Open(m_strBitmap, CFile::modeRead | CFile::shareDenyWrite, &fe)) {
-		  return( FALSE );
-	  }
-    TRY {
-		  m_hDIB = ReadDIBFile(file);
-	  }
-	  CATCH (CFileException, eLoad) {
-		  file.Abort(); // will not throw an exception
-		  m_hDIB = nullptr;
-		  return(false);
-	  }
-	  END_CATCH 
-	
-	  if (m_hDIB == nullptr) {
-		  return(false);
-	  }
-	  // Create copy of palette
-	  m_palDIB = make_shared<CPalette>();
-	  if (m_palDIB == nullptr) {
-		// we must be really low on memory
-		  ::GlobalFree((HGLOBAL) m_hDIB);
-		  m_hDIB = nullptr;
-		  return(false);
-	  }
-	  if (CreateDIBPalette(m_hDIB, m_palDIB.get()) == NULL) {
-		// DIB may not have a palette
-	  }
+    string str;
+    str = m_strBitmap;
+    jpeg_read_image(str, m_img);
+    m_fLoadBitmap = true;
+
     return(false);
   }
   return(false);

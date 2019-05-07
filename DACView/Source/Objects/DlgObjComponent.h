@@ -43,5 +43,9 @@ protected:
 	afx_msg void OnClickedButtonforecolor();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+public:
+//  afx_msg void OnEnChangeMfceditbrowse1();
+//  afx_msg void OnBnClickedOk();
+  virtual void OnOK();
 };
 
