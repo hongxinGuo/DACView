@@ -129,7 +129,7 @@ void CObjectComponent::Serialize( CArchive& ar ) {
   } 
 } 
 
-const CString& CObjectComponent::GetClassName( void ) {
+const CString& CObjectComponent::GetClassNameStr( void ) {
   static CString s_strClassName = "Cpt";
 
   return(s_strClassName);

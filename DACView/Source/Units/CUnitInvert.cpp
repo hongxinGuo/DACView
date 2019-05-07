@@ -103,7 +103,7 @@ void CUnitInvert::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitInvert::GetClassName( void ) {
+const CString& CUnitInvert::GetClassNameStr( void ) {
   static CString str = "Invert";
   return(str);
 }

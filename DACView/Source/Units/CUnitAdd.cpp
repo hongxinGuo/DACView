@@ -114,7 +114,7 @@ void CUnitAdd::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitAdd::GetClassName( void ) {
+const CString& CUnitAdd::GetClassNameStr( void ) {
   static CString str = "Add";
   return(str);
 }

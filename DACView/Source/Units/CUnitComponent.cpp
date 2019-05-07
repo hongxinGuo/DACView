@@ -145,7 +145,7 @@ CUnitComponent::~CUnitComponent() {
 	for (auto pcunit : m_CUnitList) {
 		delete pcunit;
 	}
-	//  TRACE("%d units in %s %s deleted\n", i, this->GetClassName(), m_strName);                  
+	//  TRACE("%d units in %s %s deleted\n", i, this->GetClassNameStr(), m_strName);                  
 		// release list's memory
 	m_CUnitList.clear();
 	m_CRunTimeUnitList.clear();
@@ -427,7 +427,7 @@ void CUnitComponent::CheckInnerDataLink(INT64 lSrcIndex, INT64 lDestParaPos, CUn
   // 运行到这里，则表明没有发现循环或者截断标志
 }
 
-const CString& CUnitComponent::GetClassName( void ) {
+const CString& CUnitComponent::GetClassNameStr( void ) {
   static CString str = "Cpt";
   return(str);
 }

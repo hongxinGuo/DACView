@@ -24,7 +24,7 @@ namespace DACViewTest {
     EXPECT_STREQ("ScanRate", c.GetParaName(5));
     EXPECT_STREQ("", c.GetParaName(6));
 
-    EXPECT_STREQ("Invert", c.GetClassName());
+    EXPECT_STREQ("Invert", c.GetClassNameStr());
 
     CUnitInvert c2;
     rect = c2.GetSize();

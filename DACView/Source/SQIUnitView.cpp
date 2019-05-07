@@ -1295,7 +1295,7 @@ void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
   case UNIT_SELECTED:
     if (IsInRect(ptDevice, m_pCUnitMouseMove)) {  // current mouse position is in object ?
       // show current unit's name on status bar
-      str = m_pCUnitMouseMove->GetClassName();
+      str = m_pCUnitMouseMove->GetClassNameStr();
       str += "->";
       str += m_pCUnitMouseMove->GetName();
     }
@@ -1466,7 +1466,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
     } // switch 
 
     ASSERT(m_pCUnitCurrent != NULL);
-    strTemp = m_pCUnitCurrent->GetClassName() + strTemp;
+    strTemp = m_pCUnitCurrent->GetClassNameStr() + strTemp;
     m_pCUnitCurrent->SetName(strTemp);
     m_pCUnitCurrent->SetComponentUpper(m_pCUnitComponentCurrent);
 		__SetDocModifiedFlag();  // document's content is changed

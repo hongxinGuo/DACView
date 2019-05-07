@@ -433,7 +433,7 @@ bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
   if ( fFind ) {
     while ( !fDone ) {
       _itoa_s(iTemp++, s, 10);
-      m_strName = GetClassName() + s;
+      m_strName = GetClassNameStr() + s;
       fDone = true;
       for (const auto pcunit : listUnit) {
         if ( m_strName == pcunit->GetName() ) {
@@ -686,7 +686,7 @@ void CUnitBase::SetParaLockFlag( void ) {
 } 
 
 // virtual function declaretion
-const CString& CUnitBase::GetClassName( void ) {
+const CString& CUnitBase::GetClassNameStr( void ) {
   static CString str = "UnitBase";      
   return( str );
 }

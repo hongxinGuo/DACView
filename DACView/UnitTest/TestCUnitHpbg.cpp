@@ -30,7 +30,7 @@ namespace DACViewTest {
     EXPECT_STREQ("ScanRate", c.GetParaName(6));
     EXPECT_STREQ("", c.GetParaName(7));
 
-    EXPECT_STREQ("HPBG", c.GetClassName());
+    EXPECT_STREQ("HPBG", c.GetClassNameStr());
 
     CUnitHighPassBargin c2;
     rect = c2.GetSize();
@@ -71,7 +71,7 @@ namespace DACViewTest {
   }
   TEST(TestCUnitHighPassBargin, TestGetClassname) {
     CUnitHighPassBargin c;
-    EXPECT_STREQ("HPBG", c.GetClassName());
+    EXPECT_STREQ("HPBG", c.GetClassNameStr());
   }
 
   TEST(TestCUnitHighPassBargin, TestGetParaName) {

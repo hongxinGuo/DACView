@@ -27,7 +27,7 @@ namespace DACViewTest {
   TEST(TestCObjectFillBar, TestGetClassNameStr) {
     CObjectFillBar c;
 
-    EXPECT_STREQ("FillBar", c.GetClassName());
+    EXPECT_STREQ("FillBar", c.GetClassNameStr());
   }
 
   TEST(TestCObjectFillBar, TestExectiveDynLink) {

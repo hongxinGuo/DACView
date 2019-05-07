@@ -138,7 +138,7 @@ void CUnitPID::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitPID::GetClassName( void ) {
+const CString& CUnitPID::GetClassNameStr( void ) {
   static CString s_strClassName = "PID";
   return(s_strClassName);
 }

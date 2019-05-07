@@ -177,7 +177,7 @@ bool CObjectSymbol::SetRectPosition(ULONG index, LONG lValue) {
   return( FALSE );
 }
 
-const CString& CObjectSymbol::GetClassName( void ) {
+const CString& CObjectSymbol::GetClassNameStr( void ) {
   static CString s_strClassName = "Symbol";
 
   return(s_strClassName);

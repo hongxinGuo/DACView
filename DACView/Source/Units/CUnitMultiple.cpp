@@ -113,7 +113,7 @@ void CUnitMultiple::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitMultiple::GetClassName( void ) {
+const CString& CUnitMultiple::GetClassNameStr( void ) {
   static CString str = "Multiple";
   return(str);
 }

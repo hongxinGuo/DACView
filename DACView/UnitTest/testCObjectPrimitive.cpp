@@ -15,7 +15,7 @@ namespace DACViewTest {
 		// TODO: Your test code here
 		CObjectPrimitive c;
 		CString str = "CObjectPrimitive";
-		CString str2 = c.GetClassName();
+		CString str2 = c.GetClassNameStr();
 		EXPECT_STREQ(str, str2);
 	}
 

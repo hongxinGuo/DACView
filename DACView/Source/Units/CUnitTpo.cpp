@@ -116,7 +116,7 @@ void CUnitTPO::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitTPO::GetClassName( void ) {
+const CString& CUnitTPO::GetClassNameStr( void ) {
   static CString str = "TPO";
   return(str);
 }

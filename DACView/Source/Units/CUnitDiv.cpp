@@ -114,7 +114,7 @@ void CUnitDivide::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitDivide::GetClassName( void ) {
+const CString& CUnitDivide::GetClassNameStr( void ) {
   static CString str = "Divide";
   return(str);
 }

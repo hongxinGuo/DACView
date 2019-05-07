@@ -12,7 +12,7 @@
 // FormatSave			:
 //
 // GetName				:
-// GetClassName   :
+// GetClassNameStr   :
 // SetName				:
 // 
 //
@@ -125,9 +125,9 @@ void CObjectPrimitive::FormatSave( CArchive&  ) {
 void CObjectPrimitive::FormatRead( CArchive&  ) {
 }
 
-const CString& CObjectPrimitive::GetClassName( void ) {
+const CString& CObjectPrimitive::GetClassNameStr( void ) {
   static CString str= "CObjectPrimitive";
-  TRACE("Call CObjectPrimitive's GetClassName, problely error\n");
+  TRACE("Call CObjectPrimitive's GetClassNameStr, problely error\n");
   return( str );
 }
 

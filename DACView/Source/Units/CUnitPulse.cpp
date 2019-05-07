@@ -100,7 +100,7 @@ void CUnitPulse::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitPulse::GetClassName( void ) {
+const CString& CUnitPulse::GetClassNameStr( void ) {
   static CString str = "Pulse";
   return(str);
 }

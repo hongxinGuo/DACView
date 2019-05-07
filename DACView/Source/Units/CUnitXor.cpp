@@ -104,7 +104,7 @@ void CUnitXor::ClearParaSelectedFlag(void)
   }
 }
 
-const CString& CUnitXor::GetClassName( void ) {
+const CString& CUnitXor::GetClassNameStr( void ) {
   static CString str = "Xor";
   return(str);
 }

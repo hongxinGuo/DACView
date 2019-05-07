@@ -121,7 +121,7 @@ void CUnitSine::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitSine::GetClassName( void ) {
+const CString& CUnitSine::GetClassNameStr( void ) {
   static CString str = "UnitSine";
   return(str);
 }

@@ -124,7 +124,7 @@ void CUnitTOT::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitTOT::GetClassName( void ) {
+const CString& CUnitTOT::GetClassNameStr( void ) {
   static CString str = "Total";
   return(str);
 }

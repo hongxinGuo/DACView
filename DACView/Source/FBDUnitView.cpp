@@ -472,7 +472,7 @@ void CFBDUnitView::OnMouseMove(UINT nFlags, CPoint point)
   if ( m_pCUnitCurrent == nullptr ) {
     if ( IsInRect( ptDevice, pUnit ) ) {
       // show current unit's name on status bar
-      str = pUnit->GetClassName();
+      str = pUnit->GetClassNameStr();
       str += "->";
       str += pUnit->GetName();
 	  }

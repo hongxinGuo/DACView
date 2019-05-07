@@ -91,7 +91,7 @@ public:
                                        INT64 lDestParaPos,      // 联入本部件动态链接的目的参数位置 
                                        CUnitList * pCUnitList) override; // 存储当前寻找到的单元序列.
 
-  virtual const CString&    GetClassName(void) override;
+  virtual const CString&    GetClassNameStr(void) override;
   virtual bool              IsMe(const CString& strName) override;
   virtual void              ToShow(CDC * const pdc) override;    // draw myself on DC
 

@@ -108,7 +108,7 @@ void CObjectSlider::Serialize( CArchive& ar ) {
   }
 } 
 
-const CString& CObjectSlider::GetClassName( void ) {
+const CString& CObjectSlider::GetClassNameStr( void ) {
   static CString s_strClassName = "Slider";
 
   return(s_strClassName);

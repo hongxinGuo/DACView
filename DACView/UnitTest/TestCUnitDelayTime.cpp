@@ -50,7 +50,7 @@ namespace DACViewTest {
   }
   TEST(TestCUnitDelayTime, TestGetClassname) {
     CUnitDelayTime c;
-    EXPECT_STREQ("DelayTime", c.GetClassName());
+    EXPECT_STREQ("DelayTime", c.GetClassNameStr());
   }
 
   TEST(TestCUnitDelayTime, TestGetParaName) {

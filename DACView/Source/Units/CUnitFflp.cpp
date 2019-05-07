@@ -107,7 +107,7 @@ void CUnitFFLP::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitFFLP::GetClassName( void ) {
+const CString& CUnitFFLP::GetClassNameStr( void ) {
   static CString str = "FFLP";
   return(str);
 }

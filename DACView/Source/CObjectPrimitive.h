@@ -36,7 +36,7 @@ public:
 	virtual void 			SetName(const CString& strName ) { m_strName = strName; }
 	
 	// 得到本类的类名
-	virtual const CString&	GetClassName( void );
+	virtual const CString&	GetClassNameStr( void );
 	
 	virtual void 			FormatSave( CArchive& ar );
 	virtual void 			FormatRead( CArchive& ar );

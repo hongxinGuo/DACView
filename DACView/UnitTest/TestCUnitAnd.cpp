@@ -25,7 +25,7 @@ namespace DACViewTest {
     EXPECT_STREQ("ScanRate", c.GetParaName(6));
     EXPECT_STREQ("", c.GetParaName(7));
     
-    EXPECT_STREQ("And", c.GetClassName());
+    EXPECT_STREQ("And", c.GetClassNameStr());
 
     CUnitAnd c2;
     rect = c2.GetSize();

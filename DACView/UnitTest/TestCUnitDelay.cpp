@@ -22,7 +22,7 @@ namespace DACViewTest {
     EXPECT_STREQ("ScanRate", c.GetParaName(3));
     EXPECT_STREQ("", c.GetParaName(4));
 
-    EXPECT_STREQ("UnitDelay", c.GetClassName());
+    EXPECT_STREQ("UnitDelay", c.GetClassNameStr());
 
     CUnitDelay c2;
     rect = c2.GetSize();

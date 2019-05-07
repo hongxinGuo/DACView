@@ -17,7 +17,7 @@ public:
   
 // Operations
 public:          
-	virtual const CString&	GetClassName( void ) override;
+	virtual const CString&	GetClassNameStr( void ) override;
 	virtual CString     GetParaName( ULONG index ) override;
 
 		virtual ULONG		GetParaType( ULONG ulIndex ) override;

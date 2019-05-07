@@ -106,7 +106,7 @@ void CUnitMiddleSelect::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitMiddleSelect::GetClassName( void ) {
+const CString& CUnitMiddleSelect::GetClassNameStr( void ) {
   static CString str = "MiddleSelect";
   return(str);
 }

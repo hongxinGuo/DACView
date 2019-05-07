@@ -122,7 +122,7 @@ void CUnitOr::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitOr::GetClassName( void ) {
+const CString& CUnitOr::GetClassNameStr( void ) {
   static CString str = "Or";
   return(str);
 }

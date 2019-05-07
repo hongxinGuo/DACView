@@ -824,7 +824,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 						ASSERT(0);
 					} // switch gl_ulDrawTool
 					pDoc->SetModifiedFlag(TRUE); // document's content is changed
-					strTemp = m_pCObjectCurrent->GetClassName() + strTemp;
+					strTemp = m_pCObjectCurrent->GetClassNameStr() + strTemp;
 					m_pCObjectCurrent->SetName(strTemp);
 					m_pCObjectCurrent->SetSelect(TRUE);
 					if (m_pCObjectComponentUpper != nullptr) {
@@ -924,7 +924,7 @@ void CSQIObjectView::OnMouseMove(UINT nFlags, CPoint point)
 	case OBJECT_PRE_SELECT :
 		if ( IsInRect( ptDevice, m_pCObjectMouseMove) ) {  // current mouse position is in object ?
       // show current object's name
-      str = m_pCObjectMouseMove->GetClassName();
+      str = m_pCObjectMouseMove->GetClassNameStr();
       str += "->";
       str += m_pCObjectMouseMove->GetName();
     }

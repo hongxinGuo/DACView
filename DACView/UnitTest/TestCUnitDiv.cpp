@@ -29,7 +29,7 @@ namespace DACViewTest {
     EXPECT_STREQ("ScanRate", c.GetParaName(10));
     EXPECT_STREQ("", c.GetParaName(11));
 
-    EXPECT_STREQ("Divide", c.GetClassName());
+    EXPECT_STREQ("Divide", c.GetClassNameStr());
 
     CUnitDivide c2;
     rect = c2.GetSize();

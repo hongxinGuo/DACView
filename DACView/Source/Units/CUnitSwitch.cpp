@@ -111,7 +111,7 @@ void CUnitSwitch::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitSwitch::GetClassName( void ) {
+const CString& CUnitSwitch::GetClassNameStr( void ) {
   static CString str = "UnitSwitch";
   return(str);
 }

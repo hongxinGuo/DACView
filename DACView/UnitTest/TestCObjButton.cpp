@@ -18,7 +18,7 @@ namespace DACViewTest {
     EXPECT_EQ(200, rect.right);
 
     EXPECT_FALSE(c.CanInSymbol());
-    EXPECT_STREQ("Button", c.GetClassName());
+    EXPECT_STREQ("Button", c.GetClassNameStr());
   }
 
   TEST(TestCObjectButton, TestGetDynLinkType) {

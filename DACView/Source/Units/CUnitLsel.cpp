@@ -106,7 +106,7 @@ void CUnitLowSelect::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitLowSelect::GetClassName( void ) {
+const CString& CUnitLowSelect::GetClassNameStr( void ) {
   static CString str = "LowSelect";
   return(str);
 }

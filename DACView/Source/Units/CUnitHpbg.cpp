@@ -107,7 +107,7 @@ void CUnitHighPassBargin::ClearParaSelectedFlag(void)
 }
 
 
-const CString& CUnitHighPassBargin::GetClassName( void ) {
+const CString& CUnitHighPassBargin::GetClassNameStr( void ) {
   static CString str = "HPBG";
   return(str);
 }
