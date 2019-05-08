@@ -22,14 +22,20 @@ CObjectComponent::CObjectComponent(CString s, CRect r)
   m_fCreateMemoryDC = false;
   m_fLoadBitmap = false;
 
+  m_pJpegFile = new char[5000 * 5000];
+
 }
 
 CObjectComponent::CObjectComponent( void ) : CObjectComponentBase( ) {
   m_fCreateMemoryDC = false;
   m_fLoadBitmap = false;
+  m_pJpegFile = new char[5000 * 5000];
+
+
 }
 	
 CObjectComponent::~CObjectComponent() {
+  delete[] m_pJpegFile;
 }
 
 bool CObjectComponent::IsNeedUpdate( void ) {
@@ -82,10 +88,16 @@ void CObjectComponent::Serialize( CArchive& ar ) {
     }
 
     if (m_strBitmap.IsEmpty()) return;
+/*
+    CFile file;
+    if (!file.Open(m_strBitmap, CFile::modeRead)) {
+    }
+    char buffer[512];
+    CArchive ar(&file, CArchive::load, 512, buffer);
+    m_iFileSize = ar.Read(m_pJpegFile, 5000 * 5000);
+    file.Close();
 
-    string str;
-    str = m_strBitmap;
-    jpeg_read_image(str, m_img);
+    */
     m_fLoadBitmap = true;
   }
 } 
@@ -102,8 +114,29 @@ void CObjectComponent::ToShowStatic( CDC * const pdc, CPoint  ) {
 
   rectArea += pt;
   if ( pdc->RectVisible(rectArea) ) {  	// if I need to redraw ?
-		if (m_fLoadBitmap) {
-      
+    if (m_fLoadBitmap) {
+      BITMAPINFO mapInfo;
+      CBrush cbb, *pcb;
+      CPen cpf, *pcp;
+      cpf.CreatePen(PS_SOLID, 1, m_clrForeGrd);
+      cbb.CreateSolidBrush(m_clrBkGrd);
+      pcp = pdc->SelectObject(&cpf);
+      pcb = pdc->SelectObject(&cbb);
+      pdc->Rectangle(rectArea);
+      pdc->SelectObject(pcb);
+      pdc->SelectObject(pcp);
+
+      memset(&mapInfo, 0, sizeof(mapInfo));
+      mapInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+      mapInfo.bmiHeader.biHeight = -m_img.height();
+      mapInfo.bmiHeader.biWidth = m_img.width();
+      mapInfo.bmiHeader.biPlanes = 1;
+      mapInfo.bmiHeader.biBitCount = 0;
+      mapInfo.bmiHeader.biCompression = BI_RGB;
+      mapInfo.bmiHeader.biSizeImage = m_img._view.size();
+      int iGet = StretchDIBits(pdc->m_hDC, 0, 0, m_img.width(), m_img.height(), 0, 0, m_img.width(), m_img.height(),
+         m_pJpegFile, &mapInfo, DIB_RGB_COLORS, SRCCOPY);
+      ASSERT(iGet != GDI_ERROR);
 		}
 		else {
   		CBrush cbb, *pcb;
@@ -151,11 +184,7 @@ bool CObjectComponent::SetProperty( void ) {
   if ( CDlg.DoModal() == IDOK ) {
     CDlg.GetData( m_clrForeGrd, m_clrBkGrd, m_strName, m_strBitmap, m_lScanRate );
 
-    string str;
-    str = m_strBitmap;
-    jpeg_read_image(str, m_img);
     m_fLoadBitmap = true;
-
     return(false);
   }
   return(false);

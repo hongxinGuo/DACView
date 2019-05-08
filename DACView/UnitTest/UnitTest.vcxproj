@@ -252,6 +252,7 @@
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>jpeg64.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>true</Profile>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>

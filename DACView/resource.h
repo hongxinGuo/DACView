@@ -159,6 +159,8 @@
 #define IDB_UNIT_SWCH                   179
 #define IDC_NUMBER_OF_INPUT             180
 #define IDC_NUMBER_OF_STEP              181
+#define IDB_BITMAP1                     181
+#define IDB_BITMAP_M31                  181
 #define IDC_INIT_COIL                   182
 #define IDC_INIT_OUTPUT                 183
 #define IDC_STEP1_INPUT_PATTERN         184
@@ -513,7 +515,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        169
+#define _APS_NEXT_RESOURCE_VALUE        182
 #define _APS_NEXT_COMMAND_VALUE         32947
 #define _APS_NEXT_CONTROL_VALUE         295
 #define _APS_NEXT_SYMED_VALUE           163

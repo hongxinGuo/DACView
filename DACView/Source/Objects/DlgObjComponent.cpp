@@ -23,7 +23,7 @@ void CDlgSetComponentProperty::GetData( COLORREF &colorFore, COLORREF &colorBk, 
   colorBk = m_clrBkGrd;
   Name = m_ObjectName;
   Bitmap = m_strBitmap;
-	ulScanRate = (INT32)(m_eScanRate * 100);
+	ulScanRate = (INT32)(m_eScanRate * 1000);
 }
 
 /////////////////////////////////////////////////////////////////////////////

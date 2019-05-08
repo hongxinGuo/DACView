@@ -210,6 +210,12 @@
     <Image Include="DACView\RES\IDR_STRA.ICO">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="DACView\res\bmp00016.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="DACView\RES\M31.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="RES\ARROW_SM.CUR">

@@ -61,8 +61,11 @@ protected:
 	CString 					m_strTitle;
 	CString						m_strBitmap;
 	
-	// noserialize data          
+	// noserialize data   
+  HBITMAP *         m_hBitmap;
+  char *            m_pJpegFile;
   rgb8_image_t      m_img;
+  int               m_iFileSize;
   bool              m_fLoadBitmap;
 
 };

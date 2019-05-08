@@ -193,6 +193,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateMapFile>true</GenerateMapFile>
       <Profile>true</Profile>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -311,9 +312,11 @@
     <Image Include="DACView\res\bmp00013.bmp" />
     <Image Include="DACView\res\bmp00014.bmp" />
     <Image Include="DACView\res\bmp00015.bmp" />
+    <Image Include="DACView\res\bmp00016.bmp" />
     <Image Include="DACView\RES\CTRLBARS.ICO" />
     <Image Include="DACView\RES\IDR_MAIN.BMP" />
     <Image Include="DACView\RES\IDR_STRA.ICO" />
+    <Image Include="DACView\RES\M31.bmp" />
     <Image Include="DACView\RES\OBJECT.BMP" />
     <Image Include="DACView\RES\STYLES.BMP" />
     <Image Include="DACView\res\unit_and.bmp" />

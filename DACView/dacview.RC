@@ -30,6 +30,8 @@ IDB_BITMAP_UNIT_DYNlINK BITMAP                  "res\\bitmap_u.bmp"
 
 IDB_OBJECT              BITMAP                  "RES\\OBJECT.BMP"
 
+IDB_BITMAP_M31          BITMAP                  "res\\m31.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
