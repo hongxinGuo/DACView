@@ -1,6 +1,5 @@
-/////////////////////////////////////////////////////////////////////////////
-// CSQIFileFrame frame with splitter
-#pragma once
+#ifndef __SQI_FILE_FRAME_H__
+#define __SQI_FILE_FRAME_H__
 
 #ifndef __AFXEXT_H__
 #include <afxext.h>
@@ -31,3 +30,4 @@ public:
 	DECLARE_MESSAGE_MAP()
 };
 
+#endif

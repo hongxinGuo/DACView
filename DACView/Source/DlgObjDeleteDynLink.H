@@ -7,7 +7,8 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __DLG_OBJECT_DELETE_DYNAMIC_LINK_H__
+#define __DLG_BOJECT_DELETE_DYNAMIC_LINK_H__
 
 #include "cObjectBase.h"
 
@@ -56,3 +57,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

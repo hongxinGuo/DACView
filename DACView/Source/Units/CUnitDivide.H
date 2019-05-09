@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_DIVIDE_H__
+#define __UNIT_DIVIDE_H__
 
 #include "CUnitBase.h"
 
@@ -76,3 +77,5 @@ protected :
 	bool m_fEnable;
 	
 };                        
+
+#endif

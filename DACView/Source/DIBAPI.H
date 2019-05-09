@@ -10,7 +10,8 @@
 // See these sources for detailed information regarding the
 // Microsoft Foundation Classes product.
 
-#pragma once
+#ifndef __DIBAPI_H__
+#define __DIBAPI_H__
 
 /* Handle to a DIB */
 DECLARE_HANDLE(HDIB);
@@ -44,3 +45,5 @@ HGLOBAL   WINAPI  CopyHandle (HGLOBAL h);
 BOOL      WINAPI  SaveDIB (HDIB hDib, CFile& file);
 HDIB      WINAPI  ReadDIBFile(CFile& file);
 
+
+#endif

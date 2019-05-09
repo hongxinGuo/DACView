@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_METER_H__
+#define __OBJECT_METER_H__
 
 #include "cObjRectBase.h"
 
@@ -73,4 +74,7 @@ protected:
 	bool				m_fBeginTrack;
 
 	ULONG				m_ulCircleSize;
-};                       
+};     
+
+#endif
+

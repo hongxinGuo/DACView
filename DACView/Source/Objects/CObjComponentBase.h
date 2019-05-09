@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_COMPONENTBASE_H__
+#define __OBJECT_COMPONENTBASE_H__
 
 #include "cObjRectBase.h"
 
@@ -62,3 +63,5 @@ protected:
 	CPoint				  	    m_ptScrollPositionUpper;	// 外层当时的滚动条位置
 
 };
+
+#endif

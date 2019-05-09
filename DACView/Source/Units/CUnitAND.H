@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_AND_H__
+#define __UNIT_AND_H__
 
 #include "CUnitBase.h"
 
@@ -78,5 +79,6 @@ protected  :
 	
 };                        
 
+#endif
 
   

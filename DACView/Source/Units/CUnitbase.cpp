@@ -1399,8 +1399,8 @@ void CUnitBase::SetDeleteDynLinkFlag( CUnitList& listUnit ) {
 //
 ///////////////////////////////////////////////////////////////////////////
 void CUnitBase::ClearDeleteDynLinkFlag( void ) {
-  for ( const auto pcunitDL : m_listDynLink ) {
-    pcunitDL->SetDeleteMeFlag( false );
+  for ( const auto pDL : m_listDynLink ) {
+    pDL->SetDeleteMeFlag( false );
   }
 }
 

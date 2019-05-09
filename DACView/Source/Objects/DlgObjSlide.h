@@ -1,6 +1,5 @@
-// setprope.h : header file
-//
-#pragma once
+#ifndef __DLG_OBJECT_SLIDER_H__
+#define __DLG_OBJECT_SLIDER_H__
 
 #include "..\\resource.h"
 #include "cobjectbase.h"
@@ -48,4 +47,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif
+
 

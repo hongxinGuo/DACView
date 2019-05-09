@@ -5,8 +5,12 @@
 //
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __ACCESORY__H__
+#define __ACCESORY__H__
 
 #include"CUnitBase.h"
 
 CUnitBase * FindUnit(CUnitList * pUnitList, CString strUnitName, bool fFind);
+
+
+#endif

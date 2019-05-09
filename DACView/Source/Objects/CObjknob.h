@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_KNOB_H__
+#define __OBJECT_KNOB_H__
 
 #include "cObjRectBase.h"
 
@@ -74,4 +75,6 @@ protected:
 	bool				m_fBeginTrack;
 
 	ULONG				m_ulCircleSize;
-};                       
+};   
+
+#endif

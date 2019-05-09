@@ -1,6 +1,5 @@
-// setprope.h : header file
-//
-#pragma once
+#ifndef __DLG_OBJECT_COMPONENT_H__
+#define __DLG_OBJECT_COMPONENT_H__
 
 #include "..\\resource.h"
 #include "cobjectbase.h"
@@ -48,4 +47,7 @@ public:
 //  afx_msg void OnBnClickedOk();
   virtual void OnOK();
 };
+
+#endif
+
 

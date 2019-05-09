@@ -1,6 +1,5 @@
-// setTextprope.h : header file
-//
-#pragma once
+#ifndef __DLG_OBJECT_TEXT_H__
+#define __DLG_OBJECT_TEXT_H__
 
 #include "..\\resource.h"
 #include "cobjectbase.h"
@@ -45,3 +44,4 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
+#endif

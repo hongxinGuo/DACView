@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_QFLT_H__
+#define __UNIT_QFLT_H__
 
 #include "CUnitBase.h"
 
@@ -77,4 +78,5 @@ protected :
 	bool m_fEnable;
 };                        
 
-  
+#endif
+

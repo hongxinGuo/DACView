@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_GRAPH_H__
+#define __OBJECT_GRAPH_H__
 
 #include "cObjRectBase.h"
 
@@ -69,4 +70,6 @@ protected:
 	ULONG 			m_ulScrollLength;
   CRect       m_rectGraph;
 	
-};                       
+};   
+
+#endif

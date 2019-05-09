@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_ADD_H__
+#define __UNIT_ADD_H__
 
 #include "CUnitBase.h"
 
@@ -80,7 +81,10 @@ protected :
 // No Serialized Data
 	bool m_fEnable;
 	
-};                        
+};     
+
+#endif
+
 
 
   

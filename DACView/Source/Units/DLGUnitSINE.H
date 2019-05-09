@@ -1,9 +1,5 @@
-// dlgsin.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgSine dialog
-#pragma once
+#ifndef __DLG_UNIT_SINE_H__
+#define __DLG_UNIT_SINE_H__
 
 class CDlgSine : public CDialog
 {
@@ -41,3 +37,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

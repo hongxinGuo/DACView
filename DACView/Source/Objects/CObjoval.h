@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __OBJECT_OVAL_H__
+#define __OBJECT_OVAL_H__
+
 #include "typedef.h"
 
 #include "cObjRectBase.h"
@@ -52,3 +54,5 @@ private:
 protected:
 
 };                       
+
+#endif

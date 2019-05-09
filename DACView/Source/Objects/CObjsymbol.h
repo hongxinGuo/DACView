@@ -10,7 +10,8 @@
 //
 //
 //////////////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __OBJECT_SYMBOL_H__
+#define __OBJECT_SYMBOL_H__
 
 #include "cObjComponentBase.h"
 
@@ -66,4 +67,7 @@ protected:
   list<CRect *>           m_CRectList;
   CRect                   m_rectSymbolOrigin;
 
-};                       
+};      
+
+#endif
+

@@ -1,6 +1,5 @@
-// setprope.h : header file
-//
-#pragma once
+#ifndef __DLG_OBJECT_GAUGE_H__
+#define __DLG_OBJECT_GAUGE_H__
 
 #include "..\\resource.h"
 #include "cobjectbase.h"
@@ -50,3 +49,6 @@ protected:
 public:
 	afx_msg void OnEnChangeObjectname();
 };
+
+#endif
+

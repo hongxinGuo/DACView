@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_SWITCH_H__
+#define __UNIT_SWITCH_H__
 
 #include "cUnitBase.h"
 
@@ -75,4 +76,5 @@ protected :
 	bool m_fEnable;
 };                        
 
-  
+#endif
+

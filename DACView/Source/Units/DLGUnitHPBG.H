@@ -1,9 +1,5 @@
-// dlgHPBG.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgHighPassBargin dialog
-#pragma once
+#ifndef __DLG_UNIT_HPBG_H__
+#define __DLG_UNIT_HPBG_H__
 
 class CDlgHighPassBargin : public CDialog
 {
@@ -44,3 +40,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

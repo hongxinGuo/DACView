@@ -1,9 +1,5 @@
-// dlgSwch.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgSwch dialog
-#pragma once
+#ifndef __DLG_UNIT_SWITCH_H__
+#define __DLG_UNIT_SWITCH_H__
 
 class CDlgSwch : public CDialog
 {
@@ -44,3 +40,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

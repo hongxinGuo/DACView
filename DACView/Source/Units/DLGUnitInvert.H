@@ -1,9 +1,5 @@
-// dlginv.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgInv dialog
-#pragma once
+#ifndef __DLG_UNIT_INVERT_H__
+#define __DLG_UNIT_INVERT_H__
 
 class CDlgInv : public CDialog
 {
@@ -42,3 +38,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

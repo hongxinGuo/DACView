@@ -1,9 +1,5 @@
-// dlgand.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgTTB dialog
-#pragma once
+#ifndef __DLG_UNIT_TTB_H__
+#define __DLG_UNIT_TTB_H__
 
 class CDlgTTB : public CDialog
 {
@@ -106,3 +102,6 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif
+

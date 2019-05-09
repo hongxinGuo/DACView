@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_INVERT_H__
+#define __UNIT_INVERT_H__
 
 #include "CUnitBase.h"
 
@@ -72,3 +73,5 @@ protected :
 	BOOL m_fEnable;
 	
 };                        
+
+#endif

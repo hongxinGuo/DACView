@@ -1,6 +1,5 @@
-// chiocepa.h : header file
-//
-#pragma once
+#ifndef __DLG_CHOICE_PARAMETER_H__
+#define __DLG_CHOICE_PARAMETER_H__
 
 #include "CUnitBase.h"            
 
@@ -41,3 +40,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

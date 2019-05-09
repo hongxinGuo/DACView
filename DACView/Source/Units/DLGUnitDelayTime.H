@@ -1,9 +1,5 @@
-// dlgDTim.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgDelayTime dialog
-#pragma once
+#ifndef __DLG_UNIT_DELAYTIME_H__
+#define __DLG_UNIT_DELAYTIME_H__
 
 class CDlgDelayTime : public CDialog
 {
@@ -47,3 +43,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

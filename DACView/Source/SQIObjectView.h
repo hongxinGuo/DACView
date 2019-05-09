@@ -4,7 +4,8 @@
 //
 //
 ///////////////////////////////////////////////////////////////////////////// 
-#pragma once
+#ifndef __SQI_OBJECT_VIEW_H__
+#define __SQI_OBJECT_VIEW_H__
 
 #include "cobjectbase.h"
 #include "cObjComponentBase.h"
@@ -154,3 +155,4 @@ inline CSQIFileDoc* CSQIObjectView::GetDocument()
    { return (CSQIFileDoc*) m_pDocument; }
 #endif
 
+#endif

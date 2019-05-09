@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_MULTIPLE_H__
+#define __UNIT_MULTIPLE_H__
 
 #include "CUnitBase.h"
 
@@ -77,3 +78,4 @@ protected :
 	
 };                        
 
+#endif

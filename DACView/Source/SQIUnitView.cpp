@@ -1693,29 +1693,30 @@ void CSQIUnitView::OnEditCut()
   CUnitList listUnit;
   INT64 iDelete = 0;
 
-  for (const auto pcunit : *m_pCUnitListCurrent) {
-    if (pcunit->IsSelect()) {
-      pcunit->AddToList(listUnit); // 包括部件本身
+  for (const auto punit : *m_pCUnitListCurrent) {
+    if (punit->IsSelect()) {
+      punit->AddToList(listUnit); // 包括部件本身
       iDelete++;
     }
   }
-  // 将动态连接进行分类,决定是否跟随单元一起存储.如果不能一起存储的则设置删除标志。
-  for (const auto pcunit : *m_pCUnitListCurrent) {
-    if (pcunit->IsSelect()) {
-      pcunit->SetDeleteDynLinkFlag(listUnit);
+  // 将需剪辑单元的动态连接进行分类,决定是否跟随单元一起存储.如果不能一起存储的则设置删除标志，以备存储时排除之。
+  for (const auto punit : *m_pCUnitListCurrent) {
+    if (punit->IsSelect()) {
+      punit->SetDeleteDynLinkFlag(listUnit);
     }
   }
 
   ar << iDelete;
-  for (const auto pcunit : *m_pCUnitListCurrent) {
-    if (pcunit->IsSelect()) {
-      ar << pcunit;
+  for (const auto punit : *m_pCUnitListCurrent) {
+    if (punit->IsSelect()) {
+      ar << punit;
     }
   }
 
-  for (const auto pcunit : *m_pCUnitListCurrent) {
-    if (pcunit->IsSelect()) {
-      pcunit->ClearDeleteDynLinkFlag();
+  // 将设置了删除标志的动态链接标志（如果有的话）重置
+  for (const auto punit : *m_pCUnitListCurrent) {
+    if (punit->IsSelect()) {
+      punit->ClearDeleteDynLinkFlag();
     }
   }
 
@@ -1724,7 +1725,7 @@ void CSQIUnitView::OnEditCut()
   do {
     CUnitBase * punit = *it++;
     if (punit->IsSelect()) {
-      VERIFY(DeleteUnit(m_pCUnitListCurrent, punit));      // delete cut units
+      VERIFY(DeleteUnit(m_pCUnitListCurrent, punit));      // 删除已剪辑掉的单元
     }
   } while (it != m_pCUnitListCurrent->end());
 
@@ -1753,7 +1754,7 @@ void CSQIUnitView::OnEditDelete()
     if (pcunit->IsSelect()) {
       VERIFY(DeleteUnit(m_pCUnitListCurrent, pcunit));      // delete units
     }
-  }while (it != m_pCUnitListCurrent->end()); 
+  } while (it != m_pCUnitListCurrent->end()); 
 
   ResetAll(UNIT_PRE_SELECT);
 
@@ -1796,7 +1797,6 @@ void CSQIUnitView::OnEditPaste()
     CreateUniName(m_pCUnitCurrent);
     m_pCUnitCurrent->ResetCompileFlag();
     unitlistTemp.push_back(m_pCUnitCurrent); // 先暂存单元于暂时的单元序列中，以备单独处理之
-
   }
   m_pCUnitCurrent->SetSelect(true);
 

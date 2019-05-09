@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef __DLG_COMPONENT_H__
+#define __DLG_COMPONENT_H__
 
 #include"stdafx.h"
 
@@ -33,3 +34,5 @@ public:
 	virtual BOOL OnInitDialog();
   afx_msg void OnLbnSelchangeListUnitcomponent();
 };
+
+#endif

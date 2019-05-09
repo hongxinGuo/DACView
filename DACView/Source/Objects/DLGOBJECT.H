@@ -1,9 +1,5 @@
-// dlgobjec.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgObject dialog
-#pragma once
+#ifndef __DLG_OBJECT__H__
+#define __DLG_OBJECT__H__
 
 class CDlgObject : public CDialog
 {
@@ -41,3 +37,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

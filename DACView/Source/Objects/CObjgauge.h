@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_GAUGE_H__
+#define __OBJECT_GUAGE_H__
 
 #include "cObjRectBase.h"
 
@@ -69,4 +70,6 @@ protected:
 	double			m_eValue;
 	double 			m_eUpperLimit;
 	double 			m_eLowLimit;
-};                       
+};    
+
+#endif

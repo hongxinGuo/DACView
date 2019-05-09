@@ -14,7 +14,7 @@ class CObjectPicture : public CRectVirtual {
 	
 // Attributes
 public:
-  virtual void Serialize( CArchive& ar ); 
+  virtual void Serialize( CArchive& ar ) override; 
   virtual const CString& GetClassNameStr( void ) override;
 
 // Operations

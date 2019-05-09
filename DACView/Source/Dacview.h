@@ -1,6 +1,5 @@
-// Dacview.h : main header file for the Dacview application
-//
-#pragma once
+#ifndef __DACVIEW_H__
+#define __DACVIEW_H__
 
 #ifndef __AFXWIN_H__
 	#error include 'stdafx.h' before including this file for PCH
@@ -57,4 +56,7 @@ public:
 //}}AFX_VBX_REGISTER
 
 /////////////////////////////////////////////////////////////////////////////
+
+
+#endif
 

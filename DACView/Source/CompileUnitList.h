@@ -1,5 +1,5 @@
-
-#pragma once
+#ifndef __COMPILE_UNIT_LSIT_H__
+#define __COMPILE_UNIT_LIST_H__
 
 #include"stdafx.h"
 
@@ -31,3 +31,5 @@ bool SetNoSrcUnitExectivePriority(CUnitList * plistUnit);
 bool ExectiveCompilation(CUnitList * pUUnitList, CUnitList * pRunTimeUnitList);
 bool EncapsulateUnitList(CUnitList & unitlist);
 bool SetEncapsulatingFlag(CUnitList & unitlist);
+
+#endif

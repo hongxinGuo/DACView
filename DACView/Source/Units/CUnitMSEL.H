@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __UNIT_MSEL_H__
+#define __UNIT_MSEL_H__
+
 #include "CUnitBase.h"
 
 class CUnitMiddleSelect : public CUnitBase {
@@ -86,4 +88,5 @@ protected :
 	
 };                        
 
-  
+#endif
+

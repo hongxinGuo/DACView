@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_SINE_H__
+#define __UNIT_SINE_H__
 
 #include "cUnitBase.h"
 
@@ -81,3 +82,5 @@ protected :
 // No Serialized Data 
 	ULONG m_ulCounter;
 };                        
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_NUMBER_INPUT_H__
+#define __OBJECT_NUMBER_INPUT_H__
 
 #include "cObjRectBase.h"
 
@@ -78,3 +79,5 @@ protected:
 	CFont				m_font;
 
 };                       
+
+#endif

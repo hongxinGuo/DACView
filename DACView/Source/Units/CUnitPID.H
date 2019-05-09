@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_PID_H__
+#define __UNIT_PID_H__
 
 #include "CUnitBase.h"
 
@@ -89,5 +90,6 @@ protected :
 	bool m_fDALM;
 };                        
 
+#endif
 
   

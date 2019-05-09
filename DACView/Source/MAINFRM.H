@@ -1,7 +1,5 @@
-// mainfrm.h : interface of the CMainFrame class
-//
-/////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __MAIN_FRAME_H__
+#define __MAIN_FRAME_H__
 
 #include "cObjectBase.h"
 
@@ -102,4 +100,5 @@ protected:
   DECLARE_MESSAGE_MAP()
 };
 
+#endif
 

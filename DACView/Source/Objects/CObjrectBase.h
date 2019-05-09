@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_RECTBASE_H__
+#define __OBJECT_RECTBASE_H__
 
 #include <afxmt.h>
 
@@ -81,3 +82,5 @@ protected :
 
 // Dynamic changed data	
 };                        
+
+#endif

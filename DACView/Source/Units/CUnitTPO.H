@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_TPO_H__
+#define __UNIT_TPO_H__
 
 #include "CUnitBase.h"
 
@@ -81,4 +82,5 @@ protected :
 	
 };                        
 
-  
+#endif
+

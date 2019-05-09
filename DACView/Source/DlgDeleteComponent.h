@@ -1,9 +1,5 @@
-// CDelCpt.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDelCptPara dialog
-#pragma once
+#ifndef __DLG_DELETE_COMPONENT_H__
+#define __DLG_DELETE_COMPONENT_H__
 
 #include "CUnitComponent.h"
 #include "CUnitDictionary.h"
@@ -53,4 +49,6 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif
 

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __OBJECT_ROUNDRECT_H__
+#define __OBJECT_ROUNDRECT_H__
+
 #include "typedef.h"
 
 #include "cObjRectBase.h"
@@ -53,4 +55,7 @@ protected:
 	// serialized data
 	INT32 m_ulRound;
 
-};                       
+};    
+
+#endif
+

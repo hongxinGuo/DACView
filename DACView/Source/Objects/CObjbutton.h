@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_BUTTON_H__
+#define __OBJECT_BUTTON_H__
 
 #include "cObjRectBase.h"
 
@@ -62,4 +63,6 @@ protected:
 	bool 				m_fPressed;
 	bool 				m_fTrackMouseMove;
 	bool 				m_fBeginTrack;
-};                       
+}; 
+
+#endif

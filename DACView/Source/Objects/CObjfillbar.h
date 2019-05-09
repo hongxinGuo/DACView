@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_FILLBAR_H__
+#define __OBJECT_FILLBAR_H__
 
 #include "cObjRectBase.h"
 
@@ -69,4 +70,6 @@ protected:
 	bool 				m_fBeginTrack;
 	
 	double 			m_eMarkPosition;
-};                       
+};     
+
+#endif

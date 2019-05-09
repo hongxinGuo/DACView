@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __DYNAMIC_LINK_POINT_H__
+#define __DYNAMIC_LINK_POINT_H__
 
 #include"typedef.h"
 
@@ -12,3 +13,4 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pp
 void AdjustDynLinkPoint(CRect rectFirstUnit, CPoint &ptFirst, CPoint &ptSecond, CPoint ptCurrent); //第一次创建
 void AdjustDynLinkPoint(CPoint &ptFirst, CPoint &ptSecond, CPoint ptCurrent); // 第二次及以后创建
 
+#endif

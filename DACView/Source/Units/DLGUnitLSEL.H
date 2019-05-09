@@ -1,9 +1,5 @@
-// dlgLSel.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgLSel dialog
-#pragma once
+#ifndef __DLG_UNIT_LSEL_H__
+#define __DLG_UNIT_LSEL_H__
 
 class CDlgLSel : public CDialog
 {
@@ -44,3 +40,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

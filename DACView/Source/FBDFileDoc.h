@@ -1,7 +1,5 @@
-// showdoc.h : interface of the CFBDFileDoc class
-//
-/////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __FBD_FILE_DOC_H__
+#define __FBD_FILE_DOC_H__
   
 #include "CUnitBase.h"
 #include "CObjectBase.h"
@@ -109,4 +107,6 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif
 

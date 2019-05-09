@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_LINE_H__
+#define __OBJECT_LINE_H__
 
 #include "cObjectBase.h"
 
@@ -48,4 +49,6 @@ protected:
   CRect m_rectArea;
   CRect m_rectAreaLast;
   
-};                       
+};     
+
+#endif

@@ -1,9 +1,5 @@
-// dlgmulti.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgMultiple dialog
-#pragma once
+#ifndef __DLG_UNIT_MULTIPLE_H__
+#define __DLG_UNIT_MULTIPLE_H__
 
 class CDlgMultiple : public CDialog
 {
@@ -48,3 +44,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

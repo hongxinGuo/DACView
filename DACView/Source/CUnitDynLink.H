@@ -15,7 +15,8 @@
 //		取消m_fSelected及相关的函数.
 //
 ///////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __UNIT_DYNAMIC_LINK_H__
+#define __UNIT_DYNAMIC_LINK_H__
 
 enum { 	UNIT_TO_UNIT		 			  = 0X0001,	// 简单单元（或者已封装的部件）与简单单元（或者已封装的部件）之间互联
 				UNIT_TO_COMPONENT	 		  = 0X0002, // 简单单元动态链接入部件
@@ -98,4 +99,5 @@ public:
 
 typedef list<shared_ptr<CUnitDynLink>> CUDLList;
 
-  
+#endif
+

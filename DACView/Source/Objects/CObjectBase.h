@@ -7,7 +7,8 @@
 //
 //
 ///////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __OBJECTBASE_H__
+#define __OBJECTBASE_H__
 
 #include "typedef.h"
 #include "CObjectPrimitive.h"
@@ -167,4 +168,5 @@ protected :
 
 };                        
 
+#endif
   

@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef __DLG_CHOICE_COMPONENT_PARAMETER_H__
+#define __DLG_CHOICE_COMPONENT_PARAMETER_H__
 
 #include"stdafx.h"
 #include "afxdialogex.h"
@@ -40,3 +41,5 @@ public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnDestroy();
 };
+
+#endif

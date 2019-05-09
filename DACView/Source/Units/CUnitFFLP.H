@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_FFLP_H__
+#define __UNIT_FFLP_H__
 
 #include "CUnitBase.h"
 
@@ -74,4 +75,5 @@ protected :
 	
 };             
 
-  
+#endif
+

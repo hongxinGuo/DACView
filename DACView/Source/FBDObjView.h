@@ -1,7 +1,5 @@
-// showview.h : interface of the CFBDObjView class
-//
-/////////////////////////////////////////////////////////////////////////////
-#pragma once 
+#ifndef __FBD_OBJECT_VIEW_H__
+#define __FBD_OBJECT_VIEW_H__
 
 #include "CObjComponent.h"
  
@@ -96,6 +94,8 @@ protected:
 #ifndef _DEBUG	// debug version in showview.cpp
 inline CFBDFileDoc* CFBDObjView::GetDocument()
    { return (CFBDFileDoc*) m_pDocument; }
+#endif
+
 #endif
 
 

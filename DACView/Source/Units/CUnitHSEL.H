@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_HSEL_H__
+#define __UNIT_HSEL_H__
 
 #include "CUnitBase.h"
 
@@ -76,5 +77,6 @@ protected :
 	
 };                        
 
+#endif
 
   

@@ -7,7 +7,8 @@
 //	最基本类
 //
 ///////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __OBJECT_PRIMITIVE_H__
+#define __OBJECT_PRIMITIVE_H__
 
 #include"afx.h"
 
@@ -107,4 +108,5 @@ protected :
 	bool						m_fNeedUpdate;	// 是否需要更新显示标志.
 };
 
+#endif
 

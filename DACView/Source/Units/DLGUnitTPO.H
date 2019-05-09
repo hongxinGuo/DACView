@@ -1,9 +1,5 @@
-// dlgTPO.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgTPO dialog
-#pragma once
+#ifndef __DLG_UNIT_TPO_H__
+#define __DLG_UNIT_TPO_H__
 
 class CDlgTPO : public CDialog
 {
@@ -47,3 +43,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

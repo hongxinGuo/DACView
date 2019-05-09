@@ -3,7 +3,8 @@
 // 高通。输入变量高于阈值时，输出为真，否则为假。
 //
 ////////////////////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __UNIT_HPBG_H__
+#define __UNIT_HPBG_H__
 
 #include "CUnitBase.h"
 
@@ -79,4 +80,6 @@ protected :
 	bool m_fEnable;
 
 	double m_eInput;
-};                        
+};
+
+#endif

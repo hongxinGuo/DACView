@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __TYPE_DEFINE_H__
+#define __TYPE_DEFINE_H__
 
 using namespace std;
 #include<vector>
@@ -57,3 +58,5 @@ typedef list<CObjectBase *> CObjectList;
 
 class CUnitDictionary;
 typedef list<shared_ptr<CUnitDictionary>> CDicList;
+
+#endif

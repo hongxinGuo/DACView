@@ -6,7 +6,8 @@
 //
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __UNIT_DICTIONARY_H__
+#define __UNIT_DICTIONARY_H__
 
 class CUnitBase;
 
@@ -51,3 +52,4 @@ protected :
 
 };                        
 
+#endif

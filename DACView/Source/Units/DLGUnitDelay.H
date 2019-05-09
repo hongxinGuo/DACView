@@ -1,9 +1,5 @@
-// dlgdlay.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgDlay dialog
-#pragma once
+#ifndef __DLG_UNIT_DELAY_H__
+#define __DLG_UNIT_DELAY_H__
 
 class CDlgDlay : public CDialog
 {
@@ -40,3 +36,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

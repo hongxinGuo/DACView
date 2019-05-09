@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_IPOP_H__
+#define __UNIT_IPOP_H__
 
 #include "CUnitBase.h"
 
@@ -76,4 +77,5 @@ protected :
 	
 };         
 
-  
+#endif
+

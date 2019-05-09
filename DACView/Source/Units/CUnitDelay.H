@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_DELAY_H__
+#define __UNIT_DELAY_H__
 
 #include "CUnitBase.h"
 
@@ -76,5 +77,6 @@ protected :
 	bool m_fEnable;
 };                        
 
+#endif
 
   

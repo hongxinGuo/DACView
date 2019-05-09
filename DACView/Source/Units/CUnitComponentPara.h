@@ -8,7 +8,8 @@
 //	如果此参数为输入型数据，而且此数据经过内部单元的动态链接又链接到接口的其他输出型参数上，则设置相应的标志（用于上层单元查找循环）
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __UNIT_COMPONENT_PARAMETER_H__
+#define __UNIT_COMPONENT_PARAMETER_H__
 
 #include"stdafx.h"
 
@@ -89,3 +90,5 @@ protected:
 	double			  m_dValue;
 	CString				m_strValue;
 };
+
+#endif

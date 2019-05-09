@@ -1,9 +1,5 @@
-// dlgadd.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgTOT dialog
-#pragma once
+#ifndef __DLG_UNIT_TOT_H__
+#define __DLG_UNIT_TOT_H__
 
 class CDlgTOT : public CDialog
 {
@@ -48,3 +44,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

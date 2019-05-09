@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_PULSE_H__
+#define __UNIT_PULSE_H__
 
 #include "CUnitBase.h"
 
@@ -71,3 +72,5 @@ protected :
 	
 	bool m_fEnable;
 };                        
+
+#endif

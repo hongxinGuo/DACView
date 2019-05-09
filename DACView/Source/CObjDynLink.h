@@ -7,7 +7,8 @@
 // Object和Unit之间的连接，
 //
 ////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __OBJECT_DYANMIC_LINK_H__
+#define __OBJECT_DYANMIC_LINK_H__
 
 using namespace std;
 #include<list>
@@ -84,4 +85,5 @@ protected :
 
 typedef list<CObjectDynLink *> CODLList;
 
-  
+#endif
+

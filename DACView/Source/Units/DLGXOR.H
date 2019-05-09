@@ -1,9 +1,5 @@
-// .dlgXor.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgXor dialog
-#pragma once
+#ifndef __DLG_UNIT_XOR_H__
+#define __DLG_UNIT_XOR_H__
 
 class CDlgXor : public CDialog
 {
@@ -42,3 +38,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

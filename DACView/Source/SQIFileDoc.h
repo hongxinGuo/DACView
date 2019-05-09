@@ -1,9 +1,5 @@
-///////////////////////////////////////////////////////////////////////////
-//
-// dacvidoc.h : interface of the CSQIFileDoc class
-//
-///////////////////////////////////////////////////////////////////////////// 
-#pragma once
+#ifndef __SQI_FILE_DOC_H__
+#define __SQI_FILE_DOC_H__
 
 #include "globedef.h"			// use gl_sizeDoc
 
@@ -85,4 +81,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-                                                  
+#endif
+

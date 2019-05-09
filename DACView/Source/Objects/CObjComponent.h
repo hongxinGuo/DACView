@@ -8,7 +8,8 @@
 //
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __OBJECT_COMPONENT_H__
+#define __OBJECT_COMPONENT_H__
 
 #include<boost/gil/gil_all.hpp>
 #include <boost/gil/image.hpp>
@@ -39,7 +40,7 @@ public:
   virtual const CString& GetClassNameStr( void ) override;
   
   virtual bool      IsNeedUpdate( void ) override;
-  virtual bool      CanInSymbol( void ) override;
+  virtual bool      CanInSymbol(void) override { return false; } //部件类对象不允许包含于符号对象中
 	
 
 // Operations	 
@@ -69,3 +70,5 @@ protected:
   bool              m_fLoadBitmap;
 
 };
+
+#endif

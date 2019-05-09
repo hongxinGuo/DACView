@@ -7,7 +7,8 @@
 //
 //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __DLG_OBJECT_DYNAMIC_LINK_H__
+#define __DLG_OBJECT_DYNAMIC_LINK_H__
 
 #include "typedef.h"
 #include "CObjDynLink.h"
@@ -87,3 +88,4 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
+#endif

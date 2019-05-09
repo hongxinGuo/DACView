@@ -1,9 +1,5 @@
-// runstrat.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CFBDUnitView view
-#pragma once
+#ifndef __FBD_UNIT_VIEW_H__
+#define __FBD_UNIT_VIEW_H__
 
 #include "FBDFileDoc.h"
 
@@ -81,4 +77,5 @@ inline CFBDFileDoc* CFBDUnitView::GetDocument( void )
    { return (CFBDFileDoc*) m_pDocument; }
 #endif
 
+#endif
 

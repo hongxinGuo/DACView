@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_DELAYTIME_H__
+#define __UNIT_DELAYTIME_H__
 
 #include "CUnitBase.h"
 
@@ -80,5 +81,6 @@ protected :
 	bool m_fEnable;	
 };                        
 
+#endif
 
   

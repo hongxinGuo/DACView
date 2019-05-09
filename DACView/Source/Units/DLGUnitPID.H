@@ -1,9 +1,5 @@
-// dlgadd.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgPID dialog
-#pragma once
+#ifndef __DLG_UNIT_PID_H__
+#define __DLG_UNIT_PID_H__
 
 class CDlgPID : public CDialog
 {
@@ -49,3 +45,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

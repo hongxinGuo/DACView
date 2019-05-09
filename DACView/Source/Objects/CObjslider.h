@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_SLIDER_H__
+#define __OBJECT_SLIDER_H__
 
 #include "cObjRectBase.h"
 
@@ -72,4 +73,7 @@ protected:
 	CDC         m_SliderDC;
   CBitmap			m_SliderBitmap;
 
-};                       
+};     
+
+#endif
+

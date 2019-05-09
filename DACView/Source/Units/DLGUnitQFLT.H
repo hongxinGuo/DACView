@@ -1,9 +1,5 @@
-// dlgQFLT.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgQFLT dialog
-#pragma once
+#ifndef __DLG_UNIT_QFLT_H__
+#define __DLG_UNIT_QFLT_H__
 
 class CDlgQFLT : public CDialog
 {
@@ -47,3 +43,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

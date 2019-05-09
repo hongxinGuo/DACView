@@ -1,9 +1,5 @@
-// dlgquad.h : header file
-//
-			
-/////////////////////////////////////////////////////////////////////////////
-// CDlgQuad dialog
-#pragma once
+#ifndef __DLG_UNIT_QUAD_H__
+#define __DLG_UNIT_QUAD_H__
 
 class CDlgQuad : public CDialog
 {
@@ -42,4 +38,6 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };                           
+
+#endif
 

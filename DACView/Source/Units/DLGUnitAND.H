@@ -1,9 +1,5 @@
-// dlgand.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// CDlgAnd dialog
-#pragma once
+#ifndef __DLG_UNIT_AND_H__
+#define __DLG_UNIT_AND_H__
 
 class CDlgAnd : public CDialog
 {
@@ -42,3 +38,5 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
+
+#endif

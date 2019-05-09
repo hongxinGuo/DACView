@@ -50,7 +50,8 @@
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#ifndef __UNIT_COMPONENT_H__
+#define __UNIT_COMPONENT_H__
 
 using namespace std;
 #include<vector>
@@ -247,7 +248,10 @@ public:
   // 以下两个变量用于测试接口输入输出的数量
   INT32           m_lInputParaNumber;
   INT32           m_lOutputParaNumber;
-};                        
+};   
+
+#endif
+
 
 
   

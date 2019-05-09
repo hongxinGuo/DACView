@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __UNIT_TTB_H__
+#define __UNIT_TTB_H__
 
 #include "CUnitBase.h"
 
@@ -143,3 +144,5 @@ protected :
 };                        
 // restore warning state
 #pragma warning( pop )
+
+#endif

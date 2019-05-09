@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __OBJECT_TEXT_H__
+#define __OBJECT_TEXT_H__
 
 #include "cObjRectBase.h"             
 
@@ -45,8 +46,8 @@ private:
 protected:
 	CString m_strShowName;    
 
-
-
-	
 };
+
+#endif
+
 
