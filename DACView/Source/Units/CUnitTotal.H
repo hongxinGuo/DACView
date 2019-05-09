@@ -76,8 +76,8 @@ protected :
 	double m_eInputOld;
 	double m_eOutput;
 	double m_eOutputOld;
-	double * m_peData;
-	double * m_peDataCurrent;
+	vector<double> m_peData;
+	vector<double>::iterator m_peDataCurrent;
 
 	bool m_fEnable;
 	

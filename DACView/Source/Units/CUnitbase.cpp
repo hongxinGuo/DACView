@@ -465,7 +465,7 @@ bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
 ////////////////////////////////////////////////////////////////////////
 void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPoint ptEnd) {
   shared_ptr<CPoint> ppt1, ppt2;
-  CPointList * plist;
+  CPointListPtr plist;
 
   if (pcSrc == this) {  // if I was been changed size
     for (auto pDL : m_listDynLink) {

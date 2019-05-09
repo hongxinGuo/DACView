@@ -50,7 +50,7 @@ CUnitTOT::CUnitTOT(const CString& Name, CPoint pt): CUnitBase(Name, pt) {
 
   // initial parameter
   m_eInput = m_eInputOld = m_eOutputOld = m_eOutput = 0.0;
-  m_peData = m_peDataCurrent = nullptr;
+  m_peDataCurrent = m_peData.begin();
   m_eGain = 1.0;
   m_eHiRange = 100.0;
   m_eLoRange = 0.0;
@@ -71,7 +71,7 @@ CUnitTOT::CUnitTOT( void ) : CUnitBase() {
 
   // initial parameter
   m_eInput = m_eInputOld = m_eOutputOld = m_eOutput = 0.0;
-  m_peData = m_peDataCurrent = nullptr;
+  m_peDataCurrent = m_peData.begin();
   m_eGain = 1.0;
   m_eHiRange = 100.0;
   m_eLoRange = 0.0;
@@ -84,8 +84,6 @@ CUnitTOT::CUnitTOT( void ) : CUnitBase() {
 }
 
 CUnitTOT::~CUnitTOT() {
-	delete []m_peData;
-	m_peData = nullptr;
 	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
 } 
                               
@@ -99,12 +97,12 @@ void CUnitTOT::Serialize( CArchive& ar ) {
   else {
     ar >> m_eGain >> m_ulNumber;
     ar >> m_eHiRange >> m_eLoRange >> m_eHiLimit >> m_eLoLimit;
-		m_peData = new double[m_ulNumber];
-		m_peDataCurrent = m_peData;
+		m_peDataCurrent = m_peData.begin();
+    m_peData.resize(m_ulNumber);
 		for ( ULONG i = 0; i < m_ulNumber; i++ ) {
 			*m_peDataCurrent++ = 0.0;
 		}
-		m_peDataCurrent = m_peData;
+    m_peDataCurrent = m_peData.begin();;
   }
 } 
 
@@ -143,8 +141,8 @@ void CUnitTOT::Exective( void ) {
 		m_eOutputOld = m_eOutput - *m_peDataCurrent;
 		m_eInputOld = m_eInput;
 		*m_peDataCurrent++ = m_eInput;
-		if ( m_peDataCurrent == ( m_peData + m_ulNumber ) ) {
-			m_peDataCurrent = m_peData;
+		if (m_peDataCurrent == m_peData.end()) {
+			m_peDataCurrent = m_peData.begin();
 		}
   }
 	if ( (m_eOutput > m_eHiLimit) || ( m_eOutput < m_eLoLimit) ) {

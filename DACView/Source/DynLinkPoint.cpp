@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // 有起始点
-void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pptSecond, CPoint ptCurrent) {
+void CreateDynLinkPoint(CPointListPtr plistLinkPoint, CPoint *pptFirst, CPoint *pptSecond, CPoint ptCurrent) {
   shared_ptr<CPoint> ppt1, ppt2, ppt3;
 
   if (plistLinkPoint->size() == 1) { // 起点开始 
@@ -52,7 +52,7 @@ void CreateDynLinkPoint(CPointList *plistLinkPoint, CPoint *pptFirst, CPoint *pp
 }
 
 // 有终点
-void CreateDynLinkPoint(CPointList *plistLinkPoint, CRect rectSecond,
+void CreateDynLinkPoint(CPointListPtr plistLinkPoint, CRect rectSecond,
                         CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent) {
   shared_ptr<CPoint> ppt1, ppt2, ppt3, ppt;
 

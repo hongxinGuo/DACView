@@ -51,7 +51,7 @@ public:
 	INT32 			GetSrcIndex( void ) const;
 	INT32 			GetDynLinkType( void ) const;
 	INT32				GetDynLinkClass( void ) const;
-  CPointList* GetLinkPointList( void );
+  CPointListPtr GetLinkPointList( void );
 	BOOL				IsDeleteMe( void ) const;
 	BOOL				IsSetLoopDetectFlag( void ) const;
 
@@ -63,7 +63,7 @@ public:
 	void 				SetDestIndex( INT32 ulIndex );
 	void 				SetDynLinkType( INT32 ulType );
 	void 				SetDynLinkClass( INT32 ulClass );
-  void        SetLinkPointList( CPointList * plist );
+  void        SetLinkPointList( CPointListPtr plist );
 
 	virtual void ToShow(CDC * const pdc);// draw myself on DC 
 
@@ -85,7 +85,7 @@ protected :
 	INT32 			m_lDestIndex;			  // 目标单元的参数索引.
 	INT32				m_ulDynLinkType;    // BOOL, WORD, DOUBLE, or STRING
 	INT32				m_ulDynLinkClass;		// 四种连接类型之一, 单元->单元,单元->复合单元,复合单元->单元,复合单元->复合单元.
-  CPointList* m_plistLinkPoint;		// 从源单元到目标单元的动态连接的点序列（用于显示）。
+  CPointListPtr m_plistLinkPoint;		// 从源单元到目标单元的动态连接的点序列（用于显示）。
 	  
 // Not Serialized Data
   shared_ptr<CUnitBase>   m_punitSrc;

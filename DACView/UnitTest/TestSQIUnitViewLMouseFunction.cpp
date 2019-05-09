@@ -119,7 +119,7 @@ namespace DACViewTest {
 		EXPECT_EQ(m_View.GetCurrentUnit(), nullptr);
 		EXPECT_EQ(m_View.GetUnitMouseMove(), nullptr);
 
-		CPointList * plistPoint = m_View.GetLinkPointList();
+		CPointListPtr plistPoint = m_View.GetLinkPointList();
 		shared_ptr<CPoint> pt1 = make_shared<CPoint>(0, 0);
 		plistPoint->push_back(pt1); // 故意加入一个元素
 		EXPECT_EQ(plistPoint->size(), 1);
@@ -187,7 +187,7 @@ namespace DACViewTest {
 		EXPECT_STREQ(m_View.GetCurrentUnit()->GetName(), "UnitOr_4");
 		EXPECT_STREQ(m_View.GetUnitMouseMove()->GetName(), "UnitOr_4");
 
-		CPointList * plistPoint = m_View.GetLinkPointList();
+		CPointListPtr plistPoint = m_View.GetLinkPointList();
 		shared_ptr<CPoint> pt1 = make_shared<CPoint>(0, 0);
 		plistPoint->push_back(pt1); // 故意加入一个元素
 		EXPECT_EQ(plistPoint->size(), 1);
@@ -255,7 +255,7 @@ namespace DACViewTest {
 		EXPECT_EQ(m_View.GetCurrentUnit(), nullptr);
 		EXPECT_EQ(m_View.GetUnitMouseMove(), nullptr);
 
-		CPointList * plistPoint = m_View.GetLinkPointList();
+		CPointListPtr plistPoint = m_View.GetLinkPointList();
 		shared_ptr<CPoint> pt1 = make_shared<CPoint>(0, 0);
 		plistPoint->push_back(pt1); // 故意加入一个元素
 		EXPECT_EQ(plistPoint->size(), 1);
@@ -323,7 +323,7 @@ namespace DACViewTest {
 		EXPECT_EQ(m_View.GetCurrentUnit(), nullptr);
 		EXPECT_EQ(m_View.GetUnitMouseMove(), nullptr);
 
-		CPointList * plistPoint = m_View.GetLinkPointList();
+		CPointListPtr plistPoint = m_View.GetLinkPointList();
 		shared_ptr<CPoint> pt1 = make_shared<CPoint>(0, 0);
 		plistPoint->push_back(pt1); // 故意加入一个元素
 		EXPECT_EQ(plistPoint->size(), 1);

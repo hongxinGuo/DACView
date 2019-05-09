@@ -74,9 +74,9 @@ protected :
 	double m_eInput;
 	double m_eOutput;
 
-	double * m_peData;
-	double * m_pDataCurrent;
-	ULONG  m_ulDataLength;
+	vector<double> m_peData;
+  vector<double>::iterator m_pDataCurrent;
+  ULONG  m_ulDataLength;
 	
 	bool m_fEnable;	
 };                        

@@ -66,9 +66,9 @@ public:
 
 protected:
   void CreateUniName(CUnitBase * pCUnit);
-  void DrawInvertDynLinkLine(CDC * pdc, CPointList * plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent);
+  void DrawInvertDynLinkLine(CDC * pdc, CPointListPtr plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent);
   void AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint ptStart, CPoint ptEnd);
-  void DeleteDynLinkPointList(CPointList * plistLinkPoint);
+  void DeleteDynLinkPointList(CPointListPtr plistLinkPoint);
 
 public:
   virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -168,7 +168,7 @@ protected:
   CPoint							m_ptCurrentScrollPosition;
   CRect 							m_crectClip;
 
-  CPointList *        m_plistLinkPoint;
+  CPointListPtr       m_plistLinkPoint;
 	CPoint 							m_ptMousePosition;		// 记录生成动态链接时鼠标的最初位置  
   CPoint              m_ptCurrent;
   CPoint              m_ptFirst;

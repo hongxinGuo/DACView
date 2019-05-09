@@ -53,23 +53,23 @@ namespace DACViewTest {
     CPoint ptSecond = pFindDest->ptSecond;
     CPoint ptFirst = pFindDest->ptFirst;
     CPoint ptCurrent = pFindDest->ptCurrent;
-    CPointList listPoint;
+    CPointListPtr plistPoint = make_shared<CPointList>();
     shared_ptr<CPoint> ppt, ppt1, ppt2, ppt3;
 
     ppt = make_shared<CPoint>();
     *ppt = ptFirst;
-    listPoint.push_back(ppt);
+    plistPoint->push_back(ppt);
     ppt = make_shared<CPoint>();  
     *ppt = ptFirst;
-    listPoint.push_back(ppt);
+    plistPoint->push_back(ppt);
     ppt = make_shared<CPoint>();
     *ppt = ptSecond;
-    listPoint.push_back(ppt);
+    plistPoint->push_back(ppt);
 
-    CreateDynLinkPoint(&listPoint, rectSecond, ptFirst, ptSecond,ptCurrent);
+    CreateDynLinkPoint(plistPoint, rectSecond, ptFirst, ptSecond,ptCurrent);
 
-    EXPECT_LE(3, listPoint.size()) << "无起点有终点的动态链接线至少有三个点";
-    auto it = listPoint.end();
+    EXPECT_LE(3, plistPoint->size()) << "无起点有终点的动态链接线至少有三个点";
+    auto it = plistPoint->end();
     it--;
     ppt3 = *it--;
     ppt2 = *it--;
@@ -91,7 +91,7 @@ namespace DACViewTest {
       EXPECT_EQ(ppt3->x, rectSecond.right);
     }
 
-    listPoint.clear();
+    plistPoint->clear();
   }
 
   TEST_P(TestDLPointFindDest, TestCreateDynLinkPointFindDest2) { // 有起点有终点
@@ -101,30 +101,30 @@ namespace DACViewTest {
     CPoint ptSecond = pFindDest->ptSecond;
     CPoint ptFirst = pFindDest->ptFirst;
     CPoint ptCurrent = pFindDest->ptCurrent;
-    CPointList listPoint;
+    CPointListPtr plistPoint = make_shared<CPointList>();
     shared_ptr<CPoint> ppt, ppt1, ppt2, ppt3, ppt4;
 
     ppt = make_shared<CPoint>();
     *ppt = ptFirst;
-    listPoint.push_back(ppt);
+    plistPoint->push_back(ppt);
 
-    CreateDynLinkPoint(&listPoint, rectSecond, ptFirst, ptSecond, ptCurrent);
+    CreateDynLinkPoint(plistPoint, rectSecond, ptFirst, ptSecond, ptCurrent);
 
-    EXPECT_LE(listPoint.size(), 4); // 有起点有终点的动态链接线最多四个点
-    auto it = listPoint.end();
+    EXPECT_LE(plistPoint->size(), 4); // 有起点有终点的动态链接线最多四个点
+    auto it = plistPoint->end();
     ppt3 = *--it;
     ppt2 = *--it;
     ppt1 = *--it;
     if ((ptFirst.y >= rectSecond.top) && (ptFirst.y < rectSecond.bottom)) {
       ppt4 = *--it;      
       if (ptFirst.x < rectSecond.left) {
-        EXPECT_EQ(4, listPoint.size());
+        EXPECT_EQ(4, plistPoint->size());
         EXPECT_EQ(ppt3->y, ppt4->y);
         EXPECT_EQ(ppt3->y, ppt2->y);
         EXPECT_EQ(ppt3->x, rectSecond.left);
       }
       else {
-        EXPECT_EQ(4, listPoint.size());
+        EXPECT_EQ(4, plistPoint->size());
         EXPECT_EQ(ppt3->y, ppt4->y);
         EXPECT_EQ(ppt3->y, ppt2->y);
         EXPECT_EQ(ppt3->x, rectSecond.right);
@@ -133,20 +133,20 @@ namespace DACViewTest {
     else if ((ptFirst.x >= rectSecond.left) && (ptFirst.x < rectSecond.right)) {
       ppt4 = *--it;
       if (ptFirst.y < rectSecond.top) {
-        EXPECT_EQ(4, listPoint.size());
+        EXPECT_EQ(4, plistPoint->size());
         EXPECT_EQ(ppt3->x, ppt4->x);
         EXPECT_EQ(ppt3->x, ppt2->x);
         EXPECT_EQ(ppt3->y, rectSecond.top);
       }
       else {
-        EXPECT_EQ(4, listPoint.size());
+        EXPECT_EQ(4, plistPoint->size());
         EXPECT_EQ(ppt3->x, ppt4->x);
         EXPECT_EQ(ppt3->x, ppt2->x);
         EXPECT_EQ(ppt3->y, rectSecond.bottom);
       }
     }
     else { // 三个点
-      EXPECT_EQ(3, listPoint.size());
+      EXPECT_EQ(3, plistPoint->size());
       if (ptSecond.y >= rectSecond.bottom) {
         EXPECT_EQ(ppt3->x, ppt2->x);
         EXPECT_EQ(ppt3->y, rectSecond.bottom);
@@ -164,7 +164,7 @@ namespace DACViewTest {
         EXPECT_EQ(ppt3->x, rectSecond.right);
       }
     }
-    listPoint.clear();
+    plistPoint->clear();
   }
 
   struct DLPointNotFindDest {
@@ -207,7 +207,7 @@ namespace DACViewTest {
     CPoint ptSecond1, ptSecond = pFindDest->ptSecond;
     CPoint ptFirst1, ptFirst = pFindDest->ptFirst;
     CPoint ptCurrent = pFindDest->ptCurrent;
-    CPointList listPoint;
+    CPointListPtr plistPoint = make_shared<CPointList>();
     shared_ptr<CPoint> ppt, ppt1, ppt2, ppt3;
 
     ptSecond1 = ptSecond;
@@ -215,7 +215,7 @@ namespace DACViewTest {
 
     ppt = make_shared<CPoint>();
     *ppt = ptFirst;
-    listPoint.push_back(ppt);
+    plistPoint->push_back(ppt);
 
     if ((ptSecond.x == ptCurrent.x) && (ptSecond.y == ptCurrent.y)) { // 直线
       if (ptSecond.x == ptFirst.x) { // 纵向
@@ -225,11 +225,11 @@ namespace DACViewTest {
         ppt->x += 3; // 故意移动一下，测试能否移至ptFirst.x
       }
     }
-    CreateDynLinkPoint(&listPoint, &ptFirst1, &ptSecond1, ptCurrent);
+    CreateDynLinkPoint(plistPoint, &ptFirst1, &ptSecond1, ptCurrent);
 
-    auto it = listPoint.end();
+    auto it = plistPoint->end();
     if ((ptSecond.x == ptCurrent.x) && (ptSecond.y == ptCurrent.y)) { // 直线
-      EXPECT_EQ(2, listPoint.size());
+      EXPECT_EQ(2, plistPoint->size());
       ppt1 = *--it;
       EXPECT_EQ(ppt1->x, ptSecond.x);
       EXPECT_EQ(ppt1->y, ptSecond.y);
@@ -237,8 +237,8 @@ namespace DACViewTest {
       EXPECT_EQ(ppt->y, ptFirst.y);
     }
     else {
-      EXPECT_EQ(3, listPoint.size()); 
-      it = listPoint.begin();
+      EXPECT_EQ(3, plistPoint->size()); 
+      it = plistPoint->begin();
       ppt = *it++;
       ppt2 = *it++;
       ppt3 = *it++;
@@ -249,7 +249,7 @@ namespace DACViewTest {
       EXPECT_EQ(ptFirst1.x, ptSecond.x);
       EXPECT_EQ(ptFirst1.y, ptSecond.y);
     }
-    listPoint.clear();
+    plistPoint->clear();
   }
 
   TEST_P(TestDLPointNotFindDest, TestCreateDynLinkPointNotFindDest2) { // 无起点无终点
@@ -258,27 +258,27 @@ namespace DACViewTest {
     CPoint ptSecond = pFindDest->ptSecond;
     CPoint ptSecond1, ptFirst = pFindDest->ptFirst;
     CPoint ptCurrent = pFindDest->ptCurrent;
-    CPointList listPoint;
+    CPointListPtr plistPoint = make_shared<CPointList>();
     shared_ptr<CPoint> ppt;
 
     ptSecond1 = ptSecond;
 
     ppt = make_shared<CPoint>();
     *ppt = ptFirst;
-    listPoint.push_back(ppt);
+    plistPoint->push_back(ppt);
     ppt = make_shared<CPoint>();
     *ppt = ptSecond;
-    listPoint.push_back(ppt);
+    plistPoint->push_back(ppt);
 
-    CreateDynLinkPoint(&listPoint, &ptFirst, &ptSecond, ptCurrent);
+    CreateDynLinkPoint(plistPoint, &ptFirst, &ptSecond, ptCurrent);
 
-    ppt = listPoint.back();
+    ppt = plistPoint->back();
     EXPECT_EQ(ppt->x, ptSecond.x); // 此时ptFirst已经移至ptSecond
     EXPECT_EQ(ppt->y, ptSecond.y);
     EXPECT_EQ(ptSecond1.x, ptFirst.x);
     EXPECT_EQ(ptSecond1.y, ptFirst.y);
 
-    listPoint.clear();
+    plistPoint->clear();
   }
 }
 

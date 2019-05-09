@@ -1008,7 +1008,7 @@ void CUnitComponent::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart
   }
   else { // 未封装的部件同时处理自身和内部单元序列
     shared_ptr<CPoint> ppt1, ppt2;
-    CPointList * plist;
+    CPointListPtr plist;
 
     CUDLList * plistDynLink;
 

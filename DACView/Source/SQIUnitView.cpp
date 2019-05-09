@@ -389,7 +389,7 @@ CSQIUnitView::CSQIUnitView(void)
 
   m_pCUnitComponentCurrent = nullptr;       // 不存在包含最上层单元序列的部件。
 
-  m_plistLinkPoint = new CPointList;
+  m_plistLinkPoint = make_shared<CPointList>();
 
   m_lSrcIndex = m_lDestIndex = -1;
 	m_ulDynLinkType = 0;
@@ -400,7 +400,6 @@ CSQIUnitView::CSQIUnitView(void)
 CSQIUnitView::~CSQIUnitView()
 {
   m_plistLinkPoint->clear();
-  delete m_plistLinkPoint;
 }
 
 BOOL CSQIUnitView::PreCreateWindow(CREATESTRUCT& cs)
@@ -785,7 +784,7 @@ void CSQIUnitView::CreateUniName(CUnitBase * pCUnit) {
   pCUnit->CreateUniName(listUnit);
 }
 
-void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointList * plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent) {
+void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointListPtr plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent) {
   auto it = plistLinkPoint->begin();
   INT_PTR iCount = plistLinkPoint->size();
   shared_ptr<CPoint> ppt1, ppt2;
@@ -817,7 +816,7 @@ void CSQIUnitView::AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint pt
   }
 }
 
-void CSQIUnitView::DeleteDynLinkPointList(CPointList * plistLinkPoint) {
+void CSQIUnitView::DeleteDynLinkPointList(CPointListPtr plistLinkPoint) {
   plistLinkPoint->clear();
 }
 

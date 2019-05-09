@@ -53,8 +53,7 @@ CUnitDelayTime::CUnitDelayTime(const CString& Name, CPoint pt): CUnitBase(Name, 
 
 	m_eDelayTime = 1.0;
 
-	m_peData = nullptr;
-	m_pDataCurrent = nullptr;
+  m_pDataCurrent = m_peData.begin();
 
 	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
 		m_vfSelected.push_back(false);
@@ -75,18 +74,15 @@ CUnitDelayTime::CUnitDelayTime( void ) : CUnitBase() {
   m_eLoLimit = 0.0;
 
 	m_eDelayTime = 1.0;
-
-	m_peData = nullptr;
-	m_pDataCurrent = nullptr;
   
+  m_pDataCurrent = m_peData.begin();
+
 	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
 		m_vfSelected.push_back(false);
 	}
 }
 
 CUnitDelayTime::~CUnitDelayTime() {
-	delete []m_peData;
-	m_peData = nullptr;
 	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
 }
                               
@@ -99,8 +95,8 @@ void CUnitDelayTime::Serialize( CArchive& ar ) {
   else {
     ar >> m_eHiRange >> m_eLoRange >> m_eHiLimit >> m_eLoLimit >> m_eDelayTime;
 		m_ulDataLength = (ULONG)(((m_eDelayTime + 0.01) * 1000) / m_lScanRate);
-		m_peData = new double[m_ulDataLength];
-		m_pDataCurrent = m_peData;
+		m_pDataCurrent = m_peData.begin();
+    m_peData.resize(m_ulDataLength);
 		for ( ULONG i = 0; i < m_ulDataLength; i ++ ) {
 			m_peData[i] = 0.0;
 		}
@@ -139,8 +135,8 @@ ULONG CUnitDelayTime::GetParaType( ULONG index ) {
 void CUnitDelayTime::Exective( void ) {
   if ( m_fAutoExective ) {
     *m_pDataCurrent++ = m_eInput;
-		if ( m_pDataCurrent == (m_peData + m_ulDataLength) ) {
-			m_pDataCurrent = m_peData;
+		if (m_pDataCurrent == m_peData.end()) {
+			m_pDataCurrent = m_peData.begin();
 		}
 		m_eOutput = *m_pDataCurrent;
   }

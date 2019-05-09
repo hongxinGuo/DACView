@@ -48,7 +48,7 @@ public:
 	bool  IsLinkIntoSrcComponnet(void) { return m_fLinkIntoSourceComponent; }
 	bool IsLinkIntoDestComponent(void) { return m_fLinkIntoDestComponent; }
 	CUnitComponent * GetCurrentComponent(void) { return m_pCUnitComponentCurrent; }
-	CPointList * GetLinkPointList(void) { return m_plistLinkPoint; }
+	CPointListPtr GetLinkPointList(void) { return m_plistLinkPoint; }
 	CPoint GetMousePosition(void) { return m_ptMousePosition; }
 	CPoint GetFirstPt(void) { return m_ptFirst; }
 	CPoint GetSecondPt(void) { return m_ptSecond; }

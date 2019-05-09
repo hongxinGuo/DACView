@@ -63,7 +63,7 @@ CUnitDynLink::CUnitDynLink( void ) : CObjectPrimitive() {
   m_lDestIndex = -1;     // 索引位置不能为负值，故设置初始值为-1
   m_fDeleteMe = FALSE;
   m_fLoopDetect = FALSE;
-  m_plistLinkPoint = new CPointList;
+  m_plistLinkPoint = make_shared<CPointList>();
 
   mTest_pDestUnitSaved = nullptr;
 }
@@ -71,7 +71,6 @@ CUnitDynLink::CUnitDynLink( void ) : CObjectPrimitive() {
 
 CUnitDynLink::~CUnitDynLink() {
   m_plistLinkPoint->clear();
-  delete m_plistLinkPoint;
 } 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -355,7 +354,7 @@ INT32 CUnitDynLink::GetDynLinkType( void ) const {
 // GetLinkPointList()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-CPointList * CUnitDynLink::GetLinkPointList( void ) {
+shared_ptr<CPointList> CUnitDynLink::GetLinkPointList( void ) {
   return( m_plistLinkPoint );
 }
 
@@ -463,7 +462,7 @@ void CUnitDynLink::SetDestIndex( INT32 ulIndex) {
 // SetLinkPointList()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-void CUnitDynLink::SetLinkPointList( CPointList * plist ) {
+void CUnitDynLink::SetLinkPointList( CPointListPtr plist ) {
   INT_PTR iCount;
   shared_ptr<CPoint> ppt;
 
