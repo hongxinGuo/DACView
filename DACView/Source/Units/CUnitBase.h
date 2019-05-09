@@ -318,5 +318,7 @@ public:
   bool      mtest_fEncapsulating;   // 记录是否处于编译中。用于编译完成后，记录此次编译过的单元
 };
 
+typedef shared_ptr<CUnitBase> UnitBasePtr;
+
 #endif
 

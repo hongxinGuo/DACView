@@ -76,7 +76,7 @@ CUnitComponent::CUnitComponent(const CString& Name, CPoint pt, bool fEncapsualti
 
 	for ( int i = 0; i < 16; i++ ) {
 		m_aulSuitable[i] = false;
-	  m_pInterfacePara[i] = new CUCPara;
+	  m_pInterfacePara[i] = make_shared<CUCPara>();
     _itoa_s(i, buffer, 10);
     m_pInterfacePara[i]->SetName(strName + buffer);
 	}
@@ -99,7 +99,7 @@ CUnitComponent::CUnitComponent(bool fEncapsualtionPermitted) : CUnitBase() {
   char buffer[50];
 	for (int i = 0; i < 16; i++) {
 		m_aulSuitable[i] = false;
-	  m_pInterfacePara[i] = new CUCPara;
+    m_pInterfacePara[i] = make_shared<CUCPara>();
     _itoa_s(i, buffer, 10);
     m_pInterfacePara[i]->SetName(strName + buffer);
 	}
@@ -122,7 +122,7 @@ CUnitComponent::CUnitComponent( void ) : CUnitBase() {
   char buffer[50];
 	for ( int i = 0; i < 16; i++ ) {
 		m_aulSuitable[i] = false;
-	  m_pInterfacePara[i] = new CUCPara;
+    m_pInterfacePara[i] = make_shared<CUCPara>();
     _itoa_s(i, buffer, 10);
     m_pInterfacePara[i]->SetName(strName + buffer);
 	}
@@ -136,14 +136,9 @@ CUnitComponent::CUnitComponent( void ) : CUnitBase() {
 }
 
 CUnitComponent::~CUnitComponent() {
-  for (int i = 0; i < 16; i++) {
-    if (m_pInterfacePara[i] != nullptr) {
-      delete m_pInterfacePara[i];
-    }
-  }
 
-	for (auto pcunit : m_CUnitList) {
-		delete pcunit;
+	for (auto punit : m_CUnitList) {
+		delete punit;
 	}
 	//  TRACE("%d units in %s %s deleted\n", i, this->GetClassNameStr(), m_strName);                  
 		// release list's memory
@@ -185,11 +180,12 @@ void CUnitComponent::Serialize( CArchive& ar ) {
 		}
 		ar << (INT64)m_fCanViewIn << m_lReserved11 << m_lReserved12;
     for (int i = 0; i < 16; i++) {
-      ar << m_pInterfacePara[i];
+      ar << m_pInterfacePara[i].get();
     }
   }
   else {
     // TODO: add loading code here
+    CUCPara * pCPara;
     ar >> iTemp;
     for (int i = 0; i < iTemp; i++) {
       ar >> pcunit;
@@ -215,8 +211,8 @@ void CUnitComponent::Serialize( CArchive& ar ) {
     m_fCanViewIn = (bool)a;
 
     for (int i = 0; i < 16; i++) {
-      if (m_pInterfacePara[i] != nullptr) delete m_pInterfacePara[i];
-      ar >> m_pInterfacePara[i];
+      ar >> pCPara;
+      m_pInterfacePara[i].reset(pCPara);
     }
 
     if (m_fEncapsulated) { // 如果是封装了的部件，则设置内部单元序列的编译标志。

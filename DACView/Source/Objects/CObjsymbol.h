@@ -67,7 +67,9 @@ protected:
   list<CRect *>           m_CRectList;
   CRect                   m_rectSymbolOrigin;
 
-};      
+};     
+
+typedef shared_ptr<CObjectSymbol> ObjectSymbolPtr;
 
 #endif
 

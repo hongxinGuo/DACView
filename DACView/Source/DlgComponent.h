@@ -21,10 +21,10 @@ public:
 	};
 #endif
 
-	bool						SetCUCPara(CUCPara * pCUCP[16]);
+	bool						SetCUCPara(shared_ptr<CUCPara> pCUCP[16]);
 
 protected:
-	CUCPara	*			m_pCUCP[16];			// 16个参数指针
+	shared_ptr<CUCPara>		m_pCUCP[16];			// 16个参数指针
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持

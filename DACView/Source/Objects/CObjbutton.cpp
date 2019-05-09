@@ -237,7 +237,7 @@ void CObjectButton::ToShowStatic( CDC * const pdc, CPoint  ) {
 	if ( m_fSelected ) SetFocus( pdc );
 }  
 													  
-void CObjectButton::ToShowDynamic( CDC * const pdc ) {
+void CObjectButton::ToShowDynamic(CDC * const pdc ) {
   CPen p1(PS_SOLID, 1, RGB(255, 255, 255));
   CPen p2(PS_SOLID, 1, RGB(64, 64, 64)), p3(PS_SOLID, 1, RGB(0, 0, 0)), * pp;
   COLORREF clrFore, clrBk;

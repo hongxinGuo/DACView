@@ -166,7 +166,9 @@ protected :
 	CBitmap			m_Bitmap;							// 
 	bool 				m_fCreateMemoryDC;		//
 
-};                        
+};     
+
+typedef shared_ptr<CObjectBase> ObjectPtr;
 
 #endif
   

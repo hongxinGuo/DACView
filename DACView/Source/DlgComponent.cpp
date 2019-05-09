@@ -21,7 +21,7 @@ DlgComponent::~DlgComponent()
 {
 }
 
-bool DlgComponent::SetCUCPara(CUCPara * pCUCP[])
+bool DlgComponent::SetCUCPara(shared_ptr<CUCPara> pCUCP[16])
 {
   for (int i = 0; i < 16; i++) {
     m_pCUCP[i] = pCUCP[i];

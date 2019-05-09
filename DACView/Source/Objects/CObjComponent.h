@@ -71,4 +71,6 @@ protected:
 
 };
 
+typedef shared_ptr<CObjectComponent> ObjectComponentPtr;
+
 #endif

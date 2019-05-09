@@ -514,9 +514,6 @@
     <ClInclude Include="DACView\Source\DlgChoicePara.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\DlgComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\DlgDeleteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -582,6 +579,9 @@
     </ClInclude>
     <ClInclude Include="DACView\Source\Objects\DlgObjComponent.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\DlgComponent.h">
+      <Filter>Header Files\Units</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

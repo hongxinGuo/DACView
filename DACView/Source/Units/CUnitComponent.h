@@ -219,7 +219,7 @@ protected :
   CUnitList			  m_CRunTimeUnitList;
 	CUnitList       m_CUnitList;
 
-	CUCPara  *      m_pInterfacePara[16];
+	shared_ptr<CUCPara>     m_pInterfacePara[16];
 
 	bool						m_fCanViewIn;
 	bool						m_fEncapsulated;    //已被封装标志 
@@ -249,6 +249,8 @@ public:
   INT32           m_lInputParaNumber;
   INT32           m_lOutputParaNumber;
 };   
+
+typedef shared_ptr<CUnitComponent> UnitComponentPtr;
 
 #endif
 
