@@ -253,6 +253,7 @@
       <AdditionalDependencies>jpeg64.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>true</Profile>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>

@@ -69,7 +69,7 @@ protected:
 
 };     
 
-typedef shared_ptr<CObjectSymbol> ObjectSymbolPtr;
+typedef shared_ptr<CObjectSymbol> CObjectSymbolPtr;
 
 #endif
 

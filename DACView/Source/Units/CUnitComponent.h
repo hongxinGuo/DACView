@@ -2,6 +2,7 @@
 //
 // 部件类，是单元类的一个封装体，正式名称为“部件”，被当成一个单独的单元来处理，外部无法看进去。
 // 有外特性，无内部特性，与外界的信息交流只存在于部件的动态连接内。
+// 部件有两种形式：可封装的部件和不可封装的部件。不可封装的部件只是一个单元序列的容器；可封装的部件则是实现数据隔离的工具。
 //
 // CUnitComponent有16个参数池，用于封装部件保存联入和联出的参数，内部单元需要联出或者联入的参数，封装后与参数池的某一个参数链接，
 // 此后外部与此部件的交流，必须通过参数池中的参数。部件参数的链接方向，以部件为主体，从部件联出到上层单元的，其动态链接类型为tOUTPUT，
@@ -250,7 +251,7 @@ public:
   INT32           m_lOutputParaNumber;
 };   
 
-typedef shared_ptr<CUnitComponent> UnitComponentPtr;
+typedef shared_ptr<CUnitComponent> CUnitComponentPtr;
 
 #endif
 
