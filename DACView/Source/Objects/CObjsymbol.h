@@ -64,7 +64,7 @@ protected:
 // serialized data
 
 // no serialized data
-  list<CRect *>           m_CRectList;
+  list<shared_ptr<CRect>> m_CRectList;
   CRect                   m_rectSymbolOrigin;
 
 };     

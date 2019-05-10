@@ -128,15 +128,6 @@ void CObjectComponent::ToShowStatic( CDC * const pdc, CPoint  ) {
 
       memset(&mapInfo, 0, sizeof(mapInfo));
       mapInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-      mapInfo.bmiHeader.biHeight = -m_img.height();
-      mapInfo.bmiHeader.biWidth = m_img.width();
-      mapInfo.bmiHeader.biPlanes = 1;
-      mapInfo.bmiHeader.biBitCount = 0;
-      mapInfo.bmiHeader.biCompression = BI_RGB;
-      mapInfo.bmiHeader.biSizeImage = m_img._view.size();
-      int iGet = StretchDIBits(pdc->m_hDC, 0, 0, m_img.width(), m_img.height(), 0, 0, m_img.width(), m_img.height(),
-         m_pJpegFile, &mapInfo, DIB_RGB_COLORS, SRCCOPY);
-      ASSERT(iGet != GDI_ERROR);
 		}
 		else {
   		CBrush cbb, *pcb;

@@ -1,6 +1,9 @@
 #ifndef __OBJECT_GRAPH_H__
 #define __OBJECT_GRAPH_H__
 
+using namespace std;
+#include<array>
+
 #include "cObjRectBase.h"
 
 class CObjectGraph : public CObjRectBase {
@@ -60,9 +63,9 @@ protected:
 	INT32				m_ulDataLength;   // graph length
 
 // no serialize data
-	CPen * 			m_ppenGraph[4];
-	double *		m_eptrData[4];		// store display data, used by ShowView
-	double * 		m_ptrBegin[4];
+	shared_ptr<CPen>  m_ppenGraph[4];
+	array<vector<double>, 4> m_eptrData;		// store display data, used by ShowView
+	vector<double>::iterator m_ptrBegin[4];
 	ULONG				m_pScrollLength[4];
 	
 	double 			m_eUpperLimit;

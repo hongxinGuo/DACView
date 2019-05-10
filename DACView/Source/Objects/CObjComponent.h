@@ -11,12 +11,6 @@
 #ifndef __OBJECT_COMPONENT_H__
 #define __OBJECT_COMPONENT_H__
 
-#include<boost/gil/gil_all.hpp>
-#include <boost/gil/image.hpp>
-#include <boost/gil/typedefs.hpp>
-#include <boost/gil/extension/io/jpeg_io.hpp>
-using namespace boost::gil;
-
 using namespace std;
 #include<memory>
 
@@ -65,7 +59,6 @@ protected:
 	// noserialize data   
   HBITMAP *         m_hBitmap;
   char *            m_pJpegFile;
-  rgb8_image_t      m_img;
   int               m_iFileSize;
   bool              m_fLoadBitmap;
 

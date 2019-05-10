@@ -44,12 +44,12 @@ CObjectGraph::CObjectGraph(const CString& s, CRect r) : CObjRectBase(s, r) {
   m_ulInputDataType = tDOUBLE;
           
   for ( int i = 0; i < 4; i++ ) {
-    m_ppenGraph[i] = new CPen(PS_SOLID, 1, m_penColor[i]);
-    m_eptrData[i] = new double[m_ulDataLength+1];
+    m_ppenGraph[i] = make_unique<CPen>(PS_SOLID, 1, m_penColor[i]);
+    m_eptrData[i].resize(m_ulDataLength+1);
     for ( ULONG j = 0; j < m_ulDataLength; j ++ ) {
       m_eptrData[i][j] = 0.0;   // reset buffer
     }
-    m_ptrBegin[i] = m_eptrData[i];
+    m_ptrBegin[i] = m_eptrData[i].begin();
   }
   m_eUpperLimit = 2;
   m_eLowLimit = 0;
@@ -69,9 +69,8 @@ CObjectGraph::CObjectGraph( void ) : CObjRectBase( ) {
   m_ulInputDataType = tDOUBLE;
   m_ulDataLength = 0;
   for ( int i = 0; i < 4; i++ ) {
-    m_eptrData[i] = nullptr;		 
 		m_ppenGraph[i] = nullptr;
-    m_ptrBegin[i] = m_eptrData[i];
+    m_ptrBegin[i] = m_eptrData[i].begin();
     m_pScrollLength[i] = 0;
   }
   m_eUpperLimit = 2;
@@ -88,12 +87,6 @@ CObjectGraph::CObjectGraph( void ) : CObjRectBase( ) {
 }
 
 CObjectGraph::~CObjectGraph() {
-  for ( int i = 0; i < 4; i++ ) {
-    delete [](m_eptrData[i]);
-    m_eptrData[i] = nullptr;
-    delete m_ppenGraph[i];
-    m_ppenGraph[i] = nullptr;
-  }
   m_MemoryDC.DeleteDC();
 	
 	ASSERT(m_vfSelected.size() == sm_ulStringEnd + 1);
@@ -140,21 +133,13 @@ void CObjectGraph::Serialize( CArchive& ar ) {
     }
      
     for ( i = 0; i < 4; i++ ) {
-      if ( m_eptrData[i] != nullptr ) {
-        delete [](m_eptrData[i]);
-        m_eptrData[i] = nullptr;
-      }
       if ( m_ulDataLength < (m_rectArea.Width() - 4) ) m_ulDataLength = m_rectArea.Width() - 4;
-      m_eptrData[i] = new double[m_ulDataLength+1];
-      m_ptrBegin[i] = m_eptrData[i];
+      m_eptrData[i].resize(m_ulDataLength+1);
+      m_ptrBegin[i] = m_eptrData[i].begin();
       for ( ULONG j = 0; j <= m_ulDataLength; j ++ ) {
         m_eptrData[i][j] = 0.0;   // reset buffer
       }
-      if ( m_ppenGraph[i] != nullptr ) {
-        delete m_ppenGraph[i];
-        m_ppenGraph[i] = nullptr;
-      }
-      m_ppenGraph[i] = new CPen(PS_SOLID, 1, m_penColor[i]);
+      m_ppenGraph[i] = make_shared<CPen>(PS_SOLID, 1, m_penColor[i]);
     }
   }
 } 
@@ -254,12 +239,12 @@ void CObjectGraph::ToShowStatic( CDC * const pdc, CPoint  ) {
 void CObjectGraph::ToShowDynamic( CDC * const pdc ) {
   double eRangeRate;
   double eRange;
-  double * pData;
+  vector<double>::iterator pData;
   CPen *penOld, penBorder(PS_SOLID, 1, RGB(0, 0, 0)), p1(PS_SOLID, 1, RGB(255, 255, 255));
   CPen p2(PS_SOLID, 1, RGB(64, 64, 64));
   CRect rectGraph, rectScroll;
   CBrush cbb, cbb1;
-  double * pe[4];
+  vector<double>::iterator pe[4];
   int iCount1, iCount2, lScrollLength;
 	CBitmap * pBitmap;
   CRect rectArea = m_rectArea, rectLastTime = m_rectLastTime;
@@ -338,19 +323,19 @@ void CObjectGraph::ToShowDynamic( CDC * const pdc ) {
     m_MemoryDC.FillRect(rectGraph, &cbb1);
     eRange = m_eUpperLimit - m_eLowLimit;
     eRangeRate = eRange/rectScroll.Height();
-		penOld = m_MemoryDC.SelectObject(m_ppenGraph[0]);
+		penOld = m_MemoryDC.SelectObject(m_ppenGraph[0].get());
     for ( iCount1 = 0; iCount1 < 4; iCount1 ++ ) {
       if ( m_vfSelected[iCount1] == false ) continue; // not selected, ignore this pen
-      m_MemoryDC.SelectObject(m_ppenGraph[iCount1]);
+      m_MemoryDC.SelectObject(m_ppenGraph[iCount1].get());
       pData = pe[iCount1];
-      if ( pData == m_eptrData[iCount1] ) {
-        pData = m_eptrData[iCount1] + m_ulDataLength;
+      if ( pData == m_eptrData[iCount1].begin() ) {
+        pData = m_eptrData[iCount1].end();
       }                                
       else pData--;
       m_MemoryDC.MoveTo(rectScroll.right-1, rectScroll.bottom - 1 - int((*pData - m_eLowLimit)/eRangeRate));
       for ( iCount2 = 1; iCount2 <= lScrollLength; iCount2 ++ ) {
-        if ( pData == m_eptrData[iCount1] ) {
-          pData = m_eptrData[iCount1] + m_ulDataLength;
+        if ( pData == m_eptrData[iCount1].begin() ) {
+          pData = m_eptrData[iCount1].end();
         }                                
         else pData--;
         m_MemoryDC.LineTo(rectScroll.right - iCount2 - 1, rectScroll.bottom - 1 - int((*pData - m_eLowLimit)/eRangeRate));
@@ -388,16 +373,16 @@ void CObjectGraph::ToShowDynamic( CDC * const pdc ) {
     eRangeRate = eRange/rectScroll.Height();
     for ( iCount1 = 0; iCount1 < 4; iCount1 ++ ) {
       if ( m_vfSelected[iCount1] == false ) continue; // not selected, ignore this pen
-      m_MemoryDC.SelectObject(m_ppenGraph[iCount1]);
+      m_MemoryDC.SelectObject(m_ppenGraph[iCount1].get());
       pData = pe[iCount1];
-      if ( pData == m_eptrData[iCount1] ) {
-        pData = m_eptrData[iCount1] + m_ulDataLength;
+      if ( pData == m_eptrData[iCount1].begin() ) {
+        pData = m_eptrData[iCount1].end();
       }                                
       else pData--;
       m_MemoryDC.MoveTo(rectScroll.right-1, rectScroll.bottom - 1 - int((*pData - m_eLowLimit)/eRangeRate));
       for ( iCount2 = 1; iCount2 < rectScroll.Width(); iCount2 ++ ) {
-        if ( pData == m_eptrData[iCount1] ) {
-          pData = m_eptrData[iCount1] + m_ulDataLength;
+        if ( pData == m_eptrData[iCount1].begin() ) {
+          pData = m_eptrData[iCount1].end();
         }                                
         else pData--;
         m_MemoryDC.LineTo(rectScroll.right - 1 - iCount2, rectScroll.bottom - 1 - int((*pData - m_eLowLimit)/eRangeRate));
@@ -469,8 +454,8 @@ bool CObjectGraph::SetDouble(ULONG ulIndex, double eValue) {
 
   CSingleLock slLock( &m_csLock );
   slLock.Lock();
-  if ( m_ptrBegin[ulIndex] == (m_eptrData[ulIndex] + m_ulDataLength) ) {
-    m_ptrBegin[ulIndex] = m_eptrData[ulIndex];
+  if ( m_ptrBegin[ulIndex] == m_eptrData[ulIndex].end() ) {
+    m_ptrBegin[ulIndex] = m_eptrData[ulIndex].begin();
   }
   else {
     m_ptrBegin[ulIndex]++; 

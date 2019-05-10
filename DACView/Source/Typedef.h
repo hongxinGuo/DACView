@@ -52,10 +52,12 @@ typedef shared_ptr<CPointList> CPointListPtr;
 class CUnitBase;
 typedef list<CUnitBase *> CUnitList;
 typedef vector<CUnitBase *> CUnitVector;
+typedef shared_ptr<CUnitBase> CUnitBasePtr;
 
 class CObjectBase;
 typedef vector<CObjectBase *> CObjectVector;
 typedef list<CObjectBase *> CObjectList;
+typedef shared_ptr<CObjectBase> CObjectBasePtr;
 
 class CUnitDictionary;
 typedef list<shared_ptr<CUnitDictionary>> CDicList;

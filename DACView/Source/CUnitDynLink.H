@@ -88,7 +88,7 @@ protected :
   CPointListPtr m_plistLinkPoint;		// 从源单元到目标单元的动态连接的点序列（用于显示）。
 	  
 // Not Serialized Data
-  shared_ptr<CUnitBase>   m_punitSrc;
+  CUnitBasePtr   m_punitSrc;
 	BOOL 				m_fDeleteMe;        // 是否删除标志.
 	BOOL				m_fLoopDetect;			// 是否本动态连接位于一个循环中（循环连接的必须设置截断点，否则会出现重复计算）。
 

@@ -35,9 +35,6 @@ CObjectSymbol::~CObjectSymbol() {
 	// release list's memory
 	m_CObjectList.clear();
 
-  for (auto prect : m_CRectList) {
-    delete prect;
-  }
   m_CRectList.clear();
 }
 
@@ -148,13 +145,12 @@ void CObjectSymbol::Dump(CDumpContext& dc) const
 
 void CObjectSymbol::Serialize( CArchive& ar ) {	
 	CObjectComponentBase::Serialize( ar );
-  CRect * prect;
+  shared_ptr<CRect> prect;
 
-  for (auto pcobj : m_CObjectList) {
-    prect = new CRect;
-    *prect = pcobj->GetSize();
+  for (auto pobj : m_CObjectList) {
+    prect = make_shared<CRect>(pobj->GetSize());
     m_CRectList.push_back( prect );
-    pcobj->SetSymbolThatHaveMe( this );
+    pobj->SetSymbolThatHaveMe( this );
   }
   m_rectSymbolOrigin = m_rectOrigin;
 }
