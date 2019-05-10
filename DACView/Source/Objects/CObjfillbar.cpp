@@ -148,7 +148,7 @@ const CString& CObjectFillBar::GetClassNameStr( void ) {
 }
 
 bool CObjectFillBar::ExectiveDynLink( ) {
-	CUnitBase * pcunit;
+	CUnitBasePtr pcunit;
 	ULONG ulSourceIndex, ulDestIndex;
 		
 	for ( const auto pcobjDynLink : m_listDynLink) {

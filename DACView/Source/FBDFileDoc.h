@@ -21,7 +21,7 @@ public:
 
 // Operations
 public:                        
-	CUnitBase * 			FindUnit( CString TagName );
+	CUnitBasePtr 			FindUnit( CString TagName );
   CUnitList *       GetUnitList( void );
 	CObjectList *     GetObjectList( void );
   

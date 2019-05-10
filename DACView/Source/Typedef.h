@@ -50,11 +50,15 @@ typedef list<shared_ptr<CPoint>> CPointList;
 typedef shared_ptr<CPointList> CPointListPtr;
 
 class CUnitBase;
-typedef list<CUnitBase *> CUnitList;
-typedef vector<CUnitBase *> CUnitVector;
 typedef shared_ptr<CUnitBase> CUnitBasePtr;
+typedef list<CUnitBasePtr> CUnitList;
+typedef vector<CUnitBasePtr> CUnitVector;
+
+class CUnitComponent;
+typedef shared_ptr<CUnitComponent> CUnitComponentPtr;
 
 class CObjectBase;
+typedef shared_ptr<CObjectBase> ObjectPtr;
 typedef vector<CObjectBase *> CObjectVector;
 typedef list<CObjectBase *> CObjectList;
 typedef shared_ptr<CObjectBase> CObjectBasePtr;

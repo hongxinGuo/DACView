@@ -73,7 +73,7 @@ public:
 	// 调用对话窗处理动态连接
 	bool 				 			IsDeleteDynLink( void );
 	// 删除动态连接
-	virtual bool			DeleteDynLink( CUnitBase * pUnit );
+	virtual bool			DeleteDynLink( CUnitBasePtr pUnit );
 
 	virtual bool      IsDrawAll(void) { return m_fDrawAll; }
   virtual void      SetDrawAll( bool fFlag ) { m_fDrawAll = fFlag; }

@@ -138,7 +138,7 @@ CObjectBase::CObjectBase( void ) : CObjectPrimitive() {
 }
 
 CObjectBase::~CObjectBase() { 
-	CUnitBase * pcUnit;
+	CUnitBasePtr pcUnit;
   
   // delete my dynamic links
   for (auto it = m_listDynLink.begin(); it != m_listDynLink.end(); it++ ) {
@@ -355,8 +355,8 @@ bool CObjectBase::CreateUniName( CObjectList& listObject ) {
 // 当联入方向为从对象至单元时，还须解参数锁。
 //
 /////////////////////////////////////////////////////////////////////////
-bool CObjectBase::DeleteDynLink( CUnitBase * pUnit ) {
-  CUnitBase * pc;
+bool CObjectBase::DeleteDynLink( CUnitBasePtr pUnit ) {
+  CUnitBasePtr pc;
   
   for (auto it = m_listDynLink.begin(); it != m_listDynLink.end(); it++ ) {
     auto pcobjDynLink = *it;

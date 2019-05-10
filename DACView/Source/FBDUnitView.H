@@ -19,21 +19,21 @@ public:
 public:
 
 protected:
-	CUnitBase * FindUnit( CString TagName );
-  CSize       GetUnitDocSize( void );
-  void 	      SetStrategyClipRect( CRect rectClip );
-	BOOL        IsInRect( POINT const pt, CUnitBase* & pcobj );
+	CUnitBasePtr        FindUnit( CString TagName );
+  CSize               GetUnitDocSize( void );
+  void 	              SetStrategyClipRect( CRect rectClip );
+	bool                IsInRect( POINT const pt, CUnitBasePtr & punit );
 
 private:
   
 protected:
 	UINT_PTR						m_uIdTimer;
 
-	CUnitBase * 				m_pCUnitCurrent;
+	CUnitBasePtr 				m_pCUnitCurrent;
 
 	UINT								m_uIntoComponentProcess;
   CUnitList * 		    m_pCUnitListCurrent;// point to current process CUnitList
-  CUnitComponent * 		m_pCUnitComponentCurrent;		// point to current process UnitComponent
+  CUnitComponentPtr		m_pCUnitComponentCurrent;		// point to current process UnitComponent
   CPoint							m_ptCurrentScrollPosition;
   ULONG								m_ulUnitListCurrentCount;
 	CSize               m_sizeUnitDoc;

@@ -176,13 +176,13 @@ void CFBDUnitView::OnDraw(CDC* pDC)
 //		CString TagName : unit's name
 //
 // Return :
-//		CUnitBase * : pointer of unit, nullptr if not found.
+//		CUnitBasePtr : pointer of unit, nullptr if not found.
 //
 // Description :
 //		find the unit's pointer according its name
 //
 ////////////////////////////////////////////////////////////////////////
-CUnitBase * CFBDUnitView::FindUnit( CString TagName ) {
+CUnitBasePtr CFBDUnitView::FindUnit( CString TagName ) {
   for (const auto pc : *m_pCUnitListCurrent) {                            
     if ( (pc->IsMe(TagName))  ) {
       return( pc );
@@ -233,15 +233,15 @@ void 	CFBDUnitView::SetStrategyClipRect( CRect rectClip ) {
 //		check whether 'pt' is in a 'rect' of m_pCUnitListCurrent->
 //
 ///////////////////////////////////////////////////////////////////////  
-BOOL CFBDUnitView::IsInRect( POINT const pt, CUnitBase* & pcobj ) {
+bool CFBDUnitView::IsInRect( POINT const pt, CUnitBasePtr & punit ) {
   for (const auto pc : *m_pCUnitListCurrent) {                            
     if ( pc->InIt( pt ) ) {
-      pcobj = pc;
-      return ( TRUE );
+      punit = pc;
+      return (true);
     }
   }
-  pcobj = nullptr;
-  return ( FALSE );
+  punit = nullptr;
+  return (false);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -374,8 +374,8 @@ void CFBDUnitView::OnViewViewin()
 	CPoint pt(0,0);
 	
 	ASSERT( m_pCUnitCurrent->CanViewIn() );
-	((CUnitComponent *)m_pCUnitCurrent)->SetComponentUpper( m_pCUnitComponentCurrent );
-	m_pCUnitComponentCurrent = (CUnitComponent *)m_pCUnitCurrent;
+	m_pCUnitCurrent->SetComponentUpper( m_pCUnitComponentCurrent );
+	m_pCUnitComponentCurrent = dynamic_cast<CUnitComponentPtr>(m_pCUnitCurrent);
 	m_pCUnitComponentCurrent->SetUpperUnitList( m_pCUnitListCurrent );
 	m_pCUnitComponentCurrent->SetUpperScrollPosition(GetScrollPosition());
 	m_pCUnitListCurrent = m_pCUnitComponentCurrent->GetUnitList();        
@@ -466,7 +466,7 @@ void CFBDUnitView::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
   CPoint ptDevice, ptOffset = GetDeviceScrollPosition();
   CString str = " ";
-	CUnitBase * pUnit = nullptr;
+	CUnitBasePtr pUnit = nullptr;
 
   ptDevice = ptOffset + point;
   if ( m_pCUnitCurrent == nullptr ) {

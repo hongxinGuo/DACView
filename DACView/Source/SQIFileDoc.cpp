@@ -123,9 +123,6 @@ bool ReleaseSQIFile(CUnitList * pUnitList, CObjectList * pObjectList) {
   // release list's memory
   pObjectList->clear();
 
-  for (const auto punit : *pUnitList) {
-    delete punit;
-  }
   // release list's memory
   pUnitList->clear();
 
@@ -148,6 +145,7 @@ bool LoadUnitList( CArchive & ar, CUnitList * pUnitList, INT64 * pUnitNumber ) {
   CString strTemp;
   static CString strStrategyFile = "DACVIEW_STRATEGY_VERSION_001_002";
   CUnitBase * punit;
+  CUnitBasePtr punitTemp;
   INT64 iTemp, iUnitNumber;
 
   ar >> strTemp >> iUnitNumber >> iTemp;
@@ -161,7 +159,8 @@ bool LoadUnitList( CArchive & ar, CUnitList * pUnitList, INT64 * pUnitNumber ) {
   // load origin cUnitList
   for ( int i = 0; i < iTemp; i ++ ) {
     ar >> punit;
-    pUnitList->push_back( punit );
+    punitTemp.reset(punit);
+    pUnitList->push_back(punitTemp);
     punit->SetUpperUnitList(pUnitList);
   }  
   return( true );
@@ -210,14 +209,14 @@ void CSQIFileDoc::SaveUnitList( CArchive& ar ) {
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
   ar << strStrategyFile << iTemp;
   for (const auto punit : *m_pUnitList) { 
-    ar << punit;
+    ar << punit.get();
   } 
 
 	//存储RunTimeUnitList
   iTemp = m_pRunTimeUnitList->size();
   ar << iTemp;
   for (const auto punit : *m_pRunTimeUnitList) { 
-    ar << punit;
+    ar << punit.get();
   } 
 }
 
@@ -239,7 +238,7 @@ void CSQIFileDoc::SaveRunTimeUnitList(CArchive& ar) {
   INT64 iTemp = m_pRunTimeUnitList->size();
   ar << iTemp;
   for (const auto punit : *m_pRunTimeUnitList) {
-    ar << punit;
+    ar << punit.get();
   }
 }
 
@@ -323,7 +322,7 @@ void CSQIFileDoc::Serialize(CArchive& ar)
 		ar << strStrategyFile << m_nCurrentUnitNumber << iTotal;
     for (const auto punit : *m_pUnitList) { 
       punit->CheckSelf();
-      ar << punit;
+      ar << punit.get();
     } 
 
     iTotal = m_CObjectList.size();
@@ -399,7 +398,7 @@ CDicList * CSQIFileDoc::GetUnitDictionaryList( ULONG ulType, CObjectBase * pObj 
 	// 将已有的动态连接置入词典中（用于观察、改变和删除之）。
 	for ( const auto pODL : *pODLList ) {
 		ulIndex = pODL->GetUnitIndex();
-		CUnitBase * punit = pODL->GetUnit();
+		CUnitBasePtr punit = pODL->GetUnit();
 		pDic = make_shared<CUnitDictionary>( punit, ulIndex, punit->GetParaType( ulIndex ) );
 		m_CDicList.push_back( pDic );
 		}

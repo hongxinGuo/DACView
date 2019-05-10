@@ -152,12 +152,6 @@ CFBDFileDoc::~CFBDFileDoc() {
 // CFBDFileDoc private function
 
 void CFBDFileDoc::ClearUnitList( void ) {
-  // delete m_CUnitList and m_CRunTimeUnitList
-  INT64 iTemp = m_CUnitList.size();
-  for (auto punit : m_CUnitList) {
-    delete punit;
-  } 
-  TRACE("%d Units deleted\n", iTemp);                  
   // release list's memory
   m_CUnitList.clear();
   
@@ -168,6 +162,7 @@ BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
   // Load strategy file
   CString strTemp, strStrategyFile;
   CUnitBase * punit;
+  CUnitBasePtr punitTemp;
   INT64 iTotal;
 
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
@@ -181,14 +176,16 @@ BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
 
 	for ( int i = 0; i < iTotal; i ++ ) {
     ar >> punit;
-    m_CUnitList.push_back( punit );
+    punitTemp.reset(punit);
+    m_CUnitList.push_back(punitTemp);
   }
 
 	// load CRunTimeUnitList
   ar >> iTotal;
   for ( int i = 0; i < iTotal; i ++ ) {
     ar >> punit;
-    m_CRunTimeUnitList.push_back(punit);
+    punitTemp.reset(punit);
+    m_CRunTimeUnitList.push_back(punitTemp);
   }
 
   return( TRUE );
@@ -197,16 +194,19 @@ BOOL CFBDFileDoc::LoadUnitList( CArchive & ar ) {
 void CFBDFileDoc::SaveUnitList( CArchive& ar ) {
   INT64 iCount = m_CUnitList.size();
   CString strStrategyFile;
+  CUnitBase * punit;
   
   VERIFY(strStrategyFile.LoadString(IDS_STRATEGY_FILE_VERSION));
   ar << strStrategyFile << iCount;
-  for (const auto punit : m_CUnitList) { 
+  for (const auto punitTemp : m_CUnitList) { 
+    punit = punitTemp.get();
     ar << punit;
   } 
 
   iCount = m_CRunTimeUnitList.size();
   ar << iCount;
-  for (const auto punit : m_CRunTimeUnitList) { 
+  for (const auto punitTemp : m_CRunTimeUnitList) { 
+    punit = punitTemp.get();
     ar << punit;
   } 
 }
@@ -396,7 +396,7 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
   ULONGLONG ulTimeTick;
   CObjectBase * pcobj;
   INT_PTR iCount, i;
-	CUnitBase * punit;
+	CUnitBasePtr punit;
       
   if ( IdEvent == pDoc->m_nTimerID ) {
     ulTimeTick = GetTickCount64();
@@ -505,7 +505,7 @@ void CALLBACK CFBDFileDoc::Exective( UINT IdEvent, UINT , DWORD_PTR dwUser, DWOR
   }
 }
 
-CUnitBase * CFBDFileDoc::FindUnit( CString TagName ) {
+CUnitBasePtr CFBDFileDoc::FindUnit( CString TagName ) {
   for (const auto pc : m_CUnitList) {                            
     if ( pc->IsMe( TagName ) ) {
       return( pc );

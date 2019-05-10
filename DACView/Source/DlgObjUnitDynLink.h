@@ -56,7 +56,7 @@ protected :
 	INT32									m_lObjectIndex;
   BOOL                  m_fInputType;
 	INT32									m_lLinkMethod;
-	CUnitBase * 					m_pCUnitCurrent;
+	CUnitBasePtr 					m_pCUnitCurrent;
 	CObjectBase * 				m_pCObjectCurrent;
 	BOOL									m_fUnitToObject;
 		 

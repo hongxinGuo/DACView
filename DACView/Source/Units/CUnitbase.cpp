@@ -349,14 +349,14 @@ bool CUnitBase::IsDynLinkFromUpper(void) {
 //
 ///////////////////////////////////////////////////////////////////////////
 void CUnitBase::SetDestUnitPriority( void ) {
-  CUnitBase * punit = nullptr;
+  CUnitBasePtr punit = nullptr;
   
   for ( auto pcunitDynLink : m_listDynLink ) {
     punit = pcunitDynLink->GetDestUnit();
     if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 如果是简单单元
       punit->SetExectivePriority(m_lExectivePriority + 1); // 设置此单元的执行优先级至少为m_lExectivePriority+1
     }
-    else if ((CUnitComponent *)punit != m_pUnitComponentUpper) { // 如果此目的部件不是包含我的上级部件
+    else if (punit != m_pUnitComponentUpper) { // 如果此目的部件不是包含我的上级部件
       punit->SetExectivePriority(m_lExectivePriority + 1);
     }
   }                                                                                  

@@ -182,7 +182,7 @@ void CDynamicLinkDlg::ChangeLinkName( ULONG ulLinkType ) {
   shared_ptr<CUnitDictionary> pDic;
   CString str;
 	ULONG ulAttr;
-	CUnitBase * pcunit;
+	CUnitBasePtr pcunit;
 	ULONG ulUnitIndex;
              
   SendDlgItemMessage(IDC_LINK_NAME, CB_RESETCONTENT, 0L, 0L); // clear former Dlg's items
@@ -434,7 +434,7 @@ void CDynamicLinkDlg::OnOK()
   if ( m_pCTag != nullptr ) UpdateDynLink(m_pCTag); // restore variable
 
 	ULONG ulObjIndex, ulNewObjIndex, ulUnitIndex, ulNewUnitIndex;
-	CUnitBase * pUnit, *pNewUnit;
+	CUnitBasePtr pUnit, pNewUnit;
 
 	// 清除原来的输入连接标志.
 	for ( const auto pNewDynLink : *m_plistNewDynLink ) {

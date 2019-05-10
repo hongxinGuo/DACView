@@ -13,7 +13,7 @@ class CUnitBase;
 
 class CUnitDictionary : public CObject {
 public :
-	CUnitDictionary( CUnitBase * pcunit, INT64 ulIndex, INT64 ulType ); 
+	CUnitDictionary( CUnitBasePtr pcunit, INT64 ulIndex, INT64 ulType ); 
 	CUnitDictionary( void );
   
   DECLARE_SERIAL(CUnitDictionary);
@@ -22,7 +22,7 @@ public :
 // Attributes
   
 // Operations
-	CUnitBase *   GetUnit( void );
+	CUnitBasePtr  GetUnit( void );
 	CString       GetUnitName( void );
 	INT64         GetUnitIndex( void );
 	INT64         GetType( void );
@@ -44,7 +44,7 @@ protected:
 protected :
 // Serialized Data
 	INT64					m_lNumber;       // index of dictionary
-	CUnitBase *		m_pCUnit;         // point to unit
+	CUnitBasePtr	m_pCUnit;         // point to unit
 	INT64 				m_lUnitIndex;        // unit's index
 	INT64					m_lType;					// tMODIFIALBE, tINPUT or tOUTPUT, tDOUBLE tWORD etc.
 // Not Serialized Data

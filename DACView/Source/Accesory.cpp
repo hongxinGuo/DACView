@@ -6,6 +6,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 
+#include"CUnitBase.h"
 #include"CUnitComponent.h"
 
 #include"accesory.h"
@@ -61,15 +62,15 @@ void DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoint ptEnd) {
   pdc->SelectObject(oldPen);
 }
 
-CUnitBase * FindUnit(CUnitList * pUnitList, CString strUnitName, bool fFind) {
-	for (const auto punit : *pUnitList) {
+CUnitBasePtr FindUnit(CUnitList * pUnitList, CString strUnitName, bool fFind) {
+	for ( auto punit : *pUnitList) {
 		CString str = punit->GetName();
 		if (str.Compare(strUnitName) == 0) {
 			fFind = true;
 			return punit;
 		}
 		if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-			CUnitComponent * pCpt = dynamic_cast<CUnitComponent *>(punit);
+			CUnitComponentPtr pCpt = static_cast<CUnitComponentPtr>(punit);
 			if ( !pCpt->IsEncapsulated()) {
 				return FindUnit(pCpt->GetUnitList(), strUnitName, fFind);
 			}

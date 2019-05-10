@@ -119,7 +119,7 @@ public:
 
   virtual void      AddToList(CUnitList& UnitList) override;
 
-  virtual bool      DeleteDynLink(CUnitBase * pUnit) override;
+  virtual bool      DeleteDynLink(CUnitBasePtr pUnit) override;
 
   virtual bool      CreateUniName(CUnitList& listUnit) override;
 
@@ -127,7 +127,7 @@ public:
   virtual void      ClearDeleteDynLinkFlag(void) override;
 
 	virtual void      ClearLoopDetectFlag(void) override;
-  virtual void      AdjustDynLinkLinePosition(CUnitBase * pc, CPoint ptStart, CPoint ptEnd) override;
+  virtual void      AdjustDynLinkLinePosition(CUnitBasePtr pc, CPoint ptStart, CPoint ptEnd) override;
 
   virtual bool      CanViewIn(void) const override;
   virtual bool			CanLinkIn(void) override;
@@ -147,8 +147,8 @@ public:
   // 这一个参数的是独立的准备参数字典，用于未封装时选择未链接的参数位置，与内部单元的某个参数相链接。与简单单元那个没关系。
   void							PrepareParameterDictionary(CDicList &CListDic, ULONG ulType, int iLinked);
 
-  bool							SetParaSrcUnit(LONG lSrcIndex, CUnitBase * pUnit);
-  bool							SetParaDestUnit(LONG lDestIndex, CUnitBase * pUnit);
+  bool							SetParaSrcUnit(LONG lSrcIndex, CUnitBasePtr pUnit);
+  bool							SetParaDestUnit(LONG lDestIndex, CUnitBasePtr pUnit);
   CUnitBase *				GetParaSrcUnit(LONG lSrcIndex);
   CUnitBase *				GetParaDestUnit(LONG lDestIndex);
   bool							SetParaExectivePriority(LONG lIndex, LONG lPriority);

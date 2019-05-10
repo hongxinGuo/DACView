@@ -75,7 +75,7 @@ void CObjRectBase::Serialize( CArchive& ar ) {
 //
 //////////////////////////////////////////////////////////////////////////////
 bool CObjRectBase::ExectiveDynLink( void ) {
-	CUnitBase * pcunit;
+	CUnitBasePtr pcunit;
 	ULONG ulUnitIndex, ulObjectIndex;
 	CString strTemp;
 	char str[256];

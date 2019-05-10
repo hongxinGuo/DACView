@@ -44,15 +44,17 @@ CObjectDynLink::~CObjectDynLink() {
 void CObjectDynLink::Serialize( CArchive& ar ) {
   CObjectPrimitive::Serialize( ar );
   INT32 a;
+  CUnitBase * punit;
   
   if( ar.IsStoring() ) {
-    ar << m_pCUnit << m_lUnitIndex << m_lObjectIndex
+    ar << m_pCUnit.get() << m_lUnitIndex << m_lObjectIndex
        << m_lLinkMethod << (INT32)m_fUnitToObject << m_strComment;
   }
   else {
-    ar >> m_pCUnit >> m_lUnitIndex >> m_lObjectIndex 
+    ar >> punit >> m_lUnitIndex >> m_lObjectIndex 
        >> m_lLinkMethod >> a >> m_strComment;
-       m_fUnitToObject = (BOOL)a;
+    m_fUnitToObject = (BOOL)a;
+    m_pCUnit.reset(punit);
   } 
 }
 
@@ -100,7 +102,7 @@ CString CObjectDynLink::GetUnitName( void ) const {
   return( m_pCUnit->GetName() );
 }
 
-CUnitBase * CObjectDynLink::GetUnit( void ) const {
+CUnitBasePtr CObjectDynLink::GetUnit( void ) const {
   return( m_pCUnit );
 }
 
@@ -148,7 +150,7 @@ bool CObjectDynLink::IsDeleteMe( void ) const {
   return( m_fDeleteMe );
 }
 
-void CObjectDynLink::SetUnit( CUnitBase * pcSrc) {
+void CObjectDynLink::SetUnit( CUnitBasePtr pcSrc) {
   ASSERT( pcSrc != nullptr );
   m_pCUnit = pcSrc;
   m_strUnitName = pcSrc->GetName();
@@ -171,7 +173,7 @@ void CObjectDynLink::SetObjectIndex( ULONG ulIndex) {
   m_lObjectIndex = ulIndex;
 }
 
-void CObjectDynLink::SetDataFlowUnitToObject( BOOL flag ) {
+void CObjectDynLink::SetDataFlowUnitToObject( bool flag ) {
   m_fUnitToObject = flag;
 }
 

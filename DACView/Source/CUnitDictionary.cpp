@@ -25,7 +25,7 @@ IMPLEMENT_SERIAL(CUnitDictionary, CObject, 1 | VERSIONABLE_SCHEMA);
 static char THIS_FILE[] = __FILE__;
 #endif   
 
-CUnitDictionary::CUnitDictionary( CUnitBase * pcunit, INT64 ulIndex, INT64 ulType ) 
+CUnitDictionary::CUnitDictionary( CUnitBasePtr pcunit, INT64 ulIndex, INT64 ulType ) 
 	: CObject() {
 	m_pCUnit		= pcunit;
 	m_lUnitIndex		= ulIndex;
@@ -55,7 +55,7 @@ CUnitDictionary::~CUnitDictionary() {
 // GetUnit()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-CUnitBase * CUnitDictionary::GetUnit( void ) {
+CUnitBasePtr CUnitDictionary::GetUnit( void ) {
 	return( m_pCUnit );
 }
 

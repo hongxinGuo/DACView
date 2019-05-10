@@ -106,7 +106,7 @@ const CString& CObjectGauge::GetClassNameStr( void ) {
 }
 
 bool CObjectGauge::ExectiveDynLink( ) {
-  CUnitBase * pcunit;
+  CUnitBasePtr pcunit;
   ULONG ulSourceIndex, ulDestIndex;
   
   for ( const auto pcobjDynLink : m_listDynLink ) {

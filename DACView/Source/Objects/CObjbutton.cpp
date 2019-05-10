@@ -95,7 +95,7 @@ const CString& CObjectButton::GetClassNameStr( void ) {
 
 bool CObjectButton::ExectiveDynLink( void ) {
   // Dynamic Link Button
-  CUnitBase * pcunit;
+  CUnitBasePtr pcunit;
   ULONG ulDestIndex;
     
   for ( const auto pcobjDynLink : m_listDynLink ) {

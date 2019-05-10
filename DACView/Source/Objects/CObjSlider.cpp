@@ -115,7 +115,7 @@ const CString& CObjectSlider::GetClassNameStr( void ) {
 }
 
 bool CObjectSlider::ExectiveDynLink( ) {
-  CUnitBase * pcunit;
+  CUnitBasePtr pcunit;
   ULONG ulSourceIndex, ulDestIndex;
     
   for (const auto pcobjDynLink : m_listDynLink) {

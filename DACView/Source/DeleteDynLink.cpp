@@ -1,5 +1,6 @@
 #include"stdafx.h"
 
+#include"typedef.h"
 #include"CObjectBase.h"
 #include"CUnitBase.h"
 #include"CUnitComponent.h"
@@ -15,13 +16,13 @@
 // called by CSQIUnitView's DeleteUnit().
 //
 ////////////////////////////////////////////////////////////////////////////////
-void DeleteDynLinkToMe(CUnitList * pUnitList, CObjectList * pObjectList, CUnitBase * pUnit) {
+void DeleteDynLinkToMe(CUnitList * pUnitList, CObjectList * pObjectList, CUnitBasePtr pUnit) {
   CUnitList listUnit;
-  CUnitComponent * pCpt = nullptr;
+  CUnitComponentPtr pCpt = nullptr;
   CUnitList *plistCpt;
 
   if (pUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { // 处理部件类的删除工作
-    pCpt = (CUnitComponent *)pUnit;
+    pCpt = static_cast<CUnitComponentPtr>(pUnit);
     if (!pCpt->IsEncapsulable() || (pCpt->IsEncapsulable() && !pCpt->IsEncapsulated())) { // 处理未封装的部件或者不允许封装的部件
       // 清除所有指向本部件内部单元序列的动态链接
       plistCpt = pCpt->GetUnitList();

@@ -10,7 +10,7 @@
 
 #include"CUnitBase.h"
 
-CUnitBase * FindUnit(CUnitList * pUnitList, CString strUnitName, bool fFind);
+CUnitBasePtr  FindUnit(CUnitList * pUnitList, CString strUnitName, bool fFind);
 
 
 #endif

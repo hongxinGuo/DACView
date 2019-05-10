@@ -46,7 +46,7 @@ void ClearLoopDetectFlag(CUnitList * pUnitList) {
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 bool UnitListLoopDetect(CUnitList * pCUnitList) {
-  CUnitBase * pcunit1, *pCUnit;
+  CUnitBasePtr pcunit1, pCUnit;
   CUnitList unitlist;
   BOOL fFind = false;
 
@@ -74,7 +74,7 @@ bool UnitListLoopDetect(CUnitList * pCUnitList) {
       ShowMessageIndirect(ID_ERROR_STRATEGY_LOOP_DETECT, (LPCTSTR)str);
 
       // 将此循环涉及的动态链接都设置标志（用于将动态链接线显示为红色）
-      CUnitBase * pcunitPrev = unitlist.front();
+      CUnitBasePtr pcunitPrev = unitlist.front();
       auto it1 = unitlist.begin();
       for (++it1; it1 != unitlist.end(); it1++) {
         pcunit1 = *it1;
@@ -107,8 +107,8 @@ bool UnitListLoopDetect(CUnitList * pCUnitList) {
 //	So this function is to check whether this loop have a cutoff already.
 //
 ///////////////////////////////////////////////////////////////////////////////////////// 
-bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList) {
-  CUnitBase * pcCutOff;
+bool AlreadyHaveCutOff(CUnitBasePtr pCUnit, CUnitList * pUnitList) {
+  CUnitBasePtr pcCutOff;
   CUnitList unitlist;
   CString strName, str;
   BOOL fFind = false;

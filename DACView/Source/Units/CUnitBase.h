@@ -74,8 +74,8 @@ public:
  // 有多少参数连入部件.
   INT32							HowManyLinkFromComponent(void) { return(m_lLinkFromComponent); }
 
-  void 							SetComponentUpper(CUnitComponent * pUnitComponent) { m_pUnitComponentUpper = pUnitComponent; } 
-  CUnitComponent *	GetComponentUpper(void) const { return m_pUnitComponentUpper; }
+  void 							SetComponentUpper(CUnitComponentPtr pUnitComponent) { m_pUnitComponentUpper = pUnitComponent; } 
+  CUnitComponentPtr	GetComponentUpper(void) const { return m_pUnitComponentUpper; }
 
 	// 设置本单元的动态连接删除标志.如本单元的动态连接连入listUnit, 则设置标志.
 	virtual void			SetDeleteDynLinkFlag( CUnitList& listUnit // 被删除的单元序列,
@@ -126,14 +126,14 @@ public:
 	// 观察并处理本单元的动态连接.
 	virtual bool 			ArrangeDynLink( void );
 	// 删除本单元的指向pUnit的动态连接.
-	virtual bool			DeleteDynLink( CUnitBase * pUnit	// 指向被删除的unit
+	virtual bool			DeleteDynLink( CUnitBasePtr pUnit	// 指向被删除的unit
 																	);
 
 	// 生成独一无二的单元名称.
 	virtual bool			CreateUniName( CUnitList& listUnit // 指向需要避免的unit list
 																	);
 	// 调节本单元动态连接的坐标位置.
-  virtual void      AdjustDynLinkLinePosition( CUnitBase * pc,	// 指向被调整位置的单元
+  virtual void      AdjustDynLinkLinePosition( CUnitBasePtr pc,	// 指向被调整位置的单元
 																							 CPoint ptStart,	//动态链接线的起始点
 																							 CPoint ptEnd);		// 动态链接线的终止点
 	
@@ -154,7 +154,7 @@ public:
 	void							SetDynLinkToNumber(long lValue) { m_lDynLinkToNumber = lValue; }
 	
 	// 设置本单元的发现循环标志.
-  bool              SetLoopDetectFlag( CUnitBase * pcunit // 指向被检查的单元
+  bool              SetLoopDetectFlag( CUnitBasePtr pcunit // 指向被检查的单元
 																			);
 
 	// 清除本单元的发现循环标志.
@@ -299,7 +299,7 @@ protected :
 
 // No Serialized Data
 protected:
-	CUnitComponent * m_pUnitComponentUpper;	// 指向包含本单元的复合单元,nullptr如果没有.
+	CUnitComponentPtr m_pUnitComponentUpper;	// 指向包含本单元的复合单元,nullptr如果没有.
 	CUnitList *     m_pUnitListUpper;	// 指向上层部件(或者就是本SQI文件)的单元序列
 
 	bool			m_fOverFlow;						// 是否溢出, 运行时使用.
@@ -317,8 +317,6 @@ protected:
 public:
   bool      mtest_fEncapsulating;   // 记录是否处于编译中。用于编译完成后，记录此次编译过的单元
 };
-
-typedef shared_ptr<CUnitBase> CUnitBasePtr;
 
 #endif
 

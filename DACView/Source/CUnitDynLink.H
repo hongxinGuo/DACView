@@ -45,20 +45,20 @@ public:
   
 // Operations
 public:          
-	CUnitBase * GetSrcUnit( void ) const ;
-	CUnitBase * GetDestUnit( void ) const ;
+	CUnitBasePtr GetSrcUnit( void ) const ;
+	CUnitBasePtr GetDestUnit( void ) const ;
 	INT32 			GetDestIndex( void ) const;
 	INT32 			GetSrcIndex( void ) const;
 	INT32 			GetDynLinkType( void ) const;
 	INT32				GetDynLinkClass( void ) const;
   CPointListPtr GetLinkPointList( void );
-	BOOL				IsDeleteMe( void ) const;
-	BOOL				IsSetLoopDetectFlag( void ) const;
+	bool				IsDeleteMe( void ) const;
+	bool				IsSetLoopDetectFlag( void ) const;
 
-	void 				SetLoopDetectFlag( BOOL fFlag );
-	void 				SetDeleteMeFlag( BOOL fFlag );
-	void 				SetSrcUnit( CUnitBase * pc);
-	void 				SetDestUnit( CUnitBase * pc);
+	void 				SetLoopDetectFlag( bool fFlag );
+	void 				SetDeleteMeFlag( bool fFlag );
+	void 				SetSrcUnit( CUnitBasePtr pc);
+	void 				SetDestUnit( CUnitBasePtr pc);
 	void 				SetSrcIndex( INT32 ulIndex );
 	void 				SetDestIndex( INT32 ulIndex );
 	void 				SetDynLinkType( INT32 ulType );
@@ -79,8 +79,8 @@ public :
 
 protected :
 // Serialized Data
-  CUnitBase * m_pSrcUnit;					// 指向源单元.
-  CUnitBase * m_pDestUnit;				// 指向目标单元.
+  CUnitBasePtr m_pSrcUnit;					// 指向源单元.
+  CUnitBasePtr m_pDestUnit;				// 指向目标单元.
 	INT32 			m_lSrcIndex;		    // 源单元的参数索引.
 	INT32 			m_lDestIndex;			  // 目标单元的参数索引.
 	INT32				m_ulDynLinkType;    // BOOL, WORD, DOUBLE, or STRING
@@ -94,7 +94,7 @@ protected :
 
 // 测试用变量
 public:
-  CUnitBase * mTest_pDestUnitSaved;   // 当封装部件的输出型参数时，用于保存原动态链接的目的单元
+  CUnitBasePtr mTest_pDestUnitSaved;   // 当封装部件的输出型参数时，用于保存原动态链接的目的单元
 };                        
 
 typedef list<shared_ptr<CUnitDynLink>> CUDLList;

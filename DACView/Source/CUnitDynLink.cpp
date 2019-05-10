@@ -88,9 +88,10 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
   INT64 iCount = m_plistLinkPoint->size();
   CPoint pt;
   shared_ptr<CPoint> ppt;
+  CUnitBase * pSrc, * pDest;
 
   if( ar.IsStoring() ) {
-    ar << m_pSrcUnit << m_pDestUnit
+    ar << m_pSrcUnit.get() << m_pDestUnit.get()
        << m_lSrcIndex << m_lDestIndex 
        << m_ulDynLinkType << m_ulDynLinkClass
        << iCount;
@@ -100,10 +101,12 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
     }
   }
   else {
-		ar >> m_pSrcUnit >> m_pDestUnit
+		ar >> pSrc >> pDest
 			>> m_lSrcIndex >> m_lDestIndex
 			>> m_ulDynLinkType >> m_ulDynLinkClass
 			>> iCount;
+    m_pSrcUnit.reset(pSrc);
+    m_pDestUnit.reset(pDest);
 		for (int i = 0; i < iCount; i++) {
 			ar >> pt;
 			ppt = make_shared<CPoint>(pt);
@@ -309,7 +312,7 @@ void CUnitDynLink::Dump(CDumpContext& dc) const
 // GetSrcUnit()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-CUnitBase * CUnitDynLink::GetSrcUnit( void ) const {
+CUnitBasePtr CUnitDynLink::GetSrcUnit( void ) const {
   return( m_pSrcUnit );
 }
 
@@ -318,7 +321,7 @@ CUnitBase * CUnitDynLink::GetSrcUnit( void ) const {
 // GetDestUnit()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-CUnitBase * CUnitDynLink::GetDestUnit( void ) const {
+CUnitBasePtr CUnitDynLink::GetDestUnit( void ) const {
   return( m_pDestUnit );
 }
 
@@ -363,7 +366,7 @@ shared_ptr<CPointList> CUnitDynLink::GetLinkPointList( void ) {
 // SetDeleteMeFlag()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-void CUnitDynLink::SetDeleteMeFlag( BOOL fFlag ) {
+void CUnitDynLink::SetDeleteMeFlag( bool fFlag ) {
   m_fDeleteMe = fFlag;
 }
 
@@ -372,7 +375,7 @@ void CUnitDynLink::SetDeleteMeFlag( BOOL fFlag ) {
 // IsDeleteMe()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-BOOL CUnitDynLink::IsDeleteMe( void ) const {
+bool CUnitDynLink::IsDeleteMe( void ) const {
   return( m_fDeleteMe );
 }
 
@@ -381,7 +384,7 @@ BOOL CUnitDynLink::IsDeleteMe( void ) const {
 // IsSetLoopDetectFlag()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-BOOL CUnitDynLink::IsSetLoopDetectFlag( void ) const {
+bool CUnitDynLink::IsSetLoopDetectFlag( void ) const {
   return( m_fLoopDetect );
 }
 
@@ -390,7 +393,7 @@ BOOL CUnitDynLink::IsSetLoopDetectFlag( void ) const {
 // SetLoopDetectFlag()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-void CUnitDynLink::SetLoopDetectFlag( BOOL fFlag ) {
+void CUnitDynLink::SetLoopDetectFlag( bool fFlag ) {
   m_fLoopDetect = fFlag;
 }
 
@@ -426,7 +429,7 @@ void CUnitDynLink::SetDynLinkClass( INT32 ulClass ) {
 // SetSrcUnit()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-void CUnitDynLink::SetSrcUnit( CUnitBase * pcSrc) {
+void CUnitDynLink::SetSrcUnit( CUnitBasePtr pcSrc) {
   m_pSrcUnit = pcSrc;
 }
 
@@ -435,7 +438,7 @@ void CUnitDynLink::SetSrcUnit( CUnitBase * pcSrc) {
 // SetDestUnit()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-void CUnitDynLink::SetDestUnit( CUnitBase * pcDes ) {
+void CUnitDynLink::SetDestUnit( CUnitBasePtr pcDes ) {
   m_pDestUnit = pcDes;           
 }
 

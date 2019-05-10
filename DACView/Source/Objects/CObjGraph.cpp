@@ -151,7 +151,7 @@ const CString& CObjectGraph::GetClassNameStr( void ) {
 }
 
 bool CObjectGraph::ExectiveDynLink( ) {
-  CUnitBase * pcunit;
+  CUnitBasePtr pcunit;
   ULONG ulSourceIndex, ulDestIndex;
   double eTemp;
   LONG lTemp;
