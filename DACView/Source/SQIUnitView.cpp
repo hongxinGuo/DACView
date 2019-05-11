@@ -138,6 +138,9 @@
 
 #include"CompileUnitList.h"
 
+using namespace std;
+#include<memory>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -556,7 +559,7 @@ void CSQIUnitView::DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoi
 // DeleteUnit()
 //
 // Parameter :
-//    CUnitBase * pCUnit : point unit that need deleted from current unit list
+//    CUnitBasePtr pCUnit : point unit that need deleted from current unit list
 //
 // Return :
 //    BOOL        : true if deleted, false if not find unit from list
@@ -567,7 +570,7 @@ void CSQIUnitView::DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoi
 //    If some unit's dynamic link is link to me, also delete them
 //
 /////////////////////////////////////////////////////////////////////////////
-bool CSQIUnitView::DeleteUnit(CUnitList * pUnitList, CUnitBase * pCUnit) {
+bool CSQIUnitView::DeleteUnit(CUnitList * pUnitList, CUnitBasePtr pCUnit) {
   CUnitList::iterator it;
   ASSERT(pCUnit != nullptr);
   if ((it = find(pUnitList->begin(), pUnitList->end(), pCUnit)) != pUnitList->end()) { // find unit ?
@@ -577,7 +580,6 @@ bool CSQIUnitView::DeleteUnit(CUnitList * pUnitList, CUnitBase * pCUnit) {
     DeleteDynLinkFromMe(pCUnit);
     // 删除本单元
     pUnitList->erase(it);
-    delete pCUnit;
     return (true);
   }
   return(false);
@@ -613,7 +615,7 @@ CSize CSQIUnitView::GetUnitDocSize(void) {
 //
 // Parameter :
 //    CPoint const pt     : current check point
-//    CUnitBase *& pcunit : current set align pointer
+//    CUnitBasePtr& pcunit : current set align pointer
 //
 // Return :
 //    BOOL         : true if find pt in one of unit's rect, 
@@ -625,7 +627,7 @@ CSize CSQIUnitView::GetUnitDocSize(void) {
 //    look for from list's tail(upper most) to head(lower most)
 //
 ////////////////////////////////////////////////////////////////////////////
-bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBase*& pcunit) {
+bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBasePtr & pcunit) {
   if (m_pCUnitListCurrent->size() == 0) {
     pcunit = nullptr;
     return false;
@@ -649,7 +651,7 @@ bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBase*& pcunit) {
 // UnitToBack()
 //
 // Parameter :
-//    CUnitBase * const pCUnit :  current process unit
+//    CUnitBasePtr const pCUnit :  current process unit
 //
 // Return :
 //    bool      : alway true
@@ -658,10 +660,10 @@ bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBase*& pcunit) {
 //   Change an object's position to m_CUnitList's head, and redraw all objects.
 //
 /////////////////////////////////////////////////////////////////////////  
-bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit) {
+bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBasePtr const pCUnit) {
   ASSERT(pCUnit != nullptr);
   ASSERT(pUnitList->size() > 0);
-  CUnitBase * pc = pCUnit;
+  CUnitBasePtr pc = pCUnit;
 
   auto it = m_pCUnitListCurrent->begin();
   it = find(m_pCUnitListCurrent->begin(), m_pCUnitListCurrent->end(), pCUnit);
@@ -675,7 +677,7 @@ bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit) {
 // UnitToFront()
 //
 // Parameter :
-//    CUnitBase * const pCUnit :  current process unit
+//    CUnitBasePtr const pCUnit :  current process unit
 //
 // Return :
 //    bool      : alway true
@@ -684,9 +686,9 @@ bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit) {
 //   Change an object's position to m_CUnitList's tail(top most), and redraw all objects.
 //
 ////////////////////////////////////////////////////////////////////////////               
-bool CSQIUnitView::UnitToFront(CUnitList * pUnitList, CUnitBase * const pCUnit) {
+bool CSQIUnitView::UnitToFront(CUnitList * pUnitList, CUnitBasePtr const pCUnit) {
   ASSERT(pCUnit != NULL);
-  CUnitBase * pc = pCUnit;
+  CUnitBasePtr pc = pCUnit;
 
   auto it = m_pCUnitListCurrent->begin();
   it = find(m_pCUnitListCurrent->begin(), m_pCUnitListCurrent->end(), pCUnit);
@@ -764,7 +766,7 @@ void CSQIUnitView::ClearAllSelect(void) {
 // CreateUniName()
 //
 // Parameter :
-//    CUnitBase * pCUnit : point to current process unit
+//    CUnitBasePtr pCUnit : point to current process unit
 //
 // Return :
 //    no return.
@@ -773,7 +775,7 @@ void CSQIUnitView::ClearAllSelect(void) {
 //    Create a unique name for current process unit
 //
 /////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::CreateUniName(CUnitBase * pCUnit) {
+void CSQIUnitView::CreateUniName(CUnitBasePtr pCUnit) {
   CUnitList listUnit;
 
   // Send all units(include compound) to listUnit
@@ -810,7 +812,7 @@ void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointListPtr plistLinkPoint
 //
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint ptStart, CPoint ptEnd) {
+void CSQIUnitView::AdjustDynLinkLinePosition(CUnitBasePtr punitCurrent, CPoint ptStart, CPoint ptEnd) {
   for (const auto pcunit : *m_pCUnitListCurrent) {
     pcunit->AdjustDynLinkLinePosition(punitCurrent, ptStart, ptEnd);
   }
@@ -826,12 +828,12 @@ void CSQIUnitView::DeleteDynLinkPointList(CPointListPtr plistLinkPoint) {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::ViewIn(CUnitComponent * pCUnit) {
+void CSQIUnitView::ViewIn(CUnitComponentPtr pCpt) {
   CPoint pt(0, 0);
 
-  ASSERT(pCUnit->CanViewIn());
-  pCUnit->SetComponentUpper(m_pCUnitComponentCurrent);   // 保存当前的部件为本部件的上层部件
-  m_pCUnitComponentCurrent = pCUnit;         // 将当前的部件换成本部件
+  ASSERT(pCpt->CanViewIn());
+  pCpt->SetComponentUpper(m_pCUnitComponentCurrent);   // 保存当前的部件为本部件的上层部件
+  m_pCUnitComponentCurrent = pCpt;         // 将当前的部件换成本部件
   m_pCUnitComponentCurrent->SetUpperUnitList(m_pCUnitListCurrent);    // 保存上层单元序列
   m_pCUnitComponentCurrent->SetUpperScrollPosition(__GetScrollPosition());// 保存滚动条位置
   m_pCUnitListCurrent = m_pCUnitComponentCurrent->GetUnitList();         // 设置当前的单元序列
@@ -1125,7 +1127,7 @@ void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
         else { // 类型错误
           ASSERT(0);
         }
-        ViewIn((CUnitComponent *)m_pCUnitCurrent); // trace into inner unit list
+        ViewIn(dynamic_pointer_cast<CUnitComponent>(m_pCUnitCurrent)); // trace into inner unit list
         m_fLinkIntoDestComponent = true;
       }
       else { // 处理简单单元
@@ -1237,7 +1239,7 @@ void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
   CPoint ptDevice, ptOffset = __GetScrollPosition();
   CRect rectTemp;
   CString str = "  ";
-  CUnitBase * pcUnit;
+  CUnitBasePtr pcUnit;
 
   ptDevice = point + ptOffset;
   switch (m_nCurrentFunction) {
@@ -1358,103 +1360,103 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
       ////////////////////////////////////////////////////////////////////////////////////
         // Input output function
     case ID_BLOCK_INPUTOUTPUT_SIM:
-      m_pCUnitCurrent = new CUnitInputOutput(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitInputOutput>(strTemp, ptDevice);
       break;
     case ID_BLOCK_INPUTOUTPUT_TPO:     // creat a time proportione unit
-      m_pCUnitCurrent = new CUnitTPO(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitTPO>(strTemp, ptDevice);
       break;
       ////////////////////////////////////////////////////////////////////////////////////
         // Arithmatic function
     case ID_BLOCK_ARITHMATIC_DTIM:     // delay time unit
-      m_pCUnitCurrent = new CUnitDelayTime(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitDelayTime>(strTemp, ptDevice);
       break;
     case ID_BLOCK_ARITHMATIC_HPBG:     // create a High Pass Filter unit
-      m_pCUnitCurrent = new CUnitHighPassBargin(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitHighPassBargin>(strTemp, ptDevice);
       break;
     case ID_BLOCK_ARITHMATIC_QFLT:     // create a second order filter unit
-      m_pCUnitCurrent = new CUnitQuadFilt(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitQuadFilt>(strTemp, ptDevice);
       break;
     case ID_BLOCK_ARITHMATIC_TOT:      // create a total unit
-      m_pCUnitCurrent = new CUnitTOT(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitTOT>(strTemp, ptDevice);
       break;
       ////////////////////////////////////////////////////////////////////////////////////////
         // Mathmaitc function
     case ID_BLOCK_MATHMATIC_ADD:    // create an ADD unit
-      m_pCUnitCurrent = new CUnitAdd(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitAdd>(strTemp, ptDevice);
       break;
     case ID_BLOCK_MATHMATIC_MULTIPLE:
-      m_pCUnitCurrent = new CUnitMultiple(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitMultiple>(strTemp, ptDevice);
       break;
     case ID_BLOCK_MATHMATIC_DIV:
-      m_pCUnitCurrent = new CUnitDivide(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitDivide>(strTemp, ptDevice);
       break;
       //////////////////////////////////////////////////////////////////////////////////////
         // Select function
     case ID_BLOCK_SELECT_SWCH:         // create a switch unit
-      m_pCUnitCurrent = new CUnitSwitch(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitSwitch>(strTemp, ptDevice);
       break;
     case ID_BLOCK_SELECT_HSEL:         // create a High Select unit
-      m_pCUnitCurrent = new CUnitHighSelect(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitHighSelect>(strTemp, ptDevice);
       break;
     case ID_BLOCK_SELECT_MSEL:         // create a Middle Select unit
-      m_pCUnitCurrent = new CUnitMiddleSelect(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitMiddleSelect>(strTemp, ptDevice);
       break;
     case ID_BLOCK_SELECT_LSEL:         // create a Low Select unit
-      m_pCUnitCurrent = new CUnitLowSelect(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitLowSelect>(strTemp, ptDevice);
       break;
       ////////////////////////////////////////////////////////////////////////////////////
         // Basic Logic function
     case ID_BLOCK_BASICLOGIC_AND:      // create a logic AND unit
-      m_pCUnitCurrent = new CUnitAnd(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitAnd>(strTemp, ptDevice);
       break;
     case ID_BLOCK_BASICLOGIC_OR:       // create a logic OR unit
-      m_pCUnitCurrent = new CUnitOr(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitOr>(strTemp, ptDevice);
       break;
     case ID_BLOCK_BASICLOGIC_XOR:      // create a logic XOR unit
-      m_pCUnitCurrent = new CUnitXor(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitXor>(strTemp, ptDevice);
       break;
     case ID_BLOCK_BASICLOGIC_PULS:     // create a logic PULSE unit
-      m_pCUnitCurrent = new CUnitPulse(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitPulse>(strTemp, ptDevice);
       break;
     case ID_BLOCK_BASICLOGIC_INV:      // create a logic invert unit
-      m_pCUnitCurrent = new CUnitInvert(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitInvert>(strTemp, ptDevice);
       break;
     case ID_BLOCK_BASICLOGIC_DLAY:     // create a delay unit
-      m_pCUnitCurrent = new CUnitDelay(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitDelay>(strTemp, ptDevice);
       break;
       //////////////////////////////////////////////////////////////////////////////////////
         // Advance logic function
     case ID_BLOCK_ADVANCELOGIC_FFLP:
-      m_pCUnitCurrent = new CUnitFFLP(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitFFLP>(strTemp, ptDevice);
       break;
     case ID_BLOCK_ADVANCELOGIC_TTB:    // create a logic true TABLE unit
-      m_pCUnitCurrent = new CUnitTTB(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitTTB>(strTemp, ptDevice);
       break;
     case ID_BLOCK_ADVANCELOGIC_ICNT:
       break;
       ///////////////////////////////////////////////////////////////////////////////////////
         // Basic Control function
     case ID_BLOCK_BASICCONTROL_PID:
-      m_pCUnitCurrent = new CUnitPID(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitPID>(strTemp, ptDevice);
       break;
       /////////////////////////////////////////////////////////////////////////////////////
         // Simulate function
     case ID_BLOCK_SIMULATE_QUADRATIC:  // create a quadratic function maker
-      m_pCUnitCurrent = new CUnitQuad(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitQuad>(strTemp, ptDevice);
       break;
     case ID_BLOCK_SIMULATE_SINE:       // create a sine function maker
-      m_pCUnitCurrent = new CUnitSine(strTemp, ptDevice);
+      m_pCUnitCurrent = make_shared<CUnitSine>(strTemp, ptDevice);
       break;
       /////////////////////////////////////////////////////////////////////////////////////
-        // Component unit
+        // Compound unit
     case ID_BLOCK_COMPOUND:  // 
-      m_pCUnitCurrent = new CUnitComponent(strTemp, ptDevice, false); // 复合单元就是不允许封装的部件
+      m_pCUnitCurrent = make_shared<CUnitComponent>(strTemp, ptDevice, false); // 复合单元就是不允许封装的部件
       m_pCUnitCurrent->SetUpperUnitList(m_pCUnitListCurrent);
       break;
       //////////////////////////////////////////////////////////////////////////////////////
         // Component unit
     case ID_BLOCK_COMPONENT: // component 
-      m_pCUnitCurrent = new CUnitComponent(strTemp, ptDevice, true);	// 默认的部件允许封装
+      m_pCUnitCurrent = make_shared<CUnitComponent>(strTemp, ptDevice, true);	// 默认的部件允许封装
       m_pCUnitCurrent->SetUpperUnitList(m_pCUnitListCurrent);
 
       break;
@@ -1646,7 +1648,7 @@ void CSQIUnitView::OnEditCopy()
   ar << iCount;
   for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
-      ar << pcunit;
+      ar << pcunit.get();
     }
   }
 
@@ -1708,7 +1710,7 @@ void CSQIUnitView::OnEditCut()
   ar << iDelete;
   for (const auto punit : *m_pCUnitListCurrent) {
     if (punit->IsSelect()) {
-      ar << punit;
+      ar << punit.get();
     }
   }
 
@@ -1722,7 +1724,7 @@ void CSQIUnitView::OnEditCut()
   ASSERT(m_pCUnitListCurrent->size() > 0);
   auto it = m_pCUnitListCurrent->begin();
   do {
-    CUnitBase * punit = *it++;
+    CUnitBasePtr punit = *it++;
     if (punit->IsSelect()) {
       VERIFY(DeleteUnit(m_pCUnitListCurrent, punit));      // 删除已剪辑掉的单元
     }
@@ -1770,6 +1772,7 @@ void CSQIUnitView::OnEditPaste()
   char buffer[512];
   char * strFileName;
   CUnitList unitlistTemp;
+  CUnitBase * punit;
 
   if (OpenClipboard()) {
     if ((hData = GetClipboardData(m_uUnitFormat)) == NULL) {
@@ -1792,7 +1795,8 @@ void CSQIUnitView::OnEditPaste()
 
   ar >> iCount;
   for (int i = 0; i < iCount; i++) {
-    ar >> m_pCUnitCurrent;
+    ar >> punit;
+    m_pCUnitCurrent.reset(punit);
     CreateUniName(m_pCUnitCurrent);
     m_pCUnitCurrent->ResetCompileFlag();
     unitlistTemp.push_back(m_pCUnitCurrent); // 先暂存单元于暂时的单元序列中，以备单独处理之
@@ -2040,7 +2044,7 @@ void CSQIUnitView::OnViewViewin()
   // TODO: Add your command handler code here
 
   ASSERT(m_pCUnitCurrent != nullptr);
-  ViewIn((CUnitComponent *)m_pCUnitCurrent);
+  ViewIn(dynamic_pointer_cast<CUnitComponent>(m_pCUnitCurrent));
   m_pCUnitCurrent = nullptr;     // set current process unit to NULL
   m_nCurrentFunction = UNIT_PRE_SELECT;
   __SetCurrentUnitList(m_pCUnitListCurrent);
@@ -2545,9 +2549,9 @@ void CSQIUnitView::OnArrangeTogglecutoff()
     return;
   }
   else {			// 设置截断.
-    CUnitComponent * pcpd;
-    pcpd = m_pCUnitCurrent->GetComponentUpper();
-    if (pcpd != nullptr) {	// 有部件包含我？
+    CUnitComponentPtr pcpt;
+    pcpt = m_pCUnitCurrent->GetComponentUpper();
+    if (pcpt != nullptr) {	// 有部件包含我？
       if (!AlreadyHaveCutOff(m_pCUnitCurrent, m_pCUnitListCurrent)) { // 我不在部件的循环中.
         m_pCUnitCurrent->SetCutOff(true);	// 设置截断标志.
         UnitListLoopDetect(m_pCUnitListCurrent);  // 
@@ -2684,7 +2688,7 @@ void CSQIUnitView::OnArrangeMakedynlink()
 
   if (m_ulDynLinkClass == COMPONENT_TO_UNIT) { // 部件
     ASSERT(m_pCUnitCurrent->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
-    ViewIn((CUnitComponent *)m_pCUnitCurrent);  // trace into inner unit list
+    ViewIn(dynamic_pointer_cast<CUnitComponent>(m_pCUnitCurrent));  // trace into inner unit list
     m_fLinkIntoSourceComponent = true;
 
   }
@@ -2720,7 +2724,7 @@ void CSQIUnitView::OnUpdateArrangeMakedynlink(CCmdUI* pCmdUI)
 void CSQIUnitView::OnUpdateArrangeLinkIntoComponent(CCmdUI* pCmdUI)
 {
   // TODO: Add your command update UI handler code here
-  CUnitComponent * pc;
+  CUnitComponentPtr pc;
 
   if ((m_nCurrentFunction == UNIT_SELECTED) && ((pc = m_pCUnitCurrent->GetComponentUpper()) != NULL)) {
     if (pc->IsEncapsulable()) { // 复合单元不允许设置动态链接
@@ -2778,7 +2782,7 @@ void CSQIUnitView::OnUpdateBreakLinkOfComponent(CCmdUI* pCmdUI)
   // TODO: Add your command update UI handler code here
   if (m_pCUnitCurrent != NULL) {
     if (m_pCUnitCurrent->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-      if (((CUnitComponent *)m_pCUnitCurrent)->HaveParameter()) {
+      if (dynamic_pointer_cast<CUnitComponent>(m_pCUnitCurrent)->HaveParameter()) {
         pCmdUI->Enable(true);
         return;
       }
@@ -2791,8 +2795,8 @@ void CSQIUnitView::OnBreakLinkOfComponent()
 {
   // TODO: Add your command handler code here
   CDlgDeleteComponentPara CDlg;
-
-  CDlg.SetLink((CUnitComponent *)m_pCUnitCurrent, ((CUnitComponent *)m_pCUnitCurrent)->GetParaInterface());
+  CUnitComponentPtr pCpt = dynamic_pointer_cast<CUnitComponent>(m_pCUnitCurrent);
+  CDlg.SetLink(pCpt, pCpt->GetParaInterface());
   CDlg.DoModal();
 
 }
@@ -2830,7 +2834,7 @@ void CSQIUnitView::ResetAll(ULONG ulType) {
 void CSQIUnitView::OnUpdateArrangeLinkfromcomponent(CCmdUI *pCmdUI)
 {
   // TODO: 在此添加命令更新用户界面处理程序代码
-  CUnitComponent * pc;
+  CUnitComponentPtr pc;
 
   if ((m_nCurrentFunction == UNIT_SELECTED)
     && ((pc = m_pCUnitCurrent->GetComponentUpper()) != NULL)) {

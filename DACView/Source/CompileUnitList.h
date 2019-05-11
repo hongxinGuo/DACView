@@ -25,7 +25,7 @@ bool CompileInnerComponent(CUnitList * pUnitList);
 // 以下函数用于单元序列的编译，不允许外部调用。列于此处只是为了测试函数的调用方便
 void ClearLoopDetectFlag(CUnitList * pUnitList);
 bool UnitListLoopDetect(CUnitList * pUnitList);
-bool AlreadyHaveCutOff(CUnitBase * pCUnit, CUnitList * pUnitList);
+bool AlreadyHaveCutOff(CUnitBasePtr pCUnit, CUnitList * pUnitList);
 bool CreateUniUnitList(CUnitList * pUnitList, CUnitList &listUniUnit);
 bool SetNoSrcUnitExectivePriority(CUnitList * plistUnit);
 bool ExectiveCompilation(CUnitList * pUUnitList, CUnitList * pRunTimeUnitList);

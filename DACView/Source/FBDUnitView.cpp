@@ -223,7 +223,7 @@ void 	CFBDUnitView::SetStrategyClipRect( CRect rectClip ) {
 //
 // Parameter :
 //		POINT const pt				: current point that need to check.
-//		CUnitBase *& pcobj		: point to which object have the pt.
+//		CUnitBasePtr& pcobj		: point to which object have the pt.
 //
 // Return :
 //		BOOL :  TRUE if pt in a rect, pcobj point to the object.
@@ -375,7 +375,7 @@ void CFBDUnitView::OnViewViewin()
 	
 	ASSERT( m_pCUnitCurrent->CanViewIn() );
 	m_pCUnitCurrent->SetComponentUpper( m_pCUnitComponentCurrent );
-	m_pCUnitComponentCurrent = dynamic_cast<CUnitComponentPtr>(m_pCUnitCurrent);
+	m_pCUnitComponentCurrent = dynamic_pointer_cast<CUnitComponent>(m_pCUnitCurrent);
 	m_pCUnitComponentCurrent->SetUpperUnitList( m_pCUnitListCurrent );
 	m_pCUnitComponentCurrent->SetUpperScrollPosition(GetScrollPosition());
 	m_pCUnitListCurrent = m_pCUnitComponentCurrent->GetUnitList();        
@@ -514,7 +514,7 @@ void CFBDUnitView::OnUpdateObjectBar(CCmdUI* pCmdUI)
 void CFBDUnitView::OnViewStatus() 
 {
 	// TODO: Add your command handler code here
-	GetDocument()->ToggleViewStatus( m_pCUnitCurrent );
+	GetDocument()->ToggleViewStatus( m_pCUnitCurrent.get() );
 }
 
 void CFBDUnitView::OnUpdateViewStatus(CCmdUI* pCmdUI) 

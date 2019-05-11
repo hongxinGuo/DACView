@@ -270,7 +270,7 @@ public:
   virtual bool      IsParameterLocked(ULONG ) override { ASSERT(false); return false; }
 
   // 测试是否pUnit单元包含于pCpt部件中（允许嵌套包含）
-  bool              IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit);
+  bool              IsInThisComponent(CUnitComponentPtr pCpt, CUnitBasePtr pUnit);
 
 
 public : 

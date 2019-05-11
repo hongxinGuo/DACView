@@ -219,7 +219,7 @@ namespace DACViewTest {
 
 		m_View.SetCurrentFunction(UNIT_SELECTED);
 		bool fFind = false;
-		CUnitBase * pUnit = FindUnit(m_View.GetCurrentUnitList(), "UnitOr_4", fFind); // 数据文件中必须有此单元名称
+		CUnitBasePtr pUnit = FindUnit(m_View.GetCurrentUnitList(), "UnitOr_4", fFind); // 数据文件中必须有此单元名称
 		EXPECT_TRUE(pUnit != nullptr);
 		EXPECT_STREQ(pUnit->GetName(), "UnitOr_4"); // 当前选择单元为pUnit
 
@@ -287,7 +287,7 @@ namespace DACViewTest {
 
 		m_View.SetCurrentFunction(UNIT_SELECTED);
 		bool fFind = false;
-		CUnitBase * pUnit = FindUnit(m_View.GetCurrentUnitList(), "UnitOr_4", fFind); // 数据文件中必须有此单元名称
+		CUnitBasePtr pUnit = FindUnit(m_View.GetCurrentUnitList(), "UnitOr_4", fFind); // 数据文件中必须有此单元名称
 		EXPECT_TRUE(pUnit != nullptr);
 		EXPECT_STREQ(pUnit->GetName(), "UnitOr_4"); // 当前选择单元为pUnit
 

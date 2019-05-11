@@ -29,7 +29,7 @@ namespace DACViewTest {
 		CPoint pt1(100, 100);
 		CUnitAdd c1("c1", pt1), c4("UnitAdd2", pt1);
 		CString strFileName = "CUCPara.tst";
-		CUnitBase * cp1;
+		CUnitBasePtr cp1;
 
 		c.SetSrcIndex(2);
 		c.SetDestIndex(1);

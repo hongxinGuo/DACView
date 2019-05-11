@@ -7,7 +7,7 @@ namespace DACViewTest {
   TEST(TestCUnitDictionary, TestCUnitDictionary) {
     CPoint pt(100, 100);
     CUnitAdd cunitAdd("abcde", pt);
-    CUnitBase * punit;
+    CUnitBasePtr punit;
     CString strName, strParaName;
     INT64 ulIndex = 0, ulType = 0;
     CUnitDictionary c(&cunitAdd, 2, tOUTPUT | tDOUBLE);

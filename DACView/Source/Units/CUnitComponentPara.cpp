@@ -52,9 +52,10 @@ void	CUCPara::Serialize(CArchive& ar) {
 	CObjectPrimitive::Serialize(ar);
 	INT64 itemp;
   INT32 iInnerDataLinked;
+  CUnitBase * pSrc, *pDest;
 
 	if (ar.IsStoring()) {
-		ar << m_pSrcUnit << m_pDestUnit;
+		ar << m_pSrcUnit.get() << m_pDestUnit.get();
 		ar << m_strName;
 		ar << m_lSrcIndex << m_lDestIndex;
 		ar << m_ulParaType << (INT64)m_fLinked;
@@ -64,10 +65,12 @@ void	CUCPara::Serialize(CArchive& ar) {
     }
 	}
 	else {
-		ar >> m_pSrcUnit >> m_pDestUnit;
+		ar >> pSrc >> pDest;
 		ar >> m_strName;
 		ar >> m_lSrcIndex >> m_lDestIndex;
 		ar >> m_ulParaType >> itemp;
+    m_pSrcUnit.reset(pSrc);
+    m_pDestUnit.reset(pDest);
 		m_fLinked = (bool)itemp;
     for (int i = 0; i < 16; i++) {
       ar >> iInnerDataLinked;
@@ -76,20 +79,20 @@ void	CUCPara::Serialize(CArchive& ar) {
 	}
 }
 
-CUnitBase *	CUCPara::GetSrcUnit(void) {
+CUnitBasePtr	CUCPara::GetSrcUnit(void) {
 	return(m_pSrcUnit);
 }
 
-CUnitBase *	CUCPara::GetDestUnit(void) {
+CUnitBasePtr	CUCPara::GetDestUnit(void) {
 	return(m_pDestUnit);
 }
 
-bool	CUCPara::SetSrcUnit(CUnitBase * pc) {
+bool	CUCPara::SetSrcUnit(CUnitBasePtr pc) {
 	m_pSrcUnit = pc;
 	return(true);
 }
 
-bool	CUCPara::SetDestUnit(CUnitBase * pc) {
+bool	CUCPara::SetDestUnit(CUnitBasePtr pc) {
 	m_pDestUnit = pc;
 	return(true);
 }

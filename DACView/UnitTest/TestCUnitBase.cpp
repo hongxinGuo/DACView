@@ -70,7 +70,7 @@ namespace DACViewTest {
 		CFile cFile1, cFile2;
 		char buffer[512];
 		CString strFileName = "CUnitBase.tst";
-		CUnitBase * pc = new CUnitBase, * pc2;
+		CUnitBasePtr pc = new CUnitBase, * pc2;
 		CPoint pt1(100, 100), pt2(1000, 1000);
 		CRect rect(pt1, pt2);
 
@@ -474,7 +474,7 @@ namespace DACViewTest {
 		CPoint pt(100, 100);
 		CUnitBase c("CUnitBase", pt);
 		CUnitList cList;
-		CUnitBase *pc, *pc2;
+		CUnitBasePtrpc, *pc2;
 		pc = &c;
 		cList.push_back(pc);
 		pc2 = cList.front();

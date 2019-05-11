@@ -24,7 +24,7 @@ CDlgDeleteComponentPara::CDlgDeleteComponentPara(CWnd* pParent /*=nullptr*/)
 	//}}AFX_DATA_INIT
 }
 
-void CDlgDeleteComponentPara::SetLink( CUnitComponent * pCpt, CUCPara * pCUC[] ) {
+void CDlgDeleteComponentPara::SetLink( CUnitComponentPtr pCpt, CUCPara * pCUC[] ) {
   m_pCpt = pCpt;
   for (int i = 0; i < 16; i++) {
     m_pCUCP[i] = pCUC[i];

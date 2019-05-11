@@ -44,7 +44,7 @@ CObjectDynLink::~CObjectDynLink() {
 void CObjectDynLink::Serialize( CArchive& ar ) {
   CObjectPrimitive::Serialize( ar );
   INT32 a;
-  CUnitBase * punit;
+  CUnitBase* punit;
   
   if( ar.IsStoring() ) {
     ar << m_pCUnit.get() << m_lUnitIndex << m_lObjectIndex

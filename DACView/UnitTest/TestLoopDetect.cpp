@@ -63,7 +63,8 @@ namespace DACViewTestLoopDetect {
 		CString strFileHeader;
 		CUnitList unitlist;
     CObjectList objectlist;
-		CUnitBase * pctemp;
+		CUnitBasePtr pctemp;
+    CUnitBase * punit;
 		INT64 i, iTotal;
 		INT64 iCurrentUnit;
 
@@ -73,7 +74,8 @@ namespace DACViewTestLoopDetect {
 		CArchive ar(&cFile, CArchive::load, 512, buffer);
 		ar >> strFileHeader >> iCurrentUnit >> iTotal;
 		for (i = 0; i < iTotal; i++) {
-			ar >> pctemp;
+			ar >> punit;
+      pctemp.reset(punit);
 			unitlist.push_back(pctemp);
 		}
 		ar.Flush();
@@ -87,10 +89,6 @@ namespace DACViewTestLoopDetect {
 
 		EXPECT_TRUE(UnitListLoopDetect(&unitlist));
 
-		// clearup
-		for (auto pcunitTemp : unitlist) {
-			delete pcunitTemp;
-		}
 		// release list's memory
 		rtUnitList.clear();
 		unitlist.clear();
@@ -106,7 +104,7 @@ namespace DACViewTestLoopDetect {
 
 		CString strFileHeader;
 		CUnitList unitlist;
-		CUnitBase * pcunit = nullptr;
+		CUnitBasePtr pcunit = nullptr;
 		INT64 i, iTotal;
 		INT64 iCurrentUnit;
 
@@ -174,11 +172,6 @@ namespace DACViewTestLoopDetect {
 
 		EXPECT_TRUE(UnitListLoopDetect(&unitlist));
 
-		// clearup
-		for (auto pcunitTemp : unitlist) {
-			delete pcunitTemp;
-			pcunitTemp = nullptr;
-		}
 		// release list's memory
 		rtUnitList.clear();
 		unitlist.clear();

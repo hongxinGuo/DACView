@@ -41,18 +41,18 @@ public:
   // Operations
 public:
   // change an object's position to ObjList's head
-  bool UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit);
+  bool UnitToBack(CUnitList * pUnitList, CUnitBasePtr const pCUnit);
   // change an object's position to ObjList's Tail
-  bool UnitToFront(CUnitList * pUnitList, CUnitBase * const pCUnit);
+  bool UnitToFront(CUnitList * pUnitList, CUnitBasePtr const pCUnit);
 
-  bool DeleteUnit(CUnitList * pUnitList, CUnitBase * pCUnit);
-  bool IsInRect(CPoint const pt, CUnitBase*& pcunit);
+  bool DeleteUnit(CUnitList * pUnitList, CUnitBasePtr pCUnit);
+  bool IsInRect(CPoint const pt, CUnitBasePtr& pcunit);
 
   void SetFocus(CDC *pdc);			// object is on focus
   void ClearFocus(CDC *pdc);
   void ClearAllSelect(void);
 
-  void ViewIn(CUnitComponent * pUnit);
+  void ViewIn(CUnitComponentPtr pUnit);
   void ViewOut(void);
 
   void CenterAlign(void);
@@ -65,9 +65,9 @@ public:
   void ResetAll(ULONG ulType);
 
 protected:
-  void CreateUniName(CUnitBase * pCUnit);
+  void CreateUniName(CUnitBasePtr pCUnit);
   void DrawInvertDynLinkLine(CDC * pdc, CPointListPtr plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent);
-  void AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint ptStart, CPoint ptEnd);
+  void AdjustDynLinkLinePosition(CUnitBasePtr punitCurrent, CPoint ptStart, CPoint ptEnd);
   void DeleteDynLinkPointList(CPointListPtr plistLinkPoint);
 
 public:
@@ -134,9 +134,9 @@ protected:
 	CRect 							m_rectCurrent;				// current selected object's rect area 
 	CRect		 						m_rectFirstUnit;			// 生成动态链接时，第一个单元所占的区域
   CRect               m_rectSecondUnit;     // 生成动态链接时，第二个单元所占的区域
-	CUnitBase * 				m_pCUnitCurrent; 			// point to current selected object, nullptr if no selected object
-	CUnitBase * 				m_pCUnitNoDrag;				// 此指针目前基本没使用
-	CUnitBase *					m_pCUnitMouseMove;		// 鼠标移动到unit上时，指向此unit
+	CUnitBasePtr 				m_pCUnitCurrent; 			// point to current selected object, nullptr if no selected object
+	CUnitBasePtr 				m_pCUnitNoDrag;				// 此指针目前基本没使用
+	CUnitBasePtr				m_pCUnitMouseMove;		// 鼠标移动到unit上时，指向此unit
 	
 	HCURSOR 						m_hCursorArrow;				// save old cursor
 	HCURSOR 						m_hCursorDynamicLink;	//
@@ -148,8 +148,8 @@ protected:
 	INT32 			 				m_lDestIndex;
 	ULONG								m_ulDynLinkClass;
 	shared_ptr<CUnitDynLink>      m_pCUnitDynLinkCurrent;
-	CUnitBase * 				m_pCUnitFirst;					// 指向第一个单元，如果选中的单元是未封装的部件，则第一个单元包含于此部件
-	CUnitBase * 				m_pCUnitSecond;					// 指向第二个单元。
+	CUnitBasePtr 				m_pCUnitFirst;					// 指向第一个单元，如果选中的单元是未封装的部件，则第一个单元包含于此部件
+	CUnitBasePtr 				m_pCUnitSecond;					// 指向第二个单元。
 	
   // my unit clipboard format
 	CFont 							m_fontStrategyView;
@@ -164,7 +164,7 @@ protected:
 	CUnitList *					m_pCUnitListTop;					// 最上层的单元序列（在生成SQIUnitView时赋值，就是SQIFileDoc中的那个单元序列，不允许改变
   CUnitList *	        m_pCUnitListCurrent;		  // 当前处理的单元序列
 	CObjectList *				m_pObjectList;						// Object序列的指针
-  CUnitComponent * 		m_pCUnitComponentCurrent;	// 当前处理的部件。 此部件包含的单元序列，就是当前处理的单元序列。
+  CUnitComponentPtr		m_pCUnitComponentCurrent;	// 当前处理的部件。 此部件包含的单元序列，就是当前处理的单元序列。
   CPoint							m_ptCurrentScrollPosition;
   CRect 							m_crectClip;
 

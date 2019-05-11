@@ -74,7 +74,7 @@ static char THIS_FILE[] = __FILE__;
 		CUnitComponent * pc = new CUnitComponent, * pc2;
 		CPoint pt1(100, 100), pt2(1000, 1000);
 		CRect rect(pt1, pt2);
-		CUnitBase * cp2;
+		CUnitBasePtr cp2;
 
 		cFile1.Open(strFileName, CFile::modeCreate | CFile::modeWrite);
 		CArchive ar(&cFile1, CArchive::store, 512, buffer);
@@ -438,7 +438,7 @@ static char THIS_FILE[] = __FILE__;
   TEST(TestCUnitComponent, TestGetParaSrcUnit) {
     CUnitComponent c;
     CUnitAdd cAdd;
-    CUnitBase * pc;
+    CUnitBasePtr pc;
 
     cAdd.SetName("abc");
     EXPECT_ANY_THROW(c.SetParaSrcUnit(-1, &cAdd));
@@ -453,7 +453,7 @@ static char THIS_FILE[] = __FILE__;
   TEST(TestCUnitComponent, TestGetParaDestUnit) {
     CUnitComponent c;
     CUnitAdd cAdd;
-    CUnitBase * pc;
+    CUnitBasePtr pc;
 
     cAdd.SetName("abc");
     EXPECT_ANY_THROW(c.SetParaDestUnit(-1, &cAdd));

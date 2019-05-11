@@ -149,8 +149,8 @@ public:
 
   bool							SetParaSrcUnit(LONG lSrcIndex, CUnitBasePtr pUnit);
   bool							SetParaDestUnit(LONG lDestIndex, CUnitBasePtr pUnit);
-  CUnitBase *				GetParaSrcUnit(LONG lSrcIndex);
-  CUnitBase *				GetParaDestUnit(LONG lDestIndex);
+  CUnitBasePtr				GetParaSrcUnit(LONG lSrcIndex);
+  CUnitBasePtr				GetParaDestUnit(LONG lDestIndex);
   bool							SetParaExectivePriority(LONG lIndex, LONG lPriority);
 
 

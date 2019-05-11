@@ -10,7 +10,7 @@ class CDlgDeleteComponentPara : public CDialog
 public:
 	CDlgDeleteComponentPara(CWnd* pParent = nullptr);   // standard constructor
 
-	void SetLink( CUnitComponent * pCpt, CUCPara * pCUC[] );
+	void SetLink( CUnitComponentPtr pCpt, CUCPara * pCUC[] );
 
 // Dialog Data
 	//{{AFX_DATA(CDelCptPara)
@@ -19,7 +19,7 @@ public:
 	//}}AFX_DATA
 
 protected:
-  CUnitComponent * m_pCpt;
+  CUnitComponentPtr m_pCpt;
 	CUCPara *   m_pCUCP[16];
 	BOOL				m_fDeleted[16];
 	ULONG				m_pDeletedPara[16];

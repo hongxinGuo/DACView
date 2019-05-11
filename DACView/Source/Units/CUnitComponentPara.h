@@ -28,10 +28,10 @@ public:
 	virtual void		Serialize(CArchive& ar) override;
 
 public:
-	CUnitBase *			GetSrcUnit(void);
-	CUnitBase *			GetDestUnit(void);
-	bool						SetSrcUnit(CUnitBase * pcSrc);
-	bool						SetDestUnit(CUnitBase * pcDest);
+	CUnitBasePtr			GetSrcUnit(void);
+	CUnitBasePtr			GetDestUnit(void);
+	bool						SetSrcUnit(CUnitBasePtr pcSrc);
+	bool						SetDestUnit(CUnitBasePtr pcDest);
 
 
 	virtual CString	GetName(void) override;
@@ -73,8 +73,8 @@ public:
 
 protected:
 	// Serialized Data
-	CUnitBase *		m_pSrcUnit;				// 指向选中的联入单元
-	CUnitBase *		m_pDestUnit;			// 指向选中的联出单元
+	CUnitBasePtr		m_pSrcUnit;				// 指向选中的联入单元
+	CUnitBasePtr		m_pDestUnit;			// 指向选中的联出单元
 	CString				m_strName;				//本接口参数的名称
 	INT64					m_ulParaType;			//参数动态链接的类型: tBOOL、tDOUBLE、tWORD、tSTRING、tINPUT、tOUTPUT、tMODIFIABLE
 

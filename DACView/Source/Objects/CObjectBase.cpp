@@ -345,7 +345,7 @@ bool CObjectBase::CreateUniName( CObjectList& listObject ) {
 // DeleteDynlink()
 //
 // Parameter : 
-//    CUnitBase * pUnit : point to unit that need deleted 
+//    CUnitBasePtr pUnit : point to unit that need deleted 
 //
 // Return :
 //    bool          : always TRUE.

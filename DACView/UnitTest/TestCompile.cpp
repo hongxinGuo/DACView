@@ -7,6 +7,9 @@
 
 #include"compileUnitList.h"
 
+using namespace std;
+#include<memory>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -17,7 +20,7 @@ static char THIS_FILE[] = __FILE__;
 namespace DACViewTest {
 
   // 检验punit是否位于unitlist中，返回值为punit中的单元数量（等于AddToList的数量）
-  int TestIsInUnitList(CUnitBase * punit, CUnitList & unitlist) {
+  int TestIsInUnitList(CUnitBasePtr punit, CUnitList & unitlist) {
     if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
       if (find(unitlist.begin(), unitlist.end(), punit) != unitlist.end()) return 1;
       else {
@@ -26,7 +29,7 @@ namespace DACViewTest {
       }
     }
     else {
-      CUnitComponent * pCpt = (CUnitComponent *)punit;
+      CUnitComponentPtr pCpt = dynamic_pointer_cast<CUnitComponent>(punit);
       if (pCpt->IsEncapsulated()) {
         if (find(unitlist.begin(), unitlist.end(), punit) != unitlist.end()) return 1;
         else {
@@ -113,7 +116,7 @@ namespace DACViewTest {
       if (punit->IsEncapsulable() && punit->IsEncapsulated()) {
         EXPECT_TRUE(punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
         EXPECT_FALSE(punit->IsCompiled()) << "此部件本身的编译标志尚未设置";
-        CUnitList *pUList2 = ((CUnitComponent *)punit)->GetUnitList();
+        CUnitList *pUList2 = (dynamic_pointer_cast<CUnitComponent>(punit))->GetUnitList();
         for (const auto pcunit2 : *pUList2) {
           EXPECT_TRUE(pcunit2->IsCompiled()); // 只检测了一层，更下面的层没有验证。
         }
@@ -148,7 +151,7 @@ namespace DACViewTest {
       iDynLinkToNumber2 = 0;
       for (const auto pctemp : UnitList) {
         if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-          CUnitComponent * pCpt = (CUnitComponent *)pctemp;
+          CUnitComponentPtr pCpt = dynamic_pointer_cast<CUnitComponent>(pctemp);
           if (!pCpt->IsEncapsulated()) { // 如果是未封装的部件，则检测是否存在部件参数输入至内部单元的情况
             for (int l = 0; l < 16; l++) {
               if (pCpt->IsParaLinked(l)) {
@@ -217,7 +220,7 @@ namespace DACViewTest {
       EXPECT_TRUE(find(rtUnitList.begin(), rtUnitList.end(), punit) != rtUnitList.end());
     }
 
-    CUnitBase * pcunitTemp = rtUnitList.front();
+    CUnitBasePtr pcunitTemp = rtUnitList.front();
     auto it = rtUnitList.begin();
     it++;
     for (; it != rtUnitList.end(); it++) {
@@ -244,7 +247,7 @@ namespace DACViewTest {
     // 测试执行优先级。所有的单元序列（包括部件内部的单元序列）皆测试。
     CUDLList * pUDLList;
     int k, l;
-    CUnitBase * pDestUnit;
+    CUnitBasePtr pDestUnit;
 
     for (const auto pctemp : rtUnitList) {
       EXPECT_TRUE(pctemp->IsCompiled()) << strFileName << "  " << pctemp->GetName() << "  此时单元序列应该已经被编译了";
@@ -439,7 +442,7 @@ namespace DACViewTest {
           for (int l = 0; l < 16; l++) {
             if (pCUCP->IsParaLinked(l)) {
               if ((pCUCP->GetParaType(l) & (tINPUT | tOUTPUT)) == tOUTPUT) {
-                CUnitBase * punit5 = pCUCP->GetParaSrcUnit(l);
+                CUnitBasePtr punit5 = pCUCP->GetParaSrcUnit(l);
                 CUDLList * pUDLList = punit5->GetDynLinkList();
                 INT64 kTotal = pUDLList->size();
                 auto itDL1 = pUDLList->begin();
@@ -472,7 +475,7 @@ namespace DACViewTest {
                 CUDLList *pDLList = pCUCP->GetParaSrcUnit(k)->GetDynLinkList();
                 for (const auto pDL11 : *pDLList) {
                   if (pDL11->GetDestUnit() == pCUCP) { // 找到源单元的动态链接了
-                    CUnitBase * pSrcUnit = pDL11->GetSrcUnit();
+                    CUnitBasePtr pSrcUnit = pDL11->GetSrcUnit();
                     if (pSrcUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
                       EXPECT_EQ(pDL11->GetDynLinkClass(), UNIT_TO_UNIT) << "源单元为部件的其动态链接类型为COMPONENT_TO_COMPONENT";
                     }
@@ -737,7 +740,7 @@ namespace DACViewTest {
       }
     }
 
-    CUnitBase * pcunit2;
+    CUnitBasePtr pcunit2;
     CString strName;
     CUDLList * pDLList;
     INT32 a, b;
@@ -811,7 +814,7 @@ namespace DACViewTest {
                       << "输出型参数的目的单元指针永远为nullptr" << "  k = " << k;
                     EXPECT_EQ(-1, pCpt->GetParaDestIndex(k)) << "目的单元参数索引重置为不可能";
                     l++;
-										CUnitBase * pcunit3 = pCpt->GetParaSrcUnit(k);
+										CUnitBasePtr pcunit3 = pCpt->GetParaSrcUnit(k);
 										CUDLList * pUDLList = pcunit3->GetDynLinkList();
 										auto it = pUDLList->begin();
 										INT64 jTotal = pUDLList->size();

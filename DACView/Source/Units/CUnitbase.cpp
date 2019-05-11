@@ -314,7 +314,7 @@ bool CUnitBase::IsDynLinkFromUpper(void) {
 		for (const auto pUnit : *pList) {
 			pDynLinkList = pUnit->GetDynLinkList();
 			for ( auto pcunitDynLink : *pDynLinkList ) {
-				if (pcunitDynLink->GetDestUnit() == this) {
+				if (pcunitDynLink->GetDestUnit().get() == this) {
 					iDynLinkNum++;
 				}
 			}
@@ -323,7 +323,7 @@ bool CUnitBase::IsDynLinkFromUpper(void) {
     for (int i = 0; i < 16; i++) {
       if (m_pUnitComponentUpper->IsParaLinked(i)) {
         if (m_pUnitComponentUpper->GetParaDestUnit(i) != nullptr) { // 数据输出至内部单元
-          if (m_pUnitComponentUpper->GetParaDestUnit(i) == this) { // 输出至本单元？
+          if (m_pUnitComponentUpper->GetParaDestUnit(i).get() == this) { // 输出至本单元？
             iDynLinkNum++;
           }
         }
@@ -451,7 +451,7 @@ bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
 // AdjustDynLinkLinePosition()
 //
 // Parameter :
-//    CUnitBase * pcSrc : point to current moved unit
+//    CUnitBasePtr pcSrc : point to current moved unit
 //    CPoint ptStart    : origin unit position.
 //    CPoint ptEnd      : current unit position.
 //
@@ -463,11 +463,11 @@ bool CUnitBase::CreateUniName( CUnitList& listUnit ) {
 // 
 //
 ////////////////////////////////////////////////////////////////////////
-void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPoint ptEnd) {
+void CUnitBase::AdjustDynLinkLinePosition(CUnitBasePtr pcSrc, CPoint ptStart, CPoint ptEnd) {
   shared_ptr<CPoint> ppt1, ppt2;
   CPointListPtr plist;
 
-  if (pcSrc == this) {  // if I was been changed size
+  if (pcSrc.get() == this) {  // if I was been changed size
     for (auto pDL : m_listDynLink) {
 			if ((pDL->GetDynLinkClass() == COMPONENT_TO_UNIT) || (pDL->GetDynLinkClass() == COMPONENT_TO_COMPONENT))
 				break; //当联出本单元所在的复合单元时，不需要调整动态链接线的位置（调整了就出错了）
@@ -534,7 +534,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
 
   // 如果本单元链接至的单元或者包含这个单元的部件移动了，则处理本单元的动态链接线
   bool fDo;
-  CUnitBase * pcunit;
+  CUnitBasePtr pcunit;
   CRect rect, rectSrc;
   for ( auto pDL : m_listDynLink ) {
     if ( (pcunit = pDL->GetDestUnit()->GetComponentUpper()) == pcSrc ) { // 如果包含本单元链接至的目的单元的部件移动了
@@ -642,7 +642,7 @@ bool CUnitBase::ArrangeDynLink( void ) {
 // DeleteDynlink()
 //
 // Parameter : 
-//    CUnitBase * pUnit : point to  need deleted unit
+//    CUnitBasePtr pUnit : point to  need deleted unit
 //
 // Return :
 //    bool          : always true.
@@ -651,14 +651,14 @@ bool CUnitBase::ArrangeDynLink( void ) {
 //    If my dynamic link to unit is pUnit, then delete it.
 //		
 /////////////////////////////////////////////////////////////////////////
-bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
+bool CUnitBase::DeleteDynLink( CUnitBasePtr pUnit ) {
   
   if (m_listDynLink.size() == 0) return true;
 
   auto it = m_listDynLink.begin();
   do {
     auto pDL = *it;
-    CUnitBase * pcunit = pDL->GetDestUnit();
+    CUnitBasePtr pcunit = pDL->GetDestUnit();
     if ( pUnit == pcunit ) {
       pcunit->SetParameterLock( pDL->GetDestIndex(), false );
      it = m_listDynLink.erase(it);
@@ -677,7 +677,7 @@ bool CUnitBase::DeleteDynLink( CUnitBase * pUnit ) {
 //
 ////////////////////////////////////////////////////////////////////////
 void CUnitBase::SetParaLockFlag( void ) {
-  CUnitBase * pUnit;
+  CUnitBasePtr pUnit;
 
   for ( const auto pUnitDynLink : m_listDynLink ) {
     pUnit = pUnitDynLink->GetDestUnit();
@@ -807,8 +807,8 @@ bool CUnitBase::ExectiveDynLink( void ) {
   return(true);
 }
 
-bool CUnitBase::IsInThisComponent(CUnitComponent * pCpt, CUnitBase * pUnit) {
-  CUnitComponent * pCptUpper = pUnit->GetComponentUpper();
+bool CUnitBase::IsInThisComponent(CUnitComponentPtr pCpt, CUnitBasePtr pUnit) {
+  CUnitComponentPtr pCptUpper = pUnit->GetComponentUpper();
   if (pCptUpper == nullptr) return false;
   if (pCptUpper == pCpt) return true;
   else return (IsInThisComponent(pCpt, pCptUpper));
@@ -888,7 +888,7 @@ bool CUnitBase::SetParameterSelected(ULONG ulIndex, bool fSelected) {
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////
 bool CUnitBase::CheckSelf( void ) {
-	CUnitBase * pSrc, * pDest;
+	CUnitBasePtr pSrc, pDest;
 	ULONG ulSrcType, ulDestType, ulType;
 
 	for ( const auto pUDL : m_listDynLink ) {
@@ -1154,7 +1154,8 @@ bool CUnitBase::SetProperty( void ) {
 }
 
 void CUnitBase::AddToList( CUnitList& UnitList) {
-  UnitList.push_back(this);
+  CUnitBasePtr punit(this);
+  UnitList.push_back(punit);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1198,7 +1199,7 @@ void CUnitBase::ClearLoopDetectFlag( void ) {
 // SetLoopDetectFlag()
 //
 // Parameter :
-//    CUnitBase * pcunit  : current process unit
+//    CUnitBasePtr pcunit  : current process unit
 //
 // Return :
 //    bool        : true if seccess set. else some thing was wrong.
@@ -1208,7 +1209,7 @@ void CUnitBase::ClearLoopDetectFlag( void ) {
 //   如果本单元属于封装后的部件，则无视是否存在动态链接，永远返回成功。
 //
 /////////////////////////////////////////////////////////////////////////
-bool CUnitBase::SetLoopDetectFlag( CUnitBase * pcunit ) {
+bool CUnitBase::SetLoopDetectFlag( CUnitBasePtr pcunit ) {
   for ( const auto pcunitDL : m_listDynLink ) {
     if ( pcunitDL->GetDestUnit() == pcunit ) {  // 如果此动态链接指向被检查的单元
       pcunitDL->SetLoopDetectFlag( true );      // 则设置此动态链接的发现循环标志（用于显示此动态链接线为红色） 
@@ -1244,9 +1245,10 @@ bool CUnitBase::SetLoopDetectFlag( CUnitBase * pcunit ) {
 //
 ////////////////////////////////////////////////////////////////////////////
 bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
-  CUnitBase * pcunit;
-
-  pCUnitList->push_back( this );
+  CUnitBasePtr pcunit;
+  
+  pcunit.reset(this);
+  pCUnitList->push_back(pcunit);
   for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
     if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
@@ -1268,7 +1270,7 @@ bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
 	// 运行到这里，则表明没有发现循环标志
   pcunit = pCUnitList->back();  // 
   pCUnitList->pop_back();       // remove me from tail
-  ASSERT( pcunit == this ); //这个断言有时出问题,估计是递归造成的，暂且不用了。(找到问题了。断言是维护程序稳定性的工具，不能随便清除）。
+  ASSERT( pcunit.get() == this ); //这个断言有时出问题,估计是递归造成的，暂且不用了。(找到问题了。断言是维护程序稳定性的工具，不能随便清除）。
   return( false );
 }
 
@@ -1278,9 +1280,10 @@ bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
 //
 /////////////////////////////////////////////////////////////////////////////
 bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
-  CUnitBase * pcunit;
+  CUnitBasePtr pcunit;
 
-  pCUnitList->push_back(this);
+  pcunit.reset(this);
+  pCUnitList->push_back(pcunit);
   for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
     if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
@@ -1303,7 +1306,7 @@ bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
   // 运行到这里，则表明没有发现截断标志
   pcunit = pCUnitList->back();
   pCUnitList->pop_back(); // remove me from tail
-  ASSERT( pcunit == this ); //这个断言有时出问题,估计是递归造成的，暂且不用了。
+  ASSERT( pcunit.get() == this ); //这个断言有时出问题,估计是递归造成的，暂且不用了。
   return(false);
 }
 
@@ -1332,18 +1335,18 @@ bool CUnitBase::CheckCutOff(CUnitList * pCUnitList) {
 //
 ////////////////////////////////////////////////////////////////////////////
 void CUnitBase::CheckInnerDataLink(INT64 lSrcParaPos, INT64 , CUnitList * pCUnitList) {
-  CUnitBase * punit;
-  CUnitBase *pFirstUnit = pCUnitList->front();
+  CUnitBasePtr punit;
+  CUnitBasePtr pFirstUnit = pCUnitList->front();
 
 	ASSERT(pCUnitList->size() >> 0); // 不允许直接调用本函数，必须由部件类发起检查。
   ASSERT(pFirstUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))); // 这个函数最初是由被查的部件调用的，第一个单元就是被查的部件本身。
   for ( const auto pDL : m_listDynLink ) {
     punit = pDL->GetDestUnit();    // get destination unit
     if (punit == pFirstUnit) { // 找到了
-      ((CUnitComponent *)punit)->SetInnerDataLinked(lSrcParaPos, pDL->GetDestIndex(), true); // 设置内部链接标志
+      (dynamic_pointer_cast<CUnitComponent>(punit))->SetInnerDataLinked(lSrcParaPos, pDL->GetDestIndex(), true); // 设置内部链接标志
     }
     else {
-      ASSERT(IsInThisComponent((CUnitComponent *)pFirstUnit,punit)); // 下层部件已经封装，不允许跳出本部件（由于可能存在不可封装部件，故而允许嵌套）
+      ASSERT(IsInThisComponent(dynamic_pointer_cast<CUnitComponent>(pFirstUnit),punit)); // 下层部件已经封装，不允许跳出本部件（由于可能存在不可封装部件，故而允许嵌套）
       if (punit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
         if (!punit->IsCutoff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
           //接着往下找
@@ -1374,7 +1377,7 @@ void CUnitBase::CheckInnerDataLink(INT64 lSrcParaPos, INT64 , CUnitList * pCUnit
 //
 ///////////////////////////////////////////////////////////////////////////
 void CUnitBase::SetDeleteDynLinkFlag( CUnitList& listUnit ) {
-  CUnitBase * pcunit;
+  CUnitBasePtr pcunit;
 
   for ( const auto pcunitDL : m_listDynLink ) {
     pcunit = pcunitDL->GetDestUnit();    // get destination unit
@@ -1445,6 +1448,7 @@ void CUnitBase::CreateParaDictionary( CDicList &CListDic, ULONG ulType ) {
 	ParaName * pParaName = GetParaNameAddress();
 	int i = 0;
   ULONG ulTypeLowPart, ulTypeHighPart;
+  CUnitBasePtr pMySelf(this);
 
   ulTypeLowPart = ulType & 0x00FF;
   ulTypeHighPart = ulType & 0xFF00;
@@ -1454,19 +1458,19 @@ void CUnitBase::CreateParaDictionary( CDicList &CListDic, ULONG ulType ) {
     if (((pParaName[i].ulType | ulTypeHighPart) == pParaName[i].ulType) && (ulTypeLowPart & GetDynLinkType(i))) { //参数合适?
       if ( (ulType & (tINPUT | tOUTPUT)) == tINPUT ) {		// 选择被写入(INPUT)参数? 
 				if ( (m_vfSelected[i] == false) && (pParaName[i].ulType & tINPUT) ) { // 被写入参数必须没有被选择过.
-					pDic = make_shared<CUnitDictionary>( this, pParaName[i].ulIndex, pParaName[i].ulType );
+					pDic = make_shared<CUnitDictionary>( pMySelf, pParaName[i].ulIndex, pParaName[i].ulType );
 					CListDic.push_back( pDic );
 				}
 			}
 			else if ( (ulType & (tINPUT | tOUTPUT)) == tOUTPUT ) {	// 选择被读出(OUTPUT)参数, 被读出参数可输出无数次.
 				if ( pParaName[i].ulType & tOUTPUT ) { 
-					pDic = make_shared<CUnitDictionary>( this, pParaName[i].ulIndex, pParaName[i].ulType );
+					pDic = make_shared<CUnitDictionary>( pMySelf, pParaName[i].ulIndex, pParaName[i].ulType );
 					CListDic.push_back( pDic );
 				}
 			}
 			else if ( (ulType & tMODIFIABLE) == tMODIFIABLE ) {	// 选择所有的参数,包括输入和输出类型.
 				if ( (pParaName[i].ulType & tMODIFIABLE) && (m_vfSelected[i] == false) ) { // 被写入参数必须没有被选择过.
-					pDic = make_shared<CUnitDictionary>( this, pParaName[i].ulIndex, pParaName[i].ulType );
+					pDic = make_shared<CUnitDictionary>( pMySelf, pParaName[i].ulIndex, pParaName[i].ulType );
 					CListDic.push_back( pDic );
 				}
 			}

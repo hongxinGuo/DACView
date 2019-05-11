@@ -88,7 +88,7 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
   INT64 iCount = m_plistLinkPoint->size();
   CPoint pt;
   shared_ptr<CPoint> ppt;
-  CUnitBase * pSrc, * pDest;
+  CUnitBase* pSrc, * pDest;
 
   if( ar.IsStoring() ) {
     ar << m_pSrcUnit.get() << m_pDestUnit.get()

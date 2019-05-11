@@ -144,7 +144,7 @@ bool LoadUnitList( CArchive & ar, CUnitList * pUnitList, INT64 * pUnitNumber ) {
   // Load strategy file
   CString strTemp;
   static CString strStrategyFile = "DACVIEW_STRATEGY_VERSION_001_002";
-  CUnitBase * punit;
+  CUnitBase* punit;
   CUnitBasePtr punitTemp;
   INT64 iTemp, iUnitNumber;
 

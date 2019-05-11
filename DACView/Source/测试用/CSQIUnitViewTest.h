@@ -26,14 +26,14 @@ public:
 	CSQIFileDoc * GetDoc(void) { return(m_pDoc); }
 	void SetCurrentFunction(int nFunc) { m_nCurrentFunction = nFunc; }
 	int GetCurrentFunction(void) { return m_nCurrentFunction; }
-	void SetCurrentUnit(CUnitBase * pUnit) { m_pCUnitCurrent = pUnit; }
-	CUnitBase * GetCurrentUnit(void) { return m_pCUnitCurrent; }
-	void SetUnitNoDrag(CUnitBase * pUnit) { m_pCUnitNoDrag = pUnit; }
-	CUnitBase * GetUnitNoDrag(void) { return m_pCUnitNoDrag; }
-	void SetUnitMouseMove(CUnitBase * pUnit) { m_pCUnitMouseMove = pUnit; }
-	CUnitBase * GetUnitMouseMove(void) { return m_pCUnitMouseMove; }
-	CUnitBase * GetFirstUnit(void) { return m_pCUnitFirst; }
-	CUnitBase * GetSecondUnit(void) { return m_pCUnitSecond; }
+	void SetCurrentUnit(CUnitBasePtr pUnit) { m_pCUnitCurrent = pUnit; }
+	CUnitBasePtr GetCurrentUnit(void) { return m_pCUnitCurrent; }
+	void SetUnitNoDrag(CUnitBasePtr pUnit) { m_pCUnitNoDrag = pUnit; }
+	CUnitBasePtr GetUnitNoDrag(void) { return m_pCUnitNoDrag; }
+	void SetUnitMouseMove(CUnitBasePtr pUnit) { m_pCUnitMouseMove = pUnit; }
+	CUnitBasePtr GetUnitMouseMove(void) { return m_pCUnitMouseMove; }
+	CUnitBasePtr GetFirstUnit(void) { return m_pCUnitFirst; }
+	CUnitBasePtr GetSecondUnit(void) { return m_pCUnitSecond; }
 
 	CUnitList * GetCurrentUnitList(void) { return m_pCUnitListCurrent; }
 	void SetCurrentUnitList(CUnitList * pUnitList) { m_pCUnitListCurrent = pUnitList; }
@@ -47,7 +47,7 @@ public:
 	shared_ptr<CUnitDynLink> GetCurrentDynLink(void) { return m_pCUnitDynLinkCurrent; }
 	bool  IsLinkIntoSrcComponnet(void) { return m_fLinkIntoSourceComponent; }
 	bool IsLinkIntoDestComponent(void) { return m_fLinkIntoDestComponent; }
-	CUnitComponent * GetCurrentComponent(void) { return m_pCUnitComponentCurrent; }
+	CUnitComponentPtr GetCurrentComponent(void) { return m_pCUnitComponentCurrent; }
 	CPointListPtr GetLinkPointList(void) { return m_plistLinkPoint; }
 	CPoint GetMousePosition(void) { return m_ptMousePosition; }
 	CPoint GetFirstPt(void) { return m_ptFirst; }

@@ -70,7 +70,7 @@ CUnitBasePtr FindUnit(CUnitList * pUnitList, CString strUnitName, bool fFind) {
 			return punit;
 		}
 		if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-			CUnitComponentPtr pCpt = static_cast<CUnitComponentPtr>(punit);
+			CUnitComponentPtr pCpt = dynamic_pointer_cast<CUnitComponent>(punit);
 			if ( !pCpt->IsEncapsulated()) {
 				return FindUnit(pCpt->GetUnitList(), strUnitName, fFind);
 			}

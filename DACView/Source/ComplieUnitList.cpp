@@ -96,7 +96,7 @@ bool UnitListLoopDetect(CUnitList * pCUnitList) {
 // AlreadyHaveCutOff()
 //
 // Parameter :
-//		CUnitBase * pCUnit : 需检查的单元
+//		CUnitBasePtr pCUnit : 需检查的单元
 //		CUnitList * pUnitList 被检查的单元序列
 //
 // Return : 
