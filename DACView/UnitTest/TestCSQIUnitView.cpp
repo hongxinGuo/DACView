@@ -26,7 +26,7 @@ namespace DACViewTest {
 	class TestSQIUnitView : public testing::Test {
 	protected:
 		void SetUp() override {
-			strFileName = "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接.sqi";
+			strFileName = "c:\\DACViewTestFile\\CompileUnitList\\简单单元.sqi";
 			CFile cFile;
 			char buffer[512];
 
@@ -72,7 +72,7 @@ namespace DACViewTest {
 		CSQIUnitViewTest m_View;
 	};
 
-  TEST_F(TestSQIUnitView, TestInitialize) {
+  /*TEST_F(TestSQIUnitView, TestInitialize) {
 
   }
 
@@ -95,7 +95,7 @@ namespace DACViewTest {
   TEST_F(TestSQIUnitView, TestIsInRect) {
 
   }
-
+  */
   TEST_F(TestSQIUnitView, TestUnitToBack) {
 
     CUnitList *pUnitList = m_View.GetCurrentUnitList();

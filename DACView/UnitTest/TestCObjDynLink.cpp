@@ -38,14 +38,12 @@ namespace DACViewTest {
 
   TEST(TestCObjectDynLink, TestGetAndSet) {
     CObjectDynLink cODL;
-    CUnitAdd cu;
-    CUnitBase * punit;
-    CUnitBasePtr punitTemp(punit);
+    CUnitBasePtr punitTemp = make_shared<CUnitAdd>();
     CObjectRect co;
 
-    cu.SetName("asdf");
+    punitTemp->SetName("asdf");
     cODL.SetUnit(punitTemp);
-    EXPECT_EQ(&cu, cODL.GetUnit().get());
+    EXPECT_EQ(punitTemp, cODL.GetUnit());
     EXPECT_STREQ("asdf", cODL.GetUnitName());
 
     co.SetName("asdf");

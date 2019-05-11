@@ -1245,22 +1245,21 @@ bool CUnitBase::SetLoopDetectFlag( CUnitBasePtr pcunit ) {
 //
 ////////////////////////////////////////////////////////////////////////////
 bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
-  CUnitBasePtr pcunit;
+  CUnitBasePtr pcunitStart(this), punit;
   
-  pcunit.reset(this);
-  pCUnitList->push_back(pcunit);
-  for ( const auto pcunitDL : m_listDynLink ) {
-    pcunit = pcunitDL->GetDestUnit();    // get destination unit
-    if (pcunit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
-      if (!pcunit->IsCutoff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
-        if (find(pCUnitList->begin(), pCUnitList->end(), pcunit) != pCUnitList->end()) {	// 找到了循环？
+  pCUnitList->push_back(pcunitStart);
+  for ( auto pcunitDL : m_listDynLink ) {
+    punit = pcunitDL->GetDestUnit();    // get destination unit
+    if (punit->GetUnitType() != tOUTPUT) {   // 本单元是否只允许输出链接？如有则忽略
+      if (!punit->IsCutoff()) {   // 如果没有设置截断标志（设置了截断标志的话就不找了，在下一个动态链接中继续找）
+        if (find(pCUnitList->begin(), pCUnitList->end(), punit) != pCUnitList->end()) {	// 找到了循环？
           // 将本单元加入单元序列，并且报告发现了循环
-          pCUnitList->push_back(pcunit);
+          pCUnitList->push_back(punit);
           return(true);
         }
         else {
-          pcunit = pcunitDL->GetDestUnit();
-          if (pcunit->LoopDetect(pCUnitList)) { // 继续检查我所动态链接的目的单元是否有循环链接
+          punit = pcunitDL->GetDestUnit();
+          if (punit->LoopDetect(pCUnitList)) { // 继续检查我所动态链接的目的单元是否有循环链接
             return(true);
           }
         }
@@ -1268,9 +1267,9 @@ bool CUnitBase::LoopDetect(CUnitList * pCUnitList) {
     }
   }
 	// 运行到这里，则表明没有发现循环标志
-  pcunit = pCUnitList->back();  // 
+  punit = pCUnitList->back();  // 
   pCUnitList->pop_back();       // remove me from tail
-  ASSERT( pcunit.get() == this ); //这个断言有时出问题,估计是递归造成的，暂且不用了。(找到问题了。断言是维护程序稳定性的工具，不能随便清除）。
+  ASSERT( punit.get() == this ); //这个断言有时出问题,估计是递归造成的，暂且不用了。(找到问题了。断言是维护程序稳定性的工具，不能随便清除）。
   return( false );
 }
 

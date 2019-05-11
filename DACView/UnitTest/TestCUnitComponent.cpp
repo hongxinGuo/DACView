@@ -423,10 +423,9 @@ static char THIS_FILE[] = __FILE__;
 
   TEST(TestCUnitComponent, TestGetParaSrcUnit) {
     CUnitComponent c;
-    CUnitAdd cAdd;
-    CUnitBasePtr pc(&cAdd);
+    CUnitBasePtr pc = make_shared<CUnitAdd>();
 
-    cAdd.SetName("abc");
+    pc->SetName("abc");
     EXPECT_ANY_THROW(c.SetParaSrcUnit(-1, pc));
     EXPECT_ANY_THROW(c.SetParaSrcUnit(16, pc));
     c.SetParaSrcUnit(1, pc);
@@ -438,10 +437,9 @@ static char THIS_FILE[] = __FILE__;
 
   TEST(TestCUnitComponent, TestGetParaDestUnit) {
     CUnitComponent c;
-    CUnitAdd cAdd;
-    CUnitBasePtr pc(&cAdd);
+    CUnitBasePtr pc = make_shared<CUnitAdd>();
 
-    cAdd.SetName("abc");
+    pc->SetName("abc");
     EXPECT_ANY_THROW(c.SetParaDestUnit(-1, pc));
     EXPECT_ANY_THROW(c.SetParaDestUnit(16, pc));
     c.SetParaDestUnit(1, pc);
@@ -453,7 +451,6 @@ static char THIS_FILE[] = __FILE__;
 
   TEST(TestCUnitComponent, TestGetParaSrcIndex) {
     CUnitComponent c;
-    CUnitAdd cAdd;
 
     EXPECT_ANY_THROW(c.SetParaSrcIndex(-1, 12));
     EXPECT_ANY_THROW(c.SetParaSrcIndex(16, 15));
@@ -473,7 +470,6 @@ static char THIS_FILE[] = __FILE__;
 
   TEST(TestCUnitComponent, TestGetParaDestIndex) {
     CUnitComponent c;
-    CUnitAdd cAdd;
 
     EXPECT_ANY_THROW(c.SetParaDestIndex(-1, 10));
     EXPECT_ANY_THROW(c.SetParaDestIndex(16, 10));
@@ -485,7 +481,6 @@ static char THIS_FILE[] = __FILE__;
   
   TEST(TestCUnitComponent, TestGetParaType) {
     CUnitComponent c;
-    CUnitAdd cAdd;
 
     EXPECT_ANY_THROW(c.SetParaType(-1, 10));
     EXPECT_ANY_THROW(c.SetParaType(16, 10));
@@ -499,7 +494,6 @@ static char THIS_FILE[] = __FILE__;
   
   TEST(TestCUnitComponent, TestGetDynLinkType) {
     CUnitComponent c;
-    CUnitAdd cAdd;
 
     EXPECT_ANY_THROW(c.SetParaType(-1, tOUTPUT | tDOUBLE));
     EXPECT_ANY_THROW(c.SetParaType(16, tOUTPUT | tDOUBLE));

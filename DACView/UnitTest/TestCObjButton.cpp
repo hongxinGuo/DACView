@@ -31,12 +31,11 @@ namespace DACViewTest {
   TEST(TestCObjectButton, TestExectiveDynLink) {
     CObjectButton cButton;
     CObjectDynLink *pcODL = new CObjectDynLink;
-    CUnitAnd cAnd;
     CODLList * podlList;
     CRect rect(100, 100, 300, 300);
     CDC DC;
     CPoint pt(150, 150);
-    CUnitBasePtr punit(&cAnd);
+    CUnitBasePtr punit = make_shared<CUnitAnd>();
 
     cButton.SetAllSize(rect);
     pcODL->SetObject(&cButton);
@@ -46,18 +45,18 @@ namespace DACViewTest {
     pcODL->SetLinkMethod(IDD_INPUT_BOOL);
     podlList = cButton.GetDynLinkList();
     podlList->push_back(pcODL);
-    cAnd.SetBool(1, true);
+    punit->SetBool(1, true);
     cButton.ExectiveDynLink();
-    EXPECT_FALSE(cAnd.GetBool(1));
+    EXPECT_FALSE(punit->GetBool(1));
     cButton.InIt(pt, 1); // begin track
     cButton.InIt(pt, 2); // set
     cButton.ExectiveDynLink();
-    EXPECT_TRUE(cAnd.GetBool(1));
+    EXPECT_TRUE(punit->GetBool(1));
     // 再次按下，即状态改变
     cButton.InIt(pt, 1); // begin track
     cButton.InIt(pt, 2); // set
     cButton.ExectiveDynLink();
-    EXPECT_FALSE(cAnd.GetBool(1));
+    EXPECT_FALSE(punit->GetBool(1));
   }
 
   TEST(TestCObjectButton, TestExective) {

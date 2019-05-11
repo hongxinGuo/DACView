@@ -6,8 +6,7 @@
 namespace DACViewTest {
   TEST(TestCUnitDictionary, TestCUnitDictionary) {
     CPoint pt(100, 100);
-    CUnitAdd cunitAdd("abcde", pt);
-    CUnitBasePtr punit(&cunitAdd);
+    CUnitBasePtr punit = make_shared<CUnitAdd>("abcde", pt);
     CString strName, strParaName;
     INT64 ulIndex = 0, ulType = 0;
     CUnitDictionary c(punit, 2, tOUTPUT | tDOUBLE);

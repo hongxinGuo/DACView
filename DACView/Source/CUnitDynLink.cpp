@@ -95,9 +95,8 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
        << m_lSrcIndex << m_lDestIndex 
        << m_ulDynLinkType << m_ulDynLinkClass
        << iCount;
-    for (auto it = m_plistLinkPoint->begin(); it != m_plistLinkPoint->end(); ++it) {
-      ppt = *it;
-      ar << *ppt;
+    for (auto ppt1 : *m_plistLinkPoint) {
+      ar << *ppt1;
     }
   }
   else {

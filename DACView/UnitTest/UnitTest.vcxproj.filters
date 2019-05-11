@@ -123,9 +123,6 @@
     <ClCompile Include="TestSQIUnitViewLMouseFunction.cpp">
       <Filter>Test源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TestCSQIUnitView.cpp">
-      <Filter>Test源文件</Filter>
-    </ClCompile>
     <ClCompile Include="TestCObjectRect.cpp">
       <Filter>Test源文件\Object</Filter>
     </ClCompile>

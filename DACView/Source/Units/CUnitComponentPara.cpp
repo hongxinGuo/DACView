@@ -43,9 +43,6 @@ CUCPara::CUCPara() : CObjectPrimitive() {
 
 CUCPara::~CUCPara()
 {
-	for (int i = 0; i < 16; i++) {
-
-	}
 }
 
 void	CUCPara::Serialize(CArchive& ar) {

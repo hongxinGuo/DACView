@@ -58,7 +58,6 @@
     <ClCompile Include="TestCObjRectBase.cpp" />
     <ClCompile Include="TestCompile.cpp" />
     <ClCompile Include="TestCSQIFileDoc.cpp" />
-    <ClCompile Include="TestCSQIUnitView.cpp" />
     <ClCompile Include="TestCUnitAdd.cpp" />
     <ClCompile Include="TestCUnitAnd.cpp" />
     <ClCompile Include="TestCUnitBase.cpp" />

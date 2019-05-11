@@ -222,11 +222,10 @@ namespace DACViewTest {
 	}
 
 	TEST(TestCUnitBase, TestClearDynamicLinkFlag) {
-		CUnitAdd c1, c2, c3;
-		CUDLList * plist = c1.GetDynLinkList();
 		shared_ptr<CUnitDynLink> pDL, pDL2;
 		CUnitList list;
-    CUnitBasePtr punit2(&c2), punit1(&c1), punit3(&c3);
+    CUnitBasePtr punit2 = make_shared<CUnitAdd>(), punit1 = make_shared<CUnitAdd>(), punit3 = make_shared<CUnitAdd>();
+		CUDLList * plist = punit1->GetDynLinkList();
 		
 		list.push_back(punit2);
 
@@ -248,10 +247,10 @@ namespace DACViewTest {
 
 		EXPECT_FALSE(pDL->IsDeleteMe());
 		EXPECT_FALSE(pDL2->IsDeleteMe());
-		c1.SetDeleteDynLinkFlag(list);
+		punit1->SetDeleteDynLinkFlag(list);
 		EXPECT_FALSE(pDL->IsDeleteMe()) << "c2处于被选择单元序列中，不应该设置删除标志"; // c2处于已选择的单元序列中，则不设置删除标志
 		EXPECT_TRUE(pDL2->IsDeleteMe()); // c3处于外部，则设置删除标志
-		c1.ClearDeleteDynLinkFlag();
+		punit1->ClearDeleteDynLinkFlag();
 		EXPECT_FALSE(pDL->IsDeleteMe());
 		EXPECT_FALSE(pDL2->IsDeleteMe());
 
@@ -471,9 +470,8 @@ namespace DACViewTest {
 
 	TEST(TestCUnitBase, TestAddToList) {
 		CPoint pt(100, 100);
-		CUnitBase c("CUnitBase", pt);
 		CUnitList cList;
-		CUnitBasePtr pc(&c), pc2;
+		CUnitBasePtr pc = make_shared<CUnitBase>("CUnitBase", pt), pc2;
 		cList.push_back(pc);
 		pc2 = cList.front();
 		EXPECT_EQ(pc, pc2);
