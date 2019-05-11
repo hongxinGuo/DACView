@@ -1809,9 +1809,9 @@ void CSQIUnitView::OnEditPaste()
   SetParaLockFlag(&unitlistTemp);
 
   // 将设置好的单元加入当前层的单元序列中,并设置其上层部件
-  for (const auto punit : unitlistTemp) {
-    punit->SetComponentUpper(m_pCUnitComponentCurrent);
-    m_pCUnitListCurrent->push_back(punit); 
+  for (const auto punit1 : unitlistTemp) {
+    punit1->SetComponentUpper(m_pCUnitComponentCurrent);
+    m_pCUnitListCurrent->push_back(punit1); 
   }
 
   GetDocument()->m_trackerUnit.m_rect = m_pCUnitCurrent->GetSize() - GetScrollPosition();

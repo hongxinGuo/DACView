@@ -28,13 +28,15 @@ namespace DACViewTest {
 		char buffer[512];
 		CPoint pt1(100, 100);
 		CUnitAdd c1("c1", pt1), c4("UnitAdd2", pt1);
+    CUnitBasePtr punit(&c1);
 		CString strFileName = "CUCPara.tst";
 		CUnitBasePtr cp1;
 
 		c.SetSrcIndex(2);
 		c.SetDestIndex(1);
-		c.SetSrcUnit(&c1);
-		c.SetDestUnit(&c4);
+		c.SetSrcUnit(punit);
+    punit.reset(&c4);
+		c.SetDestUnit(punit);
 		c.SetLinkedFlag(true);
 		c.SetName("Name");
 		c.SetDynLinkType(tWORD);
@@ -60,29 +62,27 @@ namespace DACViewTest {
 		EXPECT_STREQ("UnitAdd2", pc->GetDestUnit()->GetName());
 		EXPECT_STREQ("Name", pc->GetName());
 
-		cp1 = pc->GetDestUnit();
-		delete cp1;
-		cp1 = pc->GetSrcUnit();
-		delete cp1;
-		delete pc;
+    delete pc;
 	}
 
 	TEST(TestCUnitComponentPara, TestGetSrcUnit) {
 		CUCPara c;
 		CUnitBase cp, *pc;
+    CUnitBasePtr punit(&cp);
 		cp.SetName("CUnitBase1");
-		c.SetSrcUnit(&cp);
-		pc = c.GetSrcUnit();
-		EXPECT_STREQ("CUnitBase1", pc->GetName());
+		c.SetSrcUnit(punit);
+		punit = c.GetSrcUnit();
+		EXPECT_STREQ("CUnitBase1", punit->GetName());
 	}
 
 	TEST(TestCUnitComponentPara, TestGetDestUnit) {
 		CUCPara c;
 		CUnitBase cp, *pc;
 		cp.SetName("CUnitBase1");
-		c.SetDestUnit(&cp);
-		pc = c.GetDestUnit();
-		EXPECT_STREQ("CUnitBase1", pc->GetName());
+    CUnitBasePtr punit(&cp);
+		c.SetDestUnit(punit);
+		punit = c.GetDestUnit();
+		EXPECT_STREQ("CUnitBase1", punit->GetName());
 	}
 
 	TEST(TestCUnitComponentPara, TestGetName) {

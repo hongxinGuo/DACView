@@ -70,7 +70,7 @@ namespace DACViewTest {
 		CFile cFile1, cFile2;
 		char buffer[512];
 		CString strFileName = "CUnitBase.tst";
-		CUnitBasePtr pc = new CUnitBase, * pc2;
+		CUnitBasePtr pc = make_shared<CUnitBase>(), * pc2;
 		CPoint pt1(100, 100), pt2(1000, 1000);
 		CRect rect(pt1, pt2);
 
@@ -78,7 +78,7 @@ namespace DACViewTest {
 		CArchive ar(&cFile1, CArchive::store, 512, buffer);
 		pc->SetComment(strFileName);
 		pc->SetSize(rect);
-		ar << pc; // 
+		ar << pc.get(); // 
 		ar.Flush(); // 必须flush，否则有可能没进行存储
 		cFile1.Close();
 		pc->SetComment("");
@@ -212,14 +212,13 @@ namespace DACViewTest {
 	TEST(TestCUnitBase, TestSetComponentThatHaveMe) {
 		CPoint pt(100, 100);
 		CUnitBase c("CUnitBase", pt);
-		CUnitComponent * pcc1;
-		CUnitComponent *pcc;
-		pcc1 = new CUnitComponent("this compound", pt, true);
+		CUnitComponentPtr pcc1;
+		CUnitComponentPtr pcc;
+		pcc1 = make_shared<CUnitComponent>("this compound", pt, true);
 		CString str = "this";
 		c.SetComponentUpper(pcc1);
 		pcc = c.GetComponentUpper();
 		EXPECT_EQ(pcc, pcc1);
-		delete pcc1;
 	}
 
 	TEST(TestCUnitBase, TestClearDynamicLinkFlag) {
@@ -474,8 +473,7 @@ namespace DACViewTest {
 		CPoint pt(100, 100);
 		CUnitBase c("CUnitBase", pt);
 		CUnitList cList;
-		CUnitBasePtrpc, *pc2;
-		pc = &c;
+		CUnitBasePtr pc(&c), pc2;
 		cList.push_back(pc);
 		pc2 = cList.front();
 		EXPECT_EQ(pc, pc2);

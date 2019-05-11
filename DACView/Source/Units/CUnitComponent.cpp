@@ -216,8 +216,8 @@ void CUnitComponent::Serialize( CArchive& ar ) {
     }
 
     if (m_fEncapsulated) { // 如果是封装了的部件，则设置内部单元序列的编译标志。
-      for (const auto punit : m_CUnitList) {
-        punit->SetCompiledFlag(true);
+      for (const auto punit1 : m_CUnitList) {
+        punit1->SetCompiledFlag(true);
       }
     }
 

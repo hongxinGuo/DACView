@@ -13,6 +13,7 @@
 using namespace std;
 #include<list>
 
+#include"typedef.h"
 #include "cObjectPrimitive.h"
 
 class CUnitBase;

@@ -71,7 +71,7 @@ static char THIS_FILE[] = __FILE__;
 		CFile cFile1, cFile2;
 		char buffer[512];
 		CString strFileName = "CUnitComponent.tst", str2 = "Para";
-		CUnitComponent * pc = new CUnitComponent, * pc2;
+		CUnitComponentPtr pc = make_shared<CUnitComponent>(),  pc2;
 		CPoint pt1(100, 100), pt2(1000, 1000);
 		CRect rect(pt1, pt2);
 		CUnitBasePtr cp2;
@@ -80,7 +80,7 @@ static char THIS_FILE[] = __FILE__;
 		CArchive ar(&cFile1, CArchive::store, 512, buffer);
 		char buffer2[100];
 
-		cp2 = new CUnitAdd;
+		cp2 = make_shared<CUnitAdd>();
 
 		str2 = "Para";
 
@@ -109,12 +109,8 @@ static char THIS_FILE[] = __FILE__;
 		EXPECT_EQ(6, pc2->GetParaSrcIndex(5));
 		EXPECT_EQ(6, pc2->GetParaDestIndex(5));
 
-		delete pc;
-		delete cp2;	
 		cp2 = pc2->GetParaSrcUnit(0);
-		delete cp2;
 		
-		delete pc2;
 	}
 	
 	TEST(TestCUnitComponent, TestSetSelectParaFlag) {
@@ -438,12 +434,12 @@ static char THIS_FILE[] = __FILE__;
   TEST(TestCUnitComponent, TestGetParaSrcUnit) {
     CUnitComponent c;
     CUnitAdd cAdd;
-    CUnitBasePtr pc;
+    CUnitBasePtr pc(&cAdd);
 
     cAdd.SetName("abc");
-    EXPECT_ANY_THROW(c.SetParaSrcUnit(-1, &cAdd));
-    EXPECT_ANY_THROW(c.SetParaSrcUnit(16, &cAdd));
-    c.SetParaSrcUnit(1, &cAdd);
+    EXPECT_ANY_THROW(c.SetParaSrcUnit(-1, pc));
+    EXPECT_ANY_THROW(c.SetParaSrcUnit(16, pc));
+    c.SetParaSrcUnit(1, pc);
     EXPECT_ANY_THROW(c.GetParaSrcUnit(-1));
     EXPECT_ANY_THROW(c.GetParaSrcUnit(16));
     pc = c.GetParaSrcUnit(1);

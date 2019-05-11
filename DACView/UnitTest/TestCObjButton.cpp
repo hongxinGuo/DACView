@@ -36,10 +36,11 @@ namespace DACViewTest {
     CRect rect(100, 100, 300, 300);
     CDC DC;
     CPoint pt(150, 150);
+    CUnitBasePtr punit(&cAnd);
 
     cButton.SetAllSize(rect);
     pcODL->SetObject(&cButton);
-    pcODL->SetUnit(&cAnd);
+    pcODL->SetUnit(punit);
     pcODL->SetObjectIndex(0);
     pcODL->SetUnitIndex(1); // input2
     pcODL->SetLinkMethod(IDD_INPUT_BOOL);
