@@ -45,25 +45,25 @@ public:
   
 // Operations
 public:          
-	CUnitBase * GetSrcUnit( void ) const ;
-	CUnitBase * GetDestUnit( void ) const ;
-	INT32 			GetDestIndex( void ) const;
-	INT32 			GetSrcIndex( void ) const;
-	INT32 			GetDynLinkType( void ) const;
-	INT32				GetDynLinkClass( void ) const;
-  CPointListPtr GetLinkPointList( void );
-	BOOL				IsDeleteMe( void ) const;
-	BOOL				IsSetLoopDetectFlag( void ) const;
+  CUnitBase * GetSrcUnit(void) const { return m_pSrcUnit; }
+  CUnitBase * GetDestUnit(void) const { return m_pDestUnit; }
+  INT32 			GetDestIndex(void) const { return m_lDestIndex; }
+  INT32 			GetSrcIndex(void) const { return m_lSrcIndex; }
+  INT32 			GetDynLinkType(void) const { return m_ulDynLinkType; }
+  INT32				GetDynLinkClass(void) const { return m_ulDynLinkClass; }
+  CPointListPtr GetLinkPointList(void) { return m_plistLinkPoint; }
+  bool				IsDeleteMe(void) const { return m_fDeleteMe; }
+  bool				IsSetLoopDetectFlag(void) const { return m_fLoopDetect; }
 
-	void 				SetLoopDetectFlag( BOOL fFlag );
-	void 				SetDeleteMeFlag( BOOL fFlag );
-	void 				SetSrcUnit( CUnitBase * pc);
-	void 				SetDestUnit( CUnitBase * pc);
-	void 				SetSrcIndex( INT32 ulIndex );
-	void 				SetDestIndex( INT32 ulIndex );
-	void 				SetDynLinkType( INT32 ulType );
-	void 				SetDynLinkClass( INT32 ulClass );
-  void        SetLinkPointList( CPointListPtr plist );
+  void 				SetLoopDetectFlag(bool fFlag) { m_fLoopDetect = fFlag; }
+  void 				SetDeleteMeFlag(bool fFlag) { m_fDeleteMe = fFlag; }
+  void 				SetSrcUnit(CUnitBase * pc) { m_pSrcUnit = pc; }
+  void 				SetDestUnit(CUnitBase * pc) { m_pDestUnit = pc; }
+  void 				SetSrcIndex(INT32 lIndex) { m_lSrcIndex = lIndex; }
+  void 				SetDestIndex(INT32 lIndex) { m_lDestIndex = lIndex; }
+  void 				SetDynLinkType(INT32 lType) { m_ulDynLinkType = lType; }
+  void 				SetDynLinkClass(INT32 lClass) { m_ulDynLinkClass = lClass; }
+  void        SetLinkPointList(CPointListPtr plist);
 
 	virtual void ToShow(CDC * const pdc);// draw myself on DC 
 
