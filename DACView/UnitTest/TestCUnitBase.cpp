@@ -70,7 +70,8 @@ namespace DACViewTest {
 		CFile cFile1, cFile2;
 		char buffer[512];
 		CString strFileName = "CUnitBase.tst";
-		CUnitBasePtr pc = make_shared<CUnitBase>(), * pc2;
+		CUnitBasePtr pc = make_shared<CUnitBase>(), pc2;
+    CUnitBase * pcunit2;
 		CPoint pt1(100, 100), pt2(1000, 1000);
 		CRect rect(pt1, pt2);
 
@@ -93,16 +94,15 @@ namespace DACViewTest {
 			ASSERT_FALSE(true) << "Can not load " << strFileName;
 		}
 		CArchive ar2(&cFile2, CArchive::load, 512, buffer);
-		ar2 >> pc2;
-		rect = pc2->GetSize();
+		ar2 >> pcunit2;
+		rect = pcunit2->GetSize();
 		EXPECT_EQ(100, rect.top);
 		EXPECT_EQ(100, rect.left);
 		EXPECT_EQ(1000, rect.bottom);
 		EXPECT_EQ(1000, rect.right);
-		EXPECT_STREQ(strFileName, pc2->GetComment());
+		EXPECT_STREQ(strFileName, pcunit2->GetComment());
 
-		delete pc2;
-		delete pc;
+		delete pcunit2;
 	}
 
 	TEST(TestCUnitBase, TestSetUpperUnitList) {
@@ -226,21 +226,22 @@ namespace DACViewTest {
 		CUDLList * plist = c1.GetDynLinkList();
 		shared_ptr<CUnitDynLink> pDL, pDL2;
 		CUnitList list;
+    CUnitBasePtr punit2(&c2), punit1(&c1), punit3(&c3);
 		
-		list.push_back(&c2);
+		list.push_back(punit2);
 
 		pDL = make_shared<CUnitDynLink>();
-		pDL->SetDestUnit(&c2);
+		pDL->SetDestUnit(punit2);
 		pDL->SetDestIndex(1);
-		pDL->SetSrcUnit(&c1);
+		pDL->SetSrcUnit(punit1);
 		pDL->SetSrcIndex(2);
 		pDL->SetDynLinkType(tDOUBLE);
 		plist->push_back(pDL);
 
 		pDL2 = make_shared<CUnitDynLink>();
-		pDL2->SetDestUnit(&c3);
+		pDL2->SetDestUnit(punit3);
 		pDL2->SetDestIndex(0);
-		pDL2->SetSrcUnit(&c1);
+		pDL2->SetSrcUnit(punit1);
 		pDL2->SetSrcIndex(2);
 		pDL2->SetDynLinkType(tDOUBLE);
 		plist->push_back(pDL2);
@@ -357,10 +358,11 @@ namespace DACViewTest {
 	
 	
 	TEST(TestCUnitBase, TestSetDestUnitPriority) {
-		CUnitBase cc, *pc = new CUnitBase;
+    CUnitBase cc;
+    CUnitBasePtr pc = make_shared<CUnitBase>(), punit(&cc);
 		shared_ptr<CUnitDynLink> pdl = make_shared<CUnitDynLink>();
 		cc.SetInputParameterNumber(1);// 在调试状态下，SetHaveSourceUnit的函数中有一个断言m_ulDynLinkToNumber大于0，故而需要直接设置其大于0
-		pdl->SetDestUnit(&cc);
+		pdl->SetDestUnit(punit);
 		pdl->SetSrcUnit(pc);
 		pc->SetExectivePriorityDirect(1);
 		pc->AddDynLink(pdl);
@@ -370,8 +372,6 @@ namespace DACViewTest {
 		cc.SetInputParameterNumber(2);// 此时需要伪装输入参数的个数为2，因为设置运行优先级时会自动将输入参数的当前数加一，
 		pc->SetDestUnitPriority();			// 调试状态时此函数有一个断言。如果不伪装输入参数个数为2的话，此断言为假。
 		EXPECT_EQ(101, cc.GetExectivePriority());
-
-		delete pc;
 	}
 
 	TEST(TestCUnitBase, TestIsHaveSourceUnit) {

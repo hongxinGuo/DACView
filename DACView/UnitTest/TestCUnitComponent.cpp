@@ -95,21 +95,20 @@ static char THIS_FILE[] = __FILE__;
 			pc->SetParaDestIndex(i, i + 1);
 		}
 		pc->SetName("Component2");
-		ar << pc; // 
+		ar << pc.get(); // 
 		ar.Flush(); // 必须flush，否则有可能没完成存储
 		cFile1.Close();
 		if (!cFile2.Open(strFileName, CFile::modeRead)) {
 			pc->SetParaName(3, "aa");
 		}
 		CArchive ar2(&cFile2, CArchive::load, 512, buffer);
-		ar2 >> pc2;	
-		EXPECT_STREQ(pc->GetName(), pc2->GetName());	//由于在读入部件单元时是在系统中重新生成一个部件，故而部件的内存地址是不一样的，只能判断名称是否相同
-		EXPECT_STREQ("Para3",pc2->GetParaName(3));
-		EXPECT_EQ(pc->GetParaType(5), pc2->GetParaType(5));
-		EXPECT_EQ(6, pc2->GetParaSrcIndex(5));
-		EXPECT_EQ(6, pc2->GetParaDestIndex(5));
-
-		cp2 = pc2->GetParaSrcUnit(0);
+    CUnitComponent * pc3;
+		ar2 >> pc3;	
+		EXPECT_STREQ(pc->GetName(), pc3->GetName());	//由于在读入部件单元时是在系统中重新生成一个部件，故而部件的内存地址是不一样的，只能判断名称是否相同
+		EXPECT_STREQ("Para3",pc3->GetParaName(3));
+		EXPECT_EQ(pc->GetParaType(5), pc3->GetParaType(5));
+		EXPECT_EQ(6, pc3->GetParaSrcIndex(5));
+		EXPECT_EQ(6, pc3->GetParaDestIndex(5));
 		
 	}
 	
@@ -127,7 +126,7 @@ static char THIS_FILE[] = __FILE__;
 		CPoint pt(100, 100);
 		CUnitComponent c(str, pt, true);	
 		CString str1 = "aaa";
-		CUnitAdd * pc2 = new CUnitAdd;
+		CUnitBasePtr pc2 = make_shared<CUnitAdd>();
 		pc2->SetName("aaa");
 		CUnitList * plist;
 		
@@ -151,7 +150,7 @@ static char THIS_FILE[] = __FILE__;
 	TEST(TestCUnitComponent, TestSetBool) {
 		CUnitComponent c;
 		CPoint pt(100, 100), pt2(200, 200);
-		CUnitAdd * pc = new CUnitAdd("UnitAdd1", pt);
+		CUnitBasePtr pc = make_shared<CUnitAdd>("UnitAdd1", pt);
 	
 		c.SetParaDestIndex(1, 9);			// Add单元参数9是AutoManual，布尔值
 		c.SetParaType(1,tBOOL);
@@ -164,14 +163,12 @@ static char THIS_FILE[] = __FILE__;
 		EXPECT_TRUE(c.GetBool(1));
 		c.SetBool(1, false);
 		EXPECT_FALSE(c.GetBool(1));
-
-		delete pc;
 	}
 
 	TEST(TestCUnitComponent, TestSetInteger) {
 		CUnitComponent c;
 		CPoint pt(100, 100), pt2(200, 200);
-		CUnitAdd * pc = new CUnitAdd("UnitAdd1", pt);
+		CUnitBasePtr pc = make_shared<CUnitAdd>("UnitAdd1", pt);
 
 		c.SetParaDestIndex(1, 10);		//Add单元参数10的位置是ScanRate，整型数值
 		c.SetParaType(1, tWORD);
@@ -183,13 +180,12 @@ static char THIS_FILE[] = __FILE__;
 		c.SetInteger(1, 10000);
 		EXPECT_EQ(10000, c.GetInteger(1));
 
-		delete pc;
 	}
 
 	TEST(TestCUnitComponent, TestSetDouble) {
 		CUnitComponent c;
 		CPoint pt(100, 100), pt2(200, 200);
-		CUnitAdd * pc = new CUnitAdd("UnitAdd1", pt);
+		CUnitBasePtr pc = make_shared<CUnitAdd>("UnitAdd1", pt);
 
 		c.SetParaDestIndex(1, 0);		//Add单元参数0的位置是Input1，浮点型数值
 		c.SetParaType(1, tDOUBLE);
@@ -201,13 +197,12 @@ static char THIS_FILE[] = __FILE__;
 		c.SetDouble(1, 10000);
 		EXPECT_DOUBLE_EQ(10000, c.GetDouble(1));
 
-		delete pc;
 	}
 
   TEST(TestCUnitComponent, TestSetString) {
     CUnitComponent c;
     CPoint pt(100, 100), pt2(200, 200);
-    CUnitAdd * pc = new CUnitAdd("UnitAdd1", pt);
+    CUnitBasePtr pc = make_shared<CUnitAdd>("UnitAdd1", pt);
 
     c.SetParaDestIndex(1, 0);		//Add单元参数0的位置是Input1，浮点型数值
     c.SetParaType(1, tSTRING);
@@ -216,9 +211,7 @@ static char THIS_FILE[] = __FILE__;
     EXPECT_STREQ(str, c.GetString(1));
     c.SetString(1, "abc");
     EXPECT_STREQ("abc", c.GetString(1));
-  
-    delete pc;
-  }
+    }
 
 	TEST(TestCUnitComponent, TestGetIndex) {
 
@@ -226,8 +219,8 @@ static char THIS_FILE[] = __FILE__;
 
 	TEST(TestCUnitComponent, TestGetDynLinkType1) {
 		CUnitComponent c;
-		CUnitAdd * pc = new CUnitAdd;
-		CUnitAdd * pc2 = new CUnitAdd;
+		CUnitBasePtr pc = make_shared<CUnitAdd>();
+		CUnitBasePtr pc2 = make_shared<CUnitAdd>();
 
     c.SetParaDestUnit(1, pc);
     c.SetParaDestIndex(1, 9);		// 9的位置为AutoManual，布尔值
@@ -242,9 +235,6 @@ static char THIS_FILE[] = __FILE__;
 		c.SetParaSrcIndex(0, 0);		// 9的位置为Input1，浮点型数值
 		c.SetParaType(0, tDOUBLE);
 		EXPECT_EQ(tDOUBLE, c.GetDynLinkType(0) & tDOUBLE);
-
-		delete pc;
-		delete pc2;
 
 	}
 
@@ -449,12 +439,12 @@ static char THIS_FILE[] = __FILE__;
   TEST(TestCUnitComponent, TestGetParaDestUnit) {
     CUnitComponent c;
     CUnitAdd cAdd;
-    CUnitBasePtr pc;
+    CUnitBasePtr pc(&cAdd);
 
     cAdd.SetName("abc");
-    EXPECT_ANY_THROW(c.SetParaDestUnit(-1, &cAdd));
-    EXPECT_ANY_THROW(c.SetParaDestUnit(16, &cAdd));
-    c.SetParaDestUnit(1, &cAdd);
+    EXPECT_ANY_THROW(c.SetParaDestUnit(-1, pc));
+    EXPECT_ANY_THROW(c.SetParaDestUnit(16, pc));
+    c.SetParaDestUnit(1, pc);
     EXPECT_ANY_THROW(c.GetParaDestUnit(-1));
     EXPECT_ANY_THROW(c.GetParaDestUnit(16));
     pc = c.GetParaDestUnit(1);

@@ -99,9 +99,9 @@ namespace DACViewTest {
   TEST_F(TestSQIUnitView, TestUnitToBack) {
 
     CUnitList *pUnitList = m_View.GetCurrentUnitList();
-    CUnitAdd *pc1;
+    CUnitBasePtr pc1;
 
-    pc1 = new CUnitAdd;
+    pc1 = make_shared<CUnitAdd>();
     pUnitList->push_back(pc1);
 
     m_View.UnitToBack(pUnitList, pc1);
@@ -111,9 +111,9 @@ namespace DACViewTest {
 
   TEST_F(TestSQIUnitView, TestUnitToFront) {
     CUnitList *pUnitList = m_View.GetCurrentUnitList();
-    CUnitAdd *pc1;
+    CUnitBasePtr pc1;
 
-    pc1 = new CUnitAdd;
+    pc1 = make_shared<CUnitAdd>();
     pUnitList->push_front(pc1);
 
     m_View.UnitToFront(pUnitList, pc1);
@@ -134,12 +134,9 @@ namespace DACViewTest {
   TEST_F(TestSQIUnitView, TestViewIn) {
     CSQIUnitViewTest c;
 
-    CUnitComponent * pCpt = new CUnitComponent;
+    CUnitComponentPtr pCpt = make_shared<CUnitComponent>();
 
     c.ViewIn(pCpt);
-
-		delete pCpt;
-
   }
 
   TEST_F(TestSQIUnitView, TestViewOut) {

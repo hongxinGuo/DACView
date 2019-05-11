@@ -9,6 +9,8 @@
 #ifndef __UNIT_DICTIONARY_H__
 #define __UNIT_DICTIONARY_H__
 
+#include"typedef.h"
+
 class CUnitBase;
 
 class CUnitDictionary : public CObject {

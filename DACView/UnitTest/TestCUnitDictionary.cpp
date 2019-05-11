@@ -7,10 +7,10 @@ namespace DACViewTest {
   TEST(TestCUnitDictionary, TestCUnitDictionary) {
     CPoint pt(100, 100);
     CUnitAdd cunitAdd("abcde", pt);
-    CUnitBasePtr punit;
+    CUnitBasePtr punit(&cunitAdd);
     CString strName, strParaName;
     INT64 ulIndex = 0, ulType = 0;
-    CUnitDictionary c(&cunitAdd, 2, tOUTPUT | tDOUBLE);
+    CUnitDictionary c(punit, 2, tOUTPUT | tDOUBLE);
 
     punit = c.GetUnit();
     EXPECT_STREQ(punit->GetName(), "abcde");
