@@ -439,15 +439,19 @@ int CSQIObjectView::MakeSymbol( CObjectSymbol * pcObjSymbol ) {
     }
   }
   // remove all selected objects
-  for (const auto pobj : *m_pCObjectListCurrent) {
+  auto it = m_pCObjectListCurrent->begin();
+  do {
+    auto pobj = *it;
     if ( pobj->IsSelect() ) {    // if selected 
       pobj->SetSelect( FALSE );
       rect = pobj->GetSize();
       rect -= rectTemp.TopLeft();
       pobj->SetAllSize( rect );
-      m_pCObjectListCurrent->erase(find(m_pCObjectListCurrent->begin(), m_pCObjectListCurrent->end(), pobj) ); // 从当前list中删除此Object
+      it = m_pCObjectListCurrent->erase(it); // 从当前list中删除此Object
     }
-  }                                         
+    else it++;
+  } while (it != m_pCObjectListCurrent->end());
+
   pcObjSymbol->SetAllSize(rectTemp); // symbol's area is union of all its children
   TRACE("DacviewDoc.MakeSymbol filfulled, Objects in m_CObjectList is %d\n",m_pCObjectListCurrent->size()+1);
   return ( 0 );
@@ -733,6 +737,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 						rect = pobj->GetSize() + pobj->GetOffset();
 						if ((rectScreen & rect) == rect) {
 							pobj->SetSelect(TRUE);
+              pcobjTemp = pobj;
 						}
 					}
 					pDoc->m_trackerObject.m_rect.SetRectEmpty();
@@ -858,15 +863,15 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
       InvalidateRect( rectScreen );
       m_pCObjectCurrent->SetAllSize(m_rectCurrent - pt + ptScrollPosition);
       m_pCObjectCurrent->AdjustInnerSize();
-      pDoc->SetModifiedFlag( TRUE ); // document's content is changed
-      m_pCObjectCurrent->SetSelect( TRUE );
+      pDoc->SetModifiedFlag(true); // document's content is changed
+      m_pCObjectCurrent->SetSelect(true);
       m_nCurrentFunction = OBJECT_SELECTED;
       InvalidateRect( m_rectCurrent );
     }
     else {  // 选择了一个新的对象
       ClearAllFocus();
       CPoint pt = GetScrollPosition();
-      m_pCObjectCurrent->SetSelect( TRUE );
+      m_pCObjectCurrent->SetSelect(true);
       InvalidateRect( m_pCObjectCurrent->GetSize() -pt );
       m_nCurrentFunction = OBJECT_SELECTED;
       pDoc->m_trackerObject.m_rect = m_pCObjectCurrent->GetSize() - pt;
@@ -874,7 +879,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 		break; // case OBJECT_PRE_SELECT
 	case MAKE_SYMBOL:  // make symbol
     ASSERT( m_pCObjectCurrent != nullptr );
-    m_pCObjectCurrent->SetSelect(TRUE);
+    m_pCObjectCurrent->SetSelect(true);
     m_rectCurrent = m_pCObjectCurrent->GetSize();
     InvalidateRect( m_pCObjectCurrent->GetSize() - GetScrollPosition() );
 		break;
@@ -1080,7 +1085,7 @@ void CSQIObjectView::OnArrangeMakesymbol()
 
 	// 生成符号类.
   pDC = GetDC();
-	pDoc->SetModifiedFlag( TRUE ); // document's content is changed
+	pDoc->SetModifiedFlag(true); // document's content is changed
   strTemp = "CObject_";
   _itoa_s(m_nCurrentObjNumber++, s, 10);
   strTemp += s;
@@ -1088,7 +1093,7 @@ void CSQIObjectView::OnArrangeMakesymbol()
   m_pCObjectCurrent = new CObjectSymbol(strTemp, m_rectCurrent) ;                              
   MakeSymbol( (CObjectSymbol *)m_pCObjectCurrent );
   AddObject(m_pCObjectCurrent);
-  m_pCObjectCurrent->SetSelect( TRUE );
+  m_pCObjectCurrent->SetSelect(true);
   rectTemp = m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset();
   rectTemp -= ptOffset;       // change to screen position
   pDoc->m_trackerObject.m_rect = rectTemp;

@@ -149,6 +149,15 @@ void CObjectComponent::ToShowDynamic( CDC * const pdc ) {
 
   m_rectLastTime = m_rectArea;
 	if (m_fLoadBitmap) {
+    CBrush cbb, *pcb;
+    CPen cpf, *pcp;
+    cpf.CreatePen(PS_SOLID, 1, m_clrForeGrd);
+    cbb.CreateSolidBrush(m_clrBkGrd);
+    pcp = pdc->SelectObject(&cpf);
+    pcb = pdc->SelectObject(&cbb);
+    pdc->Rectangle(rectArea);
+    pdc->SelectObject(pcb);
+    pdc->SelectObject(pcp);
 	}
 	else {
   	CBrush cbb, *pcb;

@@ -182,7 +182,7 @@ void CFBDObjView::OnDraw(CDC* pDC)
   CRect rectTemp, rectTemp2, rectTemp3;
 
   auto it = m_pCObjectListCurrent->end();
-  do {       
+  while (it != m_pCObjectListCurrent->begin()) {       
     it--;
     pcobjTemp = *it;
     rectTemp = pcobjTemp->GetSize();
@@ -191,7 +191,7 @@ void CFBDObjView::OnDraw(CDC* pDC)
     if ( !rectTemp2.IsRectEmpty() ) {
       pcobjTemp->SetUpdateFlag( TRUE );
     }
-  } while (it != m_pCObjectListCurrent->begin());
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////
