@@ -786,6 +786,9 @@ void CSQIObjectView::ViewOut( void ) {
   CPoint pt, ptScrollPosition = GetScrollPosition();
   CRect rect;
 
+  for (auto pobj : *m_pCObjectListCurrent) {
+    pobj->SetSelect(false);
+  }
   m_pCObjectListCurrent = m_pCObjectComponentUpper->GetUpperObjectList(); // 切换到上层list
   m_pCObjectComponentUpper->ViewOut();		// 
   ScrollToPosition( m_pCObjectComponentUpper->GetUpperScrollPosition() ); // 滚动到上层偏移位置
@@ -822,205 +825,168 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
   
   // set current mouse address 
   m_ptStart = ptScrollPosition + point;
-  switch ( gl_ulDrawTool ) {		// 根据当前画图工具决定如何执行任务
-	case ID_OBJECT_SELECT:		// 工具选择任务，看是否是生成Symbol
-    if ( IsInRect(m_ptStart, pcobj) ) {  // select object to process
-      if ( (m_nCurrentFunction == OBJECT_SELECTED) 
-        && (pDoc->m_trackerObject.HitTest(point) >= 0)
-        && (pDoc->m_trackerObject.HitTest(point) < 8 ) ) {  // in change size ?
-        if ( nFlags == (MK_SHIFT + MK_LBUTTON) ) m_nCurrentFunction = MAKE_SYMBOL;
-        else m_nCurrentFunction = OBJECT_PRE_SELECT;
-      }
-      else {
-        if ( nFlags == (MK_SHIFT + MK_LBUTTON) ) m_nCurrentFunction = MAKE_SYMBOL;
-        else m_nCurrentFunction = OBJECT_PRE_SELECT;
-        m_pCObjectCurrent = pcobj;
-        rectScreen = m_pCObjectCurrent->GetSize();
-        rectScreen += m_pCObjectCurrent->GetOffset() - ptScrollPosition;
-        pDoc->m_trackerObject.m_rect = rectScreen;
-      }
-    }
-    else {
-			m_nCurrentFunction = OBJECT_PRE_SELECT;
-			m_pCObjectCurrent = nullptr;
-		}
-		break;
-	case ID_OBJECT_DYNAMICLINK :	// 生成一个动态连接
-    if ( IsInRect(m_ptStart, m_pCObjectCurrent) ) {
-      m_nCurrentFunction = CREATE_OBJ_DYN_LINK ;
-    }
-		break;
-	default:	// 选择了Objects
-    m_nCurrentFunction = OBJECT_PRE_SELECT;
+  if (IsInRect(m_ptStart, pcobj)) {  // 选择了一个对象
+    m_pCObjectCurrent = pcobj;
+    rectScreen = m_pCObjectCurrent->GetSize();
+    rectScreen += m_pCObjectCurrent->GetOffset() - ptScrollPosition;
+    pDoc->m_trackerObject.m_rect = rectScreen;
+  }
+  else {
     m_pCObjectCurrent = nullptr;
     pDoc->m_trackerObject.m_rect.SetRectEmpty();
-		break;
   }
 
-  switch (m_nCurrentFunction) {
-	case OBJECT_PRE_SELECT:
-		if (pDoc->m_trackerObject.HitTest(point) < 0) { // is some object been selected ?
-			if (pDoc->m_trackerObject.TrackRubberBand(this, point, FALSE)) { // create new object
-				if (gl_ulDrawTool == ID_OBJECT_SELECT) { // 圈选？
-					ClearAllFocus();
-					rectScreen = pDoc->m_trackerObject.m_rect;
-					rectScreen += ptScrollPosition;
-					CObjectBase * pcobjTemp = nullptr;
-					CRect rect;
-          for (const auto pobj : *m_pCObjectListCurrent) { // 设置所有选中对象的选中标志
-						rect = pobj->GetSize() + pobj->GetOffset();
-						if ((rectScreen & rect) == rect) {
-							pobj->SetSelect(TRUE);
-              pcobjTemp = pobj;
-						}
-					}
-					pDoc->m_trackerObject.m_rect.SetRectEmpty();
-					if (pcobjTemp != nullptr) {
-						m_pCObjectCurrent = pcobjTemp;
-						InvalidateRect(rectScreen - ptScrollPosition);
-						m_nCurrentFunction = MAKE_SYMBOL;
-					}
-					else {
-						m_pCObjectCurrent = nullptr;
-						m_nCurrentFunction = OBJECT_PRE_SELECT;
+	if (pDoc->m_trackerObject.HitTest(point) < 0) { // 如果没有选择对象?
+		if (pDoc->m_trackerObject.TrackRubberBand(this, point, FALSE)) { // create new object
+			if (gl_ulDrawTool == ID_OBJECT_SELECT) { // 圈选？
+				ClearAllFocus();
+				rectScreen = pDoc->m_trackerObject.m_rect;
+				rectScreen += ptScrollPosition;
+				CObjectBase * pcobjTemp = nullptr;
+				CRect rect;
+        for (const auto pobj : *m_pCObjectListCurrent) { // 设置所有选中对象的选中标志
+					rect = pobj->GetSize() + pobj->GetOffset();
+					if ((rectScreen & rect) == rect) {
+						pobj->SetSelect(TRUE);
+            pcobjTemp = pobj;
 					}
 				}
-				else {  // create new object
-					ClearAllFocus();
-					m_rectCurrent = pDoc->m_trackerObject.m_rect;
-					m_rectCurrent += ptScrollPosition;
-					ptDevice.x = m_rectCurrent.right;
-					ptDevice.y = m_rectCurrent.bottom;
-					CString strTemp;
-					char s[10];
-
-          pDoc->SetObjNumber(pDoc->GetObjNumber() + 1);
-					_itoa_s(pDoc->GetObjNumber(), s, 10);
-					strTemp = "_";
-					strTemp += s;
-					switch (gl_ulDrawTool) {
-						///////////////////////////////////////////////////////////////////      
-					case ID_OBJECT_RECT:
-						m_pCObjectCurrent = new CObjectRect(strTemp, m_rectCurrent);
-						break;
-						/////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_ROUNDRECT:
-						m_pCObjectCurrent = new CObjectRoundRect(strTemp, m_rectCurrent);
-						break;
-						//////////////////////////////////////////////////////////////////
-					case ID_OBJECT_OVAL:
-						m_pCObjectCurrent = new CObjectOval(strTemp, m_rectCurrent);
-						break;
-						////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_TEXT:
-						m_pCObjectCurrent = new CObjectText(strTemp, m_rectCurrent);
-						break;
-						//////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_LINE:
-						m_pCObjectCurrent = new CObjectLine(strTemp, m_ptStart, ptDevice);
-						break;
-						///////////////////////////////////////////////////////////////////////
-						//      case ID_OBJECT_PICTURE :
-						//        m_pCObjectCurrent = new CObjectPicture( strTemp, m_rectCurrent );
-						//        break;
-						//////////////////////////////////////////////////////////////
-					case ID_OBJECT_GRAPH:
-						m_pCObjectCurrent = new CObjectGraph(strTemp, m_rectCurrent);
-						break;
-						//////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_GAUGE:
-						m_pCObjectCurrent = new CObjectGauge(strTemp, m_rectCurrent);
-						break;
-						///////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_KNOB:
-						m_pCObjectCurrent = new CObjectKnob(strTemp, m_rectCurrent);
-						break;
-						/////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_METER:
-						m_pCObjectCurrent = new CObjectMeter(strTemp, m_rectCurrent);
-						break;
-						//////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_PUSHBUTTON:
-						m_pCObjectCurrent = new CObjectButton(strTemp, m_rectCurrent);
-						break;
-						///////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_SLIDER:
-						m_pCObjectCurrent = new CObjectSlider(strTemp, m_rectCurrent);
-						break;
-						///////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_FILLBAR:
-						m_pCObjectCurrent = new CObjectFillBar(strTemp, m_rectCurrent);
-						break;
-						/////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_NUMBERINPUT:
-						m_pCObjectCurrent = new CObjectNumberInput(strTemp, m_rectCurrent);
-						break;
-						//////////////////////////////////////////////////////////////////////
-					case ID_OBJECT_COMPOUND:
-						m_pCObjectCurrent = new CObjectComponent(strTemp, m_rectCurrent);
-						break;
-					default:
-						ASSERT(0);
-					} // switch gl_ulDrawTool
-					pDoc->SetModifiedFlag(TRUE); // document's content is changed
-					strTemp = m_pCObjectCurrent->GetClassNameStr() + strTemp;
-					m_pCObjectCurrent->SetName(strTemp);
-					m_pCObjectCurrent->SetSelect(TRUE);
-					if (m_pCObjectComponentUpper != nullptr) {
-						if (m_pCObjectComponentUpper->IsKindOf(RUNTIME_CLASS(CObjectSymbol))) {
-							m_pCObjectCurrent->SetSymbolThatHaveMe((CObjectSymbol *)m_pCObjectComponentUpper);
-							rectScreen = m_pCObjectCurrent->GetSize() - m_pCObjectCurrent->GetOffset();
-							m_pCObjectCurrent->SetAllSize(rectScreen);
-						}
-					}
-					AddObject(m_pCObjectCurrent);
-					// update screen
-					rectScreen = m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset() - ptScrollPosition;
-					InvalidateRect(rectScreen);
-					m_nCurrentFunction = OBJECT_SELECTED;
-					gl_ulDrawTool = ID_OBJECT_SELECT;
+				pDoc->m_trackerObject.m_rect.SetRectEmpty();
+				if (pcobjTemp != nullptr) {
+					m_pCObjectCurrent = pcobjTemp;
+					InvalidateRect(rectScreen - ptScrollPosition);
+					m_nCurrentFunction = MAKE_SYMBOL;
+				}
+				else {
+					m_pCObjectCurrent = nullptr;
+					m_nCurrentFunction = OBJECT_PRE_SELECT;
 				}
 			}
-			else {        // no selected object
+			else {  // create new object
 				ClearAllFocus();
-				pDoc->m_trackerObject.m_rect.SetRectEmpty();
-				m_nCurrentFunction = OBJECT_PRE_SELECT;
+				m_rectCurrent = pDoc->m_trackerObject.m_rect;
+				m_rectCurrent += ptScrollPosition;
+				ptDevice.x = m_rectCurrent.right;
+				ptDevice.y = m_rectCurrent.bottom;
+				CString strTemp;
+				char s[10];
+
+        pDoc->SetObjNumber(pDoc->GetObjNumber() + 1);
+				_itoa_s(pDoc->GetObjNumber(), s, 10);
+				strTemp = "_";
+				strTemp += s;
+				switch (gl_ulDrawTool) {
+					///////////////////////////////////////////////////////////////////      
+				case ID_OBJECT_RECT:
+					m_pCObjectCurrent = new CObjectRect(strTemp, m_rectCurrent);
+					break;
+					/////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_ROUNDRECT:
+					m_pCObjectCurrent = new CObjectRoundRect(strTemp, m_rectCurrent);
+					break;
+					//////////////////////////////////////////////////////////////////
+				case ID_OBJECT_OVAL:
+					m_pCObjectCurrent = new CObjectOval(strTemp, m_rectCurrent);
+					break;
+					////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_TEXT:
+					m_pCObjectCurrent = new CObjectText(strTemp, m_rectCurrent);
+					break;
+					//////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_LINE:
+					m_pCObjectCurrent = new CObjectLine(strTemp, m_ptStart, ptDevice);
+					break;
+					///////////////////////////////////////////////////////////////////////
+					//      case ID_OBJECT_PICTURE :
+					//        m_pCObjectCurrent = new CObjectPicture( strTemp, m_rectCurrent );
+					//        break;
+					//////////////////////////////////////////////////////////////
+				case ID_OBJECT_GRAPH:
+					m_pCObjectCurrent = new CObjectGraph(strTemp, m_rectCurrent);
+					break;
+					//////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_GAUGE:
+					m_pCObjectCurrent = new CObjectGauge(strTemp, m_rectCurrent);
+					break;
+					///////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_KNOB:
+					m_pCObjectCurrent = new CObjectKnob(strTemp, m_rectCurrent);
+					break;
+					/////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_METER:
+					m_pCObjectCurrent = new CObjectMeter(strTemp, m_rectCurrent);
+					break;
+					//////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_PUSHBUTTON:
+					m_pCObjectCurrent = new CObjectButton(strTemp, m_rectCurrent);
+					break;
+					///////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_SLIDER:
+					m_pCObjectCurrent = new CObjectSlider(strTemp, m_rectCurrent);
+					break;
+					///////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_FILLBAR:
+					m_pCObjectCurrent = new CObjectFillBar(strTemp, m_rectCurrent);
+					break;
+					/////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_NUMBERINPUT:
+					m_pCObjectCurrent = new CObjectNumberInput(strTemp, m_rectCurrent);
+					break;
+					//////////////////////////////////////////////////////////////////////
+				case ID_OBJECT_COMPOUND:
+					m_pCObjectCurrent = new CObjectComponent(strTemp, m_rectCurrent);
+					break;
+				default:
+					ASSERT(0);
+				} // switch gl_ulDrawTool
+				pDoc->SetModifiedFlag(TRUE); // document's content is changed
+				strTemp = m_pCObjectCurrent->GetClassNameStr() + strTemp;
+				m_pCObjectCurrent->SetName(strTemp);
+				m_pCObjectCurrent->SetSelect(TRUE);
+				if (m_pCObjectComponentUpper != nullptr) {
+					if (m_pCObjectComponentUpper->IsKindOf(RUNTIME_CLASS(CObjectSymbol))) {
+						m_pCObjectCurrent->SetSymbolThatHaveMe((CObjectSymbol *)m_pCObjectComponentUpper);
+						rectScreen = m_pCObjectCurrent->GetSize() - m_pCObjectCurrent->GetOffset();
+						m_pCObjectCurrent->SetAllSize(rectScreen);
+					}
+				}
+				AddObject(m_pCObjectCurrent);
+				// update screen
+				rectScreen = m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset() - ptScrollPosition;
+				InvalidateRect(rectScreen);
+				m_nCurrentFunction = OBJECT_SELECTED;
+				gl_ulDrawTool = ID_OBJECT_SELECT;
 			}
 		}
-	  else if (pDoc->m_trackerObject.Track(this, point, TRUE)) {  // change object's size and/or position
-      ClearAllFocus();
-      CPoint pt = m_pCObjectCurrent->GetOffset();
-      m_rectCurrent = pDoc->m_trackerObject.m_rect;
-      rectScreen = m_pCObjectCurrent->GetSize();
-      rectScreen += pt;
-      rectScreen -= ptScrollPosition;
-      InvalidateRect( rectScreen );
-      m_pCObjectCurrent->SetAllSize(m_rectCurrent - pt + ptScrollPosition);
-      m_pCObjectCurrent->AdjustInnerSize();
-      pDoc->SetModifiedFlag(true); // document's content is changed
-      m_pCObjectCurrent->SetSelect(true);
-      m_nCurrentFunction = OBJECT_SELECTED;
-      InvalidateRect( m_rectCurrent );
-    }
-    else {  // 选择了一个新的对象
-      ClearAllFocus();
-      CPoint pt = GetScrollPosition();
-      m_pCObjectCurrent->SetSelect(true);
-      InvalidateRect( m_pCObjectCurrent->GetSize() -pt );
-      m_nCurrentFunction = OBJECT_SELECTED;
-      pDoc->m_trackerObject.m_rect = m_pCObjectCurrent->GetSize() - pt;
-    }
-		break; // case OBJECT_PRE_SELECT
-	case MAKE_SYMBOL:  // make symbol
-    ASSERT( m_pCObjectCurrent != nullptr );
+		else {        // no selected object
+			ClearAllFocus();
+			pDoc->m_trackerObject.m_rect.SetRectEmpty();
+			m_nCurrentFunction = OBJECT_PRE_SELECT;
+		}
+	}
+	else if (pDoc->m_trackerObject.Track(this, point, TRUE)) {  // 改变对象的大小或位置
+    ClearAllFocus();
+    CPoint pt = m_pCObjectCurrent->GetOffset();
+    m_rectCurrent = pDoc->m_trackerObject.m_rect;
+    rectScreen = m_pCObjectCurrent->GetSize();
+    rectScreen += pt;
+    rectScreen -= ptScrollPosition;
+    InvalidateRect( rectScreen );
+    m_pCObjectCurrent->SetAllSize(m_rectCurrent - pt + ptScrollPosition);
+    m_pCObjectCurrent->AdjustInnerSize();
+    pDoc->SetModifiedFlag(true); // document's content is changed
     m_pCObjectCurrent->SetSelect(true);
-    m_rectCurrent = m_pCObjectCurrent->GetSize();
-    InvalidateRect( m_pCObjectCurrent->GetSize() - GetScrollPosition() );
-		break;
-	default :
-		TRACE("Error in select function\n");
-		break;
-  } // switch (m_nCurrentFunction)
+    m_nCurrentFunction = OBJECT_SELECTED;
+    InvalidateRect( m_rectCurrent );
+  }
+  else {  // 选择了一个新的对象
+    ClearAllFocus();
+    CPoint pt = GetScrollPosition();
+    m_pCObjectCurrent->SetSelect(true);
+    InvalidateRect( m_pCObjectCurrent->GetSize() -pt );
+    m_nCurrentFunction = OBJECT_SELECTED;
+    pDoc->m_trackerObject.m_rect = m_pCObjectCurrent->GetSize() - pt;
+  }
 
 	// 报告当前状态
   switch ( m_nCurrentFunction ) {
@@ -1032,11 +998,11 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
   	SetObjectRect(m_pCObjectCurrent);
     TRACE("Current function is SELELCTED\n");
     break;          
-  case CREATE_OBJ_DYN_LINK :
-    TRACE("Current function is CREATE_OBJ_DYN_LINK\n");
-    break;
   case MAKE_SYMBOL :
     ASSERT( m_pCObjectCurrent != nullptr );
+    m_pCObjectCurrent->SetSelect(true);
+    m_rectCurrent = m_pCObjectCurrent->GetSize();
+    InvalidateRect(m_pCObjectCurrent->GetSize() - GetScrollPosition());
     TRACE("Current function is MAKE_SYMBOL\n");
     break;
 	default :
@@ -1101,15 +1067,6 @@ void CSQIObjectView::OnLButtonUp(UINT nFlags, CPoint point)
   // calculate current absolute mouse position
   ptDevice = ptScrollPosition + point;
   switch (m_nCurrentFunction ) {
-  case CREATE_OBJ_DYN_LINK :
-    CDynLinkDlg.SetLink(pDoc->GetUnitDictionaryList(tMODIFIABLE | tDOUBLE | tBOOL | tWORD | tSTRING, m_pCObjectCurrent),
-												m_pCObjectCurrent,
-                        m_pCObjectCurrent->GetDynLinkList(),
-                        m_pCObjectCurrent->GetParaNameAddress());
-    CDynLinkDlg.DoModal();
-    m_nCurrentFunction = OBJECT_PRE_SELECT;
-    break;
-
   case OBJECT_PRE_SELECT :
     if ( m_pCObjectCurrent != nullptr ) {
       rectScreen = m_pCObjectCurrent ->GetSize();

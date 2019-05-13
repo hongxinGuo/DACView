@@ -19,7 +19,6 @@
 enum {
   OBJECT_SELECTED = 0, // prepare to change object's form
   MAKE_SYMBOL = 4, // group objects into symbol 
-  CREATE_OBJ_DYN_LINK = 5, // create dynamic link
   OBJECT_PRE_SELECT = 16,// no object selected
 };
 
