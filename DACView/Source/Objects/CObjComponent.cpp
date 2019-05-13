@@ -115,6 +115,11 @@ void CObjectComponent::ToShowStatic( CDC * const pdc, CPoint  ) {
   rectArea += pt;
   if ( pdc->RectVisible(rectArea) ) {  	// if I need to redraw ?
     if (m_fLoadBitmap) {
+
+      //CStatic *pPictureControl = NULL;
+
+      //pPictureControl->Create(_T("IDB_BITMAP_M31"), WS_CHILD | WS_VISIBLE | SS_BITMAP, m_rectArea, NULL, 12345);
+
       BITMAPINFO mapInfo;
       CBrush cbb, *pcb;
       CPen cpf, *pcp;

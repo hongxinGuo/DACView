@@ -506,6 +506,8 @@
 #define ID_OPTION_SYSTEM                32944
 #define ID_OBJECTS_SYMBOL               32945
 #define ID_OBJECT_SYMBOL                32946
+#define ID_Menu32947                    32947
+#define ID_ARRANGE_MERGESYMBOL          32948
 #define ID_STYLE_LEFT                   33000
 #define ID_STYLE_CENTERED               33001
 #define ID_STYLE_RIGHT                  33002
@@ -516,7 +518,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        182
-#define _APS_NEXT_COMMAND_VALUE         32947
+#define _APS_NEXT_COMMAND_VALUE         32949
 #define _APS_NEXT_CONTROL_VALUE         295
 #define _APS_NEXT_SYMED_VALUE           163
 #endif

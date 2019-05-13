@@ -189,7 +189,7 @@ void CFBDObjView::OnDraw(CDC* pDC)
     rectTemp |= pcobjTemp->GetLastSize();
     rectTemp2 = rectTemp & m_crectViewClip;
     if ( !rectTemp2.IsRectEmpty() ) {
-      pcobjTemp->SetUpdateFlag( TRUE );
+      pcobjTemp->SetUpdateFlag(true);
     }
   }
 }

@@ -148,6 +148,9 @@ protected:
 	afx_msg void OnUpdateArrangeMakedynlink(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+public:
+  afx_msg void OnArrangeMergesymbol();
+  afx_msg void OnUpdateArrangeMergesymbol(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG	// debug version in sequevw.cpp

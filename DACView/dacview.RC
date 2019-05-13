@@ -201,8 +201,9 @@ BEGIN
         MENUITEM "ToFront",                     ID_ARRANGE_TOFRONT
         MENUITEM "ToBack",                      ID_ARRANGE_TOBACK
         MENUITEM SEPARATOR
-        MENUITEM "MakeSymbol",                  ID_ARRANGE_MAKESYMBOL
-        MENUITEM "BreakSymbol",                 ID_ARRANGE_BREAKSYMBOL
+        MENUITEM "Make Symbol",                 ID_ARRANGE_MAKESYMBOL
+        MENUITEM "Merge Symbol",                ID_ARRANGE_MERGESYMBOL
+        MENUITEM "Break Symbol",                ID_ARRANGE_BREAKSYMBOL
         MENUITEM SEPARATOR
         MENUITEM "MakeComponent",               ID_ARRANGE_MAKECOMPOUND
         MENUITEM "BreakComponent",              ID_ARRANGE_BREAKCOMPOUND

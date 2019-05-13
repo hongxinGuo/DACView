@@ -104,6 +104,8 @@ BEGIN_MESSAGE_MAP(CSQIObjectView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_ARRANGE_MAKEDYNLINK, OnUpdateArrangeMakedynlink)
 	//}}AFX_MSG_MAP
   // Standard printing commands
+  ON_COMMAND(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnArrangeMergesymbol)
+  ON_UPDATE_COMMAND_UI(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnUpdateArrangeMergesymbol)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1575,4 +1577,16 @@ void CSQIObjectView::OnUpdateArrangeMakedynlink(CCmdUI* pCmdUI)
     pCmdUI->Enable(FALSE);
     break;
   } // switch
+}
+
+
+void CSQIObjectView::OnArrangeMergesymbol()
+{
+  // TODO: 在此添加命令处理程序代码
+}
+
+
+void CSQIObjectView::OnUpdateArrangeMergesymbol(CCmdUI *pCmdUI)
+{
+  // TODO: 在此添加命令更新用户界面处理程序代码
 }
