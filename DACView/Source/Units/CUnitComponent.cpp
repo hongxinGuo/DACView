@@ -391,7 +391,7 @@ bool CUnitComponent::CheckCutOff(CUnitList * pCUnitList) {
 //
 ////////////////////////////////////////////////////////////////////////////
 void CUnitComponent::CheckInnerDataLink(INT64 lSrcIndex, INT64 lDestParaPos, CUnitList * pCUnitList) {
-  CUnitBase *punit, *pDestUnit;
+  CUnitBase *pDestUnit;
   CUDLList * pDLList, pDLList2;
 
   ASSERT(m_fEncapsulated); // 本部件必须被封装了

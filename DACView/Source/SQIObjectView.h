@@ -45,6 +45,9 @@ public:
 	bool ObjectToFront( CObjectBase * const pCObjectBase );		// change an object's position to ObjList's Tail
 	int  MakeSymbol( CObjectSymbol * pcobjSymbol );						// 将一组Objects组成一个Symbol
 	int  BreakSymbol( CObjectSymbol * pcobjSymbol );					// 将一个Symbol拆分
+  int  MergeSymbol(CObjectSymbol * pcObjSymbol);            // 将嵌套结构的符号重组为单一符号
+  int  MergeSymbol(CObjectList * pcObjectList);            // 将圈选中的对象重组为单一符号
+
     
   void CreateUniName( CObjectBase * pCObject );							// 为Object选择唯一的名称
 

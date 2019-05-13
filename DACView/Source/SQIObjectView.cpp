@@ -480,6 +480,138 @@ int CSQIObjectView::BreakSymbol( CObjectSymbol * pcobjSymbol ) {
   return ( 0 );
 } 
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// 将嵌套结构的符号重组为单一符号。
+//
+//  before function :
+//    m_pcObjectSymbol->( a, b, c, Symbol(d, e, f), g, Symbol(h, i));
+//
+//  after function :
+//    m_pcObjectSymbol->( a, b, c, g, d, e, f, h, i);
+//
+//////////////////////////////////////////////////////////////////////////////////////////
+int CSQIObjectView::MergeSymbol(CObjectSymbol * pcObjSymbol) {
+  CRect rectTemp, rect;
+  CObjectList * pObjectList = pcObjSymbol->GetObjectList();
+
+  auto it = pObjectList->begin();
+  do {
+    auto pobj = *it;
+    if ( pobj->IsKindOf(RUNTIME_CLASS(CObjectSymbol)) ) {
+      CObjectSymbol * pSymbol = (CObjectSymbol *)pobj;
+      CObjectList * pSymbolList = pSymbol->GetObjectList();
+      for (auto pobjTemp : *pSymbolList) {
+        pcObjSymbol->InsertObject(pobjTemp); // 将此对象指针加入Symbol对象序列的尾部
+        pobjTemp->SetSymbolThatHaveMe(pcObjSymbol); // 
+      }
+      pSymbolList->clear(); // 需要清空此符号中的对象序列，否则删除此符号时会删除其内部对象，导致新生成的对象指针空置。
+      it = pObjectList->erase(it);
+      delete pobj;    // 删除此符号
+    }
+    else {
+      it++;
+    }
+  } while (it != pObjectList->end());
+
+  return (0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// 将嵌套结构的符号重组为单一符号。
+//
+//  before function :
+//    m_pcObjectSymbol->( a, b, c, Symbol(d, e, f), g, Symbol(h, i));
+//
+//  after function :
+//    m_pcObjectSymbol->( a, b, c, g, d, e, f, h, i);
+//
+//////////////////////////////////////////////////////////////////////////////////////////
+int CSQIObjectView::MergeSymbol(CObjectList * pObjectList) {
+  CSQIFileDoc * pDoc = GetDocument();
+  CDC * pDC;
+  CRect rectTemp;
+  CString strTemp;
+  char s[10];
+  CPoint ptOffset = GetDeviceScrollPosition();
+
+  bool fCanMakeSymbol = true;
+
+  // 复合对象和输出类对象(按钮,滚动条等)不能组成符号, 检查被选对象中是否有.
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if (pobj->IsSelect()) {
+      if (!pobj->CanInSymbol()) {
+        fCanMakeSymbol = false; // 不能生成符号.
+      }
+    }
+  }
+  if (!fCanMakeSymbol) {
+    ShowMessage(ID_ERROR_DACVIEW_CANNOT_MAKE_SYMBOL);
+    return 0;
+  }
+
+  rectTemp.SetRectEmpty();
+  for (const auto pobj : *m_pCObjectListCurrent) {
+    if (pobj->IsSelect()) {    // if selected
+      rectTemp |= pobj->GetSize();			// 显示区域是所有区域的总和
+    }
+  }
+  CPoint ptOffsetNewSymbol = rectTemp.TopLeft();
+
+  // 生成符号类.
+  pDC = GetDC();
+  pDoc->SetModifiedFlag(true); // document's content is changed
+  strTemp = "CObject_";
+  _itoa_s(m_nCurrentObjNumber++, s, 10);
+  strTemp += s;
+  m_rectCurrent.SetRectEmpty();
+  m_pCObjectCurrent = new CObjectSymbol(strTemp, rectTemp);
+  
+  CRect rect;
+
+  auto it = pObjectList->begin();
+  do {
+    auto pobj = *it;
+    if (pobj->IsSelect()) {
+      if (pobj->IsKindOf(RUNTIME_CLASS(CObjectSymbol))) {
+        CObjectSymbol * pSymbol = (CObjectSymbol *)pobj;
+        CPoint ptSymbol = pSymbol->GetSize().TopLeft();
+        CObjectList * pSymbolList = pSymbol->GetObjectList();
+        for (auto pobjTemp : *pSymbolList) {
+          rect = pobjTemp->GetSize() + ptSymbol - ptOffsetNewSymbol;
+          pobjTemp->SetAllSize(rect);
+          ((CObjectSymbol *)m_pCObjectCurrent)->InsertObject(pobjTemp); // 将此对象指针加入Symbol对象序列的尾部
+          pobjTemp->SetSymbolThatHaveMe((CObjectSymbol *)m_pCObjectCurrent); //
+        }
+        pSymbolList->clear(); // 需要清空此符号中的对象序列，否则删除此符号时会删除其内部对象，导致新生成的对象指针空置。
+        it = pObjectList->erase(it);
+        delete pobj;    // 删除此符号
+      }
+      else {
+        rect = pobj->GetSize() - ptOffsetNewSymbol;
+        pobj->SetAllSize(rect);
+        ((CObjectSymbol *)m_pCObjectCurrent)->InsertObject(pobj); // 将此对象指针加入Symbol对象序列的尾部
+        pobj->SetSymbolThatHaveMe((CObjectSymbol *)m_pCObjectCurrent); //
+        it = pObjectList->erase(it);
+      }
+    }
+    else {
+      it++;
+    }
+  } while (it != pObjectList->end());
+
+  m_pCObjectCurrent->SetAllSize(rectTemp);
+  AddObject(m_pCObjectCurrent);
+  m_pCObjectCurrent->SetSelect(true);
+  rectTemp = m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset();
+  rectTemp -= ptOffset;       // change to screen position
+  pDoc->m_trackerObject.m_rect = rectTemp;
+  InvalidateRect(rectTemp); // clear former focus   
+  m_nCurrentFunction = OBJECT_SELECTED;
+  ReleaseDC(pDC);
+
+  return (1);
+}
+
 /////////////////////////////////////////////////////////////////////
 //
 // clear all selected flags
@@ -1580,13 +1712,43 @@ void CSQIObjectView::OnUpdateArrangeMakedynlink(CCmdUI* pCmdUI)
 }
 
 
-void CSQIObjectView::OnArrangeMergesymbol()
-{
+void CSQIObjectView::OnArrangeMergesymbol() {
   // TODO: 在此添加命令处理程序代码
+  switch (m_nCurrentFunction) {
+  case MAKE_SYMBOL:
+    MergeSymbol(m_pCObjectListCurrent);
+    break;
+  case OBJECT_SELECTED:
+    ASSERT(m_pCObjectCurrent != nullptr);
+    ASSERT(m_pCObjectCurrent->IsKindOf(RUNTIME_CLASS(CObjectSymbol)));
+    MergeSymbol((CObjectSymbol *)m_pCObjectCurrent);
+    break;
+  default :
+    break;
+  }
+
 }
 
 
-void CSQIObjectView::OnUpdateArrangeMergesymbol(CCmdUI *pCmdUI)
-{
+void CSQIObjectView::OnUpdateArrangeMergesymbol(CCmdUI *pCmdUI) {
   // TODO: 在此添加命令更新用户界面处理程序代码
+  switch (m_nCurrentFunction) {
+  case MAKE_SYMBOL:
+    pCmdUI->Enable(true);
+    break;
+  case OBJECT_PRE_SELECT:
+    pCmdUI->Enable(false);
+    break;
+  case OBJECT_SELECTED:
+    ASSERT(m_pCObjectCurrent != nullptr);
+    if (m_pCObjectCurrent->IsKindOf(RUNTIME_CLASS(CObjectSymbol))) {
+      pCmdUI->Enable(true);
+    }
+    else {
+      pCmdUI->Enable(false);
+    }
+    break;
+  default:
+    pCmdUI->Enable(false);
+  } // switch
 }

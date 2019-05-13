@@ -105,6 +105,19 @@ CRgn * CObjectSymbol::GetClipRgn( const CPoint& ptScrollPos ) {
   return( &m_rgnClip );
 }
 
+CPoint CObjectSymbol::GetOffset(void) {
+  CPoint pt(0, 0);
+  CRect rect;
+
+  if (m_pSymbolHaveMe != nullptr) {
+    rect = m_pSymbolHaveMe->GetSize();
+    pt = m_pSymbolHaveMe->GetOffset();
+    pt.x += rect.left;
+    pt.y += rect.top;
+  }
+  return(pt);
+}
+
 void CObjectSymbol::ViewOut( void ) {
   CRect rectTemp, rect;
   
@@ -147,12 +160,14 @@ void CObjectSymbol::Serialize( CArchive& ar ) {
 	CObjectComponentBase::Serialize( ar );
   shared_ptr<CRect> prect;
 
-  for (auto pobj : m_CObjectList) {
-    prect = make_shared<CRect>(pobj->GetSize());
-    m_CRectList.push_back( prect );
-    pobj->SetSymbolThatHaveMe( this );
+  if (ar.IsLoading()) {
+    for (auto pobj : m_CObjectList) {
+      prect = make_shared<CRect>(pobj->GetSize());
+      m_CRectList.push_back(prect);
+      pobj->SetSymbolThatHaveMe(this);
+    }
+    m_rectSymbolOrigin = m_rectOrigin;
   }
-  m_rectSymbolOrigin = m_rectOrigin;
 }
 
 bool CObjectSymbol::SetInteger(ULONG index, LONG lValue) {

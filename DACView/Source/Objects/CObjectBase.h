@@ -81,7 +81,7 @@ public:
   virtual bool      NeedShowCaret( void ) { return( m_fNeedShowCaret ); }
   virtual bool      AdjustCaretPos( CDC * , CPoint& ) { ASSERT(false); return false; }
 
-  virtual CPoint    GetOffset( void );
+  virtual CPoint    GetOffset(void);
 
   virtual bool      InIt(POINT const , int ) { ASSERT(false); return false; }
   virtual bool      ProcessChar( UINT , CPoint& ) { ASSERT(false); return false; }

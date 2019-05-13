@@ -34,6 +34,8 @@ public:
   virtual void    SetDrawAll( bool fFlag ) override;
 	virtual CRgn *	GetClipRgn( const CPoint& ptOffset) override;
 
+  virtual CPoint  GetOffset(void) override;
+
   virtual void    ViewOut( void ) override;
   virtual bool    DumpCurrentStatus( char * pch ) const override;
 // Operations
