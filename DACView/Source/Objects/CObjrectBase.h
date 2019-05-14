@@ -26,22 +26,22 @@ public:
 public:          
   virtual void            Serialize( CArchive& ar ) override;
 
-  virtual const CRect&		GetSize( void ) override;
-	virtual const CRect&		GetOriginSize( void ) override;
-	virtual const	CRect&		GetLastSize( void ) override;
-  virtual const CRect     GetAbsoluteSize(void) override;
+  virtual const CRect&		GetSize(void) override { return m_rectArea; }
+  virtual const CRect&		GetOriginSize(void) override { return m_rectOrigin; }
+  virtual const	CRect&		GetLastSize(void) override { return m_rectLastTime; }
+  virtual const CRect     GetAbsoluteSize(void) override { return(m_rectArea + GetOffset()); }
 	virtual CRgn *		      GetClipRgn( const CPoint& ptScrollPosition = CPoint(0, 0) ) override;
   virtual CString         GetTitle(void) { return(m_strTitle); }
 
-	virtual void 			SetAllSize( const CRect& rectArea ) override;
-  virtual void      SetOriginSize( const CRect& rectOrigin ) override;
-	virtual void 			SetDynamicSize( const CRect& rectArea ) override;
+	virtual void 			SetAllSize( const CRect& rectArea ) override { m_rectOrigin = m_rectArea = m_rectLastTime = rectArea; }
+  virtual void      SetOriginSize(const CRect& rectOrigin) override { m_rectOrigin = rectOrigin; }
+  virtual void 			SetDynamicSize(const CRect& rectArea) override { m_rectArea = rectArea; m_fDrawAll = true; }
 	
 	virtual bool      InIt(POINT const pt, int iStatus) override;
-	virtual void      ToShowDynamic( CDC * const pdc) override;		// draw myself on memory DC 
-	virtual void      ToShowStatic( CDC * const pdc, CPoint ptScrollPosition) override;		// draw myself on DC 
-  virtual void 			AdjustInnerSize( void ) override;
-	virtual void 			AdjustDynamicInnerSize( void ) override;
+  virtual void      ToShowDynamic(CDC * const ) override {}	// draw myself on memory DC 
+  virtual void      ToShowStatic(CDC * const , CPoint ) override {}	// draw myself on DC 
+  virtual void 			AdjustInnerSize(void) override {}
+	virtual void 			AdjustDynamicInnerSize( void ) override {}	// do nothing, use by CObjectSymbol
   virtual bool			SetProperty( void ) override;					// set object's property 
   virtual bool			CheckSelf( void ) override;
 
@@ -50,8 +50,8 @@ public:
 	virtual bool 			SetRectPosition(ULONG index, LONG lValue) override;
   virtual bool      SetBool(ULONG index, bool fValue) override;
 	virtual bool 			SetInteger(ULONG index, LONG lValue) override;
-	virtual bool 		 	SetDouble(ULONG index, double eValue) override;
-	virtual double		GetDouble(ULONG index) override;
+  virtual bool 		 	SetDouble(ULONG , double ) override { ASSERT(0); return(false); }
+  virtual double		GetDouble(ULONG ) override { ASSERT(0); return(0.0); }
 	virtual bool		 	SetString(ULONG index, const CString& strValue) override;
 	virtual bool 			SetColor(ULONG index, DWORD lValue);
 	virtual bool  		ExectiveDynLink( void ) override;

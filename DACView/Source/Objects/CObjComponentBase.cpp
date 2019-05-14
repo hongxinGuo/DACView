@@ -81,8 +81,8 @@ void CObjectComponentBase::AssertValid() const
 void CObjectComponentBase::Dump(CDumpContext& dc) const
 {
 	CObjRectBase::Dump(dc);
-  for (auto pcObj : m_CObjectList) {
-    dc << pcObj;
+  for (auto pObj : m_CObjectList) {
+    dc << pObj;
   }
 }
 

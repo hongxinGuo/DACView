@@ -308,17 +308,6 @@ bool CObjRectBase::SetInteger(ULONG index, LONG lValue) {
 	else return( FALSE );
 }
 
-bool CObjRectBase::SetDouble(ULONG , double ) {
-  ASSERT( FALSE );
-  return(FALSE);
-}
-double CObjRectBase::GetDouble(ULONG )
-{
-	ASSERT(false);
-	return 0.0;
-}
-
-
 bool CObjRectBase::SetString(ULONG ulIndex, const CString & strValue) {
   ASSERT( ulIndex == 5 );
   m_strTitle = strValue;
@@ -355,23 +344,6 @@ bool CObjRectBase::InIt(POINT const pt, int) {
   rectArea += ptOffsetBase;
   return ( rectArea.PtInRect(pt) );
 } 
-
-void CObjRectBase::ToShowStatic( CDC * const, CPoint   ) {
-  ASSERT( FALSE );
-}            
-
-void CObjRectBase::ToShowDynamic( CDC * const ) {
-  ASSERT( FALSE );
-}
-
-
-void CObjRectBase::AdjustInnerSize( void ) {
-  // do nothing , use by CObjectSymbol
-}
-
-void CObjRectBase::AdjustDynamicInnerSize( void ) {
-	// do nothing, use by CObjectSymbol
-}
 
 void CObjRectBase::SetFocus( CDC *pdc) {
   int left, top, bottom,  right;
@@ -446,24 +418,6 @@ void CObjRectBase::Dump(CDumpContext& dc) const
 //////////////////////////////////////////////////////////////////////////////
 // COjbectbase member function
 
-const CRect& CObjRectBase::GetSize( void ) {
-  return( m_rectArea );
-}
-
-const CRect& CObjRectBase::GetOriginSize( void ) {
-	return ( m_rectOrigin );
-} 
-
-const CRect& CObjRectBase::GetLastSize( void ) {
-	return ( m_rectLastTime );
-}
-const CRect CObjRectBase::GetAbsoluteSize(void)
-{
-  // TODO: 在此处插入 return 语句
-  return(m_rectArea + GetOffset());
-}
-
-
 CRgn * CObjRectBase::GetClipRgn( const CPoint& ptScrollPosition ) {
 	CRect rect;
   CPoint pt = GetOffset();
@@ -472,19 +426,6 @@ CRgn * CObjRectBase::GetClipRgn( const CPoint& ptScrollPosition ) {
 	rect += pt -ptScrollPosition;
 	m_rgnClip.CreateRectRgn(rect.left, rect.top, rect.right, rect.bottom);
 	return( &m_rgnClip );
-}
-
-void CObjRectBase::SetAllSize( const CRect&rectArea ) {
-  m_rectOrigin = m_rectArea = m_rectLastTime = rectArea;
-}
-
-void CObjRectBase::SetOriginSize( const CRect& rectOrigin ) {
-  m_rectOrigin = rectOrigin;
-}
-
-void CObjRectBase::SetDynamicSize( const CRect& rectArea ) {
-	m_rectArea = rectArea;
-	m_fDrawAll = TRUE;
 }
 
 bool CObjRectBase::CheckSelf( void ) {

@@ -843,7 +843,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
         for (const auto pobj : *m_pCObjectListCurrent) { // 设置所有选中对象的选中标志
 					rect = pobj->GetSize() + pobj->GetOffset();
 					if ((rectScreen & rect) == rect) {
-						pobj->SetSelect(TRUE);
+						pobj->SetSelect(true);
             pcobjTemp = pobj;
 					}
 				}
@@ -963,13 +963,10 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	else if (pDoc->m_trackerObject.Track(this, point, TRUE)) {  // 改变对象的大小或位置
     ClearAllFocus();
-    CPoint pt = m_pCObjectCurrent->GetOffset();
     m_rectCurrent = pDoc->m_trackerObject.m_rect;
-    rectScreen = m_pCObjectCurrent->GetSize();
-    rectScreen += pt;
-    rectScreen -= m_ptCurrentScrollPosition;
+    rectScreen = m_pCObjectCurrent->GetAbsoluteSize() - m_ptCurrentScrollPosition;
     InvalidateRect( rectScreen );
-    m_pCObjectCurrent->SetAllSize(m_rectCurrent - pt + m_ptCurrentScrollPosition);
+    m_pCObjectCurrent->SetAllSize(m_rectCurrent - m_pCObjectCurrent->GetOffset() + m_ptCurrentScrollPosition);
     m_pCObjectCurrent->AdjustInnerSize();
     pDoc->SetModifiedFlag(true); // document's content is changed
     m_pCObjectCurrent->SetSelect(true);
@@ -978,11 +975,10 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
   }
   else {  // 选择了一个新的对象
     ClearAllFocus();
-    CPoint pt = GetScrollPosition();
     m_pCObjectCurrent->SetSelect(true);
-    InvalidateRect(m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset() - m_ptCurrentScrollPosition);
+    InvalidateRect(m_pCObjectCurrent->GetAbsoluteSize() - m_ptCurrentScrollPosition);
     m_nCurrentFunction = OBJECT_SELECTED;
-    pDoc->m_trackerObject.m_rect = m_pCObjectCurrent->GetSize() - pt;
+    pDoc->m_trackerObject.m_rect = m_pCObjectCurrent->GetAbsoluteSize() - m_ptCurrentScrollPosition;
   }
 
 	// 报告当前状态
@@ -1054,7 +1050,6 @@ void CSQIObjectView::OnLButtonUp(UINT nFlags, CPoint point)
   // TODO: Add your message handler code here and/or call default
   CDynamicLinkDlg CDynLinkDlg;
 
-  CSQIFileDoc* pDoc = GetDocument();
   CDC * pdc = GetDC();
   OnPrepareDC(pdc);
   CString strTemp; 
