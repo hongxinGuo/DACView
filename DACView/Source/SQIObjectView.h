@@ -18,7 +18,7 @@
 //
 enum {
   OBJECT_SELECTED = 0, // prepare to change object's form
-  MAKE_SYMBOL = 4, // group objects into symbol 
+  GROUP_SELECTED = 4, // group objects into symbol 
   OBJECT_PRE_SELECT = 16,// no object selected
 };
 
@@ -151,8 +151,8 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 public:
-  afx_msg void OnArrangeMergesymbol();
-  afx_msg void OnUpdateArrangeMergesymbol(CCmdUI *pCmdUI);
+  afx_msg void OnArrangeMergeSymbol();
+  afx_msg void OnUpdateArrangeMergeSymbol(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG	// debug version in sequevw.cpp

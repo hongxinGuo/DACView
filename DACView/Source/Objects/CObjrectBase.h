@@ -29,6 +29,7 @@ public:
   virtual const CRect&		GetSize( void ) override;
 	virtual const CRect&		GetOriginSize( void ) override;
 	virtual const	CRect&		GetLastSize( void ) override;
+  virtual const CRect&    GetAbsoluteSize(void) override;
 	virtual CRgn *		      GetClipRgn( const CPoint& ptScrollPosition = CPoint(0, 0) ) override;
   virtual CString         GetTitle(void) { return(m_strTitle); }
 

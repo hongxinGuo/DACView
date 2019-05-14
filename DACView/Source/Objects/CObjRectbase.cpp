@@ -456,7 +456,13 @@ const CRect& CObjRectBase::GetOriginSize( void ) {
 
 const CRect& CObjRectBase::GetLastSize( void ) {
 	return ( m_rectLastTime );
-} 
+}
+const CRect & CObjRectBase::GetAbsoluteSize(void)
+{
+  // TODO: 在此处插入 return 语句
+  return(m_rectArea + GetOffset());
+}
+
 
 CRgn * CObjRectBase::GetClipRgn( const CPoint& ptScrollPosition ) {
 	CRect rect;

@@ -104,8 +104,8 @@ BEGIN_MESSAGE_MAP(CSQIObjectView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_ARRANGE_MAKEDYNLINK, OnUpdateArrangeMakedynlink)
 	//}}AFX_MSG_MAP
   // Standard printing commands
-  ON_COMMAND(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnArrangeMergesymbol)
-  ON_UPDATE_COMMAND_UI(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnUpdateArrangeMergesymbol)
+  ON_COMMAND(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnArrangeMergeSymbol)
+  ON_UPDATE_COMMAND_UI(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnUpdateArrangeMergeSymbol)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -634,7 +634,7 @@ void CSQIObjectView::ClearAllFocus( void ) {
   for (const auto pobj : *m_pCObjectListCurrent) {
     if ( pobj->IsSelect() ) {    // if selected
       pobj->SetSelect(false);
-      InvalidateRect(pobj->GetSize() - GetScrollPosition());
+      InvalidateRect(pobj->GetSize() + pobj->GetOffset() - m_ptCurrentScrollPosition);
     }
   }
 }
@@ -820,20 +820,17 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
   CSQIFileDoc* pDoc = GetDocument();
   CDC * pdc = GetDC();
   OnPrepareDC(pdc);
-  CPoint ptScrollPosition = GetDeviceScrollPosition(), ptDevice;
   CObjectBase * pcobj;
-  
+  CPoint ptDevice;
+
   // set current mouse address 
-  m_ptStart = ptScrollPosition + point;
+  m_ptCurrentScrollPosition = GetDeviceScrollPosition();
+  m_ptStart = m_ptCurrentScrollPosition + point;
   if (IsInRect(m_ptStart, pcobj)) {  // 选择了一个对象
     m_pCObjectCurrent = pcobj;
     rectScreen = m_pCObjectCurrent->GetSize();
-    rectScreen += m_pCObjectCurrent->GetOffset() - ptScrollPosition;
+    rectScreen += m_pCObjectCurrent->GetOffset() - m_ptCurrentScrollPosition;
     pDoc->m_trackerObject.m_rect = rectScreen;
-  }
-  else {
-    m_pCObjectCurrent = nullptr;
-    pDoc->m_trackerObject.m_rect.SetRectEmpty();
   }
 
 	if (pDoc->m_trackerObject.HitTest(point) < 0) { // 如果没有选择对象?
@@ -841,7 +838,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 			if (gl_ulDrawTool == ID_OBJECT_SELECT) { // 圈选？
 				ClearAllFocus();
 				rectScreen = pDoc->m_trackerObject.m_rect;
-				rectScreen += ptScrollPosition;
+				rectScreen += m_ptCurrentScrollPosition;
 				CObjectBase * pcobjTemp = nullptr;
 				CRect rect;
         for (const auto pobj : *m_pCObjectListCurrent) { // 设置所有选中对象的选中标志
@@ -854,8 +851,8 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 				pDoc->m_trackerObject.m_rect.SetRectEmpty();
 				if (pcobjTemp != nullptr) {
 					m_pCObjectCurrent = pcobjTemp;
-					InvalidateRect(rectScreen - ptScrollPosition);
-					m_nCurrentFunction = MAKE_SYMBOL;
+					InvalidateRect(rectScreen - m_ptCurrentScrollPosition);
+					m_nCurrentFunction = GROUP_SELECTED;
 				}
 				else {
 					m_pCObjectCurrent = nullptr;
@@ -865,7 +862,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 			else {  // create new object
 				ClearAllFocus();
 				m_rectCurrent = pDoc->m_trackerObject.m_rect;
-				m_rectCurrent += ptScrollPosition;
+				m_rectCurrent += m_ptCurrentScrollPosition;
 				ptDevice.x = m_rectCurrent.right;
 				ptDevice.y = m_rectCurrent.bottom;
 				CString strTemp;
@@ -952,7 +949,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 				}
 				AddObject(m_pCObjectCurrent);
 				// update screen
-				rectScreen = m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset() - ptScrollPosition;
+				rectScreen = m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset() - m_ptCurrentScrollPosition;
 				InvalidateRect(rectScreen);
 				m_nCurrentFunction = OBJECT_SELECTED;
 				gl_ulDrawTool = ID_OBJECT_SELECT;
@@ -962,6 +959,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 			ClearAllFocus();
 			pDoc->m_trackerObject.m_rect.SetRectEmpty();
 			m_nCurrentFunction = OBJECT_PRE_SELECT;
+      Invalidate();
 		}
 	}
 	else if (pDoc->m_trackerObject.Track(this, point, TRUE)) {  // 改变对象的大小或位置
@@ -970,9 +968,9 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
     m_rectCurrent = pDoc->m_trackerObject.m_rect;
     rectScreen = m_pCObjectCurrent->GetSize();
     rectScreen += pt;
-    rectScreen -= ptScrollPosition;
+    rectScreen -= m_ptCurrentScrollPosition;
     InvalidateRect( rectScreen );
-    m_pCObjectCurrent->SetAllSize(m_rectCurrent - pt + ptScrollPosition);
+    m_pCObjectCurrent->SetAllSize(m_rectCurrent - pt + m_ptCurrentScrollPosition);
     m_pCObjectCurrent->AdjustInnerSize();
     pDoc->SetModifiedFlag(true); // document's content is changed
     m_pCObjectCurrent->SetSelect(true);
@@ -983,7 +981,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
     ClearAllFocus();
     CPoint pt = GetScrollPosition();
     m_pCObjectCurrent->SetSelect(true);
-    InvalidateRect( m_pCObjectCurrent->GetSize() -pt );
+    InvalidateRect(m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset() - m_ptCurrentScrollPosition);
     m_nCurrentFunction = OBJECT_SELECTED;
     pDoc->m_trackerObject.m_rect = m_pCObjectCurrent->GetSize() - pt;
   }
@@ -998,12 +996,12 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
   	SetObjectRect(m_pCObjectCurrent);
     TRACE("Current function is SELELCTED\n");
     break;          
-  case MAKE_SYMBOL :
+  case GROUP_SELECTED :
     ASSERT( m_pCObjectCurrent != nullptr );
     m_pCObjectCurrent->SetSelect(true);
     m_rectCurrent = m_pCObjectCurrent->GetSize();
     InvalidateRect(m_pCObjectCurrent->GetSize() - GetScrollPosition());
-    TRACE("Current function is MAKE_SYMBOL\n");
+    TRACE("Current function is GROUP_SELECTED\n");
     break;
 	default :
 		TRACE("Current funciton out of range, Error.\n");
@@ -1208,7 +1206,7 @@ void CSQIObjectView::OnArrangeBreaksymbol()
   InvalidateRect(rectTemp); // clear former focus
   ReleaseDC(pdc);
   m_pCObjectCurrent = nullptr;
-  m_nCurrentFunction = MAKE_SYMBOL;
+  m_nCurrentFunction = GROUP_SELECTED;
 }
 
 void CSQIObjectView::OnStyleCentered()
@@ -1239,7 +1237,7 @@ void CSQIObjectView::OnUpdateArrangeBreakSymbol(CCmdUI* pCmdUI)
 {
   // TODO: Add your command update UI handler code here
   switch ( m_nCurrentFunction ) {
-  case MAKE_SYMBOL :
+  case GROUP_SELECTED :
     pCmdUI->Enable(FALSE);
     break;
   case OBJECT_PRE_SELECT :
@@ -1263,7 +1261,7 @@ void CSQIObjectView::OnUpdateArrangeMakeSymbol(CCmdUI* pCmdUI)
 {
   // TODO: Add your command update UI handler code here
   switch ( m_nCurrentFunction ) {
-  case MAKE_SYMBOL :
+  case GROUP_SELECTED :
     pCmdUI->Enable(TRUE);
     break;
   case OBJECT_PRE_SELECT :
@@ -1473,7 +1471,7 @@ void CSQIObjectView::OnUpdateStyleCentered(CCmdUI* pCmdUI)
 {
   // TODO: Add your command update UI handler code here
   switch ( m_nCurrentFunction ) {
-  case MAKE_SYMBOL :
+  case GROUP_SELECTED :
     pCmdUI->Enable(TRUE);
     break;
   default :
@@ -1486,7 +1484,7 @@ void CSQIObjectView::OnUpdateStyleLeft(CCmdUI* pCmdUI)
 {
   // TODO: Add your command update UI handler code here
   switch ( m_nCurrentFunction ) {
-  case MAKE_SYMBOL :
+  case GROUP_SELECTED :
     pCmdUI->Enable(TRUE);
     break;
   default :
@@ -1499,7 +1497,7 @@ void CSQIObjectView::OnUpdateStyleRight(CCmdUI* pCmdUI)
 {
   // TODO: Add your command update UI handler code here
   switch ( m_nCurrentFunction ) {
-  case MAKE_SYMBOL :
+  case GROUP_SELECTED :
     pCmdUI->Enable(TRUE);
     break;
   default :
@@ -1669,10 +1667,10 @@ void CSQIObjectView::OnUpdateArrangeMakedynlink(CCmdUI* pCmdUI)
 }
 
 
-void CSQIObjectView::OnArrangeMergesymbol() {
+void CSQIObjectView::OnArrangeMergeSymbol() {
   // TODO: 在此添加命令处理程序代码
   switch (m_nCurrentFunction) {
-  case MAKE_SYMBOL:
+  case GROUP_SELECTED:
     MergeSymbol(m_pCObjectListCurrent);
     break;
   case OBJECT_SELECTED:
@@ -1687,10 +1685,10 @@ void CSQIObjectView::OnArrangeMergesymbol() {
 }
 
 
-void CSQIObjectView::OnUpdateArrangeMergesymbol(CCmdUI *pCmdUI) {
+void CSQIObjectView::OnUpdateArrangeMergeSymbol(CCmdUI *pCmdUI) {
   // TODO: 在此添加命令更新用户界面处理程序代码
   switch (m_nCurrentFunction) {
-  case MAKE_SYMBOL:
+  case GROUP_SELECTED:
     pCmdUI->Enable(true);
     break;
   case OBJECT_PRE_SELECT:

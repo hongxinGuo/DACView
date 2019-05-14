@@ -43,6 +43,8 @@ public:
 	virtual const CRect&		GetOriginSize( void );
 	// 得到上一次显示时的大小
 	virtual const CRect&		GetLastSize( void );
+  // 得到本对象的绝对位置（以Rect表示）
+  virtual const CRect&    GetAbsoluteSize(void);
 
 	//得到剪辑区
 	virtual CRgn *					GetClipRgn( const CPoint& ) { ASSERT(false); return(&m_rgnClip); }
