@@ -153,7 +153,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level4</WarningLevel>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <PreprocessorDefinitions>NO_WARN_MBCS_MFC_DEPRECATION;_WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\X64\Debug\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\X64\stdafx.pch</PrecompiledHeaderOutputFile>
@@ -602,6 +602,7 @@
     <None Include="DACView\RES\DYNAMIC_.CUR" />
     <None Include="DACView\RES\MAGNIFYI.CUR" />
     <None Include="DACView\RES\NO_DRAG.CUR" />
+    <None Include="Help.md" />
     <None Include="packages.config" />
     <None Include="README .MD" />
   </ItemGroup>

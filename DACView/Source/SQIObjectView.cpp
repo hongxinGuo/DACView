@@ -106,6 +106,8 @@ BEGIN_MESSAGE_MAP(CSQIObjectView, CScrollView)
   // Standard printing commands
   ON_COMMAND(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnArrangeMergeSymbol)
   ON_UPDATE_COMMAND_UI(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnUpdateArrangeMergeSymbol)
+//  ON_WM_VSCROLL()
+//  ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -141,9 +143,6 @@ CSQIObjectView::CSQIObjectView() {
 	// get the normal cursor
 	m_hCursorNormal = SetCursor( m_hCursorComponent );
 	SetCursor( m_hCursorNormal );
-
-  m_ptCurrentScrollPosition.x = 0;
-  m_ptCurrentScrollPosition.y = 0;
 
 }
 
@@ -948,7 +947,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
 				}
 				AddObject(m_pCObjectCurrent);
 				// update screen
-				rectScreen = m_pCObjectCurrent->GetSize() + m_pCObjectCurrent->GetOffset() - m_ptCurrentScrollPosition;
+				rectScreen = m_pCObjectCurrent->GetAbsoluteSize() - m_ptCurrentScrollPosition;
 				InvalidateRect(rectScreen);
 				m_nCurrentFunction = OBJECT_SELECTED;
 				gl_ulDrawTool = ID_OBJECT_SELECT;

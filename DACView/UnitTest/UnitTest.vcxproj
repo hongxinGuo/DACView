@@ -43,7 +43,6 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>C:\Users\hxguo\source\Repos\jpeg-9c\lib;$(LibraryPath)</LibraryPath>
-    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -246,7 +245,7 @@
       <BrowseInformation>false</BrowseInformation>
       <EnablePREfast>false</EnablePREfast>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
@@ -256,8 +255,9 @@
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>jpeg64.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>true</Profile>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>

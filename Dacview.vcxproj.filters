@@ -948,5 +948,6 @@
     <None Include="DACView\RES\CURSOR1.CUR">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Help.md" />
   </ItemGroup>
 </Project>
