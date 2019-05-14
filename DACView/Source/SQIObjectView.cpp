@@ -828,8 +828,7 @@ void CSQIObjectView::OnLButtonDown(UINT nFlags, CPoint point)
   m_ptStart = m_ptCurrentScrollPosition + point;
   if (IsInRect(m_ptStart, pcobj)) {  // 选择了一个对象
     m_pCObjectCurrent = pcobj;
-    rectScreen = m_pCObjectCurrent->GetSize();
-    rectScreen += m_pCObjectCurrent->GetOffset() - m_ptCurrentScrollPosition;
+    rectScreen = m_pCObjectCurrent->GetAbsoluteSize() - m_ptCurrentScrollPosition;
     pDoc->m_trackerObject.m_rect = rectScreen;
   }
 

@@ -304,7 +304,7 @@ const CRect& CObjectBase::GetLastSize( void ) {
   return ( r );
 }
 
-const CRect & CObjectBase::GetAbsoluteSize(void)
+const CRect CObjectBase::GetAbsoluteSize(void)
 {
   // TODO: 在此处插入 return 语句
   ASSERT(FALSE);
