@@ -184,8 +184,20 @@ bool LoadObjectList(CArchive & ar, CObjectList * pObjectList, INT32 * pObjectNum
   return(true);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+//
+// 读取SQI文件。
+//
+// 文件的读取顺序不能错，必须先读取单元序列，然后再读取对象序列。
+// 单元序列读取时，不设置其m_vfSelected和m_lLinkToNumber这两个参数，因为必须当所有的单元都读入后，再去设置这两个参数。
+// 对象序列读取时，是设置其本身的m_vfSelected和其相关单元的m_vfSelected的，因此时单元序列都已经读入了。
+//
+//
+////////////////////////////////////////////////////////////////////////////////////////////////
 bool LoadSQIFile(CArchive & ar, CUnitList * pUnitList, CObjectList * pObjectList, INT64 * pUnitNumber, INT32 * pObjectNumber) {
+  // 装入单元序列
   LoadUnitList(ar, pUnitList, pUnitNumber);
+  // 装入对象序列
   LoadObjectList(ar, pObjectList, pObjectNumber);
   return(true);
 }
@@ -334,7 +346,7 @@ void CSQIFileDoc::Serialize(CArchive& ar)
   }
   else
   {
-    // TODO: add loading code here
+    // 读入单元序列
     LoadSQIFile(ar, m_pUnitList, &m_CObjectList, &m_nCurrentUnitNumber, &m_nCurrentObjNumber);
 
     // 重置编译标志

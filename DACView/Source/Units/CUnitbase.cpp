@@ -192,7 +192,7 @@ void CUnitBase::Serialize( CArchive& ar ) {
   }
   
   CString strTemp;
-  CUnitDynLink * pcDynLinkTag;
+  CUnitDynLink * pDynLinkTag;
 
   INT64 iTemp;
 
@@ -200,17 +200,17 @@ void CUnitBase::Serialize( CArchive& ar ) {
   {
     // TODO: add storing code here
 		iTemp = 0;
-		for ( auto pcDynLink : m_listDynLink ) {
-      if ( !pcDynLink->IsDeleteMe() ) iTemp++;
+		for ( auto pDL : m_listDynLink ) {
+      if ( !pDL->IsDeleteMe() ) iTemp++;
 		}
 		ar << iTemp;
-    for ( auto pcDynLink : m_listDynLink ) { 
+    for ( auto pDL : m_listDynLink ) { 
       // when cut or copy me to clipboard, some dynamic links that I have
       // can't copy to clipboard, for its link to other units that don't copied. so if its 
       // delete flag is set, I didn't store it.
-      if (!pcDynLink->IsDeleteMe()) {
-        pcDynLinkTag = pcDynLink.get(); // 目前MFC无法存储智能指针，故而需要取出其原始指针，以用于存储。
-        ar << pcDynLinkTag;
+      if (!pDL->IsDeleteMe()) {
+        pDynLinkTag = pDL.get(); // 目前MFC无法存储智能指针，故而需要取出其原始指针，以用于存储。
+        ar << pDynLinkTag;
       }
     }
 	}
@@ -219,10 +219,10 @@ void CUnitBase::Serialize( CArchive& ar ) {
 		// TODO: add loading code here
 		ar >> iTemp;
 		for (int i = 0; i < iTemp; i++) {
-      shared_ptr<CUnitDynLink> pcDynLink;
-			ar >> pcDynLinkTag;
-      pcDynLink.reset(pcDynLinkTag);   // 由于存储的是原始指针，故而需要用之重置智能指针。
-			m_listDynLink.push_back(pcDynLink);
+      shared_ptr<CUnitDynLink> pDL;
+			ar >> pDynLinkTag;
+      pDL.reset(pDynLinkTag);   // 由于存储的是原始指针，故而需要用之重置智能指针。
+			m_listDynLink.push_back(pDL);
 		}
 	}
 }

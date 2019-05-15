@@ -80,7 +80,7 @@ void CODelDynLink::OnSelchangeListDynlink()
 	
 	auto it = m_plistObjectDynLink->begin();
 
-	for ( int i = 0; i <= m_ulChoiceIndex; i++ ) {
+	for ( int i = 0; i < m_ulChoiceIndex; i++ ) {
     it++;
 	}
   auto pODL = *it;
@@ -177,7 +177,7 @@ void CODelDynLink::OnButtonUndelete()
 	// TODO: Add your control notification handler code here
   auto it = m_plistObjectDynLink->begin();
 
-	for ( int i = 0; i <= m_ulChoiceIndex; i++ ) {
+	for ( int i = 0; i < m_ulChoiceIndex; i++ ) {
     it++;
 	}
   auto pDL = *it;

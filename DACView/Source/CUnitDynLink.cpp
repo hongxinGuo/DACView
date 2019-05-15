@@ -109,6 +109,10 @@ void CUnitDynLink::Serialize( CArchive& ar ) {
 			ppt = make_shared<CPoint>(pt);
 			m_plistLinkPoint->push_back(ppt);
 		}
+    // 不能在读入动态链接时就设置其目的单元的数据输入参数，因此时有些单元类（如部件）的内部状态尚未设置好，导致系统报错。
+    // 目前是在设置部件参数的m_fLinked时出现断言报错，估计是单元序列读入顺序的问题，修改读入顺序可能会排除之。再研究。
+    // 暂时不使用此功能
+    //m_pDestUnit->SetParameterLock(m_lDestIndex, true);    //设置本动态链接目的单元的数据输入参数
   } 
 }               
 
