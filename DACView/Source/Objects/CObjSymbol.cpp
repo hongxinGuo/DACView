@@ -14,17 +14,40 @@ IMPLEMENT_SERIAL(CObjectSymbol, CObjectComponentBase, 1 | VERSIONABLE_SCHEMA)
 static char THIS_FILE[] = __FILE__;
 #endif   
 
+ParaName CObjectSymbol::sm_ptrParaName[] =
+{ {"Visibility", tINPUT | tMODIFIABLE | tBOOL, 0},
+  {"Height", tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  1},
+  {"Width",  tINPUT | tMODIFIABLE | tWORD | tDOUBLE,  2},
+  {"BackColor",tINPUT | tMODIFIABLE | tWORD,  3},
+  {""     , 0, 4},
+};
+
+INT32 CObjectSymbol::sm_aulSuitable[] = { -1, -1, -1, -1, -1 };
+
+const ULONG CObjectSymbol::sm_ulDoubleEnd = 0;
+const ULONG CObjectSymbol::sm_ulBoolEnd = 1;
+const ULONG CObjectSymbol::sm_ulWordEnd = 3;
+const ULONG CObjectSymbol::sm_ulStringEnd = 3;
+
 CObjectSymbol::CObjectSymbol(CString s, CRect r) 
   : CObjectComponentBase(s, r) {
 	m_fChangeSize = FALSE;
   m_clrBkGrd = RGB(255, 255, 255);
   m_fCreateMemoryDC = FALSE;
+
+  for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+    m_vfSelected.push_back(false);
+  }
 }
 
 CObjectSymbol::CObjectSymbol( void ) : CObjectComponentBase( ) {
 	m_fChangeSize = FALSE;
   m_clrBkGrd = RGB(255, 255, 255);
   m_fCreateMemoryDC = FALSE;
+
+  for (int i = 0; i < sm_ulStringEnd + 1; i++) {
+    m_vfSelected.push_back(false);
+  }
 }
 	
 CObjectSymbol::~CObjectSymbol() {
@@ -375,4 +398,45 @@ bool CObjectSymbol::SetProperty( void ) {
 bool CObjectSymbol::CheckSelf( void ) {
   return( TRUE );
 }
+
+
+ParaName* CObjectSymbol::GetParaNameAddress(void) {
+  return(sm_ptrParaName);
+}
+
+CString CObjectSymbol::GetParaName(ULONG index) {
+  ASSERT(index <= CObjectSymbol::sm_ulStringEnd);
+  return(CObjectSymbol::sm_ptrParaName[index].Name);
+}
+
+ULONG CObjectSymbol::GetDynLinkType(ULONG ulIndex) {
+  return(sm_ptrParaName[ulIndex].ulType & (tBOOL | tWORD | tDOUBLE | tSTRING));
+}
+
+void CObjectSymbol::SelectParameter(ULONG ulType) {
+  int i = 0;
+  int j = 0;
+
+  for (int k = 0; k <= sm_ulStringEnd; k++) {
+    sm_aulSuitable[k] = -1;
+  }
+  while (sm_ptrParaName[i].ulType != 0) {
+    if ((sm_ptrParaName[i].ulType | ulType) == sm_ptrParaName[i].ulType) {
+      if (ulType & tINPUT) {
+        if (m_vfSelected[i] == FALSE) {
+          sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
+        }
+      }
+      else {
+        sm_aulSuitable[j++] = sm_ptrParaName[i].ulIndex;
+      }
+    }
+    i++;
+  }
+}
+
+INT32 CObjectSymbol::GetIndex(ULONG ulIndex) {
+  return(CObjectSymbol::sm_aulSuitable[ulIndex]);
+}
+
 

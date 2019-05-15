@@ -330,7 +330,6 @@ void CFBDFileDoc::Serialize(CArchive& ar)
     // load cobject list
     for ( int i = 0; i < iCount; i ++ ) {
       ar >> pcobj;
-      pcobj->SetParameterSelected(); // 设置单元输入型参数被选择标志。
       m_CObjectList.push_back( pcobj );
     } 
     // create runtime object list

@@ -36,7 +36,6 @@ CObjectRect::CObjectRect(CString s, CRect r) : CObjRectBase(s, r) {
 	for (int i = 0; i < sm_ulStringEnd + 1; i++) {
 		m_vfSelected.push_back(false);
 	}
-
 }
 
 CObjectRect::CObjectRect( void ) : CObjRectBase( ) {

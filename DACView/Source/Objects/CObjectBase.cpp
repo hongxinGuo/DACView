@@ -190,7 +190,10 @@ void CObjectBase::Serialize( CArchive& ar ) {
 			pcDynLink->SetObject(this);
       auto pcUnit = pcDynLink->GetUnit();
       if (!pcDynLink->IsUnitToObject()) {
-        pcUnit->SetParameterLock(pcDynLink->GetUnitIndex(), true);
+        pcUnit->SetParameterSelected(pcDynLink->GetUnitIndex(), true);
+      }
+      else {
+        this->SetParameterSelected(pcDynLink->GetObjectIndex(), true);
       }
 			m_listDynLink.push_back(pcDynLink);
 		}

@@ -65,7 +65,7 @@ void CODelDynLink::OnButtonDelete()
 	// TODO: Add your control notification handler code here
 	auto it = m_plistObjectDynLink->begin();
 
-	for ( int i = 0; i <= m_ulChoiceIndex; i++ ) {
+	for ( int i = 0; i < m_ulChoiceIndex; i++ ) {
 		it++;
 	}
   auto pODL = *it;
@@ -103,15 +103,17 @@ void CODelDynLink::OnDblclkListDynlink()
 void CODelDynLink::OnOK() 
 {
 	// TODO: Add extra validation here
+  auto it = m_plistObjectDynLink->begin();
 
-  for (auto it = m_plistObjectDynLink->begin(); it != m_plistObjectDynLink->end(); it++) {
+  while (it != m_plistObjectDynLink->end()) {
     auto pODL = *it;
 		if ( pODL->IsDeleteMe() ) {
-			m_plistObjectDynLink->erase( it );
+			it = m_plistObjectDynLink->erase(it);
 			delete pODL;
 			pODL = nullptr;
 		}
-	}
+    else it++;
+  }
 
 	CDialog::OnOK();
 }

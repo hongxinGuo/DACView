@@ -51,6 +51,12 @@ public:
   virtual bool    SetProperty( void ) override;	// set object's property 
   virtual bool    CheckSelf( void ) override;
 
+  virtual ParaName* GetParaNameAddress(void) override;
+  virtual CString		GetParaName(ULONG index) override;
+  virtual INT32			GetIndex(ULONG ulIndex) override;
+  virtual ULONG 		GetDynLinkType(ULONG Index) override;
+  virtual void     	SelectParameter(ULONG ulType) override;
+
 // dynamic link virtual function 
 	virtual bool    SetInteger(ULONG index, LONG lValue) override;
 	virtual bool    SetRectPosition(ULONG index, LONG lValue) override;
@@ -61,6 +67,16 @@ public:
 	virtual	void AssertValid() const override;
 	virtual	void Dump(CDumpContext& dc) const override;
 #endif
+
+private:
+  static ParaName 			sm_ptrParaName[5];
+  static const ULONG    sm_ulDoubleEnd;
+  static const ULONG 		sm_ulBoolEnd;
+  static const ULONG    sm_ulWordEnd;
+  static const ULONG    sm_ulStringEnd;
+
+  static INT32 					sm_aulSuitable[5];
+
 
 protected:
 // serialized data
