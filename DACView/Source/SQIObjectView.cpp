@@ -108,6 +108,8 @@ BEGIN_MESSAGE_MAP(CSQIObjectView, CScrollView)
   ON_UPDATE_COMMAND_UI(ID_ARRANGE_MERGESYMBOL, &CSQIObjectView::OnUpdateArrangeMergeSymbol)
 //  ON_WM_VSCROLL()
 //  ON_WM_HSCROLL()
+ON_WM_HSCROLL()
+ON_WM_VSCROLL()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1699,4 +1701,22 @@ void CSQIObjectView::OnUpdateArrangeMergeSymbol(CCmdUI *pCmdUI) {
   default:
     pCmdUI->Enable(false);
   } // switch
+}
+
+
+void CSQIObjectView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+  // TODO: 在此添加消息处理程序代码和/或调用默认值
+  m_ptCurrentScrollPosition = GetDeviceScrollPosition();
+
+  CScrollView::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+
+void CSQIObjectView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+  // TODO: 在此添加消息处理程序代码和/或调用默认值
+  m_ptCurrentScrollPosition = GetDeviceScrollPosition();
+
+  CScrollView::OnVScroll(nSBCode, nPos, pScrollBar);
 }

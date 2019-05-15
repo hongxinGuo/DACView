@@ -153,6 +153,8 @@ protected:
 public:
   afx_msg void OnArrangeMergeSymbol();
   afx_msg void OnUpdateArrangeMergeSymbol(CCmdUI *pCmdUI);
+  afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+  afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 };
 
 #ifndef _DEBUG	// debug version in sequevw.cpp
