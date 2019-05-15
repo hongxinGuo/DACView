@@ -321,3 +321,59 @@ void CUnitDynLink::SetLinkPointList( CPointListPtr plist ) {
     m_plistLinkPoint->push_back(ppt);
   }
 }
+
+// 检查动态链接线是否有误
+bool TestDynLinkList(CPointListPtr pLitLinkPoint) {
+  shared_ptr<CPoint> pt1, pt2, pt3, pt4;
+  auto it = pLitLinkPoint->begin();
+  if (pLitLinkPoint->size() == 3) { // 只有三个点？
+    pt1 = *it++;
+    pt2 = *it++;
+    pt3 = *it++;
+    ASSERT(pt1->x != pt3->x);
+    ASSERT(pt1->y != pt3->y);
+    if (pt1->x != pt2->x) {
+      ASSERT(pt1->y == pt2->y);
+    }
+    else {
+      ASSERT(pt1->y != pt2->y);
+    }
+    if (pt3->x != pt2->x) {
+      ASSERT(pt3->y == pt2->y);
+    }
+    else {
+      ASSERT(pt3->y != pt2->y);
+    }
+    return(true);
+  }
+  if (pLitLinkPoint->size() == 4) {
+    pt1 = *it++;
+    pt2 = *it++;
+    pt3 = *it++;
+    pt4 = *it++;
+    if ((pt2->x == pt3->x) && (pt2->y == pt3->y)) {
+      ASSERT((pt1->x == pt4->x) || (pt1->y == pt4->y));
+    }
+    return(true);
+  }
+
+  bool fX = true;
+  bool fStart = false;
+  pt1 = *it++;
+  do {
+    pt2 = *it;
+    if (pt1->x == pt2->x) {
+      if ( fStart ) ASSERT( fX == false);
+      ASSERT(pt1->y != pt2->y);
+      fX = true;
+    }
+    else {
+      if ( fStart ) ASSERT(fX);
+      ASSERT(pt1->y == pt2->y);
+      fX = false;
+    }
+    fStart = true;
+    pt1 = pt2;
+  } while (++it != pLitLinkPoint->end());
+  return(true);
+}

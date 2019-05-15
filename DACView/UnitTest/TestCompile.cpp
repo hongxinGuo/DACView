@@ -7,6 +7,8 @@
 
 #include"compileUnitList.h"
 
+#include"CUnitDynLink.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -102,6 +104,16 @@ namespace DACViewTest {
       , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有100+.sqi"
       , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有200+.sqi"
     ));
+
+  TEST_P(TestCompile, TestDynLinkPoint) {
+    for (const auto punit : m_unitlist) {
+      auto pDLList = punit->GetDynLinkList();
+      for (auto pDL : *pDLList) {
+        auto pDLPointList = pDL->GetLinkPointList();
+        TestDynLinkList(pDLPointList);
+      }
+    }
+  }
 
   // 测试设置单元参数标志
   TEST_P(TestCompile, TestSetParaSelectedFlag) {

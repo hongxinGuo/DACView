@@ -99,5 +99,8 @@ public:
 
 typedef list<shared_ptr<CUnitDynLink>> CUDLList;
 
+
+bool TestDynLinkList(CPointListPtr pLitLinkPoint);
+
 #endif
 

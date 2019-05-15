@@ -732,10 +732,11 @@ void CSQIUnitView::SetFocus(CDC *pdc) {
 //
 /////////////////////////////////////////////////////////////////////////////
 void CSQIUnitView::ClearFocus(CDC * pdc) {
-  for (const auto pcunit : *m_pCUnitListCurrent) {
-    if (pcunit->IsSelect()) {
-      pcunit->SetSelect(false);
-      pcunit->ClearFocus(pdc);
+  for (const auto punit : *m_pCUnitListCurrent) {
+    if (punit->IsSelect()) {
+      punit->SetSelect(false);
+      punit->ClearFocus(pdc);
+      //InvalidateRect(punit->GetSize());
     }
   }
 }
@@ -1243,7 +1244,7 @@ void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
   switch (m_nCurrentFunction) {
   case DYNAMIC_LINK_FIRST_UNIT:
     ASSERT(m_fLinkIntoSourceComponent == false);
-    if (!IsInRect(ptDevice, pcUnit)) { // 如果当前鼠标不在单元内的话， 则画动态链接线（当鼠标位于单元范围内时，动态链接线就不动了，不太好）
+    //if (!IsInRect(ptDevice, pcUnit)) { // 如果当前鼠标不在单元内的话， 则画动态链接线（当鼠标位于单元范围内时，动态链接线就不动了，不太好）
       DrawInvertDynLinkLine(pdc, m_plistLinkPoint, m_ptFirst, m_ptSecond, m_ptCurrent);
       m_ptCurrent = ptDevice;
       if (m_plistLinkPoint->size() == 1) { // 创建第一个动态链接点
@@ -1253,7 +1254,7 @@ void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
         AdjustDynLinkPoint(m_ptFirst, m_ptSecond, m_ptCurrent);
       }
       DrawInvertDynLinkLine(pdc, m_plistLinkPoint, m_ptFirst, m_ptSecond, m_ptCurrent);
-    }
+    //}
     break;
   case DYNAMIC_LINK_TO_FIRST_COMPONENT:	// 第一个单元为部件
     ASSERT(m_fLinkIntoSourceComponent);
@@ -1494,6 +1495,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
       m_pCUnitDynLinkCurrent->SetSrcUnit(m_pCUnitFirst);
       m_pCUnitDynLinkCurrent->SetDestUnit(m_pCUnitSecond);
       m_pCUnitDynLinkCurrent->SetLinkPointList(m_plistLinkPoint);
+      TestDynLinkList(m_plistLinkPoint); // 检查动态链接线是否有误
       m_plistLinkPoint->clear();
       m_pCUnitDynLinkCurrent->SetSrcIndex(m_lSrcIndex);
       m_pCUnitDynLinkCurrent->SetDestIndex(m_lDestIndex);
