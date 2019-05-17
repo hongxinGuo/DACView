@@ -28,6 +28,27 @@
     <Filter Include="测试用">
       <UniqueIdentifier>{135aeaec-d9b7-4222-ba9e-fa2cb029e263}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Units\算术单元">
+      <UniqueIdentifier>{4a1e8556-570b-4e43-885b-b49c5286644e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Units\模拟函数发生器">
+      <UniqueIdentifier>{f0ddcfb8-b8eb-4e3e-ba2f-735ab714fabd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Units\PLC">
+      <UniqueIdentifier>{502b3802-3f47-42b9-99e9-0d42fa606dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Units\逻辑控制">
+      <UniqueIdentifier>{3511f6aa-8488-4cf1-86d6-ac672fd6e67e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Units\布尔函数">
+      <UniqueIdentifier>{aca9fb7e-e7b4-45ec-99ee-b6a2f9eeb5b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Units\数据采集存储">
+      <UniqueIdentifier>{c5967209-0e18-4c26-8b6c-dea69128419c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\输入型对象">
+      <UniqueIdentifier>{cb6599cc-8d60-4ec4-9794-0578dc474674}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\bitmap1.bmp">
@@ -585,9 +606,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DACView\Source\Objects\CObjbutton.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Objects\CObjComponentBase.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -603,16 +621,10 @@
     <ClCompile Include="DACView\Source\Objects\CObjGraph.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\Objects\CObjKnob.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Objects\CObjLine.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\CObjMeter.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Objects\CObjNumInput.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\CObjOval.cpp">
@@ -624,9 +636,6 @@
     <ClCompile Include="DACView\Source\Objects\CObjRoundRect.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\Objects\CObjSlider.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Objects\CObjSymbol.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -636,9 +645,6 @@
     <ClCompile Include="DACView\Source\Objects\DlgObjbar.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\Objects\DlgObjButton.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Objects\DlgObject.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -646,9 +652,6 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\DlgObjGraph.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Objects\DlgObjKnob.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\DlgObjLine.cpp">
@@ -666,20 +669,11 @@
     <ClCompile Include="DACView\Source\Objects\DlgObjRoundRect.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\Objects\DlgObjSlide.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Objects\DlgObjSymbol.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\Dlgtext.cpp">
       <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitAdd.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitAnd.cpp">
-      <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Units\CUnitbase.cpp">
       <Filter>Source Files\Units</Filter>
@@ -696,37 +690,10 @@
     <ClCompile Include="DACView\Source\Units\CUnitDelayTime.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitDiv.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Units\CUnitFflp.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitHpbg.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitHsel.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitInvert.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Units\CUnitIpop.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitLsel.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitMsel.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitMultiple.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitOr.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitPID.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Units\CUnitPulse.cpp">
@@ -736,9 +703,6 @@
       <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Units\CUnitQuad.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitSine.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Units\CUnitSwitch.cpp">
@@ -753,18 +717,6 @@
     <ClCompile Include="DACView\Source\Units\CUnitTTB.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\Units\CUnitXor.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgadd.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgand.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgdiv.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Units\Dlgdlay.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
@@ -774,31 +726,7 @@
     <ClCompile Include="DACView\Source\Units\Dlgfflp.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlghpbg.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlghsel.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlginv.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
     <ClCompile Include="DACView\Source\Units\Dlgipop.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlglsel.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgmsel.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgmulti.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgor.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgpid.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Units\Dlgpuls.cpp">
@@ -808,9 +736,6 @@
       <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Units\Dlgquad.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgsine.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Units\Dlgswch.cpp">
@@ -823,9 +748,6 @@
       <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Units\Dlgttb.cpp">
-      <Filter>Source Files\Units</Filter>
-    </ClCompile>
-    <ClCompile Include="DACView\Source\Units\Dlgxor.cpp">
       <Filter>Source Files\Units</Filter>
     </ClCompile>
     <ClCompile Include="DACView\Source\Accesory.cpp">
@@ -923,6 +845,105 @@
     </ClCompile>
     <ClCompile Include="DACView\Source\Objects\DlgObjComponent.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitAnd.cpp">
+      <Filter>Source Files\Units\布尔函数</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitInvert.cpp">
+      <Filter>Source Files\Units\布尔函数</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitOr.cpp">
+      <Filter>Source Files\Units\布尔函数</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitXor.cpp">
+      <Filter>Source Files\Units\布尔函数</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitSine.cpp">
+      <Filter>Source Files\Units\模拟函数发生器</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitAdd.cpp">
+      <Filter>Source Files\Units\算术单元</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitDiv.cpp">
+      <Filter>Source Files\Units\算术单元</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitMultiple.cpp">
+      <Filter>Source Files\Units\算术单元</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitHsel.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitHpbg.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitLsel.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitMsel.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\CUnitPID.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgadd.cpp">
+      <Filter>Source Files\Units\算术单元</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgand.cpp">
+      <Filter>Source Files\Units\布尔函数</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgdiv.cpp">
+      <Filter>Source Files\Units\算术单元</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlghsel.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlghpbg.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlginv.cpp">
+      <Filter>Source Files\Units\布尔函数</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgmsel.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgor.cpp">
+      <Filter>Source Files\Units\布尔函数</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgxor.cpp">
+      <Filter>Source Files\Units\布尔函数</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlglsel.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgsine.cpp">
+      <Filter>Source Files\Units\模拟函数发生器</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgmulti.cpp">
+      <Filter>Source Files\Units\算术单元</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Units\Dlgpid.cpp">
+      <Filter>Source Files\Units\逻辑控制</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\CObjbutton.cpp">
+      <Filter>Source Files\Objects\输入型对象</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\CObjKnob.cpp">
+      <Filter>Source Files\Objects\输入型对象</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\CObjNumInput.cpp">
+      <Filter>Source Files\Objects\输入型对象</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\DlgObjButton.cpp">
+      <Filter>Source Files\Objects\输入型对象</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\DlgObjKnob.cpp">
+      <Filter>Source Files\Objects\输入型对象</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\CObjSlider.cpp">
+      <Filter>Source Files\Objects\输入型对象</Filter>
+    </ClCompile>
+    <ClCompile Include="DACView\Source\Objects\DlgObjSlide.cpp">
+      <Filter>Source Files\Objects\输入型对象</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
