@@ -1495,7 +1495,7 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
       m_pCUnitDynLinkCurrent->SetSrcUnit(m_pCUnitFirst);
       m_pCUnitDynLinkCurrent->SetDestUnit(m_pCUnitSecond);
       m_pCUnitDynLinkCurrent->SetLinkPointList(m_plistLinkPoint);
-      TestDynLinkList(m_plistLinkPoint); // 检查动态链接线是否有误
+      ASSERT(TestDynLinkList(m_plistLinkPoint)); // 检查动态链接线是否有误
       m_plistLinkPoint->clear();
       m_pCUnitDynLinkCurrent->SetSrcIndex(m_lSrcIndex);
       m_pCUnitDynLinkCurrent->SetDestIndex(m_lDestIndex);

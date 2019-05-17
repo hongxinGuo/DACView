@@ -21,7 +21,7 @@ CObjectComponent::CObjectComponent(CString s, CRect r)
 	m_strBitmap = "";
   m_fCreateMemoryDC = false;
   m_fLoadBitmap = false;
-
+  m_clrBkGrd = RGB(192, 192, 192);
   m_pJpegFile = new char[5000 * 5000];
 
 }
@@ -30,7 +30,7 @@ CObjectComponent::CObjectComponent( void ) : CObjectComponentBase( ) {
   m_fCreateMemoryDC = false;
   m_fLoadBitmap = false;
   m_pJpegFile = new char[5000 * 5000];
-
+  m_clrBkGrd = RGB(192, 192, 192);
 
 }
 	

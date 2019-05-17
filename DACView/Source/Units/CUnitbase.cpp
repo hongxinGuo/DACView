@@ -472,7 +472,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
 			if ((pDL->GetDynLinkClass() == COMPONENT_TO_UNIT) || (pDL->GetDynLinkClass() == COMPONENT_TO_COMPONENT))
 				break; //当联出本单元所在的复合单元时，不需要调整动态链接线的位置（调整了就出错了）
       plist = pDL->GetLinkPointList();
-      TestDynLinkList(plist);
+      ASSERT(TestDynLinkList(plist));
       ASSERT(plist->size() >= 3); // 动态链接线最少三个点
       auto itPoint = plist->begin();
       ppt1 = *itPoint++;
@@ -530,7 +530,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
 				}
 			}
 			else ASSERT( 0 );
-      TestDynLinkList(plist);
+      ASSERT(TestDynLinkList(plist));
     }
   }
 
@@ -553,7 +553,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
     if ( fDo ) {
       rect = pcunit->GetSize();   // pcunit此时指向目标单元或包含目标单元的部件
       plist = pDL->GetLinkPointList();
-      TestDynLinkList(plist);
+      ASSERT(TestDynLinkList(plist));
       ASSERT(plist->size() >= 3);
       auto it = plist->end();
       ppt1 = *--it;
@@ -613,7 +613,7 @@ void CUnitBase::AdjustDynLinkLinePosition(CUnitBase * pcSrc, CPoint ptStart, CPo
 				}
 			}
 			else ASSERT( 0 );   // 动态链接线的最后两个点不是横平就是竖直，不允许出现斜线
-      TestDynLinkList(plist);
+      ASSERT(TestDynLinkList(plist));
     }
   }
 }

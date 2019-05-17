@@ -110,7 +110,7 @@ namespace DACViewTest {
       auto pDLList = punit->GetDynLinkList();
       for (auto pDL : *pDLList) {
         auto pDLPointList = pDL->GetLinkPointList();
-        TestDynLinkList(pDLPointList);
+        ASSERT(TestDynLinkList(pDLPointList));
       }
     }
   }
