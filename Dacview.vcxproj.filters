@@ -49,6 +49,30 @@
     <Filter Include="Source Files\Objects\输入型对象">
       <UniqueIdentifier>{cb6599cc-8d60-4ec4-9794-0578dc474674}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Units\数据采集存储">
+      <UniqueIdentifier>{4dbeceb2-0811-4daa-ba84-1195a30bde3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Units\布尔函数">
+      <UniqueIdentifier>{c0b1e967-c4cc-434c-8b01-436fc8852642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Units\算数单元">
+      <UniqueIdentifier>{b9b4c216-9a88-419e-a01f-ebc191ae6a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Units\逻辑控制">
+      <UniqueIdentifier>{63b525c2-bc76-4882-a2bf-dfa508676bff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Units\模拟函数发生器">
+      <UniqueIdentifier>{584211d8-eb82-495c-8b6c-e9d566578878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\输入型对象">
+      <UniqueIdentifier>{c2b9c598-102e-4212-aa03-615a0a0e5c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\符号和部件">
+      <UniqueIdentifier>{47ca3b70-a76b-4dd7-8b3e-20e1cdb98dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Units\PLC">
+      <UniqueIdentifier>{0de1faae-ee3c-4d3f-ba99-f08d6ce87c7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\bitmap1.bmp">
@@ -259,12 +283,6 @@
     <ClInclude Include="DACView\Source\测试用\CSQIUnitViewTest.h">
       <Filter>测试用</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\CObjbutton.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\CObjComponentBase.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Objects\CObjectBase.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -277,16 +295,10 @@
     <ClInclude Include="DACView\Source\Objects\CObjgraph.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\CObjknob.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Objects\CObjline.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Objects\CObjmeter.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\CObjNumInput.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Objects\CObjoval.h">
@@ -298,12 +310,6 @@
     <ClInclude Include="DACView\Source\Objects\CObjRoundRect.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\CObjslider.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\CObjsymbol.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Objects\CObjtext.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -311,9 +317,6 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Objects\DlgObjbar.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\DlgObjButton.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Objects\DLGOBJECT.H">
@@ -325,16 +328,10 @@
     <ClInclude Include="DACView\Source\Objects\DlgObjGraph.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\DlgObjKnob.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Objects\DlgObjLine.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Objects\DlgObjMeter.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\DlgObjNumInput.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Objects\DlgObjRect.h">
@@ -343,20 +340,8 @@
     <ClInclude Include="DACView\Source\Objects\DlgObjRoundRect.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\DlgObjSlide.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\DlgObjSymbol.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Objects\DlgObjText.h">
       <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitADD.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitAND.H">
-      <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\CUnitBase.h">
       <Filter>Header Files\Units</Filter>
@@ -373,37 +358,10 @@
     <ClInclude Include="DACView\Source\Units\CUnitDelayTime.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitDivide.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Units\CUnitFFLP.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitHPBG.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitHSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitInvert.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Units\CUnitIPOP.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitLSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitMSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitMultiple.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitOR.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitPID.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\CUnitPulse.H">
@@ -413,9 +371,6 @@
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\CUnitQUAD.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitSINE.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\CUnitSwitch.H">
@@ -430,52 +385,16 @@
     <ClInclude Include="DACView\Source\Units\CUnitTTB.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Units\CUnitXOR.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitADD.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitAND.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Units\DLGUnitDelay.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\DLGUnitDelayTime.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitDIV.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Units\DLGUnitFFLP.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitHPBG.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitHSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitInvert.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\Units\DLGUnitIPOP.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitLSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitMSEL.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitMultiple.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitOR.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitPID.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\DLGUnitPulse.H">
@@ -485,9 +404,6 @@
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\DLGUnitQUAD.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGUnitSINE.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\DLGUnitSwitch.H">
@@ -500,9 +416,6 @@
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\Units\DLGUnitTTB.H">
-      <Filter>Header Files\Units</Filter>
-    </ClInclude>
-    <ClInclude Include="DACView\Source\Units\DLGXOR.H">
       <Filter>Header Files\Units</Filter>
     </ClInclude>
     <ClInclude Include="DACView\Source\accesory.h">
@@ -592,17 +505,128 @@
     <ClInclude Include="DACView\Source\SQIObjectView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\CObjComponent.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DACView\Source\Objects\DlgObjComponent.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="DACView\Source\DlgComponent.h">
       <Filter>Header Files\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitADD.H">
+      <Filter>Header Files\Units\算数单元</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitAND.H">
+      <Filter>Header Files\Units\布尔函数</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitDivide.H">
+      <Filter>Header Files\Units\算数单元</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitHPBG.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitHSEL.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitInvert.H">
+      <Filter>Header Files\Units\布尔函数</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitLSEL.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitMSEL.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitMultiple.H">
+      <Filter>Header Files\Units\算数单元</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitOR.H">
+      <Filter>Header Files\Units\布尔函数</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitPID.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitSINE.H">
+      <Filter>Header Files\Units\模拟函数发生器</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\CUnitXOR.H">
+      <Filter>Header Files\Units\布尔函数</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitADD.H">
+      <Filter>Header Files\Units\算数单元</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitAND.H">
+      <Filter>Header Files\Units\布尔函数</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitDIV.H">
+      <Filter>Header Files\Units\算数单元</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitLSEL.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitMSEL.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitMultiple.H">
+      <Filter>Header Files\Units\算数单元</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitHPBG.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitHSEL.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitInvert.H">
+      <Filter>Header Files\Units\布尔函数</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitPID.H">
+      <Filter>Header Files\Units\逻辑控制</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGXOR.H">
+      <Filter>Header Files\Units\布尔函数</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitSINE.H">
+      <Filter>Header Files\Units\模拟函数发生器</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Units\DLGUnitOR.H">
+      <Filter>Header Files\Units\布尔函数</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjbutton.h">
+      <Filter>Header Files\Objects\输入型对象</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjknob.h">
+      <Filter>Header Files\Objects\输入型对象</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjNumInput.h">
+      <Filter>Header Files\Objects\输入型对象</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjslider.h">
+      <Filter>Header Files\Objects\输入型对象</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjButton.h">
+      <Filter>Header Files\Objects\输入型对象</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjKnob.h">
+      <Filter>Header Files\Objects\输入型对象</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjNumInput.h">
+      <Filter>Header Files\Objects\输入型对象</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjSlide.h">
+      <Filter>Header Files\Objects\输入型对象</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjComponent.h">
+      <Filter>Header Files\Objects\符号和部件</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjComponentBase.h">
+      <Filter>Header Files\Objects\符号和部件</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjComponent.h">
+      <Filter>Header Files\Objects\符号和部件</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\CObjsymbol.h">
+      <Filter>Header Files\Objects\符号和部件</Filter>
+    </ClInclude>
+    <ClInclude Include="DACView\Source\Objects\DlgObjSymbol.h">
+      <Filter>Header Files\Objects\符号和部件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
