@@ -4,20 +4,19 @@
 #include"CObjGauge.h"
 
 namespace DACViewTest {
-
   TEST(TestCObjectGauge, TestInitialize) {
     CString str = "abcd";
     CRect rect(100, 200, 300, 400), rect2;
     CObjectGauge c(str, rect), c2;
 
-    EXPECT_STREQ("abcd", c.GetName());
+    EXPECT_STREQ(_T("abcd"), c.GetName());
     rect2 = c.GetSize();
     rect = c.GetSize();
     EXPECT_EQ(100, rect.left);
     EXPECT_EQ(200, rect.top);
     EXPECT_EQ(400, rect.bottom);
     EXPECT_EQ(300, rect.right);
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
   }
 
   TEST(TestCObjectGauge, TestSerialize) {
@@ -27,7 +26,7 @@ namespace DACViewTest {
   TEST(TestCObjectGauge, TestGetClassNameStr) {
     CObjectGauge c;
 
-    EXPECT_STREQ("Gauge", c.GetClassNameStr());
+    EXPECT_STREQ(_T("Gauge"), c.GetClassNameStr());
   }
 
   TEST(TestCObjectGauge, TestExectiveDynLink) {
@@ -45,9 +44,9 @@ namespace DACViewTest {
   TEST(TestCObjectGauge, TestGetParaName) {
     CObjectGauge c;
 
-    EXPECT_STREQ("Value", c.GetParaName(0));
-    EXPECT_STREQ("BackColor", c.GetParaName(1));
-    EXPECT_STREQ("ForeColor", c.GetParaName(2));
+    EXPECT_STREQ(_T("Value"), c.GetParaName(0));
+    EXPECT_STREQ(_T("BackColor"), c.GetParaName(1));
+    EXPECT_STREQ(_T("ForeColor"), c.GetParaName(2));
   }
 
   TEST(TestCObjectGauge, TestGetDynLinkType) {
@@ -81,6 +80,4 @@ namespace DACViewTest {
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
   }
-
-
 }

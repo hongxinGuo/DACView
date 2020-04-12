@@ -10,7 +10,7 @@ namespace DACViewTest {
     CRect rect(100, 100, 200, 200), rect2;
 
     CObjRectBase c(strName, rect), c1;
-    EXPECT_STREQ("abc", c.GetName());
+    EXPECT_STREQ(_T("abc"), c.GetName());
     EXPECT_EQ(RGB(0, 0, 0), c.GetBkGrdColor());
     EXPECT_EQ(RGB(255, 255, 255), c.GetForeGrdColor());
     rect2 = c.GetSize();
@@ -20,14 +20,14 @@ namespace DACViewTest {
     EXPECT_EQ(200, rect2.right);
     EXPECT_FALSE(c.IsTransparent());
 
-    EXPECT_STREQ("", c1.GetName());
+    EXPECT_STREQ(_T(""), c1.GetName());
     EXPECT_TRUE(c.IsRectShape());
   }
 
-	TEST(TestCOjbRectBase, TestIsRectShape) {
-		CObjRectBase c;
-		EXPECT_TRUE(c.IsRectShape());
-	}
+  TEST(TestCOjbRectBase, TestIsRectShape) {
+    CObjRectBase c;
+    EXPECT_TRUE(c.IsRectShape());
+  }
 
   TEST(TestCObjRectBase, TestIsTransparent) {
     CObjRectBase c;
@@ -73,7 +73,6 @@ namespace DACViewTest {
     EXPECT_EQ(700, rect2.right);
     EXPECT_EQ(800, rect2.top);
     EXPECT_EQ(900, rect2.bottom);
-
   }
 
   TEST(TestCObjRectBase, TestSetBkGrdColor) {
@@ -150,7 +149,7 @@ namespace DACViewTest {
     CString str = "abcde";
 
     c.SetString(5, str);
-    EXPECT_STREQ("abcde", c.GetTitle());
+    EXPECT_STREQ(_T("abcde"), c.GetTitle());
   }
 
   TEST(TestCObjRectBase, TestSetColor) {
@@ -160,7 +159,6 @@ namespace DACViewTest {
     EXPECT_EQ(RGB(125, 127, 120), c.GetForeGrdColor());
     c.SetColor(3, RGB(135, 147, 120));
     EXPECT_EQ(RGB(135, 147, 120), c.GetBkGrdColor());
-
   }
 
   TEST(TestCObjectBase, TestSetSymbolThatHaveMe) {
@@ -184,8 +182,4 @@ namespace DACViewTest {
   TEST(TestCObjRectBase, TestExectiveDynLink) {
     // need code
   }
-
-
-
-
 }

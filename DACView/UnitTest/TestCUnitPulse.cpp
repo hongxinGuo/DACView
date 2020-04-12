@@ -4,30 +4,29 @@
 #include"CUnitPulse.h"
 
 namespace DACViewTest {
-
   TEST(TestCUnitPulse, TestInitialize) {
     CPoint pt(100, 100);
     CUnitPulse c("CUnitPulse", pt);
 
     CRect rect = c.GetSize();
-    EXPECT_STREQ("CUnitPulse", c.GetName());
+    EXPECT_STREQ(_T("CUnitPulse"), c.GetName());
     EXPECT_EQ(100 - 15, rect.left);
     EXPECT_EQ(100 - 15, rect.top);
     EXPECT_EQ(100 + 15, rect.right);
     EXPECT_EQ(100 + 15, rect.bottom);
 
-    EXPECT_STREQ("Input", c.GetParaName(0));
-    EXPECT_STREQ("Output", c.GetParaName(1));
-    EXPECT_STREQ("AutoManual", c.GetParaName(2));
-    EXPECT_STREQ("Width", c.GetParaName(3));
-    EXPECT_STREQ("ScanRate", c.GetParaName(4));
-    EXPECT_STREQ("", c.GetParaName(5));
+    EXPECT_STREQ(_T("Input"), c.GetParaName(0));
+    EXPECT_STREQ(_T("Output"), c.GetParaName(1));
+    EXPECT_STREQ(_T("AutoManual"), c.GetParaName(2));
+    EXPECT_STREQ(_T("Width"), c.GetParaName(3));
+    EXPECT_STREQ(_T("ScanRate"), c.GetParaName(4));
+    EXPECT_STREQ(_T(""), c.GetParaName(5));
 
-    EXPECT_STREQ("Pulse", c.GetClassNameStr());
+    EXPECT_STREQ(_T("Pulse"), c.GetClassNameStr());
 
     CUnitPulse c2;
     rect = c2.GetSize();
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
     EXPECT_EQ(0, rect.left);
     EXPECT_EQ(0, rect.top);
     EXPECT_EQ(0, rect.right);
@@ -39,7 +38,7 @@ namespace DACViewTest {
     CFile cFile1, cFile2;
     char buffer[512];
     CString strFileName = "CUnitPulse.tst";
-    CUnitPulse * pc = new CUnitPulse;
+    CUnitPulse* pc = new CUnitPulse;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
 
@@ -47,7 +46,7 @@ namespace DACViewTest {
     CArchive ar(&cFile1, CArchive::store, 512, buffer);
     pc->SetInteger(3, 1000);
 
-    ar << pc; // 
+    ar << pc; //
     ar.Flush(); // 必须flush，否则有可能没进行存储
     cFile1.Close();
     delete pc;
@@ -64,16 +63,15 @@ namespace DACViewTest {
 
   TEST(TestCUnitPulse, TestGetParaType) {
     CUnitPulse c;
-    EXPECT_EQ(c.GetParaType(0), tINPUT |tMODIFIABLE | tBOOL);
-    EXPECT_EQ(c.GetParaType(1), tOUTPUT |tMODIFIABLE | tBOOL);
-    EXPECT_EQ(c.GetParaType(2), tINPUT |tMODIFIABLE | tBOOL);
-    EXPECT_EQ(c.GetParaType(3), tINPUT |tMODIFIABLE | tWORD);
+    EXPECT_EQ(c.GetParaType(0), tINPUT | tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(1), tOUTPUT | tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(2), tINPUT | tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(3), tINPUT | tMODIFIABLE | tWORD);
     EXPECT_EQ(c.GetParaType(4), tINPUT | tOUTPUT | tWORD);
   }
 
   TEST(TestCUnitPulse, TestExective) {
     CUnitPulse c;
-
   }
 
   TEST(TestCUnitPulse, TestGetDynLinkType) {
@@ -85,7 +83,6 @@ namespace DACViewTest {
     EXPECT_EQ(tWORD, c.GetDynLinkType(4));
     EXPECT_EQ(0, c.GetDynLinkType(5));
   }
-
 
   TEST(TestCUnitPulse, TestSelectParameter) {
     CUnitPulse c;
@@ -112,7 +109,5 @@ namespace DACViewTest {
     EXPECT_EQ(-1, c.GetIndex(0));
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
-
   }
-
 }

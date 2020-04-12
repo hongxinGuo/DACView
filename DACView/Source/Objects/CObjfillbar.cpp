@@ -272,7 +272,7 @@ void CObjectFillBar::ToShowDynamic( CDC * const pdc ) {
 	CRect rectScroll;
 	CFont *pcf;
 	char cTemp[10];
-	int i;
+  CString str;
   CRect rectArea = m_rectArea, rectLastTime = m_rectLastTime;
 
   m_rectLastTime = m_rectArea;
@@ -307,10 +307,11 @@ void CObjectFillBar::ToShowDynamic( CDC * const pdc ) {
     if ( m_fVertical ) {
 			if ( m_fShowRange ) {
 				pcf = m_MemoryDC.SelectObject( &gl_fontSmall );
-				for ( i = 0; i < 3; i++ ) {
+				for ( int i = 0; i < 3; i++ ) {
 					_gcvt_s(cTemp, m_eLoLimit + i * (m_eHiLimit - m_eLoLimit)/3, 2);
+          str = cTemp;
 					m_MemoryDC.TextOut( rectScroll.left + 4, 
-															rectScroll.top + 15 + i * rectScroll.Height()/3, cTemp, 2);
+															rectScroll.top + 15 + i * rectScroll.Height()/3, (LPCTSTR)str, 2);
 				}
 			}
 			else {

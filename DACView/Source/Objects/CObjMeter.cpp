@@ -259,8 +259,8 @@ void CObjectMeter::ToShowStatic( CDC * const pdc, CPoint  ) {
 			pdc->MoveTo(a, b);
 			pdc->LineTo(c, d);
 			_gcvt_s(cTemp, m_eLowLimit + i * (m_eHighLimit - m_eLowLimit)/m_ulNumberStep, iDataLength);
-			sizeText = pdc->GetTextExtent( cTemp, strlen(cTemp) );
-			pdc->TextOut( e - sizeText.cx/2, f, cTemp, iDataLength + 1 );
+			sizeText = pdc->GetTextExtent( (LPCTSTR)cTemp, strlen(cTemp) );
+			pdc->TextOut( e - sizeText.cx/2, f, (LPCTSTR)cTemp, iDataLength + 1 );
 			rectScroll.left -= 15;
    		rectScroll.right += 15;
     	rectScroll.top -= 15;

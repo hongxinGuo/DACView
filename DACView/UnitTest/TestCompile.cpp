@@ -13,13 +13,11 @@
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
-#endif 
-
+#endif
 
 namespace DACViewTest {
-
   // 检验punit是否位于unitlist中，返回值为punit中的单元数量（等于AddToList的数量）
-  int TestIsInUnitList(CUnitBase * punit, CUnitList & unitlist) {
+  int TestIsInUnitList(CUnitBase* punit, CUnitList& unitlist) {
     if (!punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
       if (find(unitlist.begin(), unitlist.end(), punit) != unitlist.end()) return 1;
       else {
@@ -28,7 +26,7 @@ namespace DACViewTest {
       }
     }
     else {
-      CUnitComponent * pCpt = (CUnitComponent *)punit;
+      CUnitComponent* pCpt = (CUnitComponent*)punit;
       if (pCpt->IsEncapsulated()) {
         if (find(unitlist.begin(), unitlist.end(), punit) != unitlist.end()) return 1;
         else {
@@ -37,7 +35,7 @@ namespace DACViewTest {
         }
       }
       else {
-        CUnitList * pUnitList = pCpt->GetUnitList();
+        CUnitList* pUnitList = pCpt->GetUnitList();
         int iTotal = 0;
         if (find(unitlist.begin(), unitlist.end(), punit) != unitlist.end()) iTotal = 1;
         else {
@@ -54,56 +52,56 @@ namespace DACViewTest {
 
   class TestCompile : public::testing::TestWithParam<CString>
   {
-	protected:
-		void SetUp(void) override {
-			CString strFileName = GetParam();
+  protected:
+    void SetUp(void) override {
+      CString strFileName = GetParam();
 
-			CFile cFile;
-			char buffer[512];
+      CFile cFile;
+      char buffer[512];
 
-			CString strFileHeader;
-			INT32 iObjectNumber;
-			INT64 iUnitNumber;
+      CString strFileHeader;
+      INT32 iObjectNumber;
+      INT64 iUnitNumber;
 
-			if (!cFile.Open(strFileName, CFile::modeRead)) {
-				EXPECT_FALSE(true) << "read file %s failed" << strFileName;
-			}
-			CArchive ar(&cFile, CArchive::load, 512, buffer);
-			LoadSQIFile(ar, &m_unitlist, &m_objectlist, &iUnitNumber, &iObjectNumber);
-		}
+      if (!cFile.Open(strFileName, CFile::modeRead)) {
+        EXPECT_FALSE(true) << "read file %s failed" << strFileName;
+      }
+      CArchive ar(&cFile, CArchive::load, 512, buffer);
+      LoadSQIFile(ar, &m_unitlist, &m_objectlist, &iUnitNumber, &iObjectNumber);
+    }
 
-		void TearDown(void) override {
-			// clearup
-			ReleaseSQIFile(&m_unitlist, &m_objectlist);
-			EXPECT_TRUE(m_unitlist.empty());
-			EXPECT_TRUE(m_objectlist.empty());
-		}
+    void TearDown(void) override {
+      // clearup
+      ReleaseSQIFile(&m_unitlist, &m_objectlist);
+      EXPECT_TRUE(m_unitlist.empty());
+      EXPECT_TRUE(m_objectlist.empty());
+    }
 
-	public:
-		CUnitList m_unitlist;
-		CObjectList m_objectlist;
-		CString strFileName;
+  public:
+    CUnitList m_unitlist;
+    CObjectList m_objectlist;
+    CString strFileName;
   };
 
-  INSTANTIATE_TEST_CASE_P(TestCompile, TestCompile,
-    testing::Values("c:\\DACViewTestFile\\CompileUnitList\\简单单元.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装部件.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装部件有截断.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装部件1.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装部件有Object输入.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套两层.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层部件之间链接参数有链接.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\封装后的部件.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的部件.sqi"
-			, "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件有Object多项输入.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件有截断有Object多项输入.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有100+.sqi"
-      , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有200+.sqi"
-    ));
+  INSTANTIATE_TEST_SUITE_P(TestCompile, TestCompile,
+                           testing::Values("c:\\DACViewTestFile\\CompileUnitList\\简单单元.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装部件.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装部件有截断.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装部件1.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装部件有Object输入.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套两层.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层部件之间链接参数有链接.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\封装后的部件.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的部件.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件有Object多项输入.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套四层参数有链接有封装后的多个部件有截断有Object多项输入.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有100+.sqi"
+                                           , "c:\\DACViewTestFile\\CompileUnitList\\各种类型都有200+.sqi"
+                           ));
 
   TEST_P(TestCompile, TestDynLinkPoint) {
     for (const auto punit : m_unitlist) {
@@ -125,7 +123,7 @@ namespace DACViewTest {
       if (punit->IsEncapsulable() && punit->IsEncapsulated()) {
         EXPECT_TRUE(punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
         EXPECT_FALSE(punit->IsCompiled()) << "此部件本身的编译标志尚未设置";
-        CUnitList *pUList2 = ((CUnitComponent *)punit)->GetUnitList();
+        CUnitList* pUList2 = ((CUnitComponent*)punit)->GetUnitList();
         for (const auto pcunit2 : *pUList2) {
           EXPECT_TRUE(pcunit2->IsCompiled()); // 只检测了一层，更下面的层没有验证。
         }
@@ -156,11 +154,11 @@ namespace DACViewTest {
     int iDynLinkToNumber, iDynLinkToNumber2;
     for (const auto punit : UnitList) {
       EXPECT_EQ(punit->GetExectivePriority(), 0) << "编译前执行优先级为0";
-      iDynLinkToNumber = punit->GetInputParameterNumber(); 
+      iDynLinkToNumber = punit->GetInputParameterNumber();
       iDynLinkToNumber2 = 0;
       for (const auto pctemp : UnitList) {
         if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-          CUnitComponent * pCpt = (CUnitComponent *)pctemp;
+          CUnitComponent* pCpt = (CUnitComponent*)pctemp;
           if (!pCpt->IsEncapsulated()) { // 如果是未封装的部件，则检测是否存在部件参数输入至内部单元的情况
             for (int l = 0; l < 16; l++) {
               if (pCpt->IsParaLinked(l)) {
@@ -172,7 +170,7 @@ namespace DACViewTest {
             }
           }
         }
-        CUDLList * pDLList = pctemp->GetDynLinkList();
+        CUDLList* pDLList = pctemp->GetDynLinkList();
         for (const auto pDL : *pDLList) {
           if (pDL->GetDestUnit() == punit) iDynLinkToNumber2++;
         }
@@ -184,15 +182,15 @@ namespace DACViewTest {
   // 测试设置无源单元的执行优先级为1
   TEST_P(TestCompile, TestSetNoSrcUnitExectivePriority) {
     CUnitList rtUnitList;
-    CUnitComponent * pCpt = nullptr;
+    CUnitComponent* pCpt = nullptr;
     INT64 iCurrentUnit = 0;
 
     ReSetCompileFlag(&m_unitlist);
- 
+
     CreateUniUnitList(&m_unitlist, rtUnitList);
 
     SetParaLockFlag(&m_unitlist, &m_objectlist);
- 
+
     SetNoSrcUnitExectivePriority(&rtUnitList);
 
     for (const auto punit : rtUnitList) {
@@ -203,7 +201,7 @@ namespace DACViewTest {
         EXPECT_TRUE(punit->IsHaveSourceUnit()) << "执行优先级大于1的单元有源单元（数据输入）";
       }
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        if (!((CUnitComponent *)punit)->IsEncapsulated() && ((CUnitComponent *)punit)->IsEncapsulable()) { // 此时部件尚未被编译，故而封装的部件是已经封装了的，不测试
+        if (!((CUnitComponent*)punit)->IsEncapsulated() && ((CUnitComponent*)punit)->IsEncapsulable()) { // 此时部件尚未被编译，故而封装的部件是已经封装了的，不测试
           EXPECT_EQ(punit->GetExectivePriority(), 1) << "在设置无源单元的执行优先级时，部件执行优先级永远设置为1";
         }
       }
@@ -212,7 +210,7 @@ namespace DACViewTest {
 
   TEST_P(TestCompile, TestCompile) {
     INT64 iCurrentUnit = sizeof(ULONG);
-    CUnitComponent * pCpt = nullptr;
+    CUnitComponent* pCpt = nullptr;
 
     CUnitList rtUnitList;
 
@@ -229,7 +227,7 @@ namespace DACViewTest {
       EXPECT_TRUE(find(rtUnitList.begin(), rtUnitList.end(), punit) != rtUnitList.end());
     }
 
-    CUnitBase * pcunitTemp = rtUnitList.front();
+    CUnitBase* pcunitTemp = rtUnitList.front();
     auto it = rtUnitList.begin();
     it++;
     for (; it != rtUnitList.end(); it++) {
@@ -238,9 +236,9 @@ namespace DACViewTest {
         << pcunitTemp->GetName() << "  " << punit->GetName();
       pcunitTemp = punit;
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        CUnitComponent * pCpt = (CUnitComponent *)punit;
+        CUnitComponent* pCpt = (CUnitComponent*)punit;
         if (pCpt->IsEncapsulated() && pCpt->mtest_fEncapsulating && pCpt->IsEncapsulating()) { //可封装部件且在此次编译中封装中
-          CUnitList * prtUnitList = pCpt->GetRunTimeUnitList(); // 检测此部件的内部运行时单元序列
+          CUnitList* prtUnitList = pCpt->GetRunTimeUnitList(); // 检测此部件的内部运行时单元序列
           auto it2 = prtUnitList->begin();
           auto punitTemp2 = *it2++;
           for (; it2 != prtUnitList->end(); it2++) {
@@ -254,9 +252,9 @@ namespace DACViewTest {
     }
 
     // 测试执行优先级。所有的单元序列（包括部件内部的单元序列）皆测试。
-    CUDLList * pUDLList;
+    CUDLList* pUDLList;
     int k, l;
-    CUnitBase * pDestUnit;
+    CUnitBase* pDestUnit;
 
     for (const auto pctemp : rtUnitList) {
       EXPECT_TRUE(pctemp->IsCompiled()) << strFileName << "  " << pctemp->GetName() << "  此时单元序列应该已经被编译了";
@@ -274,16 +272,16 @@ namespace DACViewTest {
       }
     }
 
-    // 
+    //
     for (const auto punit : m_unitlist) {
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCpt = (CUnitComponent *)punit;
+        pCpt = (CUnitComponent*)punit;
         if (pCpt->IsEncapsulable()) {
           EXPECT_TRUE(pCpt->IsEncapsulated()) << "after compile component"; // 测试部件封装标志
         }
-        if ( !pCpt->IsPermitEncapsulation() ) {
+        if (!pCpt->IsPermitEncapsulation()) {
           EXPECT_FALSE(pCpt->IsEncapsulated());
-          CUnitList * pUnitList = pCpt->GetRunTimeUnitList();
+          CUnitList* pUnitList = pCpt->GetRunTimeUnitList();
           EXPECT_EQ(pUnitList->size(), 0); // 不可封装部件的执行单元序列是空的
         }
       }
@@ -292,7 +290,7 @@ namespace DACViewTest {
 
   TEST_P(TestCompile, TestCompilation) {
     INT64 iCurrentUnit = sizeof(ULONG);
-    CUnitComponent * pCpt = nullptr;
+    CUnitComponent* pCpt = nullptr;
     CUnitList unitListRunTime, unitlistTotal;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
@@ -305,7 +303,7 @@ namespace DACViewTest {
 
     for (const auto punit : unitlist) {
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCpt = (CUnitComponent *)punit;
+        pCpt = (CUnitComponent*)punit;
         if (pCpt->IsEncapsulable()) {
           for (int i = 0; i < 16; i++) {
             if (pCpt->IsParaLinked(i)) {
@@ -324,10 +322,10 @@ namespace DACViewTest {
       EXPECT_GT(punit->GetExectivePriority(), 0);
       EXPECT_TRUE(punit->IsCompiled());
       if (!punit->IsHaveSourceUnit()) EXPECT_EQ(punit->GetExectivePriority(), 1);
-      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) { 
+      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         if (punit->mtest_fEncapsulating) {// 封装中的部件都应该封装了
           EXPECT_TRUE(punit->IsEncapsulated());
-          EXPECT_TRUE(punit->IsEncapsulable());  
+          EXPECT_TRUE(punit->IsEncapsulable());
         }
       }
     }
@@ -339,13 +337,13 @@ namespace DACViewTest {
   //
   ////////////////////////////////////////////////////////////////////////////////////////
   TEST_P(TestCompile, TestEncapsulationStepByStep) {
-    CUnitList listTotalUnit, runtimeUnitList, *pUnitList3;
+    CUnitList listTotalUnit, runtimeUnitList, * pUnitList3;
     INT64 iCurrentUnit = sizeof(ULONG);
-    CUnitComponent * pCpt = nullptr;
-    CUDLList * pDLList = nullptr, *pDLList2 = nullptr;
+    CUnitComponent* pCpt = nullptr;
+    CUDLList* pDLList = nullptr, * pDLList2 = nullptr;
     shared_ptr<CUnitDynLink> pDL, pDL2;
-    CUnitComponent * pSrcComponent = nullptr, *pDestComponent = nullptr;
-    CUnitComponent * pCUCP = nullptr;
+    CUnitComponent* pSrcComponent = nullptr, * pDestComponent = nullptr;
+    CUnitComponent* pCUCP = nullptr;
 
     // 设置编译所需之前置数据
     ReSetCompileFlag(&m_unitlist);
@@ -360,8 +358,8 @@ namespace DACViewTest {
     for (const auto punit : listTotalUnit) {
       EXPECT_FALSE(punit->IsCompiled()) << "重置后编译标志为假";
       if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        CUnitComponent * pCpt;
-        pCpt = (CUnitComponent *)punit;
+        CUnitComponent* pCpt;
+        pCpt = (CUnitComponent*)punit;
         if (pCpt->IsEncapsulated() || !(pCpt->IsEncapsulable())) {
           EXPECT_FALSE(pCpt->IsEncapsulating()) << "封装过或不可封装的部件不允许再次封装";
           EXPECT_FALSE(pCpt->mtest_fEncapsulating);
@@ -379,32 +377,32 @@ namespace DACViewTest {
       for (const auto pDL : *pDLList) {
         switch (pDL->GetDynLinkClass()) {
         case COMPONENT_TO_UNIT:
-          pSrcComponent = pDL->GetSrcUnit()->GetComponentUpper();
-          ASSERT(pSrcComponent != nullptr);
-          if (pSrcComponent->IsEncapsulable()) pSrcComponent->m_lOutputParaNumber++;
-          break;
+        pSrcComponent = pDL->GetSrcUnit()->GetComponentUpper();
+        ASSERT(pSrcComponent != nullptr);
+        if (pSrcComponent->IsEncapsulable()) pSrcComponent->m_lOutputParaNumber++;
+        break;
         case UNIT_TO_COMPONENT:
-          pDestComponent = pDL->GetDestUnit()->GetComponentUpper();
-          ASSERT(pDestComponent != nullptr);
-          if (pDestComponent->IsEncapsulable()) pDestComponent->m_lInputParaNumber++;
-          break;
+        pDestComponent = pDL->GetDestUnit()->GetComponentUpper();
+        ASSERT(pDestComponent != nullptr);
+        if (pDestComponent->IsEncapsulable()) pDestComponent->m_lInputParaNumber++;
+        break;
         case COMPONENT_TO_COMPONENT:
-          pSrcComponent = pDL->GetSrcUnit()->GetComponentUpper();
-          ASSERT(pSrcComponent != nullptr);
-          if (pSrcComponent->IsEncapsulable())pSrcComponent->m_lOutputParaNumber++;
-          pDestComponent = pDL->GetDestUnit()->GetComponentUpper();
-          ASSERT(pDestComponent != nullptr);
-          if (pDestComponent->IsEncapsulable()) pDestComponent->m_lInputParaNumber++;
-          break;
+        pSrcComponent = pDL->GetSrcUnit()->GetComponentUpper();
+        ASSERT(pSrcComponent != nullptr);
+        if (pSrcComponent->IsEncapsulable())pSrcComponent->m_lOutputParaNumber++;
+        pDestComponent = pDL->GetDestUnit()->GetComponentUpper();
+        ASSERT(pDestComponent != nullptr);
+        if (pDestComponent->IsEncapsulable()) pDestComponent->m_lInputParaNumber++;
+        break;
         default:
-          break;
-        } // switch 
+        break;
+        } // switch
       }
     }
     //再加上计算部件本身参数的输入输出参数个数，就得出部件总共的输入输出数据的数量
     for (const auto pcunitTemp : listTotalUnit) {
       if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCUCP = (CUnitComponent *)pcunitTemp;
+        pCUCP = (CUnitComponent*)pcunitTemp;
         if (pCUCP->IsEncapsulable()) {
           for (int j = 0; j < 16; j++) {
             if (pCUCP->IsParaLinked(j)) {
@@ -422,13 +420,13 @@ namespace DACViewTest {
     }
 
     // 将Encapsulation展开，分段执行和测试
-    CUnitList * pUnitList;
+    CUnitList* pUnitList;
     for (const auto pcunit1 : listTotalUnit) {
       if (pcunit1->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCUCP = (CUnitComponent *)pcunit1;
+        pCUCP = (CUnitComponent*)pcunit1;
         if (pCUCP->IsEncapsulable()) { // 可封装部件的动作
           if (pCUCP->IsEncapsulated()) continue;
-          
+
           // 首先封装下层部件
           pCUCP->EncapsulateBelowComponent(listTotalUnit);
 
@@ -442,7 +440,7 @@ namespace DACViewTest {
 
           // 检查部件状态是否正确， 此函数本身就是用来验证的，不需要再次检验
           pCUCP->CheckComponentSelf();
-          
+
           // 将部件参数中输出型的在内部源单元处建立一个新的动态链接，目的单元为本部件。
           // 此步骤要先于处理联入联出的过程执行。
           pCUCP->CreateNewDynLinkFromInterfaceOutputTypePara();
@@ -451,8 +449,8 @@ namespace DACViewTest {
           for (int l = 0; l < 16; l++) {
             if (pCUCP->IsParaLinked(l)) {
               if ((pCUCP->GetParaType(l) & (tINPUT | tOUTPUT)) == tOUTPUT) {
-                CUnitBase * punit5 = pCUCP->GetParaSrcUnit(l);
-                CUDLList * pUDLList = punit5->GetDynLinkList();
+                CUnitBase* punit5 = pCUCP->GetParaSrcUnit(l);
+                CUDLList* pUDLList = punit5->GetDynLinkList();
                 INT64 kTotal = pUDLList->size();
                 auto itDL1 = pUDLList->begin();
                 shared_ptr<CUnitDynLink> pDL = *itDL1;
@@ -481,15 +479,15 @@ namespace DACViewTest {
           for (int k = 0; k < 16; k++) {
             if (pCUCP->IsParaLinked(k)) {
               if (((pCUCP->GetParaType(k) & (tINPUT | tOUTPUT)) == tINPUT) && (pCUCP->GetParaSrcUnit(k) != nullptr)) {
-                CUDLList *pDLList = pCUCP->GetParaSrcUnit(k)->GetDynLinkList();
+                CUDLList* pDLList = pCUCP->GetParaSrcUnit(k)->GetDynLinkList();
                 for (const auto pDL11 : *pDLList) {
                   if (pDL11->GetDestUnit() == pCUCP) { // 找到源单元的动态链接了
-                    CUnitBase * pSrcUnit = pDL11->GetSrcUnit();
+                    CUnitBase* pSrcUnit = pDL11->GetSrcUnit();
                     if (pSrcUnit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
                       EXPECT_EQ(pDL11->GetDynLinkClass(), UNIT_TO_UNIT) << "源单元为部件的其动态链接类型为COMPONENT_TO_COMPONENT";
                     }
                     else if (pSrcUnit->GetComponentUpper() != nullptr) {
-                      CUnitList * pUnitList = pSrcUnit->GetComponentUpper()->GetUnitList();
+                      CUnitList* pUnitList = pSrcUnit->GetComponentUpper()->GetUnitList();
                       if (find(pUnitList->begin(), pUnitList->end(), pSrcUnit->GetComponentUpper()) != pUnitList->end()) { // 包含单元的部件位于本单元序列中
                         EXPECT_EQ(pDL11->GetDynLinkClass(), COMPONENT_TO_UNIT) << "包含源单元的部件位于最上层单元序列中";
                         if (pSrcUnit->GetComponentUpper()->IsEncapsulable()) {
@@ -583,9 +581,9 @@ namespace DACViewTest {
       if (punit->IsEncapsulable()) { // 可封装部件？
         EXPECT_TRUE(punit->IsEncapsulated()) << "可封装部件应该已经都被封装了";
       }
-      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent)) ) {
-        if (!((CUnitComponent *)punit)->IsPermitEncapsulation() ) {
-          EXPECT_TRUE(((CUnitComponent *)punit)->GetRunTimeUnitList()->empty()) << strFileName << "不可封装部件运行时单元序列应该为空";
+      if (punit->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
+        if (!((CUnitComponent*)punit)->IsPermitEncapsulation()) {
+          EXPECT_TRUE(((CUnitComponent*)punit)->GetRunTimeUnitList()->empty()) << strFileName << "不可封装部件运行时单元序列应该为空";
         }
       }
     }
@@ -598,7 +596,7 @@ namespace DACViewTest {
     for (const auto punit : listTotalUnit) {
       if (punit->GetExectivePriority() == 1) {
         if ((punit->IsHaveSourceUnit()) && !punit->IsCutoff()) {
-          CUnitComponent * pCpt = punit->GetComponentUpper();
+          CUnitComponent* pCpt = punit->GetComponentUpper();
           bool fFound = false;
           if (pCpt != nullptr) {
             for (int i = 0; i < 16; i++) {
@@ -629,7 +627,7 @@ namespace DACViewTest {
       if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
         lSrc = 0;
         lDest = 0;
-        pCUCP = (CUnitComponent *)pcunitTemp;
+        pCUCP = (CUnitComponent*)pcunitTemp;
         if (pCUCP->IsEncapsulable()) {
           for (int j = 0; j < 16; j++) {
             if (pCUCP->IsParaLinked(j)) {
@@ -655,10 +653,9 @@ namespace DACViewTest {
   //
   ////////////////////////////////////////////////////////////////////////////////////
   TEST_P(TestCompile, TestEncapsulation20) {
-
     CUnitList listTotalUnit, runtimeUnitList;
     INT64 iCurrentUnit = sizeof(ULONG);
-    CUnitComponent * pCpt = nullptr;
+    CUnitComponent* pCpt = nullptr;
 
     // 设置编译所需之前置数据
     ReSetCompileFlag(&m_unitlist);
@@ -668,7 +665,7 @@ namespace DACViewTest {
     CreateUniUnitList(&m_unitlist, listTotalUnit);
 
     SetEncapsulatingFlag(listTotalUnit);
-    
+
     // 封装单元序列中的可封装部件
     EncapsulateUnitList(listTotalUnit);
 
@@ -692,7 +689,7 @@ namespace DACViewTest {
     for (const auto punit : listTotalUnit) {
       if (punit->GetExectivePriority() == 1) {
         if ((punit->IsHaveSourceUnit()) && !punit->IsCutoff()) {
-          CUnitComponent * pCpt = punit->GetComponentUpper();
+          CUnitComponent* pCpt = punit->GetComponentUpper();
           bool fFound = false;
           if (pCpt != nullptr) {
             for (int i = 0; i < 16; i++) {
@@ -720,7 +717,7 @@ namespace DACViewTest {
 
   TEST_P(TestCompile, TestSetExectivePriority) {
     INT64 iCurrentUnit = sizeof(ULONG);
-    CUnitComponent * pCpt = nullptr;
+    CUnitComponent* pCpt = nullptr;
     CUnitList listTotalUnit, runtimeUnitList;
 
     ReSetCompileFlag(&m_unitlist);
@@ -739,19 +736,18 @@ namespace DACViewTest {
     // 编译此单元序列
     CompileUnitList(&listTotalUnit, &runtimeUnitList);
 
-
     for (const auto pctemp : m_unitlist) {
       if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCpt = (CUnitComponent *)pctemp;
+        pCpt = (CUnitComponent*)pctemp;
         if (pCpt->IsEncapsulable()) {
           EXPECT_TRUE(pCpt->IsEncapsulated()) << "after component compiled";
         }
       }
     }
 
-    CUnitBase * pcunit2;
+    CUnitBase* pcunit2;
     CString strName;
-    CUDLList * pDLList;
+    CUDLList* pDLList;
     INT32 a, b;
     for (const auto pcunittemp : m_unitlist) {
       pDLList = pcunittemp->GetDynLinkList();
@@ -771,7 +767,7 @@ namespace DACViewTest {
   {
   };
 
-  INSTANTIATE_TEST_CASE_P(TestCheckInnerDataLink, TestCUnitComponentCheckInnerDataLink, testing::Values(
+  INSTANTIATE_TEST_SUITE_P(TestCheckInnerDataLink, TestCUnitComponentCheckInnerDataLink, testing::Values(
     "c:\\DACViewTestFile\\UnitComponent\\TestCheckInnerDataLink1.sqi"
     , "c:\\DACViewTestFile\\UnitComponent\\TestCheckInnerDataLink2.sqi"
     , "c:\\DACViewTestFile\\CompileUnitList\\可封装和不可封装部件嵌套两层.sqi"
@@ -791,7 +787,7 @@ namespace DACViewTest {
     CRect rect(pt1, pt2);
     CString strFileHeader;
     INT64 iUnitNumber, iCurrentUnit = sizeof(ULONG);
-    CUnitComponent * pCpt = nullptr;
+    CUnitComponent* pCpt = nullptr;
     CUnitList m_unitlist, unitListRunTime;
 
     if (!cFile.Open(strFileName, CFile::modeRead)) {
@@ -802,13 +798,12 @@ namespace DACViewTest {
     CObjectList m_objectlist;
     LoadSQIFile(ar, &m_unitlist, &m_objectlist, &iUnitNumber, &iObjectNumber);
 
-
     Compilation(&m_unitlist, m_objectlist, &unitListRunTime);
 
     int l = 0;
     for (const auto pcunitTemp : m_unitlist) {
       if (pcunitTemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        pCpt = (CUnitComponent *)pcunitTemp;
+        pCpt = (CUnitComponent*)pcunitTemp;
         if (pCpt->IsEncapsulable()) {
           for (int j = 0; j < 16; j++) {
             if (pCpt->IsParaLinked(j)) {
@@ -823,18 +818,18 @@ namespace DACViewTest {
                       << "输出型参数的目的单元指针永远为nullptr" << "  k = " << k;
                     EXPECT_EQ(-1, pCpt->GetParaDestIndex(k)) << "目的单元参数索引重置为不可能";
                     l++;
-										CUnitBase * pcunit3 = pCpt->GetParaSrcUnit(k);
-										CUDLList * pUDLList = pcunit3->GetDynLinkList();
-										auto it = pUDLList->begin();
-										INT64 jTotal = pUDLList->size();
-										bool fFind = false;
-										shared_ptr<CUnitDynLink> pDL;
-										while (!fFind) {
-											pDL = *it++;
-											if (pDL->GetDestUnit() == pCpt) fFind = true;
-										}
-										EXPECT_TRUE(fFind);
-										EXPECT_EQ(pDL->GetDynLinkType(), pCpt->GetDynLinkType(k));
+                    CUnitBase* pcunit3 = pCpt->GetParaSrcUnit(k);
+                    CUDLList* pUDLList = pcunit3->GetDynLinkList();
+                    auto it = pUDLList->begin();
+                    INT64 jTotal = pUDLList->size();
+                    bool fFind = false;
+                    shared_ptr<CUnitDynLink> pDL;
+                    while (!fFind) {
+                      pDL = *it++;
+                      if (pDL->GetDestUnit() == pCpt) fFind = true;
+                    }
+                    EXPECT_TRUE(fFind);
+                    EXPECT_EQ(pDL->GetDynLinkType(), pCpt->GetDynLinkType(k));
                   }
                 }
               }
@@ -850,8 +845,6 @@ namespace DACViewTest {
     // clear up
     ReleaseSQIFile(&m_unitlist, &m_objectlist);
     EXPECT_TRUE(m_unitlist.empty());
-    EXPECT_TRUE(m_objectlist.empty()); 
-
+    EXPECT_TRUE(m_objectlist.empty());
   }
-
 }

@@ -4,20 +4,19 @@
 #include"CObjKnob.h"
 
 namespace DACViewTest {
-
   TEST(TestCObjectKnob, TestInitialize) {
     CString str = "abcd";
     CRect rect(100, 200, 300, 400), rect2;
     CObjectKnob c(str, rect), c2;
 
-    EXPECT_STREQ("abcd", c.GetName());
+    EXPECT_STREQ(_T("abcd"), c.GetName());
     rect2 = c.GetSize();
     rect = c.GetSize();
     EXPECT_EQ(100, rect.left);
     EXPECT_EQ(200, rect.top);
     EXPECT_EQ(400, rect.bottom);
     EXPECT_EQ(300, rect.right);
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
   }
 
   TEST(TestCObjectKnob, TestSerialize) {
@@ -27,18 +26,17 @@ namespace DACViewTest {
   TEST(TestCObjectKnob, TestGetClassNameStr) {
     CObjectKnob c;
 
-    EXPECT_STREQ("Knob", c.GetClassNameStr());
+    EXPECT_STREQ(_T("Knob"), c.GetClassNameStr());
   }
 
   TEST(TestCObjectKnob, TestExectiveDynLink) {
     CObjectKnob c;
   }
 
-
   TEST(TestCObjectKnob, TestGetParaName) {
     CObjectKnob c;
 
-    EXPECT_STREQ("Value", c.GetParaName(0));
+    EXPECT_STREQ(_T("Value"), c.GetParaName(0));
   }
 
   TEST(TestCObjectKnob, TestGetDynLinkType) {
@@ -68,6 +66,4 @@ namespace DACViewTest {
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
   }
-
-
 }

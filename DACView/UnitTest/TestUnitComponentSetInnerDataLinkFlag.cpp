@@ -10,16 +10,15 @@
 #include"SQIFileDoc.h"
 
 namespace DACViewTestCUnitComponent {
-
   class TestCUnitComponentSetInnerDataLinkFlag : public::testing::TestWithParam<CString> {
   };
 
-  INSTANTIATE_TEST_CASE_P(TestSetInnerDataLinkFlag, TestCUnitComponentSetInnerDataLinkFlag,
-    testing::Values("c:\\DACViewTestFile\\UnitComponent\\TestSetInnerDataLinkFlag.sqi"
-      , "c:\\DACViewTestFile\\UnitComponent\\TestSetInnerDataLinkFlag2.sqi"
-      //, "c:\\DACViewTestFile\\UnitComponent\\TestLoopDetect3.sqi"
-      //, "c:\\DACViewTestFile\\UnitComponent\\TestLoopDetect4.sqi"
-    ));
+  INSTANTIATE_TEST_SUITE_P(TestSetInnerDataLinkFlag, TestCUnitComponentSetInnerDataLinkFlag,
+                           testing::Values("c:\\DACViewTestFile\\UnitComponent\\TestSetInnerDataLinkFlag.sqi"
+                                           , "c:\\DACViewTestFile\\UnitComponent\\TestSetInnerDataLinkFlag2.sqi"
+                                           //, "c:\\DACViewTestFile\\UnitComponent\\TestLoopDetect3.sqi"
+                                           //, "c:\\DACViewTestFile\\UnitComponent\\TestLoopDetect4.sqi"
+                           ));
 
   TEST_P(TestCUnitComponentSetInnerDataLinkFlag, TestSetInnerDataLinkFlag) {
     CString strFileName = GetParam();
@@ -47,7 +46,7 @@ namespace DACViewTestCUnitComponent {
 
     for (const auto pctemp : unitlist) {
       if (pctemp->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-        CUnitComponent * pCUC = (CUnitComponent *)pctemp;
+        CUnitComponent* pCUC = (CUnitComponent*)pctemp;
         EXPECT_FALSE(pCUC->IsCutoff()) << "参数有内部数据链接的截断标志在执行任务后未设置为假";
       }
     }
@@ -60,6 +59,4 @@ namespace DACViewTestCUnitComponent {
     rtUnitList.clear();
     unitlist.clear();
   }
-
 }
- 

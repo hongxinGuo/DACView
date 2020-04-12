@@ -129,7 +129,9 @@
     <ClCompile Include="TestCObjectRect.cpp">
       <Filter>Test源文件\Object</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc" />
+    <ClCompile Include="main.cpp">
       <Filter>Test源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +158,9 @@
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\CObjectPrimitive.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\CObjectRect.obj">
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\CObjfillbar.obj">
@@ -195,6 +200,9 @@
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\CObjText.obj">
+      <Filter>dependency</Filter>
+    </Object>
+    <Object Include="..\..\x64\Debug\ComplieUnitList.obj">
       <Filter>dependency</Filter>
     </Object>
     <Object Include="..\..\x64\Debug\CUnitAdd.obj">
@@ -350,6 +358,9 @@
     <Object Include="..\..\x64\Debug\DlgObjButton.obj">
       <Filter>dependency</Filter>
     </Object>
+    <Object Include="..\..\x64\Debug\DlgObjComponent.obj">
+      <Filter>dependency</Filter>
+    </Object>
     <Object Include="..\..\x64\Debug\DlgObjDeleteDynLink.obj">
       <Filter>dependency</Filter>
     </Object>
@@ -455,6 +466,9 @@
     <Object Include="..\..\x64\Debug\SQIFileFrame.obj">
       <Filter>dependency</Filter>
     </Object>
+    <Object Include="..\..\x64\Debug\SQIObjectView.obj">
+      <Filter>dependency</Filter>
+    </Object>
     <Object Include="..\..\x64\Debug\SQIUnitView.obj">
       <Filter>dependency</Filter>
     </Object>
@@ -464,17 +478,10 @@
     <Object Include="..\..\x64\Debug\STDAFX.obj">
       <Filter>dependency</Filter>
     </Object>
-    <Object Include="..\..\x64\Debug\CObjectRect.obj">
-      <Filter>dependency</Filter>
-    </Object>
-    <Object Include="..\..\x64\Debug\ComplieUnitList.obj">
-      <Filter>dependency</Filter>
-    </Object>
-    <Object Include="..\..\x64\Debug\SQIObjectView.obj">
-      <Filter>dependency</Filter>
-    </Object>
-    <Object Include="..\..\x64\Debug\DlgObjComponent.obj">
-      <Filter>dependency</Filter>
-    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EnvironmentSetUp.h">
+      <Filter>Test源文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

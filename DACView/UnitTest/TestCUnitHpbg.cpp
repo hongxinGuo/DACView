@@ -7,7 +7,7 @@
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
-#endif 
+#endif
 
 namespace DACViewTest {
   TEST(TestCUnitHighPassBargin, TestCUnitHighPassBarginInitialize) {
@@ -15,26 +15,26 @@ namespace DACViewTest {
     CUnitHighPassBargin c("CUnitHPBG", pt);
 
     CRect rect = c.GetSize();
-    EXPECT_STREQ("CUnitHPBG", c.GetName());
+    EXPECT_STREQ(_T("CUnitHPBG"), c.GetName());
     EXPECT_EQ(100 - 15, rect.left);
     EXPECT_EQ(100 - 15, rect.top);
     EXPECT_EQ(100 + 15, rect.right);
     EXPECT_EQ(100 + 15, rect.bottom);
 
-    EXPECT_STREQ("Input", c.GetParaName(0));
-    EXPECT_STREQ("Bargin", c.GetParaName(1));
-    EXPECT_STREQ("Output", c.GetParaName(2));
-    EXPECT_STREQ("EAlarm", c.GetParaName(3));
-    EXPECT_STREQ("Alarm", c.GetParaName(4));
-    EXPECT_STREQ("AutoManual", c.GetParaName(5));
-    EXPECT_STREQ("ScanRate", c.GetParaName(6));
-    EXPECT_STREQ("", c.GetParaName(7));
+    EXPECT_STREQ(_T("Input"), c.GetParaName(0));
+    EXPECT_STREQ(_T("Bargin"), c.GetParaName(1));
+    EXPECT_STREQ(_T("Output"), c.GetParaName(2));
+    EXPECT_STREQ(_T("EAlarm"), c.GetParaName(3));
+    EXPECT_STREQ(_T("Alarm"), c.GetParaName(4));
+    EXPECT_STREQ(_T("AutoManual"), c.GetParaName(5));
+    EXPECT_STREQ(_T("ScanRate"), c.GetParaName(6));
+    EXPECT_STREQ(_T(""), c.GetParaName(7));
 
-    EXPECT_STREQ("HPBG", c.GetClassNameStr());
+    EXPECT_STREQ(_T("HPBG"), c.GetClassNameStr());
 
     CUnitHighPassBargin c2;
     rect = c2.GetSize();
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
     EXPECT_EQ(0, rect.left);
     EXPECT_EQ(0, rect.top);
     EXPECT_EQ(0, rect.right);
@@ -46,7 +46,7 @@ namespace DACViewTest {
     CFile cFile1, cFile2;
     char buffer[512];
     CString strFileName = "CUnitHighPassBargin.tst";
-    CUnitHighPassBargin * pc = new CUnitHighPassBargin;
+    CUnitHighPassBargin* pc = new CUnitHighPassBargin;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
 
@@ -54,7 +54,7 @@ namespace DACViewTest {
     CArchive ar(&cFile1, CArchive::store, 512, buffer);
     pc->SetDouble(1, 10);
     pc->SetBool(3, true);
-    ar << pc; // 
+    ar << pc; //
     ar.Flush(); // 必须flush，否则有可能没进行存储
     cFile1.Close();
     delete pc;
@@ -71,29 +71,29 @@ namespace DACViewTest {
   }
   TEST(TestCUnitHighPassBargin, TestGetClassname) {
     CUnitHighPassBargin c;
-    EXPECT_STREQ("HPBG", c.GetClassNameStr());
+    EXPECT_STREQ(_T("HPBG"), c.GetClassNameStr());
   }
 
   TEST(TestCUnitHighPassBargin, TestGetParaName) {
     CUnitHighPassBargin c;
-    EXPECT_STREQ("Input", c.GetParaName(0));
-    EXPECT_STREQ("Bargin", c.GetParaName(1));
-    EXPECT_STREQ("Output", c.GetParaName(2));
-    EXPECT_STREQ("EAlarm", c.GetParaName(3));
-    EXPECT_STREQ("Alarm", c.GetParaName(4));
-    EXPECT_STREQ("AutoManual", c.GetParaName(5));
-    EXPECT_STREQ("ScanRate", c.GetParaName(6));
-    EXPECT_STREQ("", c.GetParaName(7));
+    EXPECT_STREQ(_T("Input"), c.GetParaName(0));
+    EXPECT_STREQ(_T("Bargin"), c.GetParaName(1));
+    EXPECT_STREQ(_T("Output"), c.GetParaName(2));
+    EXPECT_STREQ(_T("EAlarm"), c.GetParaName(3));
+    EXPECT_STREQ(_T("Alarm"), c.GetParaName(4));
+    EXPECT_STREQ(_T("AutoManual"), c.GetParaName(5));
+    EXPECT_STREQ(_T("ScanRate"), c.GetParaName(6));
+    EXPECT_STREQ(_T(""), c.GetParaName(7));
   }
 
   TEST(TestCUnitHighPassBargin, TestGetParaType) {
     CUnitHighPassBargin c;
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tWORD |tDOUBLE, c.GetParaType(0));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tWORD | tDOUBLE, c.GetParaType(1));
-    EXPECT_EQ(tOUTPUT |tMODIFIABLE | tBOOL, c.GetParaType(2));
-    EXPECT_EQ(tOUTPUT |tMODIFIABLE | tBOOL, c.GetParaType(3));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tBOOL, c.GetParaType(4));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tBOOL, c.GetParaType(5));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tWORD | tDOUBLE, c.GetParaType(0));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tWORD | tDOUBLE, c.GetParaType(1));
+    EXPECT_EQ(tOUTPUT | tMODIFIABLE | tBOOL, c.GetParaType(2));
+    EXPECT_EQ(tOUTPUT | tMODIFIABLE | tBOOL, c.GetParaType(3));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tBOOL, c.GetParaType(4));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tBOOL, c.GetParaType(5));
     EXPECT_EQ(tINPUT | tOUTPUT | tWORD, c.GetParaType(6));
     EXPECT_EQ(0, c.GetParaType(7));
   }
@@ -118,7 +118,7 @@ namespace DACViewTest {
       EXPECT_TRUE(c.SetDouble(i, i * 10.5));
     }
     for (int j = 0; j < 1; j++) {
-      EXPECT_DOUBLE_EQ(j*10.5, c.GetDouble(j));
+      EXPECT_DOUBLE_EQ(j * 10.5, c.GetDouble(j));
     }
   }
 
@@ -142,9 +142,7 @@ namespace DACViewTest {
     c.SetDouble(0, 10);
     c.Exective();
     EXPECT_TRUE(c.GetBool(2));
-
   }
-
 
   TEST(TestCUnitHighPassBargin, TestSelectParameter) {
     CUnitHighPassBargin c;
@@ -175,9 +173,5 @@ namespace DACViewTest {
     EXPECT_EQ(-1, c.GetIndex(0));
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
-
   }
-
-
-
 }

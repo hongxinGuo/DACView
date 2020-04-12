@@ -342,6 +342,7 @@ void CObjectNumberInput::ToShowDynamic( CDC * const pdc ) {
   UINT uTextAlign;
   COLORREF colorOld;
   CRect rectClip;
+  CString str;
 
   m_rectLastTime = m_rectArea;
   
@@ -354,8 +355,9 @@ void CObjectNumberInput::ToShowDynamic( CDC * const pdc ) {
   uTextAlign = pdc->SetTextAlign( TA_LEFT | TA_TOP );
   colorOld = pdc->SetTextColor( m_clrForeGrd );
   pfontOld = pdc->SelectObject(&m_font);
+  str = m_pchChar;
   pdc->ExtTextOut( rectClip.left, rectClip.top, ETO_CLIPPED, 
-     							 rectClip,  m_pchChar, strlen(m_pchChar), nullptr);
+     							 rectClip,  str, strlen(m_pchChar), nullptr);
   pdc->SelectObject(pfontOld);
   pdc->SetTextColor( colorOld );
 	pdc->SetTextAlign( uTextAlign );

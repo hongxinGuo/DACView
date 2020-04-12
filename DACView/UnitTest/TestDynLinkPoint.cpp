@@ -4,10 +4,8 @@
 
 #include"DynLinkPoint.h"
 
-
 // 测试生成动态链接线的函数
 namespace DACViewTest {
-
   struct DLPointFindDest {
     DLPointFindDest(int rl1, int rt1, int rr1, int rb1, int pt3x, int pt3y, int pt1x, int pt1y, int pt2x, int pt2y) {
       rectSecond.left = rl1;
@@ -39,15 +37,15 @@ namespace DACViewTest {
   DLPointFindDest sFindDest8(200, 210, 300, 320, 250, 250, 250, 400, 400, 400);  //右下，横向
   DLPointFindDest sFindDest12(200, 210, 300, 320, 250, 250, 400, 250, 400, 400);  //右下，纵向
 
-  class TestDLPointFindDest : public::testing::TestWithParam<DLPointFindDest *>
+  class TestDLPointFindDest : public::testing::TestWithParam<DLPointFindDest*>
   {
   };
 
-  INSTANTIATE_TEST_CASE_P(TestCreateDLPoint, TestDLPointFindDest, testing::Values(&sFindDest1, &sFindDest2, &sFindDest3,
-    &sFindDest4, &sFindDest5, &sFindDest6, &sFindDest7, &sFindDest8, &sFindDest9, &sFindDest10,&sFindDest11,&sFindDest12));
- 
+  INSTANTIATE_TEST_SUITE_P(TestCreateDLPoint, TestDLPointFindDest, testing::Values(&sFindDest1, &sFindDest2, &sFindDest3,
+                                                                                   &sFindDest4, &sFindDest5, &sFindDest6, &sFindDest7, &sFindDest8, &sFindDest9, &sFindDest10, &sFindDest11, &sFindDest12));
+
   TEST_P(TestDLPointFindDest, TestCreateDynLinkPointFindDest1) { // 无起点有终点
-    DLPointFindDest *pFindDest = GetParam();
+    DLPointFindDest* pFindDest = GetParam();
 
     CRect rectSecond = pFindDest->rectSecond;
     CPoint ptSecond = pFindDest->ptSecond;
@@ -59,14 +57,14 @@ namespace DACViewTest {
     ppt = make_shared<CPoint>();
     *ppt = ptFirst;
     plistPoint->push_back(ppt);
-    ppt = make_shared<CPoint>();  
+    ppt = make_shared<CPoint>();
     *ppt = ptFirst;
     plistPoint->push_back(ppt);
     ppt = make_shared<CPoint>();
     *ppt = ptSecond;
     plistPoint->push_back(ppt);
 
-    CreateDynLinkPoint(plistPoint, rectSecond, ptFirst, ptSecond,ptCurrent);
+    CreateDynLinkPoint(plistPoint, rectSecond, ptFirst, ptSecond, ptCurrent);
 
     EXPECT_LE(3, plistPoint->size()) << "无起点有终点的动态链接线至少有三个点";
     auto it = plistPoint->end();
@@ -75,12 +73,12 @@ namespace DACViewTest {
     ppt2 = *it--;
     ppt1 = *it;
     if (ptSecond.y < rectSecond.top) {
-    EXPECT_EQ(ppt3->x, ppt2->x);
-    EXPECT_EQ(ppt3->y, rectSecond.top);
+      EXPECT_EQ(ppt3->x, ppt2->x);
+      EXPECT_EQ(ppt3->y, rectSecond.top);
     }
     else if (ptSecond.y >= rectSecond.bottom) {
-    EXPECT_EQ(ppt3->x, ppt2->x);
-    EXPECT_EQ(ppt3->y, rectSecond.bottom);
+      EXPECT_EQ(ppt3->x, ppt2->x);
+      EXPECT_EQ(ppt3->y, rectSecond.bottom);
     }
     else if (ptSecond.x < rectSecond.left) {
       EXPECT_EQ(ppt3->y, ppt2->y);
@@ -95,7 +93,7 @@ namespace DACViewTest {
   }
 
   TEST_P(TestDLPointFindDest, TestCreateDynLinkPointFindDest2) { // 有起点有终点
-    DLPointFindDest *pFindDest = GetParam();
+    DLPointFindDest* pFindDest = GetParam();
 
     CRect rectSecond = pFindDest->rectSecond;
     CPoint ptSecond = pFindDest->ptSecond;
@@ -116,7 +114,7 @@ namespace DACViewTest {
     ppt2 = *--it;
     ppt1 = *--it;
     if ((ptFirst.y >= rectSecond.top) && (ptFirst.y < rectSecond.bottom)) {
-      ppt4 = *--it;      
+      ppt4 = *--it;
       if (ptFirst.x < rectSecond.left) {
         EXPECT_EQ(4, plistPoint->size());
         EXPECT_EQ(ppt3->y, ppt4->y);
@@ -184,25 +182,25 @@ namespace DACViewTest {
   DLPointNotFindDest sNotFindDest9(300, 300, 450, 300, 450, 450);  //右下，横向
   DLPointNotFindDest sNotFindDest2(300, 300, 300, 450, 300, 450);  //正下
   DLPointNotFindDest sNotFindDest3(300, 300, 300, 450, 150, 450);  //左下，纵向
-  DLPointNotFindDest sNotFindDest10(300, 300, 150,300, 150, 200);  //左下，横向
+  DLPointNotFindDest sNotFindDest10(300, 300, 150, 300, 150, 200);  //左下，横向
   DLPointNotFindDest sNotFindDest4(300, 300, 150, 300, 150, 300);  //左边
   DLPointNotFindDest sNotFindDest5(300, 300, 400, 300, 400, 300);  //右边
   DLPointNotFindDest sNotFindDest6(300, 300, 150, 300, 150, 200);  //左上 ，横向
-  DLPointNotFindDest sNotFindDest11(300, 300,300, 150, 100, 150);  //左上，纵向
+  DLPointNotFindDest sNotFindDest11(300, 300, 300, 150, 100, 150);  //左上，纵向
   DLPointNotFindDest sNotFindDest7(300, 300, 300, 200, 300, 200);  //上边
   DLPointNotFindDest sNotFindDest8(300, 300, 550, 300, 550, 200);  //右上，横向
   DLPointNotFindDest sNotFindDest12(300, 300, 300, 50, 400, 50);  //右上，纵向
 
-  class TestDLPointNotFindDest : public::testing::TestWithParam<DLPointNotFindDest *>
+  class TestDLPointNotFindDest : public::testing::TestWithParam<DLPointNotFindDest*>
   {
   };
 
-  INSTANTIATE_TEST_CASE_P(TestCreateDLPointNotFind, TestDLPointNotFindDest, testing::Values(&sNotFindDest1, &sNotFindDest2, 
-    &sNotFindDest3, &sNotFindDest4, &sNotFindDest5, &sNotFindDest6, &sNotFindDest7, &sNotFindDest8, &sNotFindDest9, 
-    &sNotFindDest10, &sNotFindDest11, &sNotFindDest12));
+  INSTANTIATE_TEST_SUITE_P(TestCreateDLPointNotFind, TestDLPointNotFindDest, testing::Values(&sNotFindDest1, &sNotFindDest2,
+                                                                                             &sNotFindDest3, &sNotFindDest4, &sNotFindDest5, &sNotFindDest6, &sNotFindDest7, &sNotFindDest8, &sNotFindDest9,
+                                                                                             &sNotFindDest10, &sNotFindDest11, &sNotFindDest12));
 
   TEST_P(TestDLPointNotFindDest, TestCreateDynLinkPointNotFindDest1) { // 有起点无终点
-    DLPointNotFindDest *pFindDest = GetParam();
+    DLPointNotFindDest* pFindDest = GetParam();
 
     CPoint ptSecond1, ptSecond = pFindDest->ptSecond;
     CPoint ptFirst1, ptFirst = pFindDest->ptFirst;
@@ -237,7 +235,7 @@ namespace DACViewTest {
       EXPECT_EQ(ppt->y, ptFirst.y);
     }
     else {
-      EXPECT_EQ(3, plistPoint->size()); 
+      EXPECT_EQ(3, plistPoint->size());
       it = plistPoint->begin();
       ppt = *it++;
       ppt2 = *it++;
@@ -253,7 +251,7 @@ namespace DACViewTest {
   }
 
   TEST_P(TestDLPointNotFindDest, TestCreateDynLinkPointNotFindDest2) { // 无起点无终点
-    DLPointNotFindDest *pFindDest = GetParam();
+    DLPointNotFindDest* pFindDest = GetParam();
 
     CPoint ptSecond = pFindDest->ptSecond;
     CPoint ptSecond1, ptFirst = pFindDest->ptFirst;
@@ -310,15 +308,15 @@ namespace DACViewTest {
   AdjustDLPoint sAdjustDLPoint7(200, 210, 300, 320, 200, 270, 400, 270, 100, 500);  //下边，横向
   AdjustDLPoint sAdjustDLPoint8(200, 210, 300, 320, 220, 250, 220, 400, 500, 500);  //下边，纵向
 
-  class TestAdjustDLPoint : public::testing::TestWithParam<AdjustDLPoint *>
+  class TestAdjustDLPoint : public::testing::TestWithParam<AdjustDLPoint*>
   {
   };
 
-  INSTANTIATE_TEST_CASE_P(TestAdjustDLPoint, TestAdjustDLPoint, testing::Values(&sAdjustDLPoint1, &sAdjustDLPoint2, 
-    &sAdjustDLPoint3, &sAdjustDLPoint4, &sAdjustDLPoint5, &sAdjustDLPoint6, &sAdjustDLPoint7, &sAdjustDLPoint8));
+  INSTANTIATE_TEST_SUITE_P(TestAdjustDLPoint, TestAdjustDLPoint, testing::Values(&sAdjustDLPoint1, &sAdjustDLPoint2,
+                                                                                 &sAdjustDLPoint3, &sAdjustDLPoint4, &sAdjustDLPoint5, &sAdjustDLPoint6, &sAdjustDLPoint7, &sAdjustDLPoint8));
 
   TEST_P(TestAdjustDLPoint, TestAdjustDynLinkPoint11) {
-    AdjustDLPoint *pAdjust = GetParam();
+    AdjustDLPoint* pAdjust = GetParam();
 
     CRect rectFirst = pAdjust->rectFirst;
     CPoint ptSecond = pAdjust->ptSecond;

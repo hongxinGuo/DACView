@@ -7,13 +7,13 @@
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
-#endif 
+#endif
 
 namespace DACViewTest {
   TEST(TestCUnitFFLP, TestCUnitFFLPInitialize) {
     CPoint pt(100, 100);
     CUnitFFLP c("thisFFLP", pt);
-    EXPECT_STREQ("thisFFLP", c.GetName());
+    EXPECT_STREQ(_T("thisFFLP"), c.GetName());
 
     CRect rect = c.GetSize();
     EXPECT_EQ(100 - 15, rect.left);
@@ -21,20 +21,20 @@ namespace DACViewTest {
     EXPECT_EQ(100 + 15, rect.right);
     EXPECT_EQ(100 + 15, rect.bottom);
 
-    EXPECT_STREQ("InputStatus", c.GetParaName(0));
-    EXPECT_STREQ("InputFlip", c.GetParaName(1));
-    EXPECT_STREQ("Output", c.GetParaName(2));
-    EXPECT_STREQ("EAlarm", c.GetParaName(3));
-    EXPECT_STREQ("Alarm", c.GetParaName(4));
-    EXPECT_STREQ("AutoManual", c.GetParaName(5));
-    EXPECT_STREQ("ScanRate", c.GetParaName(6));
-    EXPECT_STREQ("", c.GetParaName(7));
+    EXPECT_STREQ(_T("InputStatus"), c.GetParaName(0));
+    EXPECT_STREQ(_T("InputFlip"), c.GetParaName(1));
+    EXPECT_STREQ(_T("Output"), c.GetParaName(2));
+    EXPECT_STREQ(_T("EAlarm"), c.GetParaName(3));
+    EXPECT_STREQ(_T("Alarm"), c.GetParaName(4));
+    EXPECT_STREQ(_T("AutoManual"), c.GetParaName(5));
+    EXPECT_STREQ(_T("ScanRate"), c.GetParaName(6));
+    EXPECT_STREQ(_T(""), c.GetParaName(7));
 
-    EXPECT_STREQ("FFLP", c.GetClassNameStr());
+    EXPECT_STREQ(_T("FFLP"), c.GetClassNameStr());
 
     CUnitFFLP c2;
     rect = c2.GetSize();
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
     EXPECT_EQ(0, rect.left);
     EXPECT_EQ(0, rect.top);
     EXPECT_EQ(0, rect.right);
@@ -46,14 +46,14 @@ namespace DACViewTest {
     CFile cFile1, cFile2;
     char buffer[512];
     CString strFileName = "CUnitFFLP.tst";
-    CUnitFFLP * pc = new CUnitFFLP;
+    CUnitFFLP* pc = new CUnitFFLP;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
 
     cFile1.Open(strFileName, CFile::modeCreate | CFile::modeWrite);
     CArchive ar(&cFile1, CArchive::store, 512, buffer);
     pc->SetBool(3, true);
-    ar << pc; // 
+    ar << pc; //
     ar.Flush(); // 必须flush，否则有可能没进行存储
     cFile1.Close();
     delete pc;
@@ -70,33 +70,32 @@ namespace DACViewTest {
   }
   TEST(TestCUnitFFLP, TestGetClassname) {
     CUnitFFLP c;
-    EXPECT_STREQ("FFLP", c.GetClassNameStr());
+    EXPECT_STREQ(_T("FFLP"), c.GetClassNameStr());
   }
 
   TEST(TestCUnitFFLP, TestGetParaName) {
     CUnitFFLP c;
-    EXPECT_STREQ("InputStatus", c.GetParaName(0));
-    EXPECT_STREQ("InputFlip", c.GetParaName(1));
-    EXPECT_STREQ("Output", c.GetParaName(2));
-    EXPECT_STREQ("EAlarm", c.GetParaName(3));
-    EXPECT_STREQ("Alarm", c.GetParaName(4));
-    EXPECT_STREQ("AutoManual", c.GetParaName(5));
-    EXPECT_STREQ("ScanRate", c.GetParaName(6));
-    EXPECT_STREQ("", c.GetParaName(7));
+    EXPECT_STREQ(_T("InputStatus"), c.GetParaName(0));
+    EXPECT_STREQ(_T("InputFlip"), c.GetParaName(1));
+    EXPECT_STREQ(_T("Output"), c.GetParaName(2));
+    EXPECT_STREQ(_T("EAlarm"), c.GetParaName(3));
+    EXPECT_STREQ(_T("Alarm"), c.GetParaName(4));
+    EXPECT_STREQ(_T("AutoManual"), c.GetParaName(5));
+    EXPECT_STREQ(_T("ScanRate"), c.GetParaName(6));
+    EXPECT_STREQ(_T(""), c.GetParaName(7));
   }
 
   TEST(TestCUnitFFLP, TestGetParaType) {
     CUnitFFLP c;
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tBOOL, c.GetParaType(0));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tBOOL, c.GetParaType(1));
-    EXPECT_EQ(tOUTPUT |tMODIFIABLE | tBOOL, c.GetParaType(2));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tBOOL, c.GetParaType(3));
-    EXPECT_EQ(tOUTPUT |tMODIFIABLE | tBOOL, c.GetParaType(4));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tBOOL, c.GetParaType(5));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tBOOL, c.GetParaType(0));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tBOOL, c.GetParaType(1));
+    EXPECT_EQ(tOUTPUT | tMODIFIABLE | tBOOL, c.GetParaType(2));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tBOOL, c.GetParaType(3));
+    EXPECT_EQ(tOUTPUT | tMODIFIABLE | tBOOL, c.GetParaType(4));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tBOOL, c.GetParaType(5));
     EXPECT_EQ(tINPUT | tOUTPUT | tWORD, c.GetParaType(6));
     EXPECT_EQ(0, c.GetParaType(7));
   }
-
 
   TEST(TestCUnitFFLP, TestGetInteger) {
     CUnitFFLP c;
@@ -164,9 +163,5 @@ namespace DACViewTest {
     EXPECT_EQ(-1, c.GetIndex(0));
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
-
   }
-
-
-
 }

@@ -7,12 +7,12 @@
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
-#endif 
+#endif
 
 namespace DACViewTest {
-	TEST(TestCUnitDynLink, TestInitialize) { 
+  TEST(TestCUnitDynLink, TestInitialize) {
     CUnitDynLink c;
-    EXPECT_STREQ("", c.GetName());
+    EXPECT_STREQ(_T(""), c.GetName());
     EXPECT_EQ(100000000, c.GetScanRate());
     EXPECT_EQ(0, c.GetDynLinkClass());
     EXPECT_EQ(nullptr, c.GetDestUnit());
@@ -21,31 +21,28 @@ namespace DACViewTest {
     EXPECT_EQ(-1, c.GetSrcIndex());
     EXPECT_FALSE(c.IsDeleteMe());
     EXPECT_EQ(nullptr, c.mTest_pDestUnitSaved);
-	}
+  }
 
-	TEST(TestCUnitDynLink, TestSerilize) {
+  TEST(TestCUnitDynLink, TestSerilize) {
+  }
 
-	}
-
-	TEST(TestCUnitDynLink, TestGetSrcUnit) {
-
-	}
-	TEST(TestCUnitDynLink, TestDestUnit) {}
-	TEST(TestCUnitDynLink, TestSrcIndex) {}
-	TEST(TestCUnitDynLink, TestDestIndex) {}
-	TEST(TestCUnitDynLink, TestGetType) {}
-	TEST(TestCUnitDynLink, TestDenLinkClass) {}
-	TEST(TestCUnitDynLink, TestLinkPointList) {}
-	TEST(TestCUnitDynLink, TestIsDeleteMe) {}
-	TEST(TestCUnitDynLink, TestIsSetLoopDetectFlag) {}
-	TEST(TestCUnitDynLink, TestSetLoopDetectFlag) {}
-	TEST(TestCUnitDynLink, TestSetDleteMeFlag) {}
-	TEST(TestCUnitDynLink, TestSetSrcUnit) {}
-	TEST(TestCUnitDynLink, TestSetDestUnit) {}  
-	TEST(TestCUnitDynLink, TestSetSrcIndex) {}
-	TEST(TestCUnitDynLink, TestSetDestIndex) {}
-	TEST(TestCUnitDynLink, TestSetDynLinkType) {}
-	TEST(TestCUnitDynLink, TestSetDynLinkClass) {}
-	TEST(TestCUnitDynLink, TestSetLinkPointList) {}
-
+  TEST(TestCUnitDynLink, TestGetSrcUnit) {
+  }
+  TEST(TestCUnitDynLink, TestDestUnit) {}
+  TEST(TestCUnitDynLink, TestSrcIndex) {}
+  TEST(TestCUnitDynLink, TestDestIndex) {}
+  TEST(TestCUnitDynLink, TestGetType) {}
+  TEST(TestCUnitDynLink, TestDenLinkClass) {}
+  TEST(TestCUnitDynLink, TestLinkPointList) {}
+  TEST(TestCUnitDynLink, TestIsDeleteMe) {}
+  TEST(TestCUnitDynLink, TestIsSetLoopDetectFlag) {}
+  TEST(TestCUnitDynLink, TestSetLoopDetectFlag) {}
+  TEST(TestCUnitDynLink, TestSetDleteMeFlag) {}
+  TEST(TestCUnitDynLink, TestSetSrcUnit) {}
+  TEST(TestCUnitDynLink, TestSetDestUnit) {}
+  TEST(TestCUnitDynLink, TestSetSrcIndex) {}
+  TEST(TestCUnitDynLink, TestSetDestIndex) {}
+  TEST(TestCUnitDynLink, TestSetDynLinkType) {}
+  TEST(TestCUnitDynLink, TestSetDynLinkClass) {}
+  TEST(TestCUnitDynLink, TestSetLinkPointList) {}
 }

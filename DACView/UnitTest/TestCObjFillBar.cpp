@@ -4,20 +4,19 @@
 #include"CObjFillBar.h"
 
 namespace DACViewTest {
-
   TEST(TestCObjectFillBar, TestInitialize) {
     CString str = "abcd";
     CRect rect(100, 200, 300, 400), rect2;
     CObjectFillBar c(str, rect), c2;
 
-    EXPECT_STREQ("abcd", c.GetName());
+    EXPECT_STREQ(_T("abcd"), c.GetName());
     rect2 = c.GetSize();
     rect = c.GetSize();
     EXPECT_EQ(100, rect.left);
     EXPECT_EQ(200, rect.top);
     EXPECT_EQ(400, rect.bottom);
     EXPECT_EQ(300, rect.right);
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
   }
 
   TEST(TestCObjectFillBar, TestSerialize) {
@@ -27,7 +26,7 @@ namespace DACViewTest {
   TEST(TestCObjectFillBar, TestGetClassNameStr) {
     CObjectFillBar c;
 
-    EXPECT_STREQ("FillBar", c.GetClassNameStr());
+    EXPECT_STREQ(_T("FillBar"), c.GetClassNameStr());
   }
 
   TEST(TestCObjectFillBar, TestExectiveDynLink) {
@@ -44,7 +43,7 @@ namespace DACViewTest {
   TEST(TestCObjectFillBar, TestGetParaName) {
     CObjectFillBar c;
 
-    EXPECT_STREQ("Bar", c.GetParaName(0));
+    EXPECT_STREQ(_T("Bar"), c.GetParaName(0));
   }
 
   TEST(TestCObjectFillBar, TestGetDynLinkType) {
@@ -73,8 +72,5 @@ namespace DACViewTest {
     EXPECT_EQ(-1, c.GetIndex(0));
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
-
   }
-
-
 }

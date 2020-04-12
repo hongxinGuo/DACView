@@ -9,12 +9,12 @@ namespace DACViewTest {
     CString strName = "abc";
 
     CObjectBase c(strName), c1;
-    EXPECT_STREQ("abc", c.GetName());
+    EXPECT_STREQ(_T("abc"), c.GetName());
     EXPECT_EQ(RGB(0, 0, 0), c.GetBkGrdColor());
     EXPECT_EQ(RGB(255, 255, 255), c.GetForeGrdColor());
     EXPECT_FALSE(c.IsTransparent());
 
-    EXPECT_STREQ("", c1.GetName());
+    EXPECT_STREQ(_T(""), c1.GetName());
   }
 
   TEST(TestCObjectBase, TestCanInSymbol) {
@@ -62,10 +62,4 @@ namespace DACViewTest {
     c.SetDrawAll(false);
     EXPECT_FALSE(c.IsDrawAll());
   }
-
-
-
-
-
-
 }

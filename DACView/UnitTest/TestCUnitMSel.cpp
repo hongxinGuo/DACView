@@ -7,14 +7,13 @@
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
-#endif 
+#endif
 
 namespace DACViewTest {
   TEST(TestCUnitMiddleSelect, TestCUnitMiddleSelectInitialize) {
     CPoint pt(100, 100);
     CUnitMiddleSelect c("thisMSel", pt);
-    EXPECT_STREQ("thisMSel", c.GetName());
-
+    EXPECT_STREQ(_T("thisMSel"), c.GetName());
 
     CRect rect = c.GetSize();
     EXPECT_EQ(100 - 15, rect.left);
@@ -22,12 +21,11 @@ namespace DACViewTest {
     EXPECT_EQ(100 + 15, rect.right);
     EXPECT_EQ(100 + 15, rect.bottom);
 
-
-    EXPECT_STREQ("MiddleSelect", c.GetClassNameStr());
+    EXPECT_STREQ(_T("MiddleSelect"), c.GetClassNameStr());
 
     CUnitMiddleSelect c2;
     rect = c2.GetSize();
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
     EXPECT_EQ(0, rect.left);
     EXPECT_EQ(0, rect.top);
     EXPECT_EQ(0, rect.right);
@@ -39,7 +37,7 @@ namespace DACViewTest {
     CFile cFile1, cFile2;
     char buffer[512];
     CString strFileName = "CUnitMiddleSelect.tst";
-    CUnitMiddleSelect * pc = new CUnitMiddleSelect;
+    CUnitMiddleSelect* pc = new CUnitMiddleSelect;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
 
@@ -48,7 +46,7 @@ namespace DACViewTest {
     for (int i = 4; i < 8; i++) {
       pc->SetDouble(i, i);
     }
-    ar << pc; // 
+    ar << pc; //
     ar.Flush(); // 必须flush，否则有可能没进行存储
     cFile1.Close();
     delete pc;
@@ -67,35 +65,35 @@ namespace DACViewTest {
   }
   TEST(TestCUnitMiddleSelect, TestGetClassname) {
     CUnitMiddleSelect c;
-    EXPECT_STREQ("MiddleSelect", c.GetClassNameStr());
+    EXPECT_STREQ(_T("MiddleSelect"), c.GetClassNameStr());
   }
 
   TEST(TestCUnitMiddleSelect, TestGetParaName) {
     CUnitMiddleSelect c;
-    EXPECT_STREQ("Input1", c.GetParaName(0));
-    EXPECT_STREQ("Input2", c.GetParaName(1));
-    EXPECT_STREQ("Input3", c.GetParaName(2));
-    EXPECT_STREQ("Output", c.GetParaName(3));
-    EXPECT_STREQ("HiRange", c.GetParaName(4));
-    EXPECT_STREQ("LowRange", c.GetParaName(5));
-    EXPECT_STREQ("HiLimit", c.GetParaName(6));
-    EXPECT_STREQ("LowLimit", c.GetParaName(7));
-    EXPECT_STREQ("AutoManual", c.GetParaName(8));
-    EXPECT_STREQ("ScanRate", c.GetParaName(9));
-    EXPECT_STREQ("", c.GetParaName(10));
+    EXPECT_STREQ(_T("Input1"), c.GetParaName(0));
+    EXPECT_STREQ(_T("Input2"), c.GetParaName(1));
+    EXPECT_STREQ(_T("Input3"), c.GetParaName(2));
+    EXPECT_STREQ(_T("Output"), c.GetParaName(3));
+    EXPECT_STREQ(_T("HiRange"), c.GetParaName(4));
+    EXPECT_STREQ(_T("LowRange"), c.GetParaName(5));
+    EXPECT_STREQ(_T("HiLimit"), c.GetParaName(6));
+    EXPECT_STREQ(_T("LowLimit"), c.GetParaName(7));
+    EXPECT_STREQ(_T("AutoManual"), c.GetParaName(8));
+    EXPECT_STREQ(_T("ScanRate"), c.GetParaName(9));
+    EXPECT_STREQ(_T(""), c.GetParaName(10));
   }
 
   TEST(TestCUnitMiddleSelect, TestGetParaType) {
     CUnitMiddleSelect c;
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tDOUBLE, c.GetParaType(0));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tDOUBLE, c.GetParaType(1));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tDOUBLE, c.GetParaType(2));
-    EXPECT_EQ(tOUTPUT |tMODIFIABLE | tDOUBLE, c.GetParaType(3));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tDOUBLE, c.GetParaType(0));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tDOUBLE, c.GetParaType(1));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tDOUBLE, c.GetParaType(2));
+    EXPECT_EQ(tOUTPUT | tMODIFIABLE | tDOUBLE, c.GetParaType(3));
     EXPECT_EQ(tINPUT | tOUTPUT | tDOUBLE, c.GetParaType(4));
     EXPECT_EQ(tINPUT | tOUTPUT | tDOUBLE, c.GetParaType(5));
     EXPECT_EQ(tINPUT | tOUTPUT | tDOUBLE, c.GetParaType(6));
     EXPECT_EQ(tINPUT | tOUTPUT | tDOUBLE, c.GetParaType(7));
-    EXPECT_EQ(tINPUT |tMODIFIABLE | tBOOL, c.GetParaType(8));
+    EXPECT_EQ(tINPUT | tMODIFIABLE | tBOOL, c.GetParaType(8));
     EXPECT_EQ(tINPUT | tOUTPUT | tWORD, c.GetParaType(9));
     EXPECT_EQ(0, c.GetParaType(10));
   }
@@ -120,7 +118,7 @@ namespace DACViewTest {
       EXPECT_TRUE(c.SetDouble(i, i * 10.5));
     }
     for (int j = 0; j < 8; j++) {
-      EXPECT_DOUBLE_EQ(j*10.5, c.GetDouble(j));
+      EXPECT_DOUBLE_EQ(j * 10.5, c.GetDouble(j));
     }
   }
 
@@ -185,6 +183,5 @@ namespace DACViewTest {
     EXPECT_EQ(-1, c.GetIndex(0));
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
-
   }
 }

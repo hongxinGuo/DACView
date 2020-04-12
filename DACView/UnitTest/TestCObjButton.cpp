@@ -10,7 +10,7 @@ namespace DACViewTest {
     CRect rect(100, 100, 200, 200);
 
     CObjectButton c("abcd", rect);
-    EXPECT_STREQ("abcd", c.GetName());
+    EXPECT_STREQ(_T("abcd"), c.GetName());
     rect = c.GetSize();
     EXPECT_EQ(100, rect.left);
     EXPECT_EQ(100, rect.top);
@@ -18,7 +18,7 @@ namespace DACViewTest {
     EXPECT_EQ(200, rect.right);
 
     EXPECT_FALSE(c.CanInSymbol());
-    EXPECT_STREQ("Button", c.GetClassNameStr());
+    EXPECT_STREQ(_T("Button"), c.GetClassNameStr());
   }
 
   TEST(TestCObjectButton, TestGetDynLinkType) {
@@ -30,9 +30,9 @@ namespace DACViewTest {
 
   TEST(TestCObjectButton, TestExectiveDynLink) {
     CObjectButton cButton;
-    CObjectDynLink *pcODL = new CObjectDynLink;
+    CObjectDynLink* pcODL = new CObjectDynLink;
     CUnitAnd cAnd;
-    CODLList * podlList;
+    CODLList* podlList;
     CRect rect(100, 100, 300, 300);
     CDC DC;
     CPoint pt(150, 150);
@@ -61,7 +61,6 @@ namespace DACViewTest {
 
   TEST(TestCObjectButton, TestExective) {
     CUnitAnd c;
- 
   }
 
   TEST(TestCObjectButton, TestSelectParameter) {
@@ -84,7 +83,5 @@ namespace DACViewTest {
     EXPECT_EQ(-1, c.GetIndex(0));
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
-
   }
-
 }

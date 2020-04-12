@@ -5,14 +5,14 @@
 //
 // stratvw.cpp : implementation of the CSQIUnitView class
 //
-// User's Unit interface handle functions. Provide following function : 
+// User's Unit interface handle functions. Provide following function :
 //
 // CSQIUnitView()      : initialize all variables, create cursor and so on
 // ~StrategyView ()     : end up StrategyView
 // PreCreateWindow()    : register StrategyView own window class
 // OnCreate()
 // OnInitialUpdate()    : Setup scroll size
-// OnUpdate()           : Recalcute scroll size and resize parent to fit me          
+// OnUpdate()           : Recalcute scroll size and resize parent to fit me
 // OnDraw()             : Get clip box and show all units and their dynamic links
 // OnPreparePrinting()  : prepare printing
 // OnBeginPrinting()    : begin printing
@@ -21,12 +21,12 @@
 // Dump()               : dump data
 // GetDucument()        : Get view's document
 //
-// 
-// FindUnit()           : Find unit according unit's name  
+//
+// FindUnit()           : Find unit according unit's name
 // AddUnit()            : Add unit to current unit list
 // DeleteUnit()         : Delete unit and its dynamic links from current unit list
-//                        Also delete some unit's dynamic link that link to this unit                          
-// GetUnitDocSize()     : Get document's size 
+//                        Also delete some unit's dynamic link that link to this unit
+// GetUnitDocSize()     : Get document's size
 // IsInRect()           : Check weithe point is in the rect of current unit list's unit
 // UnittoBack()         : Set unit's position to head(bottom most)
 // UnitToFront()        : Set unit's position to tail(top most)
@@ -40,7 +40,7 @@
 //
 // ViewIn()             : Trace in compound unit
 // ViewOut()            : return from compound
-// 
+//
 // CenterAlign()        : Align selected units by center
 // LeftAlign()          : Align selected units by left
 // RightAlign()         : Align selected units by right
@@ -55,7 +55,7 @@
 // OnEditPaste()        : Process Edit Paste
 // OnEditDelete()       : Process Edit delete
 // OnEditUndo()         : Process Edit Undo
-// 
+//
 // OnStyleCentered()    : Align selected units to center
 // OnStyleLeft()        : Align selected units to left
 // OnStyleRight()       : Align selected units to right
@@ -63,7 +63,7 @@
 //
 // OnArrangetoBack()    : Change unit's position to back
 // OnArrangeToFront()   : Change unit's position to front
-// 
+//
 // OnViewViewIn()       : process view into compound
 // OnViewviewOut()      : process view out compound
 //
@@ -344,13 +344,12 @@ ON_COMMAND(ID_ARRANGE_LinkFromComponent, &CSQIUnitView::OnArrangeLinkfromcompone
 ON_WM_KEYUP()
 END_MESSAGE_MAP()
 
-///////////////////////////////////////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////////////////////
 // CSQIUnitView construction/destruction
 extern CDacviewApp theApp;
 UINT CSQIUnitView::m_uUnitFormat = 0;
 
-CSQIUnitView::CSQIUnitView(void)
-{
+CSQIUnitView::CSQIUnitView(void) {
   // TODO: add construction code here
   static int fRegistered = 0;
 
@@ -361,9 +360,9 @@ CSQIUnitView::CSQIUnitView(void)
   }
 
   m_fontStrategyView.CreateFont(-4, 0, 0, 0, FW_NORMAL, 0, 0, 0,
-    OEM_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-    DEFAULT_QUALITY, (FIXED_PITCH | FF_MODERN),
-    (LPCTSTR)"system");
+                                OEM_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+                                DEFAULT_QUALITY, (FIXED_PITCH | FF_MODERN),
+                                (LPCTSTR)"system");
 
   m_pDoc = nullptr;
   m_nCurrentFunction = UNIT_PRE_SELECT;
@@ -373,7 +372,7 @@ CSQIUnitView::CSQIUnitView(void)
   m_pCUnitMouseMove = nullptr;
 
   m_pCUnitListTop = m_pCUnitListCurrent = nullptr;
-	m_pObjectList = nullptr;
+  m_pObjectList = nullptr;
 
   // 下面这几段代码，在测试时会出错。将其执行挪至OnCreate。
   //if ( fLoadCursor ) theApp.LoadCursors(&m_hCursorDynamicLink, &m_hCursorNoDrag, &m_hCursorComponent);
@@ -392,24 +391,21 @@ CSQIUnitView::CSQIUnitView(void)
   m_plistLinkPoint = make_shared<CPointList>();
 
   m_lSrcIndex = m_lDestIndex = -1;
-	m_ulDynLinkType = 0;
-	m_ulDynLinkClass = 0;
-
+  m_ulDynLinkType = 0;
+  m_ulDynLinkClass = 0;
 }
 
-CSQIUnitView::~CSQIUnitView()
-{
+CSQIUnitView::~CSQIUnitView() {
   m_plistLinkPoint->clear();
 }
 
-BOOL CSQIUnitView::PreCreateWindow(CREATESTRUCT& cs)
-{
+BOOL CSQIUnitView::PreCreateWindow(CREATESTRUCT& cs) {
   ASSERT(cs.lpszClass == NULL);       // must not be specified
   CView::PreCreateWindow(cs);
   cs.lpszClass = AfxRegisterWndClass(CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW,
-    0, // no class cursor
-    (HBRUSH)(COLOR_WINDOW + 1),
-    AfxGetApp()->LoadIcon(IDR_STRATEGYTYPE));
+                                     0, // no class cursor
+                                     (HBRUSH)(COLOR_WINDOW + 1),
+                                     AfxGetApp()->LoadIcon(IDR_STRATEGYTYPE));
 
   return true;
 }
@@ -424,7 +420,7 @@ void CSQIUnitView::OnInitialUpdate() {
 
 void CSQIUnitView::OnUpdate() {
   // ...
-  // Implement a GetDocSize( ) member function in 
+  // Implement a GetDocSize( ) member function in
   // your document class; it returns a CSize.
   SetScrollSizes(MM_TEXT, GetUnitDocSize());
   ResizeParentToFit();   // Default bShrinkOnly argument
@@ -438,11 +434,10 @@ void CSQIUnitView::OnUpdate() {
 //
 //
 //////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnDraw(CDC* pDC)
-{
+void CSQIUnitView::OnDraw(CDC* pDC) {
   // TODO: add draw code here
   CRect crectClip;
-  CPen p(PS_DOT, 1, RGB(64, 64, 64)), *pp;
+  CPen p(PS_DOT, 1, RGB(64, 64, 64)), * pp;
 
   pDC->SetBkColor(RGB(192, 192, 192));
   pDC->GetClipBox(&crectClip);
@@ -457,7 +452,7 @@ void CSQIUnitView::OnDraw(CDC* pDC)
       }
     }
   }
- 
+
   pDC->SelectObject(pp);
   // pfontTemp = pDC->SelectObject(&m_fontStrategyView);
   pDC->GetClipBox(&m_crectClip);
@@ -472,19 +467,16 @@ void CSQIUnitView::OnDraw(CDC* pDC)
 /////////////////////////////////////////////////////////////////////////////
 // CSQIUnitView printing
 
-BOOL CSQIUnitView::OnPreparePrinting(CPrintInfo* pInfo)
-{
+BOOL CSQIUnitView::OnPreparePrinting(CPrintInfo* pInfo) {
   // default preparation
   return DoPreparePrinting(pInfo);
 }
 
-void CSQIUnitView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
-{
+void CSQIUnitView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/) {
   // TODO: add extra initialization before printing
 }
 
-void CSQIUnitView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
-{
+void CSQIUnitView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/) {
   // TODO: add cleanup after printing
 }
 
@@ -492,13 +484,11 @@ void CSQIUnitView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
 // CSQIUnitView diagnostics
 
 #ifdef _DEBUG
-void CSQIUnitView::AssertValid() const
-{
+void CSQIUnitView::AssertValid() const {
   CView::AssertValid();
 }
 
-void CSQIUnitView::Dump(CDumpContext& dc) const
-{
+void CSQIUnitView::Dump(CDumpContext& dc) const {
   CView::Dump(dc);
 }
 
@@ -510,8 +500,7 @@ CSQIFileDoc* CSQIUnitView::GetDocument() // non-debug version is inline
 
 #endif //_DEBUG
 
-int CSQIUnitView::OnCreate(LPCREATESTRUCT lpCreateStruct)
-{
+int CSQIUnitView::OnCreate(LPCREATESTRUCT lpCreateStruct) {
   if (CView::OnCreate(lpCreateStruct) == -1)
     return -1;
 
@@ -520,9 +509,9 @@ int CSQIUnitView::OnCreate(LPCREATESTRUCT lpCreateStruct)
   // 设置最高单元序列和当前单元序列为本文件的单元序列
   m_pDoc = GetDocument();
   m_pCUnitListTop = m_pCUnitListCurrent = m_pDoc->GetUnitList();
-	m_pObjectList = m_pDoc->GetObjectList();
+  m_pObjectList = m_pDoc->GetObjectList();
 
-	// 将读入鼠标类型的过程移至此处。此函数无法测试。
+  // 将读入鼠标类型的过程移至此处。此函数无法测试。
   theApp.LoadCursors(&m_hCursorDynamicLink, &m_hCursorNoDrag, &m_hCursorComponent);
   m_hCursorArrow = SetCursor(m_hCursorComponent);
   SetCursor(m_hCursorArrow);
@@ -538,8 +527,8 @@ int CSQIUnitView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 // DrawInvertLine()
 //
 ///////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoint ptEnd) {
-  CPen * oldPen, newPen;
+void CSQIUnitView::DrawInvertLine(CDC* pdc, ULONG ulWidth, CPoint ptStart, CPoint ptEnd) {
+  CPen* oldPen, newPen;
 
   newPen.CreatePen(PS_SOLID, ulWidth, RGB(0, 0, 0));
   oldPen = pdc->SelectObject(&newPen);
@@ -560,14 +549,14 @@ void CSQIUnitView::DrawInvertLine(CDC * pdc, ULONG ulWidth, CPoint ptStart, CPoi
 //
 // Return :
 //    BOOL        : true if deleted, false if not find unit from list
-// 
+//
 // Description :
-//    Delete unit from current unit list, remove its dynamic link and clear 
+//    Delete unit from current unit list, remove its dynamic link and clear
 //    the selected flag from its destination unit.
 //    If some unit's dynamic link is link to me, also delete them
 //
 /////////////////////////////////////////////////////////////////////////////
-bool CSQIUnitView::DeleteUnit(CUnitList * pUnitList, CUnitBase * pCUnit) {
+bool CSQIUnitView::DeleteUnit(CUnitList* pUnitList, CUnitBase* pCUnit) {
   CUnitList::iterator it;
   ASSERT(pCUnit != nullptr);
   if ((it = find(pUnitList->begin(), pUnitList->end(), pCUnit)) != pUnitList->end()) { // find unit ?
@@ -594,7 +583,7 @@ bool CSQIUnitView::DeleteUnit(CUnitList * pUnitList, CUnitBase * pCUnit) {
 //    CSize : return current document's size
 //
 // Description :
-//    Combine all units's size and rect(0, 0, 2000, 1500) into a rect, 
+//    Combine all units's size and rect(0, 0, 2000, 1500) into a rect,
 //    and return its size.
 //
 ////////////////////////////////////////////////////////////////////////
@@ -616,7 +605,7 @@ CSize CSQIUnitView::GetUnitDocSize(void) {
 //    CUnitBase *& pcunit : current set align pointer
 //
 // Return :
-//    BOOL         : true if find pt in one of unit's rect, 
+//    BOOL         : true if find pt in one of unit's rect,
 //                     pcunit if set to point to this unit
 //                   false if not find, pcunit is set to NULL.
 //
@@ -645,7 +634,7 @@ bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBase*& pcunit) {
 }
 
 //////////////////////////////////////////////////////////////////////////
-// 
+//
 // UnitToBack()
 //
 // Parameter :
@@ -657,11 +646,11 @@ bool CSQIUnitView::IsInRect(CPoint const pt, CUnitBase*& pcunit) {
 // Description :
 //   Change an object's position to m_CUnitList's head, and redraw all objects.
 //
-/////////////////////////////////////////////////////////////////////////  
-bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit) {
+/////////////////////////////////////////////////////////////////////////
+bool CSQIUnitView::UnitToBack(CUnitList* pUnitList, CUnitBase* const pCUnit) {
   ASSERT(pCUnit != nullptr);
   ASSERT(pUnitList->size() > 0);
-  CUnitBase * pc = pCUnit;
+  CUnitBase* pc = pCUnit;
 
   auto it = m_pCUnitListCurrent->begin();
   it = find(m_pCUnitListCurrent->begin(), m_pCUnitListCurrent->end(), pCUnit);
@@ -671,7 +660,7 @@ bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit) {
 }
 
 //////////////////////////////////////////////////////////////////////////
-// 
+//
 // UnitToFront()
 //
 // Parameter :
@@ -683,10 +672,10 @@ bool CSQIUnitView::UnitToBack(CUnitList * pUnitList, CUnitBase * const pCUnit) {
 // Description :
 //   Change an object's position to m_CUnitList's tail(top most), and redraw all objects.
 //
-////////////////////////////////////////////////////////////////////////////               
-bool CSQIUnitView::UnitToFront(CUnitList * pUnitList, CUnitBase * const pCUnit) {
+////////////////////////////////////////////////////////////////////////////
+bool CSQIUnitView::UnitToFront(CUnitList* pUnitList, CUnitBase* const pCUnit) {
   ASSERT(pCUnit != NULL);
-  CUnitBase * pc = pCUnit;
+  CUnitBase* pc = pCUnit;
 
   auto it = m_pCUnitListCurrent->begin();
   it = find(m_pCUnitListCurrent->begin(), m_pCUnitListCurrent->end(), pCUnit);
@@ -709,7 +698,7 @@ bool CSQIUnitView::UnitToFront(CUnitList * pUnitList, CUnitBase * const pCUnit) 
 //    Set all object's focus according its select flag.
 //
 /////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::SetFocus(CDC *pdc) {
+void CSQIUnitView::SetFocus(CDC* pdc) {
   for (const auto pcunit : *m_pCUnitListCurrent) {
     if (pcunit->IsSelect()) {
       pcunit->SetFocus(pdc);
@@ -731,7 +720,7 @@ void CSQIUnitView::SetFocus(CDC *pdc) {
 //    Clear all selected focus and clear select flag
 //
 /////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::ClearFocus(CDC * pdc) {
+void CSQIUnitView::ClearFocus(CDC* pdc) {
   for (const auto punit : *m_pCUnitListCurrent) {
     if (punit->IsSelect()) {
       punit->SetSelect(false);
@@ -774,18 +763,18 @@ void CSQIUnitView::ClearAllSelect(void) {
 //    Create a unique name for current process unit
 //
 /////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::CreateUniName(CUnitBase * pCUnit) {
+void CSQIUnitView::CreateUniName(CUnitBase* pCUnit) {
   CUnitList listUnit;
 
   // Send all units(include compound) to listUnit
   for (const auto pcunit : *m_pCUnitListCurrent) {
     pcunit->AddToList(listUnit); // 包括部件本身
   }
-  // create unique name 
+  // create unique name
   pCUnit->CreateUniName(listUnit);
 }
 
-void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointListPtr plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent) {
+void CSQIUnitView::DrawInvertDynLinkLine(CDC* pdc, CPointListPtr plistLinkPoint, CPoint ptFirst, CPoint ptSecond, CPoint ptCurrent) {
   auto it = plistLinkPoint->begin();
   INT_PTR iCount = plistLinkPoint->size();
   shared_ptr<CPoint> ppt1, ppt2;
@@ -801,7 +790,7 @@ void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointListPtr plistLinkPoint
     ASSERT(ppt2->x == ptFirst.x);
     ASSERT(ppt2->y == ptFirst.y);
   }
-  if ( (ptFirst.x != ptSecond.x) || (ptFirst.y != ptSecond.y) ) DrawInvertLine(pdc, 1, ptFirst, ptSecond);
+  if ((ptFirst.x != ptSecond.x) || (ptFirst.y != ptSecond.y)) DrawInvertLine(pdc, 1, ptFirst, ptSecond);
   if ((ptCurrent.x != ptSecond.x) || (ptCurrent.y != ptSecond.y)) DrawInvertLine(pdc, 1, ptSecond, ptCurrent);
 }
 
@@ -811,7 +800,7 @@ void CSQIUnitView::DrawInvertDynLinkLine(CDC * pdc, CPointListPtr plistLinkPoint
 //
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::AdjustDynLinkLinePosition(CUnitBase * punitCurrent, CPoint ptStart, CPoint ptEnd) {
+void CSQIUnitView::AdjustDynLinkLinePosition(CUnitBase* punitCurrent, CPoint ptStart, CPoint ptEnd) {
   for (const auto pcunit : *m_pCUnitListCurrent) {
     pcunit->AdjustDynLinkLinePosition(punitCurrent, ptStart, ptEnd);
   }
@@ -827,7 +816,7 @@ void CSQIUnitView::DeleteDynLinkPointList(CPointListPtr plistLinkPoint) {
 //
 //
 ////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::ViewIn(CUnitComponent * pCUnit) {
+void CSQIUnitView::ViewIn(CUnitComponent* pCUnit) {
   CPoint pt(0, 0);
 
   ASSERT(pCUnit->CanViewIn());
@@ -839,7 +828,7 @@ void CSQIUnitView::ViewIn(CUnitComponent * pCUnit) {
   __ScrollToPosition(pt);     // set to origin point
   m_lComponentLayer++;   // goto inner
 
-	__Invalidate();
+  __Invalidate();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -874,8 +863,7 @@ void CSQIUnitView::ViewOut(void) {
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::CenterAlign()
-{
+void CSQIUnitView::CenterAlign() {
   auto it = m_pCUnitListCurrent->begin();
   auto pcunit = *it;
   CRect rectTemp;
@@ -911,8 +899,7 @@ void CSQIUnitView::CenterAlign()
 // 左对齐所选的单元
 //
 ////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::LeftAlign()
-{
+void CSQIUnitView::LeftAlign() {
   auto it = m_pCUnitListCurrent->begin();
   auto pcunit = *it;
   CRect rectTemp;
@@ -949,8 +936,7 @@ void CSQIUnitView::LeftAlign()
 // 右对齐所选的单元
 //
 /////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::RightAlign()
-{
+void CSQIUnitView::RightAlign() {
   auto it = m_pCUnitListCurrent->begin();
   auto pcunit = *it;
   CRect rectTemp;
@@ -985,17 +971,16 @@ void CSQIUnitView::RightAlign()
 // 双击鼠标左键： 设置单元的状态
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnLButtonDblClk(UINT nFlags, CPoint point)
-{
+void CSQIUnitView::OnLButtonDblClk(UINT nFlags, CPoint point) {
   // TODO: Add your message handler code here and/or call default
   CPoint ptDevice, ptOffset = __GetScrollPosition();
 
   // set property
   ptDevice = ptOffset + point;
-  if (IsInRect(ptDevice, m_pCUnitCurrent)) {  // select object to process  
-    // change object's property 
+  if (IsInRect(ptDevice, m_pCUnitCurrent)) {  // select object to process
+    // change object's property
     if (m_pCUnitCurrent->SetProperty()) {
-			__SetDocModifiedFlag();
+      __SetDocModifiedFlag();
     }
     __Invalidate();
   }
@@ -1003,7 +988,7 @@ void CSQIUnitView::OnLButtonDblClk(UINT nFlags, CPoint point)
     // do nothing
   }
 
-	__DefaultOnLButtonDblClk(nFlags, point);
+  __DefaultOnLButtonDblClk(nFlags, point);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1024,11 +1009,10 @@ void CSQIUnitView::OnLButtonDblClk(UINT nFlags, CPoint point)
 //
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
-{
+void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point) {
   CRect WinRect;
   CPoint ptOffset = __GetScrollPosition();
-  CDC * pdc = __GetDC();
+  CDC* pdc = __GetDC();
   CRect rectScreen;
   CDlgChoiceParameter CCPDlg;
 
@@ -1036,9 +1020,9 @@ void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
 
   __OnPrepareDC(pdc);
 
-  // set current mouse address  
+  // set current mouse address
   if ((m_nCurrentFunction != DYNAMIC_LINK_TO_FIRST_COMPONENT)
-    || (m_nCurrentFunction != DYNAMIC_LINK_TO_SECOND_COMPONENT)) { // 当处于链接第一个或第二个部件状态时，不修改鼠标位置
+      || (m_nCurrentFunction != DYNAMIC_LINK_TO_SECOND_COMPONENT)) { // 当处于链接第一个或第二个部件状态时，不修改鼠标位置
     m_ptMousePosition = point + ptOffset;
   }
 
@@ -1046,171 +1030,170 @@ void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
   case UNIT_SELECTED:				// 选择了处理unit
   case UNIT_GROUP_SELECTED:
   case UNIT_PRE_SELECT:
-    if (IsInRect(m_ptMousePosition, m_pCUnitCurrent)) {   // select unit to process
-      rectScreen = m_pCUnitCurrent->GetSize() - ptOffset;
-      __SetTrackerRect(rectScreen);
-    }
-    else {
-      ResetAll(UNIT_PRE_SELECT);
-    }
-    if (__MouseHitTest(point) < 0) { // 如果没有选中单元
-      __ClearFocus(pdc);
-      if (__MouseTrackRubberBand(this, point, false)) { // 拖曳选择区域内的单元
-        // 设置拖曳区域内的单元的被选中标志为真
-        rectScreen = m_rectTracker = __GetTrackerRect();
-        rectScreen += ptOffset;
-        CRect rect;
-        bool fFind = false;
-        for (const auto pcUnit1 : *m_pCUnitListCurrent) {
-          rect = pcUnit1->GetSize();
-          if ((rectScreen & rect) == rect) {	// 位于拖曳区域内？
-            pcUnit1->SetSelect(true);					// 设置被选中标志为真
-            m_pCUnitCurrent = pcUnit1;
-            m_nCurrentFunction = UNIT_GROUP_SELECTED; // 找到单元, 转至UNIT_GROUP_SELECTED
-            fFind = true;
-          }
-        }
-        if (!fFind) {	// 没找到单元,转至UNIT_PRE_SELECT.
-          ResetAll(UNIT_PRE_SELECT);
+  if (IsInRect(m_ptMousePosition, m_pCUnitCurrent)) {   // select unit to process
+    rectScreen = m_pCUnitCurrent->GetSize() - ptOffset;
+    __SetTrackerRect(rectScreen);
+  }
+  else {
+    ResetAll(UNIT_PRE_SELECT);
+  }
+  if (__MouseHitTest(point) < 0) { // 如果没有选中单元
+    __ClearFocus(pdc);
+    if (__MouseTrackRubberBand(this, point, false)) { // 拖曳选择区域内的单元
+      // 设置拖曳区域内的单元的被选中标志为真
+      rectScreen = m_rectTracker = __GetTrackerRect();
+      rectScreen += ptOffset;
+      CRect rect;
+      bool fFind = false;
+      for (const auto pcUnit1 : *m_pCUnitListCurrent) {
+        rect = pcUnit1->GetSize();
+        if ((rectScreen & rect) == rect) {	// 位于拖曳区域内？
+          pcUnit1->SetSelect(true);					// 设置被选中标志为真
+          m_pCUnitCurrent = pcUnit1;
+          m_nCurrentFunction = UNIT_GROUP_SELECTED; // 找到单元, 转至UNIT_GROUP_SELECTED
+          fFind = true;
         }
       }
-      else { // 从新开始.
+      if (!fFind) {	// 没找到单元,转至UNIT_PRE_SELECT.
         ResetAll(UNIT_PRE_SELECT);
-        TRACE("Current function is UNIT_PRE_SELECT\n");
       }
-			m_rectTracker.SetRectEmpty();
-      __SetTrackerRect(m_rectTracker);
     }
-    else if (__MouseTrack(this, point, true)) {  // 改变选中单元的大小或者位置？
-      ASSERT(m_pCUnitCurrent != NULL);
-      // 单元最小的大小为 30X30.
-			m_rectTracker = __GetTrackerRect();
-      if (m_rectTracker.Height() < 30) {
-        m_rectTracker.bottom = m_rectTracker.top + 30;
-      }
-      if (m_rectTracker.Width() < 30) {
-        m_rectTracker.right = m_rectTracker.left + 30;
-      }
-			__SetTrackerRect(m_rectTracker);
-			m_rectCurrent = m_rectTracker;;
-      rectScreen = m_pCUnitCurrent->GetSize();
-      rectScreen -= ptOffset;
-      ptDevice.x = m_ptMousePosition.x + m_rectCurrent.left - rectScreen.left;
-      ptDevice.y = m_ptMousePosition.y + m_rectCurrent.top - rectScreen.top;
-      m_pCUnitCurrent->SetSize(m_rectCurrent + ptOffset);
-      AdjustDynLinkLinePosition(m_pCUnitCurrent, m_ptMousePosition, ptDevice); //调整动态链接线的位置
-      __SetDocModifiedFlag(); // document's content is changed
-      m_pCUnitCurrent->SetSelect(true);
-      m_nCurrentFunction = UNIT_SELECTED;
+    else { // 从新开始.
+      ResetAll(UNIT_PRE_SELECT);
+      TRACE("Current function is UNIT_PRE_SELECT\n");
     }
-    else { // 选中了一个单元.
-      ClearAllSelect();         // 清除以前的选中标志 
-      ASSERT(m_pCUnitCurrent != nullptr);
-      m_pCUnitCurrent->SetSelect(true); // 设置新的选中标志
-      TRACE("Current function is UNIT_SELECTED\n");
-      m_nCurrentFunction = UNIT_SELECTED;
+    m_rectTracker.SetRectEmpty();
+    __SetTrackerRect(m_rectTracker);
+  }
+  else if (__MouseTrack(this, point, true)) {  // 改变选中单元的大小或者位置？
+    ASSERT(m_pCUnitCurrent != NULL);
+    // 单元最小的大小为 30X30.
+    m_rectTracker = __GetTrackerRect();
+    if (m_rectTracker.Height() < 30) {
+      m_rectTracker.bottom = m_rectTracker.top + 30;
     }
-    __Invalidate();
-    break;
+    if (m_rectTracker.Width() < 30) {
+      m_rectTracker.right = m_rectTracker.left + 30;
+    }
+    __SetTrackerRect(m_rectTracker);
+    m_rectCurrent = m_rectTracker;;
+    rectScreen = m_pCUnitCurrent->GetSize();
+    rectScreen -= ptOffset;
+    ptDevice.x = m_ptMousePosition.x + m_rectCurrent.left - rectScreen.left;
+    ptDevice.y = m_ptMousePosition.y + m_rectCurrent.top - rectScreen.top;
+    m_pCUnitCurrent->SetSize(m_rectCurrent + ptOffset);
+    AdjustDynLinkLinePosition(m_pCUnitCurrent, m_ptMousePosition, ptDevice); //调整动态链接线的位置
+    __SetDocModifiedFlag(); // document's content is changed
+    m_pCUnitCurrent->SetSelect(true);
+    m_nCurrentFunction = UNIT_SELECTED;
+  }
+  else { // 选中了一个单元.
+    ClearAllSelect();         // 清除以前的选中标志
+    ASSERT(m_pCUnitCurrent != nullptr);
+    m_pCUnitCurrent->SetSelect(true); // 设置新的选中标志
+    TRACE("Current function is UNIT_SELECTED\n");
+    m_nCurrentFunction = UNIT_SELECTED;
+  }
+  __Invalidate();
+  break;
   case DYNAMIC_LINK_FIRST_UNIT:   // 选择目的单元
-    if (IsInRect(m_ptMousePosition, m_pCUnitCurrent)) {  // 选择第二个单元来处理
-      if (m_pCUnitCurrent->CanLinkIn()) { // 处理部件
-        m_nCurrentFunction = DYNAMIC_LINK_TO_SECOND_COMPONENT;
-        // determine the dynamic link class
-        if (m_ulDynLinkClass == COMPONENT_TO_UNIT) {
-          m_ulDynLinkClass = COMPONENT_TO_COMPONENT;
-        }
-        else if (m_ulDynLinkClass == UNIT_TO_UNIT) {
-          m_ulDynLinkClass = UNIT_TO_COMPONENT;
-        }
-        else { // 类型错误
-          ASSERT(0);
-        }
-        ViewIn((CUnitComponent *)m_pCUnitCurrent); // trace into inner unit list
-        m_fLinkIntoDestComponent = true;
+  if (IsInRect(m_ptMousePosition, m_pCUnitCurrent)) {  // 选择第二个单元来处理
+    if (m_pCUnitCurrent->CanLinkIn()) { // 处理部件
+      m_nCurrentFunction = DYNAMIC_LINK_TO_SECOND_COMPONENT;
+      // determine the dynamic link class
+      if (m_ulDynLinkClass == COMPONENT_TO_UNIT) {
+        m_ulDynLinkClass = COMPONENT_TO_COMPONENT;
       }
-      else { // 处理简单单元
-        ASSERT(m_pCUnitSecond == nullptr);
-        m_pCUnitSecond = m_pCUnitCurrent;
-        m_nCurrentFunction = DYNAMIC_LINK_SECOND_UNIT;
+      else if (m_ulDynLinkClass == UNIT_TO_UNIT) {
+        m_ulDynLinkClass = UNIT_TO_COMPONENT;
       }
-      ASSERT(m_rectSecondUnit.IsRectEmpty());
-      m_rectSecondUnit = m_rectCurrent = m_pCUnitCurrent->GetSize();
-      // 此时已决定了动态链接线的所有位置。下面计算其具体位置
-      CreateDynLinkPoint(m_plistLinkPoint, m_rectSecondUnit, m_ptFirst, m_ptSecond, m_ptCurrent); // 有终点。
-    } // 如果选择了第二个单元
-    else { // 如果鼠标没有在第二个单元范围内，则设置动态链接线。此时尚未完成建立动态链接线的动作
-      CreateDynLinkPoint(m_plistLinkPoint, &m_ptFirst, &m_ptSecond, m_ptCurrent); // 无终点
+      else { // 类型错误
+        ASSERT(0);
+      }
+      ViewIn((CUnitComponent*)m_pCUnitCurrent); // trace into inner unit list
+      m_fLinkIntoDestComponent = true;
     }
-    break;
-  case DYNAMIC_LINK_TO_FIRST_COMPONENT: // 在第一个部件内选择单元
-    break;
-  case DYNAMIC_LINK_TO_SECOND_COMPONENT:  // process second compound unit
-    ASSERT((m_ulDynLinkClass == UNIT_TO_COMPONENT) || (m_ulDynLinkClass == COMPONENT_TO_COMPONENT));
-    ASSERT(m_pCUnitSecond == nullptr);
-    if (IsInRect(m_ptMousePosition, m_pCUnitSecond)) {  // 选择需处理的单元
-      ASSERT(m_pCUnitSecond->IsEncapsulated());     // 不允许再次链接未封装的或不允许封装的部件，动态链接只允许陷入一层
+    else { // 处理简单单元
+      ASSERT(m_pCUnitSecond == nullptr);
+      m_pCUnitSecond = m_pCUnitCurrent;
       m_nCurrentFunction = DYNAMIC_LINK_SECOND_UNIT;
     }
-    else {  // cancelled
-      ResetAll(UNIT_PRE_SELECT);
-    }
-    break;
+    ASSERT(m_rectSecondUnit.IsRectEmpty());
+    m_rectSecondUnit = m_rectCurrent = m_pCUnitCurrent->GetSize();
+    // 此时已决定了动态链接线的所有位置。下面计算其具体位置
+    CreateDynLinkPoint(m_plistLinkPoint, m_rectSecondUnit, m_ptFirst, m_ptSecond, m_ptCurrent); // 有终点。
+  } // 如果选择了第二个单元
+  else { // 如果鼠标没有在第二个单元范围内，则设置动态链接线。此时尚未完成建立动态链接线的动作
+    CreateDynLinkPoint(m_plistLinkPoint, &m_ptFirst, &m_ptSecond, m_ptCurrent); // 无终点
+  }
+  break;
+  case DYNAMIC_LINK_TO_FIRST_COMPONENT: // 在第一个部件内选择单元
+  break;
+  case DYNAMIC_LINK_TO_SECOND_COMPONENT:  // process second compound unit
+  ASSERT((m_ulDynLinkClass == UNIT_TO_COMPONENT) || (m_ulDynLinkClass == COMPONENT_TO_COMPONENT));
+  ASSERT(m_pCUnitSecond == nullptr);
+  if (IsInRect(m_ptMousePosition, m_pCUnitSecond)) {  // 选择需处理的单元
+    ASSERT(m_pCUnitSecond->IsEncapsulated());     // 不允许再次链接未封装的或不允许封装的部件，动态链接只允许陷入一层
+    m_nCurrentFunction = DYNAMIC_LINK_SECOND_UNIT;
+  }
+  else {  // cancelled
+    ResetAll(UNIT_PRE_SELECT);
+  }
+  break;
   case NO_DRAG:
-    break;
+  break;
   case CREATE_NEW_UNIT:
-    // 生成新单元在OnLButtonUp中处理
-    break;
+  // 生成新单元在OnLButtonUp中处理
+  break;
   case DYNAMIC_LINK_SECOND_UNIT:
-    break;
+  break;
   default: // select first unit
-    ASSERT(0);
-    break;
+  ASSERT(0);
+  break;
   } // switch ( m_nCurrentFunction )
 
 #ifdef _DEBUG
   switch (m_nCurrentFunction) {
   case UNIT_PRE_SELECT:
-    TRACE("Current function is UNIT_PRE_SELECT\n");
-    break;
+  TRACE("Current function is UNIT_PRE_SELECT\n");
+  break;
   case CREATE_NEW_UNIT:
-    TRACE("Current function is CREATE_NEW_UNIT\n");
-    break;
+  TRACE("Current function is CREATE_NEW_UNIT\n");
+  break;
   case DYNAMIC_LINK_FIRST_UNIT:
-    TRACE("Current function is DYNAMIC_LINK_FIRST_UNIT\n");
-    break;
+  TRACE("Current function is DYNAMIC_LINK_FIRST_UNIT\n");
+  break;
   case DYNAMIC_LINK_SECOND_UNIT:
-    TRACE("Current function is DYNAMIC_LINK_SECOND_UNIT\n");
-    break;
+  TRACE("Current function is DYNAMIC_LINK_SECOND_UNIT\n");
+  break;
   case DYNAMIC_LINK_TO_FIRST_COMPONENT:
-    TRACE("Current function is DYNAMIC_LINK_TO_FIRST_COMPONENT\n");
-    break;
+  TRACE("Current function is DYNAMIC_LINK_TO_FIRST_COMPONENT\n");
+  break;
   case DYNAMIC_LINK_TO_SECOND_COMPONENT:
-    TRACE("Current function is DYNAMIC_LINK_TO_SECOND_COMPONENT\n");
-    break;
+  TRACE("Current function is DYNAMIC_LINK_TO_SECOND_COMPONENT\n");
+  break;
   case UNIT_GROUP_SELECTED:
-    TRACE("Current function is UNIT_GROUP_SELECTED\n");
-    break;
+  TRACE("Current function is UNIT_GROUP_SELECTED\n");
+  break;
   case NO_DRAG:
-    TRACE("Current function is NO_DRAG\n");
-    break;
+  TRACE("Current function is NO_DRAG\n");
+  break;
   case UNIT_SELECTED:
-    TRACE("Current function is UNIT_SELECTED\n");
-    break;
+  TRACE("Current function is UNIT_SELECTED\n");
+  break;
   default:   // must an error!
-    TRACE("m_nCurrentFunction is out of range in SQIUnitView's OnLButtonDown\n");
-    ASSERT(0);
-    break;
-  } // switch  
-#endif 
+  TRACE("m_nCurrentFunction is out of range in SQIUnitView's OnLButtonDown\n");
+  ASSERT(0);
+  break;
+  } // switch
+#endif
 
-  //Invalidate(); 
+  //Invalidate();
   //由于有连续动作存在（生成动态链接线时），故而不能统一使用更新窗口这个函数，只能时在不同的状态下才可能用，否则生成的动态链接线会被更新掉
   // 即ToShow这个函数不显示正在生成的动态链接线
   __ReleaseDC(pdc);
-	
-	__DefaultOnLButtonDown(nFlags, point);	
 
+  __DefaultOnLButtonDown(nFlags, point);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1230,93 +1213,91 @@ void CSQIUnitView::OnLButtonDown(UINT nFlags, CPoint point)
 //
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
-{
+void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point) {
   // TODO: Add your message handler code here and/or call default
-  CDC *pdc = __GetDC();
+  CDC* pdc = __GetDC();
   __OnPrepareDC(pdc);
   CPoint ptDevice, ptOffset = __GetScrollPosition();
   CRect rectTemp;
   CString str = "  ";
-  CUnitBase * pcUnit;
+  CUnitBase* pcUnit;
 
   ptDevice = point + ptOffset;
   switch (m_nCurrentFunction) {
   case DYNAMIC_LINK_FIRST_UNIT:
-    ASSERT(m_fLinkIntoSourceComponent == false);
-    //if (!IsInRect(ptDevice, pcUnit)) { // 如果当前鼠标不在单元内的话， 则画动态链接线（当鼠标位于单元范围内时，动态链接线就不动了，不太好）
-      DrawInvertDynLinkLine(pdc, m_plistLinkPoint, m_ptFirst, m_ptSecond, m_ptCurrent);
-      m_ptCurrent = ptDevice;
-      if (m_plistLinkPoint->size() == 1) { // 创建第一个动态链接点
-        AdjustDynLinkPoint(m_rectFirstUnit, m_ptFirst, m_ptSecond, m_ptCurrent);
-      }
-      else {
-        AdjustDynLinkPoint(m_ptFirst, m_ptSecond, m_ptCurrent);
-      }
-      DrawInvertDynLinkLine(pdc, m_plistLinkPoint, m_ptFirst, m_ptSecond, m_ptCurrent);
-    //}
-    break;
+  ASSERT(m_fLinkIntoSourceComponent == false);
+  //if (!IsInRect(ptDevice, pcUnit)) { // 如果当前鼠标不在单元内的话， 则画动态链接线（当鼠标位于单元范围内时，动态链接线就不动了，不太好）
+  DrawInvertDynLinkLine(pdc, m_plistLinkPoint, m_ptFirst, m_ptSecond, m_ptCurrent);
+  m_ptCurrent = ptDevice;
+  if (m_plistLinkPoint->size() == 1) { // 创建第一个动态链接点
+    AdjustDynLinkPoint(m_rectFirstUnit, m_ptFirst, m_ptSecond, m_ptCurrent);
+  }
+  else {
+    AdjustDynLinkPoint(m_ptFirst, m_ptSecond, m_ptCurrent);
+  }
+  DrawInvertDynLinkLine(pdc, m_plistLinkPoint, m_ptFirst, m_ptSecond, m_ptCurrent);
+  //}
+  break;
   case DYNAMIC_LINK_TO_FIRST_COMPONENT:	// 第一个单元为部件
-    ASSERT(m_fLinkIntoSourceComponent);
-    if (m_fLinkIntoSourceComponent) {
-      if (IsInRect(ptDevice, m_pCUnitNoDrag)) {
-        if (m_pCUnitNoDrag->CanLinkIn()) { // 如果在陷入部件后还遇到部件，则不允许再次陷入。
-          m_nSavedFunction = m_nCurrentFunction;  // 保存当前状态
-          m_nCurrentFunction = NO_DRAG;           // 设置状态为禁止陷入
-        }
+  ASSERT(m_fLinkIntoSourceComponent);
+  if (m_fLinkIntoSourceComponent) {
+    if (IsInRect(ptDevice, m_pCUnitNoDrag)) {
+      if (m_pCUnitNoDrag->CanLinkIn()) { // 如果在陷入部件后还遇到部件，则不允许再次陷入。
+        m_nSavedFunction = m_nCurrentFunction;  // 保存当前状态
+        m_nCurrentFunction = NO_DRAG;           // 设置状态为禁止陷入
       }
     }
-    break;
+  }
+  break;
   case DYNAMIC_LINK_TO_SECOND_COMPONENT: // 第二个单元为部件
-    ASSERT(m_fLinkIntoDestComponent);
-    if (m_fLinkIntoDestComponent) {
-      if (IsInRect(ptDevice, m_pCUnitNoDrag)) {
-        if (!m_pCUnitNoDrag->IsEncapsulated()) {
-          m_nSavedFunction = m_nCurrentFunction;
-          m_nCurrentFunction = NO_DRAG;
-        }
+  ASSERT(m_fLinkIntoDestComponent);
+  if (m_fLinkIntoDestComponent) {
+    if (IsInRect(ptDevice, m_pCUnitNoDrag)) {
+      if (!m_pCUnitNoDrag->IsEncapsulated()) {
+        m_nSavedFunction = m_nCurrentFunction;
+        m_nCurrentFunction = NO_DRAG;
       }
     }
-    break;
+  }
+  break;
   case NO_DRAG:
-    BOOL f;
-    f = IsInRect(ptDevice, pcUnit);
-    if (!f) {
+  BOOL f;
+  f = IsInRect(ptDevice, pcUnit);
+  if (!f) {
+    m_nCurrentFunction = m_nSavedFunction;
+  }
+  else {
+    if (pcUnit != m_pCUnitNoDrag) {
       m_nCurrentFunction = m_nSavedFunction;
     }
-    else {
-      if (pcUnit != m_pCUnitNoDrag) {
-        m_nCurrentFunction = m_nSavedFunction;
-      }
-    }
-    break;
+  }
+  break;
   case UNIT_PRE_SELECT:
-    ASSERT(m_pCUnitCurrent == NULL);
+  ASSERT(m_pCUnitCurrent == NULL);
   case UNIT_SELECTED:
-    if (IsInRect(ptDevice, m_pCUnitMouseMove)) {  // current mouse position is in object ?
-      // show current unit's name on status bar
-      str = m_pCUnitMouseMove->GetClassNameStr();
-      str += "->";
-      str += m_pCUnitMouseMove->GetName();
-    }
-    __SetStatusBarMessage(str);
-    break;
+  if (IsInRect(ptDevice, m_pCUnitMouseMove)) {  // current mouse position is in object ?
+    // show current unit's name on status bar
+    str = m_pCUnitMouseMove->GetClassNameStr();
+    str += "->";
+    str += m_pCUnitMouseMove->GetName();
+  }
+  __SetStatusBarMessage(str);
+  break;
   case UNIT_GROUP_SELECTED:
-    break;
+  break;
   case CREATE_NEW_UNIT:
-    break;
+  break;
   case DYNAMIC_LINK_SECOND_UNIT:
 
-    break;
+  break;
   default:
-    break;
+  break;
   } // switch ( m_nCurrentFunction )
   __ReleaseDC(pdc);
 
   __SetMousePosition(ptDevice);
 
-	__DefaultOnMouseMove(nFlags, point);
-
+  __DefaultOnMouseMove(nFlags, point);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1329,17 +1310,16 @@ void CSQIUnitView::OnMouseMove(UINT nFlags, CPoint point)
 // 1.创建新的单元。
 // 2.没有任何任务。
 // 3.正在准找第二个单元。
-// 
+//
 // 鼠标左键连续动作的退出，有四个状态：UNIT_SELECTED、UNIT_GROUP_SELECTED、 CREATE_NEW_UNIT和UNIT_PRE_SELECTED
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
-{
+void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point) {
   // TODO: Add your message handler code here and/or call default
   CDlgChoiceParameter CCPDlg;
   CRect  rectTemp;
 
-  CDC *pdc = __GetDC();
+  CDC* pdc = __GetDC();
   __OnPrepareDC(pdc);
   CString strTemp;
   char s[20];
@@ -1349,273 +1329,271 @@ void CSQIUnitView::OnLButtonUp(UINT nFlags, CPoint point)
   ptDevice = point + ptOffset;
   switch (m_nCurrentFunction) {
   case  CREATE_NEW_UNIT:  // create new object, add new unit into UnitList
-    __ClipCursor(NULL);
-    __ReleaseCapture();
-    // strTemp = "_"; // 名字中不再带下划线了
-    _itoa_s(m_pDoc->GetUnitNumber() + 1, s, 10);
-    m_pDoc->SetUnitNumber(m_pDoc->GetUnitNumber() + 1);
-    strTemp += s;
-    switch (gl_ulUnitLibrary) {
-      ////////////////////////////////////////////////////////////////////////////////////
-        // Input output function
-    case ID_BLOCK_INPUTOUTPUT_SIM:
-      m_pCUnitCurrent = new CUnitInputOutput(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_INPUTOUTPUT_TPO:     // creat a time proportione unit
-      m_pCUnitCurrent = new CUnitTPO(strTemp, ptDevice);
-      break;
-      ////////////////////////////////////////////////////////////////////////////////////
-        // Arithmatic function
-    case ID_BLOCK_ARITHMATIC_DTIM:     // delay time unit
-      m_pCUnitCurrent = new CUnitDelayTime(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_ARITHMATIC_HPBG:     // create a High Pass Filter unit
-      m_pCUnitCurrent = new CUnitHighPassBargin(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_ARITHMATIC_QFLT:     // create a second order filter unit
-      m_pCUnitCurrent = new CUnitQuadFilt(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_ARITHMATIC_TOT:      // create a total unit
-      m_pCUnitCurrent = new CUnitTOT(strTemp, ptDevice);
-      break;
-      ////////////////////////////////////////////////////////////////////////////////////////
-        // Mathmaitc function
-    case ID_BLOCK_MATHMATIC_ADD:    // create an ADD unit
-      m_pCUnitCurrent = new CUnitAdd(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_MATHMATIC_MULTIPLE:
-      m_pCUnitCurrent = new CUnitMultiple(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_MATHMATIC_DIV:
-      m_pCUnitCurrent = new CUnitDivide(strTemp, ptDevice);
-      break;
-      //////////////////////////////////////////////////////////////////////////////////////
-        // Select function
-    case ID_BLOCK_SELECT_SWCH:         // create a switch unit
-      m_pCUnitCurrent = new CUnitSwitch(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_SELECT_HSEL:         // create a High Select unit
-      m_pCUnitCurrent = new CUnitHighSelect(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_SELECT_MSEL:         // create a Middle Select unit
-      m_pCUnitCurrent = new CUnitMiddleSelect(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_SELECT_LSEL:         // create a Low Select unit
-      m_pCUnitCurrent = new CUnitLowSelect(strTemp, ptDevice);
-      break;
-      ////////////////////////////////////////////////////////////////////////////////////
-        // Basic Logic function
-    case ID_BLOCK_BASICLOGIC_AND:      // create a logic AND unit
-      m_pCUnitCurrent = new CUnitAnd(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_BASICLOGIC_OR:       // create a logic OR unit
-      m_pCUnitCurrent = new CUnitOr(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_BASICLOGIC_XOR:      // create a logic XOR unit
-      m_pCUnitCurrent = new CUnitXor(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_BASICLOGIC_PULS:     // create a logic PULSE unit
-      m_pCUnitCurrent = new CUnitPulse(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_BASICLOGIC_INV:      // create a logic invert unit
-      m_pCUnitCurrent = new CUnitInvert(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_BASICLOGIC_DLAY:     // create a delay unit
-      m_pCUnitCurrent = new CUnitDelay(strTemp, ptDevice);
-      break;
-      //////////////////////////////////////////////////////////////////////////////////////
-        // Advance logic function
-    case ID_BLOCK_ADVANCELOGIC_FFLP:
-      m_pCUnitCurrent = new CUnitFFLP(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_ADVANCELOGIC_TTB:    // create a logic true TABLE unit
-      m_pCUnitCurrent = new CUnitTTB(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_ADVANCELOGIC_ICNT:
-      break;
-      ///////////////////////////////////////////////////////////////////////////////////////
-        // Basic Control function
-    case ID_BLOCK_BASICCONTROL_PID:
-      m_pCUnitCurrent = new CUnitPID(strTemp, ptDevice);
-      break;
-      /////////////////////////////////////////////////////////////////////////////////////
-        // Simulate function
-    case ID_BLOCK_SIMULATE_QUADRATIC:  // create a quadratic function maker
-      m_pCUnitCurrent = new CUnitQuad(strTemp, ptDevice);
-      break;
-    case ID_BLOCK_SIMULATE_SINE:       // create a sine function maker
-      m_pCUnitCurrent = new CUnitSine(strTemp, ptDevice);
-      break;
-      /////////////////////////////////////////////////////////////////////////////////////
-        // Component unit
-    case ID_BLOCK_COMPOUND:  // 
-      m_pCUnitCurrent = new CUnitComponent(strTemp, ptDevice, false); // 复合单元就是不允许封装的部件
-      m_pCUnitCurrent->SetUpperUnitList(m_pCUnitListCurrent);
-      break;
-      //////////////////////////////////////////////////////////////////////////////////////
-        // Component unit
-    case ID_BLOCK_COMPONENT: // component 
-      m_pCUnitCurrent = new CUnitComponent(strTemp, ptDevice, true);	// 默认的部件允许封装
-      m_pCUnitCurrent->SetUpperUnitList(m_pCUnitListCurrent);
+  __ClipCursor(NULL);
+  __ReleaseCapture();
+  // strTemp = "_"; // 名字中不再带下划线了
+  _itoa_s(m_pDoc->GetUnitNumber() + 1, s, 10);
+  m_pDoc->SetUnitNumber(m_pDoc->GetUnitNumber() + 1);
+  strTemp += s;
+  switch (gl_ulUnitLibrary) {
+    ////////////////////////////////////////////////////////////////////////////////////
+      // Input output function
+  case ID_BLOCK_INPUTOUTPUT_SIM:
+  m_pCUnitCurrent = new CUnitInputOutput(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_INPUTOUTPUT_TPO:     // creat a time proportione unit
+  m_pCUnitCurrent = new CUnitTPO(strTemp, ptDevice);
+  break;
+  ////////////////////////////////////////////////////////////////////////////////////
+    // Arithmatic function
+  case ID_BLOCK_ARITHMATIC_DTIM:     // delay time unit
+  m_pCUnitCurrent = new CUnitDelayTime(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_ARITHMATIC_HPBG:     // create a High Pass Filter unit
+  m_pCUnitCurrent = new CUnitHighPassBargin(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_ARITHMATIC_QFLT:     // create a second order filter unit
+  m_pCUnitCurrent = new CUnitQuadFilt(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_ARITHMATIC_TOT:      // create a total unit
+  m_pCUnitCurrent = new CUnitTOT(strTemp, ptDevice);
+  break;
+  ////////////////////////////////////////////////////////////////////////////////////////
+    // Mathmaitc function
+  case ID_BLOCK_MATHMATIC_ADD:    // create an ADD unit
+  m_pCUnitCurrent = new CUnitAdd(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_MATHMATIC_MULTIPLE:
+  m_pCUnitCurrent = new CUnitMultiple(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_MATHMATIC_DIV:
+  m_pCUnitCurrent = new CUnitDivide(strTemp, ptDevice);
+  break;
+  //////////////////////////////////////////////////////////////////////////////////////
+    // Select function
+  case ID_BLOCK_SELECT_SWCH:         // create a switch unit
+  m_pCUnitCurrent = new CUnitSwitch(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_SELECT_HSEL:         // create a High Select unit
+  m_pCUnitCurrent = new CUnitHighSelect(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_SELECT_MSEL:         // create a Middle Select unit
+  m_pCUnitCurrent = new CUnitMiddleSelect(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_SELECT_LSEL:         // create a Low Select unit
+  m_pCUnitCurrent = new CUnitLowSelect(strTemp, ptDevice);
+  break;
+  ////////////////////////////////////////////////////////////////////////////////////
+    // Basic Logic function
+  case ID_BLOCK_BASICLOGIC_AND:      // create a logic AND unit
+  m_pCUnitCurrent = new CUnitAnd(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_BASICLOGIC_OR:       // create a logic OR unit
+  m_pCUnitCurrent = new CUnitOr(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_BASICLOGIC_XOR:      // create a logic XOR unit
+  m_pCUnitCurrent = new CUnitXor(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_BASICLOGIC_PULS:     // create a logic PULSE unit
+  m_pCUnitCurrent = new CUnitPulse(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_BASICLOGIC_INV:      // create a logic invert unit
+  m_pCUnitCurrent = new CUnitInvert(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_BASICLOGIC_DLAY:     // create a delay unit
+  m_pCUnitCurrent = new CUnitDelay(strTemp, ptDevice);
+  break;
+  //////////////////////////////////////////////////////////////////////////////////////
+    // Advance logic function
+  case ID_BLOCK_ADVANCELOGIC_FFLP:
+  m_pCUnitCurrent = new CUnitFFLP(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_ADVANCELOGIC_TTB:    // create a logic true TABLE unit
+  m_pCUnitCurrent = new CUnitTTB(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_ADVANCELOGIC_ICNT:
+  break;
+  ///////////////////////////////////////////////////////////////////////////////////////
+    // Basic Control function
+  case ID_BLOCK_BASICCONTROL_PID:
+  m_pCUnitCurrent = new CUnitPID(strTemp, ptDevice);
+  break;
+  /////////////////////////////////////////////////////////////////////////////////////
+    // Simulate function
+  case ID_BLOCK_SIMULATE_QUADRATIC:  // create a quadratic function maker
+  m_pCUnitCurrent = new CUnitQuad(strTemp, ptDevice);
+  break;
+  case ID_BLOCK_SIMULATE_SINE:       // create a sine function maker
+  m_pCUnitCurrent = new CUnitSine(strTemp, ptDevice);
+  break;
+  /////////////////////////////////////////////////////////////////////////////////////
+    // Component unit
+  case ID_BLOCK_COMPOUND:  //
+  m_pCUnitCurrent = new CUnitComponent(strTemp, ptDevice, false); // 复合单元就是不允许封装的部件
+  m_pCUnitCurrent->SetUpperUnitList(m_pCUnitListCurrent);
+  break;
+  //////////////////////////////////////////////////////////////////////////////////////
+    // Component unit
+  case ID_BLOCK_COMPONENT: // component
+  m_pCUnitCurrent = new CUnitComponent(strTemp, ptDevice, true);	// 默认的部件允许封装
+  m_pCUnitCurrent->SetUpperUnitList(m_pCUnitListCurrent);
 
-      break;
-      ///////////////////////////////////////////////////////////////////////////////////////
-    default:
-      TRACE("Error!, can't create unit!, gl_ulUnitLibrary not in range\n");
-      break;
-    } // switch 
+  break;
+  ///////////////////////////////////////////////////////////////////////////////////////
+  default:
+  TRACE("Error!, can't create unit!, gl_ulUnitLibrary not in range\n");
+  break;
+  } // switch
 
-    ASSERT(m_pCUnitCurrent != NULL);
-    strTemp = m_pCUnitCurrent->GetClassNameStr() + strTemp;
-    m_pCUnitCurrent->SetName(strTemp);
-    m_pCUnitCurrent->SetComponentUpper(m_pCUnitComponentCurrent);
-		__SetDocModifiedFlag();  // document's content is changed
-    __ClearFocus(pdc);
-    m_pCUnitCurrent->SetSelect(true);
-    m_pCUnitListCurrent->push_back(m_pCUnitCurrent);
-    m_rectCurrent.SetRectEmpty();
-    m_nCurrentFunction = UNIT_SELECTED;
-    __Invalidate(); // draw this unit
+  ASSERT(m_pCUnitCurrent != NULL);
+  strTemp = m_pCUnitCurrent->GetClassNameStr() + strTemp;
+  m_pCUnitCurrent->SetName(strTemp);
+  m_pCUnitCurrent->SetComponentUpper(m_pCUnitComponentCurrent);
+  __SetDocModifiedFlag();  // document's content is changed
+  __ClearFocus(pdc);
+  m_pCUnitCurrent->SetSelect(true);
+  m_pCUnitListCurrent->push_back(m_pCUnitCurrent);
+  m_rectCurrent.SetRectEmpty();
+  m_nCurrentFunction = UNIT_SELECTED;
+  __Invalidate(); // draw this unit
 
-    break;
+  break;
   case DYNAMIC_LINK_SECOND_UNIT: //寻找目的单元
-    ASSERT((m_ulDynLinkType & (tINPUT | tOUTPUT | tMODIFIABLE)) == 0);
-    m_ulDynLinkType &= (tDOUBLE | tWORD | tBOOL | tSTRING); // 只保留数据类型
-    m_pCUnitSecond->PrepareParaDictionary(CCPDlg.GetDicList(), tMODIFIABLE | tINPUT | m_ulDynLinkType);
-    __GetCursorPos(&ptDevice);    // save cursor position
+  ASSERT((m_ulDynLinkType & (tINPUT | tOUTPUT | tMODIFIABLE)) == 0);
+  m_ulDynLinkType &= (tDOUBLE | tWORD | tBOOL | tSTRING); // 只保留数据类型
+  m_pCUnitSecond->PrepareParaDictionary(CCPDlg.GetDicList(), tMODIFIABLE | tINPUT | m_ulDynLinkType);
+  __GetCursorPos(&ptDevice);    // save cursor position
+  switch (CCPDlg.DoModal()) {
+  case IDOK:
+  __SetCursorPos(ptDevice.x, ptDevice.y);   // restore cursor position
+  m_lDestIndex = m_pCUnitSecond->GetIndex(CCPDlg.GetIndex());
+  m_pCUnitSecond->SetParameterLock(m_lDestIndex, true); // 设置参数锁（输入型参数只允许一个源单元与其相链接
+  // 生成新的动态链接
+  m_pCUnitDynLinkCurrent = make_shared<CUnitDynLink>();  // create Dynamic Link
+  m_pCUnitDynLinkCurrent->SetDynLinkType(m_ulDynLinkType);
+  m_pCUnitDynLinkCurrent->SetDynLinkClass(m_ulDynLinkClass);
+  m_pCUnitDynLinkCurrent->SetSrcUnit(m_pCUnitFirst);
+  m_pCUnitDynLinkCurrent->SetDestUnit(m_pCUnitSecond);
+  m_pCUnitDynLinkCurrent->SetLinkPointList(m_plistLinkPoint);
+  ASSERT(TestDynLinkList(m_plistLinkPoint)); // 检查动态链接线是否有误
+  m_plistLinkPoint->clear();
+  m_pCUnitDynLinkCurrent->SetSrcIndex(m_lSrcIndex);
+  m_pCUnitDynLinkCurrent->SetDestIndex(m_lDestIndex);
+  m_pCUnitFirst->AddDynLink(m_pCUnitDynLinkCurrent);
+  __SetDocModifiedFlag();  // document's content is changed
+  UnitListLoopDetect(m_pCUnitListTop); // 检查所有的单元序列是否存在动态链接的循环
+  break;
+  case IDCANCEL:
+  ResetAll(UNIT_SELECTED);
+  break;
+  default:
+  ResetAll(UNIT_PRE_SELECT);
+  break;
+  } // switch idTemp
+  ResetAll(UNIT_PRE_SELECT);
+  if (m_fLinkIntoDestComponent) {
+    ViewOut();    // return to upper unit list
+    m_nCurrentFunction = UNIT_SELECTED;
+    m_fLinkIntoDestComponent = false;
+  }
+  __Invalidate();   // update screen
+  break;
+  case DYNAMIC_LINK_TO_SECOND_COMPONENT: // 链接至目的部件
+  ASSERT(m_pCUnitCurrent->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
+  break;
+  case UNIT_PRE_SELECT: // 恢复最初状态
+  if (m_fLinkIntoSourceComponent) {
+    ViewOut();  // return to upper unit list
+    m_fLinkIntoSourceComponent = false;
+  }
+  if (m_fLinkIntoDestComponent) {
+    ViewOut(); // return to upper unit list
+    m_fLinkIntoDestComponent = false;
+  }
+  DeleteDynLinkPointList(m_plistLinkPoint);
+  break;
+  case NO_DRAG:
+  TRACE("m_nCurrentFunction is NO_GRAG in OnLButtonUp\n");
+  break;
+  case UNIT_SELECTED:
+  TRACE("m_nCurrentFunction is UNIT_SELECTED in OnLButtonUp\n");
+  break;
+  case DYNAMIC_LINK_TO_FIRST_COMPONENT:
+  ASSERT(m_ulDynLinkClass == COMPONENT_TO_UNIT);
+  if (IsInRect(m_ptMousePosition, m_pCUnitCurrent)) {  // 选择部件的内部单元处理
+    ASSERT(!m_pCUnitCurrent->CanLinkIn()); // 不允许再次链接未封装的或不允许封装的部件，动态链接只允许陷入一层
+    ASSERT(m_pCUnitFirst == nullptr);
+    m_pCUnitFirst = m_pCUnitCurrent;
+    ASSERT(m_plistLinkPoint->size() == 1);
+    m_pCUnitFirst->PrepareParaDictionary(CCPDlg.GetDicList(), tMODIFIABLE | tOUTPUT | tDOUBLE | tBOOL | tWORD | tSTRING);
     switch (CCPDlg.DoModal()) {
     case IDOK:
-      __SetCursorPos(ptDevice.x, ptDevice.y);   // restore cursor position
-      m_lDestIndex = m_pCUnitSecond->GetIndex(CCPDlg.GetIndex());
-      m_pCUnitSecond->SetParameterLock(m_lDestIndex, true); // 设置参数锁（输入型参数只允许一个源单元与其相链接
-      // 生成新的动态链接
-      m_pCUnitDynLinkCurrent = make_shared<CUnitDynLink>();  // create Dynamic Link
-      m_pCUnitDynLinkCurrent->SetDynLinkType(m_ulDynLinkType);
-      m_pCUnitDynLinkCurrent->SetDynLinkClass(m_ulDynLinkClass);
-      m_pCUnitDynLinkCurrent->SetSrcUnit(m_pCUnitFirst);
-      m_pCUnitDynLinkCurrent->SetDestUnit(m_pCUnitSecond);
-      m_pCUnitDynLinkCurrent->SetLinkPointList(m_plistLinkPoint);
-      ASSERT(TestDynLinkList(m_plistLinkPoint)); // 检查动态链接线是否有误
-      m_plistLinkPoint->clear();
-      m_pCUnitDynLinkCurrent->SetSrcIndex(m_lSrcIndex);
-      m_pCUnitDynLinkCurrent->SetDestIndex(m_lDestIndex);
-      m_pCUnitFirst->AddDynLink(m_pCUnitDynLinkCurrent);
-			__SetDocModifiedFlag();  // document's content is changed
-      UnitListLoopDetect(m_pCUnitListTop); // 检查所有的单元序列是否存在动态链接的循环
-      break;
+    m_lSrcIndex = m_pCUnitFirst->GetIndex(CCPDlg.GetIndex());
+    m_ulDynLinkType = m_pCUnitFirst->GetDynLinkType(m_lSrcIndex);
+    m_nCurrentFunction = DYNAMIC_LINK_FIRST_UNIT;
+    break;
     case IDCANCEL:
-      ResetAll(UNIT_SELECTED);
-      break;
-    default:
-      ResetAll(UNIT_PRE_SELECT);
-      break;
-    } // switch idTemp
     ResetAll(UNIT_PRE_SELECT);
-    if (m_fLinkIntoDestComponent) {
-      ViewOut();    // return to upper unit list
-      m_nCurrentFunction = UNIT_SELECTED;
-      m_fLinkIntoDestComponent = false;
-    }
-    __Invalidate();   // update screen
     break;
-  case DYNAMIC_LINK_TO_SECOND_COMPONENT: // 链接至目的部件
-    ASSERT(m_pCUnitCurrent->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
+    default:
+    ResetAll(UNIT_PRE_SELECT);
     break;
-  case UNIT_PRE_SELECT: // 恢复最初状态
+    } // switch idTemp
     if (m_fLinkIntoSourceComponent) {
-      ViewOut();  // return to upper unit list
-      m_fLinkIntoSourceComponent = false;
-    }
-    if (m_fLinkIntoDestComponent) {
-      ViewOut(); // return to upper unit list
-      m_fLinkIntoDestComponent = false;
-    }
-    DeleteDynLinkPointList(m_plistLinkPoint);
-    break;
-  case NO_DRAG:
-    TRACE("m_nCurrentFunction is NO_GRAG in OnLButtonUp\n");
-    break;
-  case UNIT_SELECTED:
-    TRACE("m_nCurrentFunction is UNIT_SELECTED in OnLButtonUp\n");
-    break;
-  case DYNAMIC_LINK_TO_FIRST_COMPONENT:
-    ASSERT(m_ulDynLinkClass == COMPONENT_TO_UNIT);
-    if (IsInRect(m_ptMousePosition, m_pCUnitCurrent)) {  // 选择部件的内部单元处理
-      ASSERT(!m_pCUnitCurrent->CanLinkIn()); // 不允许再次链接未封装的或不允许封装的部件，动态链接只允许陷入一层
-      ASSERT(m_pCUnitFirst == nullptr);
-      m_pCUnitFirst = m_pCUnitCurrent;
-      ASSERT(m_plistLinkPoint->size() == 1);
-      m_pCUnitFirst->PrepareParaDictionary(CCPDlg.GetDicList(), tMODIFIABLE | tOUTPUT | tDOUBLE | tBOOL | tWORD | tSTRING);
-      switch (CCPDlg.DoModal()) {
-      case IDOK:
-        m_lSrcIndex = m_pCUnitFirst->GetIndex(CCPDlg.GetIndex());
-        m_ulDynLinkType = m_pCUnitFirst->GetDynLinkType(m_lSrcIndex);      
-        m_nCurrentFunction = DYNAMIC_LINK_FIRST_UNIT;
-        break;
-      case IDCANCEL:
-        ResetAll(UNIT_PRE_SELECT);
-        break;
-      default:
-        ResetAll(UNIT_PRE_SELECT);
-        break;
-      } // switch idTemp
-      if (m_fLinkIntoSourceComponent) {
-        ViewOut();        // 返回上层
-        ASSERT(m_pCUnitCurrent != nullptr);
-        if (m_plistLinkPoint->size() == 1) { // 创建第一个动态链接点
-          AdjustDynLinkPoint(m_rectFirstUnit, m_ptFirst, m_ptSecond, m_ptCurrent); // 从下层上来后要调整动态链接线
-        }
-        else {
-          AdjustDynLinkPoint(m_ptFirst, m_ptSecond, m_ptCurrent);
-        }
-        m_fLinkIntoSourceComponent = false;
-        __UpdateWindow(); // 必须马上更新窗口，不能用Invalidate(),因为Invalidate()会延后更新，导致随后画的第一条动态链接线是画在下层了。 
+      ViewOut();        // 返回上层
+      ASSERT(m_pCUnitCurrent != nullptr);
+      if (m_plistLinkPoint->size() == 1) { // 创建第一个动态链接点
+        AdjustDynLinkPoint(m_rectFirstUnit, m_ptFirst, m_ptSecond, m_ptCurrent); // 从下层上来后要调整动态链接线
       }
-    } // 选择了一个unit
-    else { // cancelled
-      ResetAll(UNIT_PRE_SELECT);
+      else {
+        AdjustDynLinkPoint(m_ptFirst, m_ptSecond, m_ptCurrent);
+      }
+      m_fLinkIntoSourceComponent = false;
+      __UpdateWindow(); // 必须马上更新窗口，不能用Invalidate(),因为Invalidate()会延后更新，导致随后画的第一条动态链接线是画在下层了。
     }
-    break;
+  } // 选择了一个unit
+  else { // cancelled
+    ResetAll(UNIT_PRE_SELECT);
+  }
+  break;
   case DYNAMIC_LINK_FIRST_UNIT:
-    break;
+  break;
   case UNIT_GROUP_SELECTED:
-    break;
+  break;
   default:
-    TRACE("m_nCurrentFunction is default in OnLButtonUp\n");
-    ASSERT(0);
+  TRACE("m_nCurrentFunction is default in OnLButtonUp\n");
+  ASSERT(0);
   } // switch m_nCurrentFunction
 
   __ReleaseDC(pdc);
-	__DefaultOnLButtonUp(nFlags, point);
+  __DefaultOnLButtonUp(nFlags, point);
 }
 
-void CSQIUnitView::OnRButtonUp(UINT nFlags, CPoint point)
-{
+void CSQIUnitView::OnRButtonUp(UINT nFlags, CPoint point) {
   // TODO: Add your message handler code here and/or call default
   switch (m_nCurrentFunction) {
   case DYNAMIC_LINK_FIRST_UNIT:
-    ResetAll(UNIT_PRE_SELECT);
-    __Invalidate();
-    break;
+  ResetAll(UNIT_PRE_SELECT);
+  __Invalidate();
+  break;
   default:
-    ResetAll(UNIT_PRE_SELECT);
-    break;
+  ResetAll(UNIT_PRE_SELECT);
+  break;
   }
 
-	__DefaultOnRButtonUp(nFlags, point);
+  __DefaultOnRButtonUp(nFlags, point);
 }
 
-void CSQIUnitView::OnEditCopy()
-{
+void CSQIUnitView::OnEditCopy() {
   // TODO: Add your command handler code here
-  char *strFileName = "STRATEGY.CLP";
-  char * lpData;
+  char* strFileName = "STRATEGY.CLP";
+  char* lpData;
 
   if ((hData = GlobalAlloc(GMEM_MOVEABLE, 128)) == NULL) {
     ShowMessage(ID_ERROR_OUT_OF_MEMORY);
     return;
   }
-  if ((lpData = (char *)GlobalLock(hData)) == NULL) {
+  if ((lpData = (char*)GlobalLock(hData)) == NULL) {
     ShowMessage(ID_ERROR_OUT_OF_MEMORY);
     return;
   }
@@ -1667,17 +1645,16 @@ void CSQIUnitView::OnEditCopy()
   hData = NULL;
 }
 
-void CSQIUnitView::OnEditCut()
-{
+void CSQIUnitView::OnEditCut() {
   // TODO: Add your command handler code here
-  char *strFileName = "STRATEGY.CLP";
-  char * lpData;
+  char* strFileName = "STRATEGY.CLP";
+  char* lpData;
 
   if ((hData = GlobalAlloc(GMEM_MOVEABLE, 128)) == NULL) {
     ShowMessage(ID_ERROR_OUT_OF_MEMORY);
     return;
   }
-  if ((lpData = (char *)GlobalLock(hData)) == NULL) {
+  if ((lpData = (char*)GlobalLock(hData)) == NULL) {
     ShowMessage(ID_ERROR_OUT_OF_MEMORY);
     return;
   }
@@ -1724,7 +1701,7 @@ void CSQIUnitView::OnEditCut()
   ASSERT(m_pCUnitListCurrent->size() > 0);
   auto it = m_pCUnitListCurrent->begin();
   do {
-    CUnitBase * punit = *it++;
+    CUnitBase* punit = *it++;
     if (punit->IsSelect()) {
       VERIFY(DeleteUnit(m_pCUnitListCurrent, punit));      // 删除已剪辑掉的单元
     }
@@ -1740,14 +1717,13 @@ void CSQIUnitView::OnEditCut()
   }
   hData = NULL;
 
-	__SetDocModifiedFlag();  // document's content is changed
+  __SetDocModifiedFlag();  // document's content is changed
   UnitListLoopDetect(m_pCUnitListTop); // 检查所有的单元序列是否存在动态链接的循环
 
   __Invalidate();
 }
 
-void CSQIUnitView::OnEditDelete()
-{
+void CSQIUnitView::OnEditDelete() {
   // TODO: Add your command handler code here
   auto it = m_pCUnitListCurrent->begin();
   do {
@@ -1755,22 +1731,21 @@ void CSQIUnitView::OnEditDelete()
     if (pcunit->IsSelect()) {
       VERIFY(DeleteUnit(m_pCUnitListCurrent, pcunit));      // delete units
     }
-  } while (it != m_pCUnitListCurrent->end()); 
+  } while (it != m_pCUnitListCurrent->end());
 
   ResetAll(UNIT_PRE_SELECT);
 
-	__SetDocModifiedFlag(); // document's content is changed
+  __SetDocModifiedFlag(); // document's content is changed
   UnitListLoopDetect(m_pCUnitListTop); // 检查所有的单元序列是否存在动态链接的循环
 
   __Invalidate();
 }
 
-void CSQIUnitView::OnEditPaste()
-{
+void CSQIUnitView::OnEditPaste() {
   // TODO: Add your command handler code here
   CFile cFile;
   char buffer[512];
-  char * strFileName;
+  char* strFileName = nullptr;
   CUnitList unitlistTemp;
 
   if (OpenClipboard()) {
@@ -1778,14 +1753,15 @@ void CSQIUnitView::OnEditPaste()
       CloseClipboard();
       return;
     }
-    if ((strFileName = (char *)GlobalLock(hData)) == NULL) {
+    if ((strFileName = (char*)GlobalLock(hData)) == NULL) {
       ShowMessage(ID_ERROR_OUT_OF_MEMORY);
       CloseClipboard();
       return;
     }
   }
 
-  cFile.Open(strFileName, CFile::modeRead);
+  CString str = strFileName;
+  cFile.Open((LPCTSTR)str, CFile::modeRead);
   CArchive ar(&cFile, CArchive::load, 512, buffer);
   CUnitList listUnit;
   INT64 iCount = 0;
@@ -1809,7 +1785,7 @@ void CSQIUnitView::OnEditPaste()
   // 将设置好的单元加入当前层的单元序列中,并设置其上层部件
   for (const auto punit : unitlistTemp) {
     punit->SetComponentUpper(m_pCUnitComponentCurrent);
-    m_pCUnitListCurrent->push_back(punit); 
+    m_pCUnitListCurrent->push_back(punit);
   }
 
   GetDocument()->m_trackerUnit.m_rect = m_pCUnitCurrent->GetSize() - GetScrollPosition();
@@ -1817,44 +1793,38 @@ void CSQIUnitView::OnEditPaste()
   GlobalUnlock(hData);
   CloseClipboard();
 
-	__SetDocModifiedFlag(); // document's content is changed
+  __SetDocModifiedFlag(); // document's content is changed
   UnitListLoopDetect(m_pCUnitListTop); // 检查所有的单元序列是否存在动态链接的循环
 
   __Invalidate();
 }
 
-void CSQIUnitView::OnEditUndo()
-{
+void CSQIUnitView::OnEditUndo() {
   // TODO: Add your command handler code here
-
 }
 
-void CSQIUnitView::OnStyleCentered()
-{
+void CSQIUnitView::OnStyleCentered() {
   // TODO: Add your command handler code here
-	__SetDocModifiedFlag(); // document's content is changed
+  __SetDocModifiedFlag(); // document's content is changed
   CenterAlign();
   __Invalidate();
 }
 
-void CSQIUnitView::OnStyleLeft()
-{
+void CSQIUnitView::OnStyleLeft() {
   // TODO: Add your command handler code here
   GetDocument()->SetModifiedFlag(true); // document's content is changed
   LeftAlign();
   __Invalidate();
 }
 
-void CSQIUnitView::OnStyleRight()
-{
+void CSQIUnitView::OnStyleRight() {
   // TODO: Add your command handler code here
-	__SetDocModifiedFlag(); // document's content is changed
+  __SetDocModifiedFlag(); // document's content is changed
   RightAlign();
   __Invalidate();
 }
 
-void CSQIUnitView::OnArrangeToback()
-{
+void CSQIUnitView::OnArrangeToback() {
   // TODO: Add your command handler code here
 
   GetDocument()->SetModifiedFlag(true); // document's content is changed
@@ -1863,84 +1833,77 @@ void CSQIUnitView::OnArrangeToback()
   __Invalidate();
 }
 
-void CSQIUnitView::OnArrangeTofront()
-{
+void CSQIUnitView::OnArrangeTofront() {
   // TODO: Add your command handler code here
 
-	__SetDocModifiedFlag(); // document's content is changed
+  __SetDocModifiedFlag(); // document's content is changed
   ASSERT(m_pCUnitCurrent != NULL);
   UnitToFront(m_pCUnitListCurrent, m_pCUnitCurrent);
   __Invalidate();
 }
 
-void CSQIUnitView::OnUpdateArrangeToback(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateArrangeToback(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
+  pCmdUI->Enable(false);
   } // switch
 }
 
-void CSQIUnitView::OnUpdateArrangeTofront(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateArrangeTofront(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
+  pCmdUI->Enable(false);
   } // switch
 }
 
-void CSQIUnitView::OnUpdateEditCopy(CCmdUI* pCmdUI)
-{
-  // TODO: Add your command update UI handler code here
-  switch (m_nCurrentFunction) {
-  case UNIT_SELECTED:
-  case UNIT_GROUP_SELECTED:
-    pCmdUI->Enable(true);
-    break;
-  default:
-    pCmdUI->Enable(false);
-    break;
-  } // switch
-}
-
-void CSQIUnitView::OnUpdateEditCut(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateEditCopy(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_SELECTED:
   case UNIT_GROUP_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
-    break;
+  pCmdUI->Enable(false);
+  break;
   } // switch
 }
 
-void CSQIUnitView::OnUpdateEditDelete(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateEditCut(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_SELECTED:
   case UNIT_GROUP_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
-    break;
+  pCmdUI->Enable(false);
+  break;
   } // switch
 }
 
-void CSQIUnitView::OnUpdateEditPaste(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateEditDelete(CCmdUI* pCmdUI) {
+  // TODO: Add your command update UI handler code here
+  switch (m_nCurrentFunction) {
+  case UNIT_SELECTED:
+  case UNIT_GROUP_SELECTED:
+  pCmdUI->Enable(true);
+  break;
+  default:
+  pCmdUI->Enable(false);
+  break;
+  } // switch
+}
+
+void CSQIUnitView::OnUpdateEditPaste(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   if (OpenClipboard()) {
     if (IsClipboardFormatAvailable(m_uUnitFormat)) {
@@ -1952,105 +1915,92 @@ void CSQIUnitView::OnUpdateEditPaste(CCmdUI* pCmdUI)
   CloseClipboard();
 }
 
-void CSQIUnitView::OnUpdateEditUndo(CCmdUI*)
-{
+void CSQIUnitView::OnUpdateEditUndo(CCmdUI*) {
   // TODO: Add your command update UI handler code here
-
 }
 
-void CSQIUnitView::OnUpdateStyleCentered(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateStyleCentered(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_GROUP_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
-    break;
+  pCmdUI->Enable(false);
+  break;
   } // switch
 }
 
-void CSQIUnitView::OnUpdateStyleLeft(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateStyleLeft(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_GROUP_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
-    break;
+  pCmdUI->Enable(false);
+  break;
   } // switch
 }
 
-void CSQIUnitView::OnUpdateStyleRight(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateStyleRight(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_GROUP_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
-    break;
+  pCmdUI->Enable(false);
+  break;
   } // switch
 }
 
-void CSQIUnitView::OnUpdateBlock(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateBlock(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   pCmdUI->SetCheck((UINT)(gl_ulUnitLibrary) == pCmdUI->m_nID);
 }
 
-void CSQIUnitView::OnUpdateBlockI(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateBlockI(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   pCmdUI->Enable(false);
 }
 
-void CSQIUnitView::OnBlockMathmaticAdd()
-{
+void CSQIUnitView::OnBlockMathmaticAdd() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_MATHMATIC_ADD;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputAin()
-{
+void CSQIUnitView::OnBlockInputoutputAin() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_AIN;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockSimulateQuadratic()
-{
+void CSQIUnitView::OnBlockSimulateQuadratic() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_SIMULATE_QUADRATIC;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockSimulateSine()
-{
+void CSQIUnitView::OnBlockSimulateSine() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_SIMULATE_SINE;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnViewViewin()
-{
+void CSQIUnitView::OnViewViewin() {
   // TODO: Add your command handler code here
 
   ASSERT(m_pCUnitCurrent != nullptr);
-  ViewIn((CUnitComponent *)m_pCUnitCurrent);
+  ViewIn((CUnitComponent*)m_pCUnitCurrent);
   m_pCUnitCurrent = nullptr;     // set current process unit to NULL
   m_nCurrentFunction = UNIT_PRE_SELECT;
   __SetCurrentUnitList(m_pCUnitListCurrent);
   m_pDoc->m_trackerUnit.m_rect.SetRectEmpty();
 }
 
-void CSQIUnitView::OnUpdateViewViewin(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateViewViewin(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
 
   if (m_pCUnitCurrent != nullptr) {
@@ -2066,8 +2016,7 @@ void CSQIUnitView::OnUpdateViewViewin(CCmdUI* pCmdUI)
   }
 }
 
-void CSQIUnitView::OnViewViewout()
-{
+void CSQIUnitView::OnViewViewout() {
   // TODO: Add your command handler code here
   if (m_pCUnitCurrent != nullptr) m_pCUnitCurrent->SetSelect(false);
   ViewOut();
@@ -2076,8 +2025,7 @@ void CSQIUnitView::OnViewViewout()
   __SetCurrentUnitList(m_pCUnitListCurrent);
 }
 
-void CSQIUnitView::OnUpdateViewViewout(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateViewViewout(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
 
   if (m_lComponentLayer > 0) {
@@ -2088,419 +2036,361 @@ void CSQIUnitView::OnUpdateViewViewout(CCmdUI* pCmdUI)
   }
 }
 
-void CSQIUnitView::OnBlockCompound()
-{
+void CSQIUnitView::OnBlockCompound() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_COMPOUND;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockComponent()
-{
+void CSQIUnitView::OnBlockComponent() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_COMPONENT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnUpdateObjectBar(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateObjectBar(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   pCmdUI->Enable(false);
 }
 
-void CSQIUnitView::OnBlockMathmaticMultiple()
-{
+void CSQIUnitView::OnBlockMathmaticMultiple() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_MATHMATIC_MULTIPLE;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiclogicAnd()
-{
+void CSQIUnitView::OnBlockBasiclogicAnd() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICLOGIC_AND;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiclogicDlay()
-{
+void CSQIUnitView::OnBlockBasiclogicDlay() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICLOGIC_DLAY;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiclogicDrot()
-{
+void CSQIUnitView::OnBlockBasiclogicDrot() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICLOGIC_DROT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiclogicInv()
-{
+void CSQIUnitView::OnBlockBasiclogicInv() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICLOGIC_INV;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiclogicOr()
-{
+void CSQIUnitView::OnBlockBasiclogicOr() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICLOGIC_OR;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiclogicPuls()
-{
+void CSQIUnitView::OnBlockBasiclogicPuls() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICLOGIC_PULS;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiclogicXor()
-{
+void CSQIUnitView::OnBlockBasiclogicXor() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICLOGIC_XOR;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockAdvancelogicFflp()
-{
+void CSQIUnitView::OnBlockAdvancelogicFflp() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ADVANCELOGIC_FFLP;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockAdvancelogicIcnt()
-{
+void CSQIUnitView::OnBlockAdvancelogicIcnt() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ADVANCELOGIC_ICNT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticQflt()
-{
+void CSQIUnitView::OnBlockArithmaticQflt() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_QFLT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticHflt()
-{
+void CSQIUnitView::OnBlockArithmaticHflt() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_HFLT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockAdvancecontrolSchd()
-{
+void CSQIUnitView::OnBlockAdvancecontrolSchd() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ADVANCECONTROL_SCHD;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockAdvancecontrolSeq()
-{
+void CSQIUnitView::OnBlockAdvancecontrolSeq() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ADVANCECONTROL_SEQ;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockAdvancecontrolSeqe()
-{
+void CSQIUnitView::OnBlockAdvancecontrolSeqe() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ADVANCECONTROL_SEQE;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockAdvancelogicTtb()
-{
+void CSQIUnitView::OnBlockAdvancelogicTtb() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ADVANCELOGIC_TTB;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockSelectHsel()
-{
+void CSQIUnitView::OnBlockSelectHsel() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_SELECT_HSEL;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockSelectLsel()
-{
+void CSQIUnitView::OnBlockSelectLsel() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_SELECT_LSEL;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockSelectMsel()
-{
+void CSQIUnitView::OnBlockSelectMsel() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_SELECT_MSEL;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockSelectSwch()
-{
+void CSQIUnitView::OnBlockSelectSwch() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_SELECT_SWCH;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockMathmaticExpr()
-{
+void CSQIUnitView::OnBlockMathmaticExpr() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_MATHMATIC_EXPR;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockMathmaticDiv()
-{
+void CSQIUnitView::OnBlockMathmaticDiv() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_MATHMATIC_DIV;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockMathmaticAvgt()
-{
+void CSQIUnitView::OnBlockMathmaticAvgt() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_MATHMATIC_AVGT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockAdvancelogicTtbe()
-{
+void CSQIUnitView::OnBlockAdvancelogicTtbe() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ADVANCELOGIC_TTBE;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticTot()
-{
+void CSQIUnitView::OnBlockArithmaticTot() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_TOT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticAlrm()
-{
+void CSQIUnitView::OnBlockArithmaticAlrm() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_ALRM;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticChar()
-{
+void CSQIUnitView::OnBlockArithmaticChar() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_CHAR;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticCond()
-{
+void CSQIUnitView::OnBlockArithmaticCond() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_COND;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticDtim()
-{
+void CSQIUnitView::OnBlockArithmaticDtim() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_DTIM;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticLlag()
-{
+void CSQIUnitView::OnBlockArithmaticLlag() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_LLAG;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockArithmaticHpbg()
-{
+void CSQIUnitView::OnBlockArithmaticHpbg() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_ARITHMATIC_HPBG;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiccontrolAmb()
-{
+void CSQIUnitView::OnBlockBasiccontrolAmb() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICCONTROL_AMB;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiccontrolIntd()
-{
+void CSQIUnitView::OnBlockBasiccontrolIntd() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICCONTROL_INTD;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiccontrolPd()
-{
+void CSQIUnitView::OnBlockBasiccontrolPd() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICCONTROL_PD;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiccontrolPid()
-{
+void CSQIUnitView::OnBlockBasiccontrolPid() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICCONTROL_PID;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockBasiccontrolTime()
-{
+void CSQIUnitView::OnBlockBasiccontrolTime() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_BASICCONTROL_TIME;
 }
 
-void CSQIUnitView::OnBlockHistorytrendAhst()
-{
+void CSQIUnitView::OnBlockHistorytrendAhst() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_HISTORYTREND_AHST;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockHistorytrendDhst()
-{
+void CSQIUnitView::OnBlockHistorytrendDhst() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_HISTORYTREND_DHST;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockHistorytrendRprt()
-{
+void CSQIUnitView::OnBlockHistorytrendRprt() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_HISTORYTREND_RPRT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockHistorytrendSpc()
-{
+void CSQIUnitView::OnBlockHistorytrendSpc() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_HISTORYTREND_SPC;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputAins()
-{
+void CSQIUnitView::OnBlockInputoutputAins() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_AINS;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputAkbd()
-{
+void CSQIUnitView::OnBlockInputoutputAkbd() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_AINS;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputAots()
-{
+void CSQIUnitView::OnBlockInputoutputAots() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_AOTS;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputAout()
-{
+void CSQIUnitView::OnBlockInputoutputAout() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_AOUT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputDin()
-{
+void CSQIUnitView::OnBlockInputoutputDin() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_DIN;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputDins()
-{
+void CSQIUnitView::OnBlockInputoutputDins() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_DINS;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputDkbd()
-{
+void CSQIUnitView::OnBlockInputoutputDkbd() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_DKBD;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputDots()
-{
+void CSQIUnitView::OnBlockInputoutputDots() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_DOTS;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputDout()
-{
+void CSQIUnitView::OnBlockInputoutputDout() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_DOUT;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputHorn()
-{
+void CSQIUnitView::OnBlockInputoutputHorn() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_HORN;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputTpo()
-{
+void CSQIUnitView::OnBlockInputoutputTpo() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_TPO;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockInputoutputSim()
-{
+void CSQIUnitView::OnBlockInputoutputSim() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_INPUTOUTPUT_SIM;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockMathmaticAvg()
-{
+void CSQIUnitView::OnBlockMathmaticAvg() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_MATHMATIC_AVG;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnBlockSimulateLogarithm()
-{
+void CSQIUnitView::OnBlockSimulateLogarithm() {
   // TODO: Add your command handler code here
   gl_ulUnitLibrary = ID_BLOCK_SIMULATE_LOGARITHM;
   m_nCurrentFunction = CREATE_NEW_UNIT;
 }
 
-void CSQIUnitView::OnUpdateArrangeBreakdynlink(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateArrangeBreakdynlink(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_SELECTED:
-    ASSERT(m_pCUnitCurrent != nullptr);
-    if (m_pCUnitCurrent->GetDynLinkList()->size() > 0) {  // have dynamic link ?
-      pCmdUI->Enable(true);
-    }
-    else {
-      pCmdUI->Enable(false);
-    }
-    break;
-  default:
+  ASSERT(m_pCUnitCurrent != nullptr);
+  if (m_pCUnitCurrent->GetDynLinkList()->size() > 0) {  // have dynamic link ?
+    pCmdUI->Enable(true);
+  }
+  else {
     pCmdUI->Enable(false);
-    break;
+  }
+  break;
+  default:
+  pCmdUI->Enable(false);
+  break;
   } // switch
 }
 
@@ -2509,26 +2399,23 @@ void CSQIUnitView::OnUpdateArrangeBreakdynlink(CCmdUI* pCmdUI)
 // 删除动态链接
 //
 /////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnArrangeBreakdynlink()
-{
+void CSQIUnitView::OnArrangeBreakdynlink() {
   // TODO: Add your command handler code here
   if (m_pCUnitCurrent->ArrangeDynLink()) {
-		__SetDocModifiedFlag();
+    __SetDocModifiedFlag();
   }
   __Invalidate();
 }
 
-
-void CSQIUnitView::OnUpdateArrangeTogglecutoff(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateArrangeTogglecutoff(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
-    break;
+  pCmdUI->Enable(false);
+  break;
   } // switch
 }
 
@@ -2537,8 +2424,7 @@ void CSQIUnitView::OnUpdateArrangeTogglecutoff(CCmdUI* pCmdUI)
 // 切换截断标志
 //
 //////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnArrangeTogglecutoff()
-{
+void CSQIUnitView::OnArrangeTogglecutoff() {
   // TODO: Add your command handler code here
   if (m_pCUnitCurrent->IsCutoff()) {	// 如已经设置了截断,则清除之.
     m_pCUnitCurrent->SetCutOff(false);
@@ -2547,12 +2433,12 @@ void CSQIUnitView::OnArrangeTogglecutoff()
     return;
   }
   else {			// 设置截断.
-    CUnitComponent * pcpd;
+    CUnitComponent* pcpd;
     pcpd = m_pCUnitCurrent->GetComponentUpper();
     if (pcpd != nullptr) {	// 有部件包含我？
       if (!AlreadyHaveCutOff(m_pCUnitCurrent, m_pCUnitListCurrent)) { // 我不在部件的循环中.
         m_pCUnitCurrent->SetCutOff(true);	// 设置截断标志.
-        UnitListLoopDetect(m_pCUnitListCurrent);  // 
+        UnitListLoopDetect(m_pCUnitListCurrent);  //
         __Invalidate();
       }
       return; // 返回,不再检查整个序列的情况.
@@ -2560,7 +2446,7 @@ void CSQIUnitView::OnArrangeTogglecutoff()
     else { // 最上层序列
       if (!AlreadyHaveCutOff(m_pCUnitCurrent, m_pCUnitListCurrent)) {	// 我不在整个序列的循环中?
         m_pCUnitCurrent->SetCutOff(true);	// 设置截断标志.
-        UnitListLoopDetect(m_pCUnitListCurrent);  // 
+        UnitListLoopDetect(m_pCUnitListCurrent);  //
         __Invalidate();
         return;
       }
@@ -2568,17 +2454,15 @@ void CSQIUnitView::OnArrangeTogglecutoff()
   }
 }
 
-void CSQIUnitView::OnViewProperty()
-{
+void CSQIUnitView::OnViewProperty() {
   // TODO: Add your command handler code here
   if (m_pCUnitCurrent->SetProperty()) {
-		__SetDocModifiedFlag();
+    __SetDocModifiedFlag();
   }
   __Invalidate();
 }
 
-void CSQIUnitView::OnUpdateViewProperty(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateViewProperty(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   if (m_pCUnitCurrent != NULL) {
     pCmdUI->Enable(true);
@@ -2594,8 +2478,7 @@ void CSQIUnitView::OnUpdateViewProperty(CCmdUI* pCmdUI)
 //
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-BOOL CSQIUnitView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
-{
+BOOL CSQIUnitView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message) {
   // TODO: Add your message handler code here and/or call default
 
   if (pWnd == this && m_pDoc->m_trackerUnit.SetCursor(this, nHitTest))
@@ -2604,28 +2487,28 @@ BOOL CSQIUnitView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
   case DYNAMIC_LINK_FIRST_UNIT:
   case DYNAMIC_LINK_TO_FIRST_COMPONENT:
   case DYNAMIC_LINK_TO_SECOND_COMPONENT:
-    SetCursor(m_hCursorDynamicLink); // 设置动态链接光标
-    break;
+  SetCursor(m_hCursorDynamicLink); // 设置动态链接光标
+  break;
   case NO_DRAG:
-    SetCursor(m_hCursorNoDrag);			//设置禁止光标
-    break;
+  SetCursor(m_hCursorNoDrag);			//设置禁止光标
+  break;
   case UNIT_PRE_SELECT:
-    if (m_pCUnitMouseMove != nullptr) {
-      if (m_pCUnitMouseMove->CanViewIn()) { // 部件？
-        SetCursor(m_hCursorComponent);	// 设置联入光标
-        break;
-      }
-      else {
-        SetCursor(m_hCursorArrow); // 正常光标
-      }
+  if (m_pCUnitMouseMove != nullptr) {
+    if (m_pCUnitMouseMove->CanViewIn()) { // 部件？
+      SetCursor(m_hCursorComponent);	// 设置联入光标
+      break;
     }
     else {
       SetCursor(m_hCursorArrow); // 正常光标
     }
-    break;
-  default:
+  }
+  else {
     SetCursor(m_hCursorArrow); // 正常光标
-    break;
+  }
+  break;
+  default:
+  SetCursor(m_hCursorArrow); // 正常光标
+  break;
   }
   return CScrollView::OnSetCursor(pWnd, nHitTest, message);
 }
@@ -2647,8 +2530,7 @@ BOOL CSQIUnitView::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 //
 //
 ////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnArrangeMakedynlink()
-{
+void CSQIUnitView::OnArrangeMakedynlink() {
   // TODO: Add your command handler code here
   shared_ptr<CPoint> ppt;
   CDlgChoiceParameter CCPDlg;
@@ -2686,43 +2568,40 @@ void CSQIUnitView::OnArrangeMakedynlink()
 
   if (m_ulDynLinkClass == COMPONENT_TO_UNIT) { // 部件
     ASSERT(m_pCUnitCurrent->IsKindOf(RUNTIME_CLASS(CUnitComponent)));
-    ViewIn((CUnitComponent *)m_pCUnitCurrent);  // trace into inner unit list
+    ViewIn((CUnitComponent*)m_pCUnitCurrent);  // trace into inner unit list
     m_fLinkIntoSourceComponent = true;
-
   }
   else { // 简单单元或者封装后的部件
     m_pCUnitFirst->PrepareParaDictionary(CCPDlg.GetDicList(), tMODIFIABLE | tOUTPUT | tDOUBLE | tBOOL | tWORD | tSTRING);
     switch (__DlgChoicePara(&CCPDlg)) { // 选择参数
     case IDOK: // 成功
-      m_lSrcIndex = m_pCUnitFirst->GetIndex(CCPDlg.GetIndex()); // 当前参数的位置
-      m_ulDynLinkType = m_pCUnitFirst->GetDynLinkType(m_lSrcIndex); // 当前参数的类型
-      break;
+    m_lSrcIndex = m_pCUnitFirst->GetIndex(CCPDlg.GetIndex()); // 当前参数的位置
+    m_ulDynLinkType = m_pCUnitFirst->GetDynLinkType(m_lSrcIndex); // 当前参数的类型
+    break;
     default:	// 放弃
-      DeleteDynLinkPointList(m_plistLinkPoint);
-      m_pCUnitFirst = m_pCUnitCurrent = nullptr;
-      m_nCurrentFunction = UNIT_PRE_SELECT; 
-      break;
+    DeleteDynLinkPointList(m_plistLinkPoint);
+    m_pCUnitFirst = m_pCUnitCurrent = nullptr;
+    m_nCurrentFunction = UNIT_PRE_SELECT;
+    break;
     } // switch
   }
 }
 
-void CSQIUnitView::OnUpdateArrangeMakedynlink(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateArrangeMakedynlink(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   switch (m_nCurrentFunction) {
   case UNIT_SELECTED:
-    pCmdUI->Enable(true);
-    break;
+  pCmdUI->Enable(true);
+  break;
   default:
-    pCmdUI->Enable(false);
-    break;
+  pCmdUI->Enable(false);
+  break;
   } // switch
 }
 
-void CSQIUnitView::OnUpdateArrangeLinkIntoComponent(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateArrangeLinkIntoComponent(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
-  CUnitComponent * pc;
+  CUnitComponent* pc;
 
   if ((m_nCurrentFunction == UNIT_SELECTED) && ((pc = m_pCUnitCurrent->GetComponentUpper()) != NULL)) {
     if (pc->IsEncapsulable()) { // 复合单元不允许设置动态链接
@@ -2742,8 +2621,7 @@ void CSQIUnitView::OnUpdateArrangeLinkIntoComponent(CCmdUI* pCmdUI)
 //
 //
 /////////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnArrangeLinkIntoComponent()
-{
+void CSQIUnitView::OnArrangeLinkIntoComponent() {
   // TODO: Add your command handler code here
   ULONG ulDestIndex, ulSrcIndex;
   CDlgChoiceParameter CCPDlgSrc;
@@ -2765,22 +2643,21 @@ void CSQIUnitView::OnArrangeLinkIntoComponent()
     strName = strName + "(" + m_pCUnitCurrent->GetName() + "." + m_pCUnitCurrent->GetParaName(ulSrcIndex) + ")";
     m_pCUnitComponentCurrent->SetParaName(ulDestIndex, strName);
     m_pCUnitComponentCurrent->SetParaLinkedFlag(ulDestIndex, true);					// 设置选中标志
-    m_pCUnitComponentCurrent->SetParaSrcUnit(ulDestIndex, m_pCUnitCurrent);	// 
+    m_pCUnitComponentCurrent->SetParaSrcUnit(ulDestIndex, m_pCUnitCurrent);	//
     m_pCUnitComponentCurrent->SetParaSrcIndex(ulDestIndex, ulSrcIndex);
     m_pCUnitComponentCurrent->SetParaType(ulDestIndex, m_pCUnitCurrent->GetParaType(ulSrcIndex) | tMODIFIABLE | tOUTPUT);
     m_pCUnitComponentCurrent->SetParaLinkedFlag(ulDestIndex, true);
 
     m_pCUnitCurrent->LinkToComponent(true);
-		__SetDocModifiedFlag(); // document's content is changed
+    __SetDocModifiedFlag(); // document's content is changed
   }
 }
 
-void CSQIUnitView::OnUpdateBreakLinkOfComponent(CCmdUI* pCmdUI)
-{
+void CSQIUnitView::OnUpdateBreakLinkOfComponent(CCmdUI* pCmdUI) {
   // TODO: Add your command update UI handler code here
   if (m_pCUnitCurrent != NULL) {
     if (m_pCUnitCurrent->IsKindOf(RUNTIME_CLASS(CUnitComponent))) {
-      if (((CUnitComponent *)m_pCUnitCurrent)->HaveParameter()) {
+      if (((CUnitComponent*)m_pCUnitCurrent)->HaveParameter()) {
         pCmdUI->Enable(true);
         return;
       }
@@ -2789,53 +2666,49 @@ void CSQIUnitView::OnUpdateBreakLinkOfComponent(CCmdUI* pCmdUI)
   pCmdUI->Enable(false);
 }
 
-void CSQIUnitView::OnBreakLinkOfComponent()
-{
+void CSQIUnitView::OnBreakLinkOfComponent() {
   // TODO: Add your command handler code here
   CDlgDeleteComponentPara CDlg;
 
-  CDlg.SetLink((CUnitComponent *)m_pCUnitCurrent, ((CUnitComponent *)m_pCUnitCurrent)->GetParaInterface());
+  CDlg.SetLink((CUnitComponent*)m_pCUnitCurrent, ((CUnitComponent*)m_pCUnitCurrent)->GetParaInterface());
   CDlg.DoModal();
-
 }
 
 void CSQIUnitView::ResetAll(ULONG ulType) {
-
   m_pCUnitFirst = m_pCUnitSecond = nullptr;
   m_rectFirstUnit.SetRectEmpty();
   m_rectSecondUnit.SetRectEmpty();
   m_rectCurrent.SetRectEmpty();
   m_ptFirst.x = m_ptFirst.y = m_ptSecond.x = m_ptSecond.y = 0;
-	m_ulDynLinkType = 0;
-	m_lSrcIndex = m_lDestIndex = -1; // 故意设成无效值。
-	
-	CRect rect;
+  m_ulDynLinkType = 0;
+  m_lSrcIndex = m_lDestIndex = -1; // 故意设成无效值。
+
+  CRect rect;
 
   switch (ulType) {
   case UNIT_PRE_SELECT:
-    DeleteDynLinkPointList(m_plistLinkPoint);
-    m_pCUnitCurrent = nullptr;
-		rect.SetRectEmpty();
-    __SetTrackerRect(rect);
-    m_nCurrentFunction = UNIT_PRE_SELECT;
-    break;
+  DeleteDynLinkPointList(m_plistLinkPoint);
+  m_pCUnitCurrent = nullptr;
+  rect.SetRectEmpty();
+  __SetTrackerRect(rect);
+  m_nCurrentFunction = UNIT_PRE_SELECT;
+  break;
   case UNIT_SELECTED:
-    DeleteDynLinkPointList(m_plistLinkPoint);
-    m_nCurrentFunction = UNIT_SELECTED;
-    break;
+  DeleteDynLinkPointList(m_plistLinkPoint);
+  m_nCurrentFunction = UNIT_SELECTED;
+  break;
   default:
-    ASSERT(0);
-    break;
+  ASSERT(0);
+  break;
   }
 }
 
-void CSQIUnitView::OnUpdateArrangeLinkfromcomponent(CCmdUI *pCmdUI)
-{
+void CSQIUnitView::OnUpdateArrangeLinkfromcomponent(CCmdUI* pCmdUI) {
   // TODO: 在此添加命令更新用户界面处理程序代码
-  CUnitComponent * pc;
+  CUnitComponent* pc;
 
   if ((m_nCurrentFunction == UNIT_SELECTED)
-    && ((pc = m_pCUnitCurrent->GetComponentUpper()) != NULL)) {
+      && ((pc = m_pCUnitCurrent->GetComponentUpper()) != NULL)) {
     if (!m_pCUnitCurrent->CanViewIn()) { // 不允许再次陷入部件
       pCmdUI->Enable(true);
       return;
@@ -2849,8 +2722,7 @@ void CSQIUnitView::OnUpdateArrangeLinkfromcomponent(CCmdUI *pCmdUI)
 // 从包含自己的部件参数中联入一个动态链接至本单元的输入型参数
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////
-void CSQIUnitView::OnArrangeLinkfromcomponent()
-{
+void CSQIUnitView::OnArrangeLinkfromcomponent() {
   // TODO: 在此添加命令处理程序代码
 
   ULONG ulSrcIndex, ulDestIndex;
@@ -2874,19 +2746,17 @@ void CSQIUnitView::OnArrangeLinkfromcomponent()
     strName = strName + "(" + m_pCUnitCurrent->GetName() + "." + m_pCUnitCurrent->GetParaName(ulDestIndex) + ")";
     m_pCUnitComponentCurrent->SetParaName(ulSrcIndex, strName);
     m_pCUnitComponentCurrent->SetParaLinkedFlag(ulSrcIndex, true);					// 设置选中标志
-    m_pCUnitComponentCurrent->SetParaDestUnit(ulSrcIndex, m_pCUnitCurrent);	// 
+    m_pCUnitComponentCurrent->SetParaDestUnit(ulSrcIndex, m_pCUnitCurrent);	//
     m_pCUnitComponentCurrent->SetParaDestIndex(ulSrcIndex, ulDestIndex);
     m_pCUnitComponentCurrent->SetParaType(ulSrcIndex, m_pCUnitCurrent->GetParaType(ulDestIndex) | tMODIFIABLE | tINPUT);
     m_pCUnitCurrent->SetParameterLock(ulDestIndex, true); // 输入型参数只允许链接一次
     m_pCUnitCurrent->LinkFromComponent(true);
-		__SetDocModifiedFlag(); // document's content is changed	
+    __SetDocModifiedFlag(); // document's content is changed
   }
 }
 
-void CSQIUnitView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
+void CSQIUnitView::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags) {
   // TODO: 在此添加消息处理程序代码和/或调用默认值
 
   CScrollView::OnKeyUp(nChar, nRepCnt, nFlags);
-
 }

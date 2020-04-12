@@ -9,31 +9,29 @@
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
-#endif 
+#endif
 
 namespace DACViewTest {
   TEST(TestCObjectDynLink, TestInitialize) {
     CObjectDynLink cODL("abcde"), cODL2;
 
-    EXPECT_STREQ("abcde", cODL.GetName());
+    EXPECT_STREQ(_T("abcde"), cODL.GetName());
     EXPECT_EQ(nullptr, cODL.GetUnit());
     EXPECT_EQ(100000000, cODL.GetScanRate());
     EXPECT_EQ(-1, cODL.GetObjectIndex());
     EXPECT_EQ(-1, cODL.GetUnitIndex());
     EXPECT_EQ(0, cODL.GetLinkMethod());
     EXPECT_FALSE(cODL.IsDeleteMe());
-    EXPECT_STREQ("", cODL2.GetName());
+    EXPECT_STREQ(_T(""), cODL2.GetName());
     EXPECT_EQ(nullptr, cODL2.GetUnit());
     EXPECT_EQ(100000000, cODL2.GetScanRate());
     EXPECT_EQ(-1, cODL2.GetObjectIndex());
     EXPECT_EQ(-1, cODL2.GetUnitIndex());
     EXPECT_EQ(0, cODL2.GetLinkMethod());
     EXPECT_FALSE(cODL2.IsDeleteMe());
-
   }
 
   TEST(TestCObjectDynLink, TestSerilize) {
-
   }
 
   TEST(TestCObjectDynLink, TestGetAndSet) {
@@ -44,7 +42,7 @@ namespace DACViewTest {
     cu.SetName("asdf");
     cODL.SetUnit(&cu);
     EXPECT_EQ(&cu, cODL.GetUnit());
-    EXPECT_STREQ("asdf", cODL.GetUnitName());
+    EXPECT_STREQ(_T("asdf"), cODL.GetUnitName());
 
     co.SetName("asdf");
     cODL.SetObject(&co);
@@ -60,7 +58,7 @@ namespace DACViewTest {
     EXPECT_EQ(tWORD | tDOUBLE, cODL.GetObjectDynLinkType());
     EXPECT_EQ(tDOUBLE, cODL.GetUnitDynLinkType());
 
-    EXPECT_TRUE(cODL.IsUnitToObject());
+    EXPECT_FALSE(cODL.IsUnitToObject());
     cODL.SetDataFlowUnitToObject(false);
     EXPECT_FALSE(cODL.IsUnitToObject());
     cODL.SetDataFlowUnitToObject(true);
@@ -70,8 +68,6 @@ namespace DACViewTest {
     EXPECT_TRUE(cODL.IsDeleteMe());
     cODL.SetDeleteMeFlag(false);
     EXPECT_FALSE(cODL.IsDeleteMe());
-
-
   }
   TEST(TestCObjectDynLink, TestDestIndex) {}
   TEST(TestCObjectDynLink, TestGetType) {}
@@ -88,5 +84,4 @@ namespace DACViewTest {
   TEST(TestCObjectDynLink, TestSetDynLinkType) {}
   TEST(TestCObjectDynLink, TestSetDynLinkClass) {}
   TEST(TestCObjectDynLink, TestSetLinkPointList) {}
-
 }

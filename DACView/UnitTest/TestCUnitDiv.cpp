@@ -4,36 +4,35 @@
 #include"CUnitDivide.h"
 
 namespace DACViewTest {
-
   TEST(TestUnitDivide, TestInitialize) {
     CPoint pt(100, 100);
     CUnitDivide c("CUnitDiv", pt);
 
     CRect rect = c.GetSize();
-    EXPECT_STREQ("CUnitDiv", c.GetName());
+    EXPECT_STREQ(_T("CUnitDiv"), c.GetName());
     EXPECT_EQ(100 - 15, rect.left);
     EXPECT_EQ(100 - 15, rect.top);
     EXPECT_EQ(100 + 15, rect.right);
     EXPECT_EQ(100 + 15, rect.bottom);
 
-    EXPECT_STREQ("Input1", c.GetParaName(0));
-    EXPECT_STREQ("Input2", c.GetParaName(1));
-    EXPECT_STREQ("Output", c.GetParaName(2));
-    EXPECT_STREQ("K1", c.GetParaName(3));
-    EXPECT_STREQ("K2", c.GetParaName(4));    
-    EXPECT_STREQ("HiRange", c.GetParaName(5));
-    EXPECT_STREQ("LowRange", c.GetParaName(6));
-    EXPECT_STREQ("HiLimit", c.GetParaName(7));
-    EXPECT_STREQ("LowLimit", c.GetParaName(8));
-    EXPECT_STREQ("AutoManual", c.GetParaName(9));
-    EXPECT_STREQ("ScanRate", c.GetParaName(10));
-    EXPECT_STREQ("", c.GetParaName(11));
+    EXPECT_STREQ(_T("Input1"), c.GetParaName(0));
+    EXPECT_STREQ(_T("Input2"), c.GetParaName(1));
+    EXPECT_STREQ(_T("Output"), c.GetParaName(2));
+    EXPECT_STREQ(_T("K1"), c.GetParaName(3));
+    EXPECT_STREQ(_T("K2"), c.GetParaName(4));
+    EXPECT_STREQ(_T("HiRange"), c.GetParaName(5));
+    EXPECT_STREQ(_T("LowRange"), c.GetParaName(6));
+    EXPECT_STREQ(_T("HiLimit"), c.GetParaName(7));
+    EXPECT_STREQ(_T("LowLimit"), c.GetParaName(8));
+    EXPECT_STREQ(_T("AutoManual"), c.GetParaName(9));
+    EXPECT_STREQ(_T("ScanRate"), c.GetParaName(10));
+    EXPECT_STREQ(_T(""), c.GetParaName(11));
 
-    EXPECT_STREQ("Divide", c.GetClassNameStr());
+    EXPECT_STREQ(_T("Divide"), c.GetClassNameStr());
 
     CUnitDivide c2;
     rect = c2.GetSize();
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
     EXPECT_EQ(0, rect.left);
     EXPECT_EQ(0, rect.top);
     EXPECT_EQ(0, rect.right);
@@ -45,7 +44,7 @@ namespace DACViewTest {
     CFile cFile1, cFile2;
     char buffer[512];
     CString strFileName = "CUnitDiv.tst";
-    CUnitDivide * pc = new CUnitDivide;
+    CUnitDivide* pc = new CUnitDivide;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
 
@@ -54,7 +53,7 @@ namespace DACViewTest {
     for (int i = 3; i < 8; i++) {
       pc->SetDouble(i, i * 2.0);
     }
-    ar << pc; // 
+    ar << pc; //
     ar.Flush(); // 必须flush，否则有可能没进行存储
     cFile1.Close();
     delete pc;
@@ -66,26 +65,24 @@ namespace DACViewTest {
     ar2 >> pc;
     rect = pc->GetSize();
     for (int i = 3; i < 8; i++) {
-      EXPECT_DOUBLE_EQ(i*2.0, pc->GetDouble(i));
+      EXPECT_DOUBLE_EQ(i * 2.0, pc->GetDouble(i));
     }
     delete pc;
   }
 
   TEST(TestUnitDivide, TestGetParaType) {
     CUnitDivide c;
-    EXPECT_EQ(c.GetParaType(0), tINPUT |tMODIFIABLE | tDOUBLE);
-    EXPECT_EQ(c.GetParaType(1), tINPUT |tMODIFIABLE | tDOUBLE);
-    EXPECT_EQ(c.GetParaType(2), tOUTPUT |tMODIFIABLE | tDOUBLE);
+    EXPECT_EQ(c.GetParaType(0), tINPUT | tMODIFIABLE | tDOUBLE);
+    EXPECT_EQ(c.GetParaType(1), tINPUT | tMODIFIABLE | tDOUBLE);
+    EXPECT_EQ(c.GetParaType(2), tOUTPUT | tMODIFIABLE | tDOUBLE);
     EXPECT_EQ(c.GetParaType(3), tINPUT | tOUTPUT | tDOUBLE);
     EXPECT_EQ(c.GetParaType(4), tINPUT | tOUTPUT | tDOUBLE);
     EXPECT_EQ(c.GetParaType(5), tINPUT | tOUTPUT | tDOUBLE);
     EXPECT_EQ(c.GetParaType(6), tINPUT | tOUTPUT | tDOUBLE);
     EXPECT_EQ(c.GetParaType(7), tINPUT | tOUTPUT | tDOUBLE);
     EXPECT_EQ(c.GetParaType(8), tINPUT | tOUTPUT | tDOUBLE);
-    EXPECT_EQ(c.GetParaType(9), tINPUT |tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(9), tINPUT | tMODIFIABLE | tBOOL);
     EXPECT_EQ(c.GetParaType(10), tINPUT | tOUTPUT | tWORD);
-
-
   }
 
   TEST(TestUnitDivide, TestExective) {
@@ -132,7 +129,6 @@ namespace DACViewTest {
     EXPECT_EQ(tWORD, c.GetDynLinkType(10));
   }
 
-
   TEST(TestCUnitDivide, TestSelectParameter) {
     CUnitDivide c;
 
@@ -170,8 +166,5 @@ namespace DACViewTest {
     EXPECT_EQ(-1, c.GetIndex(0));
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
-
   }
-
-
 }

@@ -4,32 +4,31 @@
 #include"CUnitXor.h"
 
 namespace DACViewTest {
-
   TEST(TestCUnitXor, TestInitialize) {
     CPoint pt(100, 100);
     CUnitXor c("CUnitXor", pt);
 
     CRect rect = c.GetSize();
-    EXPECT_STREQ("CUnitXor", c.GetName());
+    EXPECT_STREQ(_T("CUnitXor"), c.GetName());
     EXPECT_EQ(100 - 15, rect.left);
     EXPECT_EQ(100 - 15, rect.top);
     EXPECT_EQ(100 + 15, rect.right);
     EXPECT_EQ(100 + 15, rect.bottom);
 
-    EXPECT_STREQ("Input1", c.GetParaName(0));
-    EXPECT_STREQ("Input2", c.GetParaName(1));
-    EXPECT_STREQ("Output", c.GetParaName(2));
-    EXPECT_STREQ("EAlarm", c.GetParaName(3));
-    EXPECT_STREQ("Alarm", c.GetParaName(4));
-    EXPECT_STREQ("AutoManual", c.GetParaName(5));
-    EXPECT_STREQ("ScanRate", c.GetParaName(6));
-    EXPECT_STREQ("", c.GetParaName(7));
+    EXPECT_STREQ(_T("Input1"), c.GetParaName(0));
+    EXPECT_STREQ(_T("Input2"), c.GetParaName(1));
+    EXPECT_STREQ(_T("Output"), c.GetParaName(2));
+    EXPECT_STREQ(_T("EAlarm"), c.GetParaName(3));
+    EXPECT_STREQ(_T("Alarm"), c.GetParaName(4));
+    EXPECT_STREQ(_T("AutoManual"), c.GetParaName(5));
+    EXPECT_STREQ(_T("ScanRate"), c.GetParaName(6));
+    EXPECT_STREQ(_T(""), c.GetParaName(7));
 
-    EXPECT_STREQ("Xor", c.GetClassNameStr());
+    EXPECT_STREQ(_T("Xor"), c.GetClassNameStr());
 
     CUnitXor c2;
     rect = c2.GetSize();
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
     EXPECT_EQ(0, rect.left);
     EXPECT_EQ(0, rect.top);
     EXPECT_EQ(0, rect.right);
@@ -41,7 +40,7 @@ namespace DACViewTest {
     CFile cFile1, cFile2;
     char buffer[512];
     CString strFileName = "CUnitXor.tst";
-    CUnitXor * pc = new CUnitXor;
+    CUnitXor* pc = new CUnitXor;
     CPoint pt1(100, 100), pt2(1000, 1000);
     CRect rect(pt1, pt2);
 
@@ -50,7 +49,7 @@ namespace DACViewTest {
     for (int i = 3; i < 4; i++) {
       pc->SetBool(i, false);
     }
-    ar << pc; // 
+    ar << pc; //
     ar.Flush(); // 必须flush，否则有可能没进行存储
     cFile1.Close();
     delete pc;
@@ -68,14 +67,13 @@ namespace DACViewTest {
 
   TEST(TestCUnitXor, TestGetParaType) {
     CUnitXor c;
-    EXPECT_EQ(c.GetParaType(0), tINPUT |tMODIFIABLE | tBOOL);
-    EXPECT_EQ(c.GetParaType(1), tINPUT |tMODIFIABLE | tBOOL);
-    EXPECT_EQ(c.GetParaType(2), tOUTPUT |tMODIFIABLE | tBOOL);
-    EXPECT_EQ(c.GetParaType(3), tINPUT |tMODIFIABLE | tBOOL);
-    EXPECT_EQ(c.GetParaType(4), tOUTPUT |tMODIFIABLE | tBOOL);
-    EXPECT_EQ(c.GetParaType(5), tINPUT |tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(0), tINPUT | tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(1), tINPUT | tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(2), tOUTPUT | tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(3), tINPUT | tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(4), tOUTPUT | tMODIFIABLE | tBOOL);
+    EXPECT_EQ(c.GetParaType(5), tINPUT | tMODIFIABLE | tBOOL);
     EXPECT_EQ(c.GetParaType(6), tINPUT | tOUTPUT | tWORD);
-
   }
 
   TEST(TestCUnitXor, TestExective) {
@@ -83,14 +81,14 @@ namespace DACViewTest {
     c.SetBool(3, true); // enable alarm
     c.SetBool(0, false);
     c.SetBool(1, false);
-    c.Exective();    
+    c.Exective();
     EXPECT_FALSE(c.GetBool(2));
     EXPECT_FALSE(c.GetBool(4));
     c.SetBool(0, true);
     c.Exective();
     EXPECT_TRUE(c.GetBool(2));
     EXPECT_TRUE(c.GetBool(4));
-    c.SetBool(1, true);    
+    c.SetBool(1, true);
     c.SetBool(0, false);
     c.Exective();
     EXPECT_TRUE(c.GetBool(2));
@@ -115,7 +113,6 @@ namespace DACViewTest {
     EXPECT_EQ(tBOOL, c.GetDynLinkType(5));
     EXPECT_EQ(tWORD, c.GetDynLinkType(6));
   }
-
 
   TEST(TestCUnitXor, TestSelectParameter) {
     CUnitXor c;
@@ -145,6 +142,4 @@ namespace DACViewTest {
     c.SelectParameter(tOUTPUT | tSTRING);
     EXPECT_EQ(-1, c.GetIndex(0));
   }
-
-
 }

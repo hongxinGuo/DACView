@@ -5,7 +5,6 @@
 #include"CObjComponent.h"
 
 namespace DACViewTest {
-
   TEST(TestCObjCompoundBase, TestInitialize) {
     CString str = "abcde";
     CRect rect(100, 200, 300, 400), rect2;
@@ -16,8 +15,8 @@ namespace DACViewTest {
     EXPECT_EQ(200, rect2.top);
     EXPECT_EQ(300, rect2.right);
     EXPECT_EQ(400, rect2.bottom);
-    EXPECT_STREQ("abcde", c.GetName());
-    EXPECT_STREQ("", c2.GetName());
+    EXPECT_STREQ(_T("abcde"), c.GetName());
+    EXPECT_STREQ(_T(""), c2.GetName());
     EXPECT_TRUE(c.CanViewIn());
     EXPECT_TRUE(c2.CanViewIn());
   }
@@ -29,14 +28,13 @@ namespace DACViewTest {
     c.SetUpperObjectList(&objlist);
     EXPECT_EQ(&objlist, c.GetUpperObjectList());
   }
-  
+
   TEST(TestCObjCompoundBase, TestSetUpperObjectComponent) {
     CObjectComponentBase c;
     CObjectComponent objCpt;
 
     c.SetUpperObjectComponent(&objCpt);
     EXPECT_EQ(&objCpt, c.GetUpperObjectComponent());
-
   }
 
   TEST(TestCObjCompoundBase, TestSetUpperScrollPosition) {
@@ -50,23 +48,17 @@ namespace DACViewTest {
   }
 
   TEST(TestCObjCompoundBase, TestSetInteger) {
-
   }
 
   TEST(TestCObjCompoundBase, TestSerialize) {
-
   }
 
   TEST(TestCObjCompoundBase, TestAddToList) {
-
   }
 
   TEST(TestCObjCompoundBase, TestCreateUniName) {
-
   }
-  
+
   TEST(TestCObjCompoundBase, TestSetUpdateFlag) {
-
   }
-
 }
